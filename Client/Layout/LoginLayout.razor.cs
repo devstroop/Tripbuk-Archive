@@ -10,9 +10,10 @@ using Microsoft.JSInterop;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages
+
+namespace ERP.Client.Shared
 {
-    public partial class Index
+    public partial class LoginLayout
     {
         [Inject]
         protected IJSRuntime JSRuntime { get; set; }
