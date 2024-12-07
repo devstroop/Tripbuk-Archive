@@ -1,5 +1,8 @@
 using Radzen;
 using ERP.Server.Components;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OData.ModelBuilder;
+using Microsoft.AspNetCore.OData;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -13,6 +16,17 @@ builder.Services.AddRadzenCookieThemeService(options =>
 });
 builder.Services.AddHttpClient();
 builder.Services.AddLocalization();
+builder.Services.AddScoped<ERP.Server.PostgresService>();
+builder.Services.AddDbContext<ERP.Server.Data.PostgresContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection"));
+});
+builder.Services.AddControllers().AddOData(opt =>
+{
+    var oDataBuilderPostgres = new ODataConventionModelBuilder();
+    opt.AddRouteComponents("odata/Postgres", oDataBuilderPostgres.GetEdmModel()).Count().Filter().OrderBy().Expand().Select().SetMaxTop(null).TimeZone = TimeZoneInfo.Utc;
+});
+builder.Services.AddScoped<ERP.Client.PostgresService>();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

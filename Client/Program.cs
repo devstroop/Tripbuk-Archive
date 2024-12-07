@@ -14,6 +14,7 @@ builder.Services.AddRadzenCookieThemeService(options =>
 });
 builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddLocalization();
+builder.Services.AddScoped<ERP.Client.PostgresService>();
 var host = builder.Build();
 var jsRuntime = host.Services.GetRequiredService<Microsoft.JSInterop.IJSRuntime>();
 var culture = await jsRuntime.InvokeAsync<string>("Radzen.getCulture");
