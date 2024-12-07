@@ -1,0 +1,10 @@
+/.idea/.idea.ERP/.idea/encodings.xml
+/.idea/.idea.ERP/.idea/indexLayout.xml
+/.idea/.idea.ERP/.idea/projectSettingsUpdater.xml
+/.idea/.idea.ERP/.idea/vcs.xml
+/.idea/.idea.ERP/.idea/workspace.xml
+*/bin/Debug/*
+*/bin/Release/*
+*/obj/*
+*/.vs/*
+*/.vscode
