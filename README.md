@@ -1,2 +1,2 @@
 # Enterprise Resource Planner
-by (Devstroop)[!https://devstrop.com]
+by [Devstroop Technologies](https://devstroop.com)
