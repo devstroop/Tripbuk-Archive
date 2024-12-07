@@ -14,8 +14,12 @@
     <PackageReference Include="System.Net.Http.Json" Version="9.*-*" />
     <PackageReference Include="Radzen.Blazor" Version="*" />
     <Compile Include="../Server/Models/**/*.cs" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="9.*-*" />
   </ItemGroup>
   <ItemGroup>
     <ServiceWorker Include="../Server/wwwroot/service-worker.js" PublishedContent="../Server/wwwroot/service-worker.published.js" />
   </ItemGroup>
+  <PropertyGroup>
+    <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+  </PropertyGroup>
 </Project>

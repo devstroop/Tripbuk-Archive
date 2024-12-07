@@ -1,5 +1,6 @@
 @inherits LayoutComponentBase
 @inject CookieThemeService CookieThemeService
+@inject Microsoft.Extensions.Localization.IStringLocalizer<MainLayout> L
 <RadzenComponents />
 
 <RadzenLayout style="grid-template-areas: 'rz-sidebar rz-header' 'rz-sidebar rz-body';">
@@ -10,6 +11,7 @@
             </RadzenColumn>
             <RadzenColumn Size="7">
                 <RadzenStack AlignItems="AlignItems.Center" Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0.5rem" class="rz-px-2">
+                    <CulturePicker />
                     <RadzenAppearanceToggle />
                 </RadzenStack>
             </RadzenColumn>
