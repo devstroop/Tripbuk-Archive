@@ -1,15 +1,39 @@
 Analyzing ./ERP.sln ...
-Radzen.Server.CompilationFailedException: /Volumes/EXT/ERP/Server/Program.cs(83,144): error CS0234: The type or namespace name '_Imports' does not exist in the namespace 'ERP.Client' (are you missing an assembly reference?)
-
-   at Radzen.Server.ProjectContext.Compile(Compilation compilation, AssemblyLoadContext context)
-   at Radzen.Server.ProjectContext.Compile(Compilation compilation)
-   at Radzen.Server.ProjectContext.<Rebuild>b__101_1()
-   at Radzen.Server.LoggerExtensions.Measure[T](ILogger logger, String name, Func`1 action)
-   at Radzen.Server.ProjectContext.Rebuild(Boolean throwOnBuildError)
-   at Radzen.Server.ProjectContext.Rebuild(Boolean throwOnBuildError)
-   at Radzen.Server.LoggerExtensions.MeasureAsync(ILogger logger, String name, Func`1 action)
-   at Radzen.Server.SolutionContext.BuildAllProjects(Boolean throwOnBuildError)
-   at Radzen.Server.SolutionContext.BuildAsync(String fileName, Boolean throwOnBuildError, String framework)
-   at Radzen.Server.SolutionFacade.LoadProject(String filePath, Boolean overrideLifeCycle, Boolean throwOnBuildError)
-   at Radzen.Server.ProjectAnalyzer.AnalyzeAsync(String path, IServiceProvider serviceProvider, Boolean parallel, Boolean all)
-Finished with errors.
+    Analyzing /Volumes/EXT/ERP/Client/ERP.Client.csproj ...
+        Rendering Layout/LoginLayout.razor ... OK.
+        Rendering Layout/MainLayout.razor ... OK.
+        Rendering Pages/Administration/Access/Roles/AddRole.razor ... OK.
+        Rendering Pages/Administration/Access/Roles/Roles.razor ... OK.
+        Rendering Pages/Administration/Access/Users/AddUser.razor ... OK.
+        Rendering Pages/Administration/Access/Users/EditUser.razor ... OK.
+        Rendering Pages/Administration/Access/Users/Users.razor ... OK.
+        Rendering Pages/Administration/Masters/Account/Accounts.razor ... OK.
+        Rendering Pages/Administration/Masters/Account/AddAccount.razor ... OK.
+        Rendering Pages/Administration/Masters/Account/EditAccount.razor ... OK.
+        Rendering Pages/Administration/Masters/AccountGroup/AccountGroups.razor ... OK.
+        Rendering Pages/Administration/Masters/AccountGroup/AddAccountGroup.razor ... OK.
+        Rendering Pages/Administration/Masters/AccountGroup/EditAccountGroup.razor ... OK.
+        Rendering Pages/Administration/Masters/Item/AddItem.razor ... OK.
+        Rendering Pages/Administration/Masters/Item/EditItem.razor ... OK.
+        Rendering Pages/Administration/Masters/Item/Items.razor ... OK.
+        Rendering Pages/Administration/Masters/ItemGroup/AddItemGroup.razor ... OK.
+        Rendering Pages/Administration/Masters/ItemGroup/EditItemGroup.razor ... OK.
+        Rendering Pages/Administration/Masters/ItemGroup/ItemGroups.razor ... OK.
+        Rendering Pages/Administration/Masters/StandardNarration/AddStandardNarration.razor ... OK.
+        Rendering Pages/Administration/Masters/StandardNarration/EditStandardNarration.razor ... OK.
+        Rendering Pages/Administration/Masters/StandardNarration/StandardNarrations.razor ... OK.
+        Rendering Pages/Administration/Masters/Unit/AddUnit.razor ... OK.
+        Rendering Pages/Administration/Masters/Unit/EditUnit.razor ... OK.
+        Rendering Pages/Administration/Masters/Unit/Units.razor ... OK.
+        Rendering Pages/Administration/Masters/UnitConversion/AddUnitConversion.razor ... OK.
+        Rendering Pages/Administration/Masters/UnitConversion/EditUnitConversion.razor ... OK.
+        Rendering Pages/Administration/Masters/UnitConversion/UnitConversions.razor ... OK.
+        Rendering Pages/Authentication/Login.razor ... OK.
+        Rendering Pages/Authentication/SecurityCode.razor ... OK.
+        Rendering Pages/Index.razor ... OK.
+        Rendering Pages/Profile.razor ... OK.
+        Rendering Pages/Unauthorized.razor ... OK.
+    Done.
+    Analyzing /Volumes/EXT/ERP/Server/ERP.Server.csproj ...
+    Done.
+Success.

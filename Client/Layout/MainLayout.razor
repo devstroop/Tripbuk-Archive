@@ -11,15 +11,16 @@
             </RadzenColumn>
             <RadzenColumn Size="7">
                 <RadzenStack AlignItems="AlignItems.Center" Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0.5rem" class="rz-px-2">
-                    <RadzenAppearanceToggle />
+                    <CulturePicker/>
+                    <RadzenAppearanceToggle/>
                     <RadzenProfileMenu Visible="@Security.IsAuthenticated()" Click="@ProfileMenuClick">
                         <ChildContent>
-                            <RadzenProfileMenuItem Path="profile" Icon="settings" Text="Profile" />
-                            <RadzenProfileMenuItem Text="Logout" Value="Logout" Icon="power_settings_new" />
+                            <RadzenProfileMenuItem Path="profile" Icon="settings" Text="Profile"/>
+                            <RadzenProfileMenuItem Text="Logout" Value="Logout" Icon="power_settings_new"/>
                         </ChildContent>
                         <Template>
                             @Security.User?.Name
-                            <RadzenGravatar Email="@(Security.User?.Name ?? "identicon")" />
+                            <RadzenGravatar Email="@(Security.User?.Name ?? "identicon")"/>
                         </Template>
                     </RadzenProfileMenu>
                 </RadzenStack>
