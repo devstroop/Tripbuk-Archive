@@ -22,85 +22,51 @@ namespace ERP.Server.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<ERP.Server.Models.Postgres.StdNarrationMaster>()
-              .HasOne(i => i.Master)
-              .WithMany(i => i.StdNarrationMasters)
-              .HasForeignKey(i => i.MasterId)
-              .HasPrincipalKey(i => i.Id);
-
-            builder.Entity<ERP.Server.Models.Postgres.ItemMaster>()
-              .HasOne(i => i.ItemGroupMaster)
-              .WithMany(i => i.ItemMasters)
-              .HasForeignKey(i => i.Group)
-              .HasPrincipalKey(i => i.MasterId);
-
-            builder.Entity<ERP.Server.Models.Postgres.ItemMaster>()
-              .HasOne(i => i.Master)
-              .WithMany(i => i.ItemMasters)
-              .HasForeignKey(i => i.MasterId)
-              .HasPrincipalKey(i => i.Id);
-
-            builder.Entity<ERP.Server.Models.Postgres.ItemGroupMaster>()
-              .HasOne(i => i.Master)
-              .WithMany(i => i.ItemGroupMasters)
-              .HasForeignKey(i => i.MasterId)
-              .HasPrincipalKey(i => i.Id);
-
-            builder.Entity<ERP.Server.Models.Postgres.ItemGroupMaster>()
-              .HasOne(i => i.ItemGroupMaster1)
-              .WithMany(i => i.ItemGroupMasters1)
+            builder.Entity<ERP.Server.Models.Postgres.AccountGroup>()
+              .HasOne(i => i.AccountGroup1)
+              .WithMany(i => i.AccountGroups1)
               .HasForeignKey(i => i.Parent)
-              .HasPrincipalKey(i => i.MasterId);
+              .HasPrincipalKey(i => i.Id);
 
-            builder.Entity<ERP.Server.Models.Postgres.AccountMaster>()
-              .HasOne(i => i.AccountGroupMaster)
-              .WithMany(i => i.AccountMasters)
+            builder.Entity<ERP.Server.Models.Postgres.Account>()
+              .HasOne(i => i.AccountGroup)
+              .WithMany(i => i.Accounts)
               .HasForeignKey(i => i.Group)
-              .HasPrincipalKey(i => i.MasterId);
-
-            builder.Entity<ERP.Server.Models.Postgres.AccountMaster>()
-              .HasOne(i => i.Master)
-              .WithMany(i => i.AccountMasters)
-              .HasForeignKey(i => i.MasterId)
               .HasPrincipalKey(i => i.Id);
 
-            builder.Entity<ERP.Server.Models.Postgres.AccountGroupMaster>()
-              .HasOne(i => i.Master)
-              .WithMany(i => i.AccountGroupMasters)
-              .HasForeignKey(i => i.MasterId)
-              .HasPrincipalKey(i => i.Id);
-
-            builder.Entity<ERP.Server.Models.Postgres.AccountGroupMaster>()
-              .HasOne(i => i.AccountGroupMaster1)
-              .WithMany(i => i.AccountGroupMasters1)
+            builder.Entity<ERP.Server.Models.Postgres.ItemGroup>()
+              .HasOne(i => i.ItemGroup1)
+              .WithMany(i => i.ItemGroups1)
               .HasForeignKey(i => i.Parent)
-              .HasPrincipalKey(i => i.MasterId);
+              .HasPrincipalKey(i => i.Id);
 
-            builder.Entity<ERP.Server.Models.Postgres.Master>()
-              .Property(p => p.CreatedAt)
-              .HasDefaultValueSql(@"CURRENT_TIMESTAMP");
+            builder.Entity<ERP.Server.Models.Postgres.Item>()
+              .HasOne(i => i.ItemGroup)
+              .WithMany(i => i.Items)
+              .HasForeignKey(i => i.Group)
+              .HasPrincipalKey(i => i.Id);
 
-            builder.Entity<ERP.Server.Models.Postgres.AccountMaster>()
+            builder.Entity<ERP.Server.Models.Postgres.Account>()
               .Property(p => p.CreditLimit)
               .HasPrecision(18,2);
 
-            builder.Entity<ERP.Server.Models.Postgres.AccountMaster>()
+            builder.Entity<ERP.Server.Models.Postgres.Account>()
               .Property(p => p.OpeningBalance)
               .HasPrecision(18,2);
             this.OnModelBuilding(builder);
         }
 
-        public DbSet<ERP.Server.Models.Postgres.Master> Masters { get; set; }
+        public DbSet<ERP.Server.Models.Postgres.AccountGroup> AccountGroups { get; set; }
 
-        public DbSet<ERP.Server.Models.Postgres.StdNarrationMaster> StdNarrationMasters { get; set; }
+        public DbSet<ERP.Server.Models.Postgres.Account> Accounts { get; set; }
 
-        public DbSet<ERP.Server.Models.Postgres.ItemMaster> ItemMasters { get; set; }
+        public DbSet<ERP.Server.Models.Postgres.ItemGroup> ItemGroups { get; set; }
 
-        public DbSet<ERP.Server.Models.Postgres.ItemGroupMaster> ItemGroupMasters { get; set; }
+        public DbSet<ERP.Server.Models.Postgres.Item> Items { get; set; }
 
-        public DbSet<ERP.Server.Models.Postgres.AccountMaster> AccountMasters { get; set; }
+        public DbSet<ERP.Server.Models.Postgres.StandardNarration> StandardNarrations { get; set; }
 
-        public DbSet<ERP.Server.Models.Postgres.AccountGroupMaster> AccountGroupMasters { get; set; }
+        public DbSet<ERP.Server.Models.Postgres.Unit> Units { get; set; }
 
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {

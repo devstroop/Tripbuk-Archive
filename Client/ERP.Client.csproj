@@ -24,7 +24,27 @@
     <ProjectReference Include="..\ERP.Support\ERP.Support.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Pages\Administration\Units\" />
+    <Folder Include="Pages\Administration\" />
+  </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Administration\Accounts\AccountMasters.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Administration\Accounts\AddAccountMaster.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Administration\Accounts\EditAccountMaster.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Administration\AccountGroups\AccountGroupMasters.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Administration\AccountGroups\AddAccountGroupMaster.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Administration\AccountGroups\EditAccountGroupMaster.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Administration\ItemGroups\AddItemGroupMaster.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Administration\ItemGroups\EditItemGroupMaster.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Administration\ItemGroups\ItemGroupMasters.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Administration\Items\AddItemMaster.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Administration\Items\EditItemMaster.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Administration\Items\ItemMasters.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Administration\Masters\AddMaster.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Administration\Masters\EditMaster.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Administration\Masters\Masters.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Administration\StdNarrations\AddStdNarrationMaster.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Administration\StdNarrations\EditStdNarrationMaster.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Administration\StdNarrations\StdNarrationMasters.razor" />
   </ItemGroup>
   <PropertyGroup>
     <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>

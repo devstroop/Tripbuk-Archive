@@ -68,21 +68,677 @@ namespace ERP.Server
         }
 
 
-        public async Task ExportMastersToExcel(Query query = null, string fileName = null)
+        public async Task ExportAccountGroupsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/masters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/masters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async Task ExportMastersToCSV(Query query = null, string fileName = null)
+        public async Task ExportAccountGroupsToCSV(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/masters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/masters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnMastersRead(ref IQueryable<ERP.Server.Models.Postgres.Master> items);
+        partial void OnAccountGroupsRead(ref IQueryable<ERP.Server.Models.Postgres.AccountGroup> items);
 
-        public async Task<IQueryable<ERP.Server.Models.Postgres.Master>> GetMasters(Query query = null)
+        public async Task<IQueryable<ERP.Server.Models.Postgres.AccountGroup>> GetAccountGroups(Query query = null)
         {
-            var items = Context.Masters.AsQueryable();
+            var items = Context.AccountGroups.AsQueryable();
+
+            items = items.Include(i => i.AccountGroup1);
+
+            if (query != null)
+            {
+                if (!string.IsNullOrEmpty(query.Expand))
+                {
+                    var propertiesToExpand = query.Expand.Split(',');
+                    foreach(var p in propertiesToExpand)
+                    {
+                        items = items.Include(p.Trim());
+                    }
+                }
+
+                ApplyQuery(ref items, query);
+            }
+
+            OnAccountGroupsRead(ref items);
+
+            return await Task.FromResult(items);
+        }
+
+        partial void OnAccountGroupGet(ERP.Server.Models.Postgres.AccountGroup item);
+        partial void OnGetAccountGroupById(ref IQueryable<ERP.Server.Models.Postgres.AccountGroup> items);
+
+
+        public async Task<ERP.Server.Models.Postgres.AccountGroup> GetAccountGroupById(int id)
+        {
+            var items = Context.AccountGroups
+                              .AsNoTracking()
+                              .Where(i => i.Id == id);
+
+            items = items.Include(i => i.AccountGroup1);
+ 
+            OnGetAccountGroupById(ref items);
+
+            var itemToReturn = items.FirstOrDefault();
+
+            OnAccountGroupGet(itemToReturn);
+
+            return await Task.FromResult(itemToReturn);
+        }
+
+        partial void OnAccountGroupCreated(ERP.Server.Models.Postgres.AccountGroup item);
+        partial void OnAfterAccountGroupCreated(ERP.Server.Models.Postgres.AccountGroup item);
+
+        public async Task<ERP.Server.Models.Postgres.AccountGroup> CreateAccountGroup(ERP.Server.Models.Postgres.AccountGroup accountgroup)
+        {
+            OnAccountGroupCreated(accountgroup);
+
+            var existingItem = Context.AccountGroups
+                              .Where(i => i.Id == accountgroup.Id)
+                              .FirstOrDefault();
+
+            if (existingItem != null)
+            {
+               throw new Exception("Item already available");
+            }            
+
+            try
+            {
+                Context.AccountGroups.Add(accountgroup);
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(accountgroup).State = EntityState.Detached;
+                throw;
+            }
+
+            OnAfterAccountGroupCreated(accountgroup);
+
+            return accountgroup;
+        }
+
+        public async Task<ERP.Server.Models.Postgres.AccountGroup> CancelAccountGroupChanges(ERP.Server.Models.Postgres.AccountGroup item)
+        {
+            var entityToCancel = Context.Entry(item);
+            if (entityToCancel.State == EntityState.Modified)
+            {
+              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
+              entityToCancel.State = EntityState.Unchanged;
+            }
+
+            return item;
+        }
+
+        partial void OnAccountGroupUpdated(ERP.Server.Models.Postgres.AccountGroup item);
+        partial void OnAfterAccountGroupUpdated(ERP.Server.Models.Postgres.AccountGroup item);
+
+        public async Task<ERP.Server.Models.Postgres.AccountGroup> UpdateAccountGroup(int id, ERP.Server.Models.Postgres.AccountGroup accountgroup)
+        {
+            OnAccountGroupUpdated(accountgroup);
+
+            var itemToUpdate = Context.AccountGroups
+                              .Where(i => i.Id == accountgroup.Id)
+                              .FirstOrDefault();
+
+            if (itemToUpdate == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+                
+            var entryToUpdate = Context.Entry(itemToUpdate);
+            entryToUpdate.CurrentValues.SetValues(accountgroup);
+            entryToUpdate.State = EntityState.Modified;
+
+            Context.SaveChanges();
+
+            OnAfterAccountGroupUpdated(accountgroup);
+
+            return accountgroup;
+        }
+
+        partial void OnAccountGroupDeleted(ERP.Server.Models.Postgres.AccountGroup item);
+        partial void OnAfterAccountGroupDeleted(ERP.Server.Models.Postgres.AccountGroup item);
+
+        public async Task<ERP.Server.Models.Postgres.AccountGroup> DeleteAccountGroup(int id)
+        {
+            var itemToDelete = Context.AccountGroups
+                              .Where(i => i.Id == id)
+                              .Include(i => i.Accounts)
+                              .Include(i => i.AccountGroups1)
+                              .FirstOrDefault();
+
+            if (itemToDelete == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+
+            OnAccountGroupDeleted(itemToDelete);
+
+
+            Context.AccountGroups.Remove(itemToDelete);
+
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(itemToDelete).State = EntityState.Unchanged;
+                throw;
+            }
+
+            OnAfterAccountGroupDeleted(itemToDelete);
+
+            return itemToDelete;
+        }
+    
+        public async Task ExportAccountsToExcel(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accounts/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accounts/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        public async Task ExportAccountsToCSV(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accounts/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accounts/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        partial void OnAccountsRead(ref IQueryable<ERP.Server.Models.Postgres.Account> items);
+
+        public async Task<IQueryable<ERP.Server.Models.Postgres.Account>> GetAccounts(Query query = null)
+        {
+            var items = Context.Accounts.AsQueryable();
+
+            items = items.Include(i => i.AccountGroup);
+
+            if (query != null)
+            {
+                if (!string.IsNullOrEmpty(query.Expand))
+                {
+                    var propertiesToExpand = query.Expand.Split(',');
+                    foreach(var p in propertiesToExpand)
+                    {
+                        items = items.Include(p.Trim());
+                    }
+                }
+
+                ApplyQuery(ref items, query);
+            }
+
+            OnAccountsRead(ref items);
+
+            return await Task.FromResult(items);
+        }
+
+        partial void OnAccountGet(ERP.Server.Models.Postgres.Account item);
+        partial void OnGetAccountById(ref IQueryable<ERP.Server.Models.Postgres.Account> items);
+
+
+        public async Task<ERP.Server.Models.Postgres.Account> GetAccountById(int id)
+        {
+            var items = Context.Accounts
+                              .AsNoTracking()
+                              .Where(i => i.Id == id);
+
+            items = items.Include(i => i.AccountGroup);
+ 
+            OnGetAccountById(ref items);
+
+            var itemToReturn = items.FirstOrDefault();
+
+            OnAccountGet(itemToReturn);
+
+            return await Task.FromResult(itemToReturn);
+        }
+
+        partial void OnAccountCreated(ERP.Server.Models.Postgres.Account item);
+        partial void OnAfterAccountCreated(ERP.Server.Models.Postgres.Account item);
+
+        public async Task<ERP.Server.Models.Postgres.Account> CreateAccount(ERP.Server.Models.Postgres.Account account)
+        {
+            OnAccountCreated(account);
+
+            var existingItem = Context.Accounts
+                              .Where(i => i.Id == account.Id)
+                              .FirstOrDefault();
+
+            if (existingItem != null)
+            {
+               throw new Exception("Item already available");
+            }            
+
+            try
+            {
+                Context.Accounts.Add(account);
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(account).State = EntityState.Detached;
+                throw;
+            }
+
+            OnAfterAccountCreated(account);
+
+            return account;
+        }
+
+        public async Task<ERP.Server.Models.Postgres.Account> CancelAccountChanges(ERP.Server.Models.Postgres.Account item)
+        {
+            var entityToCancel = Context.Entry(item);
+            if (entityToCancel.State == EntityState.Modified)
+            {
+              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
+              entityToCancel.State = EntityState.Unchanged;
+            }
+
+            return item;
+        }
+
+        partial void OnAccountUpdated(ERP.Server.Models.Postgres.Account item);
+        partial void OnAfterAccountUpdated(ERP.Server.Models.Postgres.Account item);
+
+        public async Task<ERP.Server.Models.Postgres.Account> UpdateAccount(int id, ERP.Server.Models.Postgres.Account account)
+        {
+            OnAccountUpdated(account);
+
+            var itemToUpdate = Context.Accounts
+                              .Where(i => i.Id == account.Id)
+                              .FirstOrDefault();
+
+            if (itemToUpdate == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+                
+            var entryToUpdate = Context.Entry(itemToUpdate);
+            entryToUpdate.CurrentValues.SetValues(account);
+            entryToUpdate.State = EntityState.Modified;
+
+            Context.SaveChanges();
+
+            OnAfterAccountUpdated(account);
+
+            return account;
+        }
+
+        partial void OnAccountDeleted(ERP.Server.Models.Postgres.Account item);
+        partial void OnAfterAccountDeleted(ERP.Server.Models.Postgres.Account item);
+
+        public async Task<ERP.Server.Models.Postgres.Account> DeleteAccount(int id)
+        {
+            var itemToDelete = Context.Accounts
+                              .Where(i => i.Id == id)
+                              .FirstOrDefault();
+
+            if (itemToDelete == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+
+            OnAccountDeleted(itemToDelete);
+
+
+            Context.Accounts.Remove(itemToDelete);
+
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(itemToDelete).State = EntityState.Unchanged;
+                throw;
+            }
+
+            OnAfterAccountDeleted(itemToDelete);
+
+            return itemToDelete;
+        }
+    
+        public async Task ExportItemGroupsToExcel(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        public async Task ExportItemGroupsToCSV(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        partial void OnItemGroupsRead(ref IQueryable<ERP.Server.Models.Postgres.ItemGroup> items);
+
+        public async Task<IQueryable<ERP.Server.Models.Postgres.ItemGroup>> GetItemGroups(Query query = null)
+        {
+            var items = Context.ItemGroups.AsQueryable();
+
+            items = items.Include(i => i.ItemGroup1);
+
+            if (query != null)
+            {
+                if (!string.IsNullOrEmpty(query.Expand))
+                {
+                    var propertiesToExpand = query.Expand.Split(',');
+                    foreach(var p in propertiesToExpand)
+                    {
+                        items = items.Include(p.Trim());
+                    }
+                }
+
+                ApplyQuery(ref items, query);
+            }
+
+            OnItemGroupsRead(ref items);
+
+            return await Task.FromResult(items);
+        }
+
+        partial void OnItemGroupGet(ERP.Server.Models.Postgres.ItemGroup item);
+        partial void OnGetItemGroupById(ref IQueryable<ERP.Server.Models.Postgres.ItemGroup> items);
+
+
+        public async Task<ERP.Server.Models.Postgres.ItemGroup> GetItemGroupById(int id)
+        {
+            var items = Context.ItemGroups
+                              .AsNoTracking()
+                              .Where(i => i.Id == id);
+
+            items = items.Include(i => i.ItemGroup1);
+ 
+            OnGetItemGroupById(ref items);
+
+            var itemToReturn = items.FirstOrDefault();
+
+            OnItemGroupGet(itemToReturn);
+
+            return await Task.FromResult(itemToReturn);
+        }
+
+        partial void OnItemGroupCreated(ERP.Server.Models.Postgres.ItemGroup item);
+        partial void OnAfterItemGroupCreated(ERP.Server.Models.Postgres.ItemGroup item);
+
+        public async Task<ERP.Server.Models.Postgres.ItemGroup> CreateItemGroup(ERP.Server.Models.Postgres.ItemGroup itemgroup)
+        {
+            OnItemGroupCreated(itemgroup);
+
+            var existingItem = Context.ItemGroups
+                              .Where(i => i.Id == itemgroup.Id)
+                              .FirstOrDefault();
+
+            if (existingItem != null)
+            {
+               throw new Exception("Item already available");
+            }            
+
+            try
+            {
+                Context.ItemGroups.Add(itemgroup);
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(itemgroup).State = EntityState.Detached;
+                throw;
+            }
+
+            OnAfterItemGroupCreated(itemgroup);
+
+            return itemgroup;
+        }
+
+        public async Task<ERP.Server.Models.Postgres.ItemGroup> CancelItemGroupChanges(ERP.Server.Models.Postgres.ItemGroup item)
+        {
+            var entityToCancel = Context.Entry(item);
+            if (entityToCancel.State == EntityState.Modified)
+            {
+              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
+              entityToCancel.State = EntityState.Unchanged;
+            }
+
+            return item;
+        }
+
+        partial void OnItemGroupUpdated(ERP.Server.Models.Postgres.ItemGroup item);
+        partial void OnAfterItemGroupUpdated(ERP.Server.Models.Postgres.ItemGroup item);
+
+        public async Task<ERP.Server.Models.Postgres.ItemGroup> UpdateItemGroup(int id, ERP.Server.Models.Postgres.ItemGroup itemgroup)
+        {
+            OnItemGroupUpdated(itemgroup);
+
+            var itemToUpdate = Context.ItemGroups
+                              .Where(i => i.Id == itemgroup.Id)
+                              .FirstOrDefault();
+
+            if (itemToUpdate == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+                
+            var entryToUpdate = Context.Entry(itemToUpdate);
+            entryToUpdate.CurrentValues.SetValues(itemgroup);
+            entryToUpdate.State = EntityState.Modified;
+
+            Context.SaveChanges();
+
+            OnAfterItemGroupUpdated(itemgroup);
+
+            return itemgroup;
+        }
+
+        partial void OnItemGroupDeleted(ERP.Server.Models.Postgres.ItemGroup item);
+        partial void OnAfterItemGroupDeleted(ERP.Server.Models.Postgres.ItemGroup item);
+
+        public async Task<ERP.Server.Models.Postgres.ItemGroup> DeleteItemGroup(int id)
+        {
+            var itemToDelete = Context.ItemGroups
+                              .Where(i => i.Id == id)
+                              .Include(i => i.ItemGroups1)
+                              .Include(i => i.Items)
+                              .FirstOrDefault();
+
+            if (itemToDelete == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+
+            OnItemGroupDeleted(itemToDelete);
+
+
+            Context.ItemGroups.Remove(itemToDelete);
+
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(itemToDelete).State = EntityState.Unchanged;
+                throw;
+            }
+
+            OnAfterItemGroupDeleted(itemToDelete);
+
+            return itemToDelete;
+        }
+    
+        public async Task ExportItemsToExcel(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/items/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/items/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        public async Task ExportItemsToCSV(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/items/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/items/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        partial void OnItemsRead(ref IQueryable<ERP.Server.Models.Postgres.Item> items);
+
+        public async Task<IQueryable<ERP.Server.Models.Postgres.Item>> GetItems(Query query = null)
+        {
+            var items = Context.Items.AsQueryable();
+
+            items = items.Include(i => i.ItemGroup);
+
+            if (query != null)
+            {
+                if (!string.IsNullOrEmpty(query.Expand))
+                {
+                    var propertiesToExpand = query.Expand.Split(',');
+                    foreach(var p in propertiesToExpand)
+                    {
+                        items = items.Include(p.Trim());
+                    }
+                }
+
+                ApplyQuery(ref items, query);
+            }
+
+            OnItemsRead(ref items);
+
+            return await Task.FromResult(items);
+        }
+
+        partial void OnItemGet(ERP.Server.Models.Postgres.Item item);
+        partial void OnGetItemById(ref IQueryable<ERP.Server.Models.Postgres.Item> items);
+
+
+        public async Task<ERP.Server.Models.Postgres.Item> GetItemById(int id)
+        {
+            var items = Context.Items
+                              .AsNoTracking()
+                              .Where(i => i.Id == id);
+
+            items = items.Include(i => i.ItemGroup);
+ 
+            OnGetItemById(ref items);
+
+            var itemToReturn = items.FirstOrDefault();
+
+            OnItemGet(itemToReturn);
+
+            return await Task.FromResult(itemToReturn);
+        }
+
+        partial void OnItemCreated(ERP.Server.Models.Postgres.Item item);
+        partial void OnAfterItemCreated(ERP.Server.Models.Postgres.Item item);
+
+        public async Task<ERP.Server.Models.Postgres.Item> CreateItem(ERP.Server.Models.Postgres.Item item)
+        {
+            OnItemCreated(item);
+
+            var existingItem = Context.Items
+                              .Where(i => i.Id == item.Id)
+                              .FirstOrDefault();
+
+            if (existingItem != null)
+            {
+               throw new Exception("Item already available");
+            }            
+
+            try
+            {
+                Context.Items.Add(item);
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(item).State = EntityState.Detached;
+                throw;
+            }
+
+            OnAfterItemCreated(item);
+
+            return item;
+        }
+
+        public async Task<ERP.Server.Models.Postgres.Item> CancelItemChanges(ERP.Server.Models.Postgres.Item item)
+        {
+            var entityToCancel = Context.Entry(item);
+            if (entityToCancel.State == EntityState.Modified)
+            {
+              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
+              entityToCancel.State = EntityState.Unchanged;
+            }
+
+            return item;
+        }
+
+        partial void OnItemUpdated(ERP.Server.Models.Postgres.Item item);
+        partial void OnAfterItemUpdated(ERP.Server.Models.Postgres.Item item);
+
+        public async Task<ERP.Server.Models.Postgres.Item> UpdateItem(int id, ERP.Server.Models.Postgres.Item item)
+        {
+            OnItemUpdated(item);
+
+            var itemToUpdate = Context.Items
+                              .Where(i => i.Id == item.Id)
+                              .FirstOrDefault();
+
+            if (itemToUpdate == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+                
+            var entryToUpdate = Context.Entry(itemToUpdate);
+            entryToUpdate.CurrentValues.SetValues(item);
+            entryToUpdate.State = EntityState.Modified;
+
+            Context.SaveChanges();
+
+            OnAfterItemUpdated(item);
+
+            return item;
+        }
+
+        partial void OnItemDeleted(ERP.Server.Models.Postgres.Item item);
+        partial void OnAfterItemDeleted(ERP.Server.Models.Postgres.Item item);
+
+        public async Task<ERP.Server.Models.Postgres.Item> DeleteItem(int id)
+        {
+            var itemToDelete = Context.Items
+                              .Where(i => i.Id == id)
+                              .FirstOrDefault();
+
+            if (itemToDelete == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+
+            OnItemDeleted(itemToDelete);
+
+
+            Context.Items.Remove(itemToDelete);
+
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(itemToDelete).State = EntityState.Unchanged;
+                throw;
+            }
+
+            OnAfterItemDeleted(itemToDelete);
+
+            return itemToDelete;
+        }
+    
+        public async Task ExportStandardNarrationsToExcel(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/standardnarrations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/standardnarrations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        public async Task ExportStandardNarrationsToCSV(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/standardnarrations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/standardnarrations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        partial void OnStandardNarrationsRead(ref IQueryable<ERP.Server.Models.Postgres.StandardNarration> items);
+
+        public async Task<IQueryable<ERP.Server.Models.Postgres.StandardNarration>> GetStandardNarrations(Query query = null)
+        {
+            var items = Context.StandardNarrations.AsQueryable();
 
 
             if (query != null)
@@ -99,40 +755,40 @@ namespace ERP.Server
                 ApplyQuery(ref items, query);
             }
 
-            OnMastersRead(ref items);
+            OnStandardNarrationsRead(ref items);
 
             return await Task.FromResult(items);
         }
 
-        partial void OnMasterGet(ERP.Server.Models.Postgres.Master item);
-        partial void OnGetMasterById(ref IQueryable<ERP.Server.Models.Postgres.Master> items);
+        partial void OnStandardNarrationGet(ERP.Server.Models.Postgres.StandardNarration item);
+        partial void OnGetStandardNarrationById(ref IQueryable<ERP.Server.Models.Postgres.StandardNarration> items);
 
 
-        public async Task<ERP.Server.Models.Postgres.Master> GetMasterById(int id)
+        public async Task<ERP.Server.Models.Postgres.StandardNarration> GetStandardNarrationById(int id)
         {
-            var items = Context.Masters
+            var items = Context.StandardNarrations
                               .AsNoTracking()
                               .Where(i => i.Id == id);
 
  
-            OnGetMasterById(ref items);
+            OnGetStandardNarrationById(ref items);
 
             var itemToReturn = items.FirstOrDefault();
 
-            OnMasterGet(itemToReturn);
+            OnStandardNarrationGet(itemToReturn);
 
             return await Task.FromResult(itemToReturn);
         }
 
-        partial void OnMasterCreated(ERP.Server.Models.Postgres.Master item);
-        partial void OnAfterMasterCreated(ERP.Server.Models.Postgres.Master item);
+        partial void OnStandardNarrationCreated(ERP.Server.Models.Postgres.StandardNarration item);
+        partial void OnAfterStandardNarrationCreated(ERP.Server.Models.Postgres.StandardNarration item);
 
-        public async Task<ERP.Server.Models.Postgres.Master> CreateMaster(ERP.Server.Models.Postgres.Master master)
+        public async Task<ERP.Server.Models.Postgres.StandardNarration> CreateStandardNarration(ERP.Server.Models.Postgres.StandardNarration standardnarration)
         {
-            OnMasterCreated(master);
+            OnStandardNarrationCreated(standardnarration);
 
-            var existingItem = Context.Masters
-                              .Where(i => i.Id == master.Id)
+            var existingItem = Context.StandardNarrations
+                              .Where(i => i.Id == standardnarration.Id)
                               .FirstOrDefault();
 
             if (existingItem != null)
@@ -142,21 +798,21 @@ namespace ERP.Server
 
             try
             {
-                Context.Masters.Add(master);
+                Context.StandardNarrations.Add(standardnarration);
                 Context.SaveChanges();
             }
             catch
             {
-                Context.Entry(master).State = EntityState.Detached;
+                Context.Entry(standardnarration).State = EntityState.Detached;
                 throw;
             }
 
-            OnAfterMasterCreated(master);
+            OnAfterStandardNarrationCreated(standardnarration);
 
-            return master;
+            return standardnarration;
         }
 
-        public async Task<ERP.Server.Models.Postgres.Master> CancelMasterChanges(ERP.Server.Models.Postgres.Master item)
+        public async Task<ERP.Server.Models.Postgres.StandardNarration> CancelStandardNarrationChanges(ERP.Server.Models.Postgres.StandardNarration item)
         {
             var entityToCancel = Context.Entry(item);
             if (entityToCancel.State == EntityState.Modified)
@@ -168,15 +824,15 @@ namespace ERP.Server
             return item;
         }
 
-        partial void OnMasterUpdated(ERP.Server.Models.Postgres.Master item);
-        partial void OnAfterMasterUpdated(ERP.Server.Models.Postgres.Master item);
+        partial void OnStandardNarrationUpdated(ERP.Server.Models.Postgres.StandardNarration item);
+        partial void OnAfterStandardNarrationUpdated(ERP.Server.Models.Postgres.StandardNarration item);
 
-        public async Task<ERP.Server.Models.Postgres.Master> UpdateMaster(int id, ERP.Server.Models.Postgres.Master master)
+        public async Task<ERP.Server.Models.Postgres.StandardNarration> UpdateStandardNarration(int id, ERP.Server.Models.Postgres.StandardNarration standardnarration)
         {
-            OnMasterUpdated(master);
+            OnStandardNarrationUpdated(standardnarration);
 
-            var itemToUpdate = Context.Masters
-                              .Where(i => i.Id == master.Id)
+            var itemToUpdate = Context.StandardNarrations
+                              .Where(i => i.Id == standardnarration.Id)
                               .FirstOrDefault();
 
             if (itemToUpdate == null)
@@ -185,28 +841,23 @@ namespace ERP.Server
             }
                 
             var entryToUpdate = Context.Entry(itemToUpdate);
-            entryToUpdate.CurrentValues.SetValues(master);
+            entryToUpdate.CurrentValues.SetValues(standardnarration);
             entryToUpdate.State = EntityState.Modified;
 
             Context.SaveChanges();
 
-            OnAfterMasterUpdated(master);
+            OnAfterStandardNarrationUpdated(standardnarration);
 
-            return master;
+            return standardnarration;
         }
 
-        partial void OnMasterDeleted(ERP.Server.Models.Postgres.Master item);
-        partial void OnAfterMasterDeleted(ERP.Server.Models.Postgres.Master item);
+        partial void OnStandardNarrationDeleted(ERP.Server.Models.Postgres.StandardNarration item);
+        partial void OnAfterStandardNarrationDeleted(ERP.Server.Models.Postgres.StandardNarration item);
 
-        public async Task<ERP.Server.Models.Postgres.Master> DeleteMaster(int id)
+        public async Task<ERP.Server.Models.Postgres.StandardNarration> DeleteStandardNarration(int id)
         {
-            var itemToDelete = Context.Masters
+            var itemToDelete = Context.StandardNarrations
                               .Where(i => i.Id == id)
-                              .Include(i => i.StdNarrationMasters)
-                              .Include(i => i.ItemGroupMasters)
-                              .Include(i => i.ItemMasters)
-                              .Include(i => i.AccountGroupMasters)
-                              .Include(i => i.AccountMasters)
                               .FirstOrDefault();
 
             if (itemToDelete == null)
@@ -214,10 +865,10 @@ namespace ERP.Server
                throw new Exception("Item no longer available");
             }
 
-            OnMasterDeleted(itemToDelete);
+            OnStandardNarrationDeleted(itemToDelete);
 
 
-            Context.Masters.Remove(itemToDelete);
+            Context.StandardNarrations.Remove(itemToDelete);
 
             try
             {
@@ -229,28 +880,27 @@ namespace ERP.Server
                 throw;
             }
 
-            OnAfterMasterDeleted(itemToDelete);
+            OnAfterStandardNarrationDeleted(itemToDelete);
 
             return itemToDelete;
         }
     
-        public async Task ExportStdNarrationMastersToExcel(Query query = null, string fileName = null)
+        public async Task ExportUnitsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/stdnarrationmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/stdnarrationmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/units/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/units/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async Task ExportStdNarrationMastersToCSV(Query query = null, string fileName = null)
+        public async Task ExportUnitsToCSV(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/stdnarrationmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/stdnarrationmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/units/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/units/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnStdNarrationMastersRead(ref IQueryable<ERP.Server.Models.Postgres.StdNarrationMaster> items);
+        partial void OnUnitsRead(ref IQueryable<ERP.Server.Models.Postgres.Unit> items);
 
-        public async Task<IQueryable<ERP.Server.Models.Postgres.StdNarrationMaster>> GetStdNarrationMasters(Query query = null)
+        public async Task<IQueryable<ERP.Server.Models.Postgres.Unit>> GetUnits(Query query = null)
         {
-            var items = Context.StdNarrationMasters.AsQueryable();
+            var items = Context.Units.AsQueryable();
 
-            items = items.Include(i => i.Master);
 
             if (query != null)
             {
@@ -266,41 +916,40 @@ namespace ERP.Server
                 ApplyQuery(ref items, query);
             }
 
-            OnStdNarrationMastersRead(ref items);
+            OnUnitsRead(ref items);
 
             return await Task.FromResult(items);
         }
 
-        partial void OnStdNarrationMasterGet(ERP.Server.Models.Postgres.StdNarrationMaster item);
-        partial void OnGetStdNarrationMasterByMasterId(ref IQueryable<ERP.Server.Models.Postgres.StdNarrationMaster> items);
+        partial void OnUnitGet(ERP.Server.Models.Postgres.Unit item);
+        partial void OnGetUnitById(ref IQueryable<ERP.Server.Models.Postgres.Unit> items);
 
 
-        public async Task<ERP.Server.Models.Postgres.StdNarrationMaster> GetStdNarrationMasterByMasterId(int masterid)
+        public async Task<ERP.Server.Models.Postgres.Unit> GetUnitById(int id)
         {
-            var items = Context.StdNarrationMasters
+            var items = Context.Units
                               .AsNoTracking()
-                              .Where(i => i.MasterId == masterid);
+                              .Where(i => i.Id == id);
 
-            items = items.Include(i => i.Master);
  
-            OnGetStdNarrationMasterByMasterId(ref items);
+            OnGetUnitById(ref items);
 
             var itemToReturn = items.FirstOrDefault();
 
-            OnStdNarrationMasterGet(itemToReturn);
+            OnUnitGet(itemToReturn);
 
             return await Task.FromResult(itemToReturn);
         }
 
-        partial void OnStdNarrationMasterCreated(ERP.Server.Models.Postgres.StdNarrationMaster item);
-        partial void OnAfterStdNarrationMasterCreated(ERP.Server.Models.Postgres.StdNarrationMaster item);
+        partial void OnUnitCreated(ERP.Server.Models.Postgres.Unit item);
+        partial void OnAfterUnitCreated(ERP.Server.Models.Postgres.Unit item);
 
-        public async Task<ERP.Server.Models.Postgres.StdNarrationMaster> CreateStdNarrationMaster(ERP.Server.Models.Postgres.StdNarrationMaster stdnarrationmaster)
+        public async Task<ERP.Server.Models.Postgres.Unit> CreateUnit(ERP.Server.Models.Postgres.Unit _unit)
         {
-            OnStdNarrationMasterCreated(stdnarrationmaster);
+            OnUnitCreated(_unit);
 
-            var existingItem = Context.StdNarrationMasters
-                              .Where(i => i.MasterId == stdnarrationmaster.MasterId)
+            var existingItem = Context.Units
+                              .Where(i => i.Id == _unit.Id)
                               .FirstOrDefault();
 
             if (existingItem != null)
@@ -310,21 +959,21 @@ namespace ERP.Server
 
             try
             {
-                Context.StdNarrationMasters.Add(stdnarrationmaster);
+                Context.Units.Add(_unit);
                 Context.SaveChanges();
             }
             catch
             {
-                Context.Entry(stdnarrationmaster).State = EntityState.Detached;
+                Context.Entry(_unit).State = EntityState.Detached;
                 throw;
             }
 
-            OnAfterStdNarrationMasterCreated(stdnarrationmaster);
+            OnAfterUnitCreated(_unit);
 
-            return stdnarrationmaster;
+            return _unit;
         }
 
-        public async Task<ERP.Server.Models.Postgres.StdNarrationMaster> CancelStdNarrationMasterChanges(ERP.Server.Models.Postgres.StdNarrationMaster item)
+        public async Task<ERP.Server.Models.Postgres.Unit> CancelUnitChanges(ERP.Server.Models.Postgres.Unit item)
         {
             var entityToCancel = Context.Entry(item);
             if (entityToCancel.State == EntityState.Modified)
@@ -336,15 +985,15 @@ namespace ERP.Server
             return item;
         }
 
-        partial void OnStdNarrationMasterUpdated(ERP.Server.Models.Postgres.StdNarrationMaster item);
-        partial void OnAfterStdNarrationMasterUpdated(ERP.Server.Models.Postgres.StdNarrationMaster item);
+        partial void OnUnitUpdated(ERP.Server.Models.Postgres.Unit item);
+        partial void OnAfterUnitUpdated(ERP.Server.Models.Postgres.Unit item);
 
-        public async Task<ERP.Server.Models.Postgres.StdNarrationMaster> UpdateStdNarrationMaster(int masterid, ERP.Server.Models.Postgres.StdNarrationMaster stdnarrationmaster)
+        public async Task<ERP.Server.Models.Postgres.Unit> UpdateUnit(int id, ERP.Server.Models.Postgres.Unit _unit)
         {
-            OnStdNarrationMasterUpdated(stdnarrationmaster);
+            OnUnitUpdated(_unit);
 
-            var itemToUpdate = Context.StdNarrationMasters
-                              .Where(i => i.MasterId == stdnarrationmaster.MasterId)
+            var itemToUpdate = Context.Units
+                              .Where(i => i.Id == _unit.Id)
                               .FirstOrDefault();
 
             if (itemToUpdate == null)
@@ -353,23 +1002,23 @@ namespace ERP.Server
             }
                 
             var entryToUpdate = Context.Entry(itemToUpdate);
-            entryToUpdate.CurrentValues.SetValues(stdnarrationmaster);
+            entryToUpdate.CurrentValues.SetValues(_unit);
             entryToUpdate.State = EntityState.Modified;
 
             Context.SaveChanges();
 
-            OnAfterStdNarrationMasterUpdated(stdnarrationmaster);
+            OnAfterUnitUpdated(_unit);
 
-            return stdnarrationmaster;
+            return _unit;
         }
 
-        partial void OnStdNarrationMasterDeleted(ERP.Server.Models.Postgres.StdNarrationMaster item);
-        partial void OnAfterStdNarrationMasterDeleted(ERP.Server.Models.Postgres.StdNarrationMaster item);
+        partial void OnUnitDeleted(ERP.Server.Models.Postgres.Unit item);
+        partial void OnAfterUnitDeleted(ERP.Server.Models.Postgres.Unit item);
 
-        public async Task<ERP.Server.Models.Postgres.StdNarrationMaster> DeleteStdNarrationMaster(int masterid)
+        public async Task<ERP.Server.Models.Postgres.Unit> DeleteUnit(int id)
         {
-            var itemToDelete = Context.StdNarrationMasters
-                              .Where(i => i.MasterId == masterid)
+            var itemToDelete = Context.Units
+                              .Where(i => i.Id == id)
                               .FirstOrDefault();
 
             if (itemToDelete == null)
@@ -377,10 +1026,10 @@ namespace ERP.Server
                throw new Exception("Item no longer available");
             }
 
-            OnStdNarrationMasterDeleted(itemToDelete);
+            OnUnitDeleted(itemToDelete);
 
 
-            Context.StdNarrationMasters.Remove(itemToDelete);
+            Context.Units.Remove(itemToDelete);
 
             try
             {
@@ -392,671 +1041,7 @@ namespace ERP.Server
                 throw;
             }
 
-            OnAfterStdNarrationMasterDeleted(itemToDelete);
-
-            return itemToDelete;
-        }
-    
-        public async Task ExportItemMastersToExcel(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        public async Task ExportItemMastersToCSV(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        partial void OnItemMastersRead(ref IQueryable<ERP.Server.Models.Postgres.ItemMaster> items);
-
-        public async Task<IQueryable<ERP.Server.Models.Postgres.ItemMaster>> GetItemMasters(Query query = null)
-        {
-            var items = Context.ItemMasters.AsQueryable();
-
-            items = items.Include(i => i.ItemGroupMaster);
-            items = items.Include(i => i.Master);
-
-            if (query != null)
-            {
-                if (!string.IsNullOrEmpty(query.Expand))
-                {
-                    var propertiesToExpand = query.Expand.Split(',');
-                    foreach(var p in propertiesToExpand)
-                    {
-                        items = items.Include(p.Trim());
-                    }
-                }
-
-                ApplyQuery(ref items, query);
-            }
-
-            OnItemMastersRead(ref items);
-
-            return await Task.FromResult(items);
-        }
-
-        partial void OnItemMasterGet(ERP.Server.Models.Postgres.ItemMaster item);
-        partial void OnGetItemMasterByMasterId(ref IQueryable<ERP.Server.Models.Postgres.ItemMaster> items);
-
-
-        public async Task<ERP.Server.Models.Postgres.ItemMaster> GetItemMasterByMasterId(int masterid)
-        {
-            var items = Context.ItemMasters
-                              .AsNoTracking()
-                              .Where(i => i.MasterId == masterid);
-
-            items = items.Include(i => i.ItemGroupMaster);
-            items = items.Include(i => i.Master);
- 
-            OnGetItemMasterByMasterId(ref items);
-
-            var itemToReturn = items.FirstOrDefault();
-
-            OnItemMasterGet(itemToReturn);
-
-            return await Task.FromResult(itemToReturn);
-        }
-
-        partial void OnItemMasterCreated(ERP.Server.Models.Postgres.ItemMaster item);
-        partial void OnAfterItemMasterCreated(ERP.Server.Models.Postgres.ItemMaster item);
-
-        public async Task<ERP.Server.Models.Postgres.ItemMaster> CreateItemMaster(ERP.Server.Models.Postgres.ItemMaster itemmaster)
-        {
-            OnItemMasterCreated(itemmaster);
-
-            var existingItem = Context.ItemMasters
-                              .Where(i => i.MasterId == itemmaster.MasterId)
-                              .FirstOrDefault();
-
-            if (existingItem != null)
-            {
-               throw new Exception("Item already available");
-            }            
-
-            try
-            {
-                Context.ItemMasters.Add(itemmaster);
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(itemmaster).State = EntityState.Detached;
-                throw;
-            }
-
-            OnAfterItemMasterCreated(itemmaster);
-
-            return itemmaster;
-        }
-
-        public async Task<ERP.Server.Models.Postgres.ItemMaster> CancelItemMasterChanges(ERP.Server.Models.Postgres.ItemMaster item)
-        {
-            var entityToCancel = Context.Entry(item);
-            if (entityToCancel.State == EntityState.Modified)
-            {
-              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
-              entityToCancel.State = EntityState.Unchanged;
-            }
-
-            return item;
-        }
-
-        partial void OnItemMasterUpdated(ERP.Server.Models.Postgres.ItemMaster item);
-        partial void OnAfterItemMasterUpdated(ERP.Server.Models.Postgres.ItemMaster item);
-
-        public async Task<ERP.Server.Models.Postgres.ItemMaster> UpdateItemMaster(int masterid, ERP.Server.Models.Postgres.ItemMaster itemmaster)
-        {
-            OnItemMasterUpdated(itemmaster);
-
-            var itemToUpdate = Context.ItemMasters
-                              .Where(i => i.MasterId == itemmaster.MasterId)
-                              .FirstOrDefault();
-
-            if (itemToUpdate == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-                
-            var entryToUpdate = Context.Entry(itemToUpdate);
-            entryToUpdate.CurrentValues.SetValues(itemmaster);
-            entryToUpdate.State = EntityState.Modified;
-
-            Context.SaveChanges();
-
-            OnAfterItemMasterUpdated(itemmaster);
-
-            return itemmaster;
-        }
-
-        partial void OnItemMasterDeleted(ERP.Server.Models.Postgres.ItemMaster item);
-        partial void OnAfterItemMasterDeleted(ERP.Server.Models.Postgres.ItemMaster item);
-
-        public async Task<ERP.Server.Models.Postgres.ItemMaster> DeleteItemMaster(int masterid)
-        {
-            var itemToDelete = Context.ItemMasters
-                              .Where(i => i.MasterId == masterid)
-                              .FirstOrDefault();
-
-            if (itemToDelete == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-
-            OnItemMasterDeleted(itemToDelete);
-
-
-            Context.ItemMasters.Remove(itemToDelete);
-
-            try
-            {
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(itemToDelete).State = EntityState.Unchanged;
-                throw;
-            }
-
-            OnAfterItemMasterDeleted(itemToDelete);
-
-            return itemToDelete;
-        }
-    
-        public async Task ExportItemGroupMastersToExcel(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemgroupmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemgroupmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        public async Task ExportItemGroupMastersToCSV(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemgroupmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemgroupmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        partial void OnItemGroupMastersRead(ref IQueryable<ERP.Server.Models.Postgres.ItemGroupMaster> items);
-
-        public async Task<IQueryable<ERP.Server.Models.Postgres.ItemGroupMaster>> GetItemGroupMasters(Query query = null)
-        {
-            var items = Context.ItemGroupMasters.AsQueryable();
-
-            items = items.Include(i => i.Master);
-            items = items.Include(i => i.ItemGroupMaster1);
-
-            if (query != null)
-            {
-                if (!string.IsNullOrEmpty(query.Expand))
-                {
-                    var propertiesToExpand = query.Expand.Split(',');
-                    foreach(var p in propertiesToExpand)
-                    {
-                        items = items.Include(p.Trim());
-                    }
-                }
-
-                ApplyQuery(ref items, query);
-            }
-
-            OnItemGroupMastersRead(ref items);
-
-            return await Task.FromResult(items);
-        }
-
-        partial void OnItemGroupMasterGet(ERP.Server.Models.Postgres.ItemGroupMaster item);
-        partial void OnGetItemGroupMasterByMasterId(ref IQueryable<ERP.Server.Models.Postgres.ItemGroupMaster> items);
-
-
-        public async Task<ERP.Server.Models.Postgres.ItemGroupMaster> GetItemGroupMasterByMasterId(int masterid)
-        {
-            var items = Context.ItemGroupMasters
-                              .AsNoTracking()
-                              .Where(i => i.MasterId == masterid);
-
-            items = items.Include(i => i.Master);
-            items = items.Include(i => i.ItemGroupMaster1);
- 
-            OnGetItemGroupMasterByMasterId(ref items);
-
-            var itemToReturn = items.FirstOrDefault();
-
-            OnItemGroupMasterGet(itemToReturn);
-
-            return await Task.FromResult(itemToReturn);
-        }
-
-        partial void OnItemGroupMasterCreated(ERP.Server.Models.Postgres.ItemGroupMaster item);
-        partial void OnAfterItemGroupMasterCreated(ERP.Server.Models.Postgres.ItemGroupMaster item);
-
-        public async Task<ERP.Server.Models.Postgres.ItemGroupMaster> CreateItemGroupMaster(ERP.Server.Models.Postgres.ItemGroupMaster itemgroupmaster)
-        {
-            OnItemGroupMasterCreated(itemgroupmaster);
-
-            var existingItem = Context.ItemGroupMasters
-                              .Where(i => i.MasterId == itemgroupmaster.MasterId)
-                              .FirstOrDefault();
-
-            if (existingItem != null)
-            {
-               throw new Exception("Item already available");
-            }            
-
-            try
-            {
-                Context.ItemGroupMasters.Add(itemgroupmaster);
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(itemgroupmaster).State = EntityState.Detached;
-                throw;
-            }
-
-            OnAfterItemGroupMasterCreated(itemgroupmaster);
-
-            return itemgroupmaster;
-        }
-
-        public async Task<ERP.Server.Models.Postgres.ItemGroupMaster> CancelItemGroupMasterChanges(ERP.Server.Models.Postgres.ItemGroupMaster item)
-        {
-            var entityToCancel = Context.Entry(item);
-            if (entityToCancel.State == EntityState.Modified)
-            {
-              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
-              entityToCancel.State = EntityState.Unchanged;
-            }
-
-            return item;
-        }
-
-        partial void OnItemGroupMasterUpdated(ERP.Server.Models.Postgres.ItemGroupMaster item);
-        partial void OnAfterItemGroupMasterUpdated(ERP.Server.Models.Postgres.ItemGroupMaster item);
-
-        public async Task<ERP.Server.Models.Postgres.ItemGroupMaster> UpdateItemGroupMaster(int masterid, ERP.Server.Models.Postgres.ItemGroupMaster itemgroupmaster)
-        {
-            OnItemGroupMasterUpdated(itemgroupmaster);
-
-            var itemToUpdate = Context.ItemGroupMasters
-                              .Where(i => i.MasterId == itemgroupmaster.MasterId)
-                              .FirstOrDefault();
-
-            if (itemToUpdate == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-                
-            var entryToUpdate = Context.Entry(itemToUpdate);
-            entryToUpdate.CurrentValues.SetValues(itemgroupmaster);
-            entryToUpdate.State = EntityState.Modified;
-
-            Context.SaveChanges();
-
-            OnAfterItemGroupMasterUpdated(itemgroupmaster);
-
-            return itemgroupmaster;
-        }
-
-        partial void OnItemGroupMasterDeleted(ERP.Server.Models.Postgres.ItemGroupMaster item);
-        partial void OnAfterItemGroupMasterDeleted(ERP.Server.Models.Postgres.ItemGroupMaster item);
-
-        public async Task<ERP.Server.Models.Postgres.ItemGroupMaster> DeleteItemGroupMaster(int masterid)
-        {
-            var itemToDelete = Context.ItemGroupMasters
-                              .Where(i => i.MasterId == masterid)
-                              .Include(i => i.ItemGroupMasters1)
-                              .Include(i => i.ItemMasters)
-                              .FirstOrDefault();
-
-            if (itemToDelete == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-
-            OnItemGroupMasterDeleted(itemToDelete);
-
-
-            Context.ItemGroupMasters.Remove(itemToDelete);
-
-            try
-            {
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(itemToDelete).State = EntityState.Unchanged;
-                throw;
-            }
-
-            OnAfterItemGroupMasterDeleted(itemToDelete);
-
-            return itemToDelete;
-        }
-    
-        public async Task ExportAccountMastersToExcel(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        public async Task ExportAccountMastersToCSV(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        partial void OnAccountMastersRead(ref IQueryable<ERP.Server.Models.Postgres.AccountMaster> items);
-
-        public async Task<IQueryable<ERP.Server.Models.Postgres.AccountMaster>> GetAccountMasters(Query query = null)
-        {
-            var items = Context.AccountMasters.AsQueryable();
-
-            items = items.Include(i => i.AccountGroupMaster);
-            items = items.Include(i => i.Master);
-
-            if (query != null)
-            {
-                if (!string.IsNullOrEmpty(query.Expand))
-                {
-                    var propertiesToExpand = query.Expand.Split(',');
-                    foreach(var p in propertiesToExpand)
-                    {
-                        items = items.Include(p.Trim());
-                    }
-                }
-
-                ApplyQuery(ref items, query);
-            }
-
-            OnAccountMastersRead(ref items);
-
-            return await Task.FromResult(items);
-        }
-
-        partial void OnAccountMasterGet(ERP.Server.Models.Postgres.AccountMaster item);
-        partial void OnGetAccountMasterByMasterId(ref IQueryable<ERP.Server.Models.Postgres.AccountMaster> items);
-
-
-        public async Task<ERP.Server.Models.Postgres.AccountMaster> GetAccountMasterByMasterId(int masterid)
-        {
-            var items = Context.AccountMasters
-                              .AsNoTracking()
-                              .Where(i => i.MasterId == masterid);
-
-            items = items.Include(i => i.AccountGroupMaster);
-            items = items.Include(i => i.Master);
- 
-            OnGetAccountMasterByMasterId(ref items);
-
-            var itemToReturn = items.FirstOrDefault();
-
-            OnAccountMasterGet(itemToReturn);
-
-            return await Task.FromResult(itemToReturn);
-        }
-
-        partial void OnAccountMasterCreated(ERP.Server.Models.Postgres.AccountMaster item);
-        partial void OnAfterAccountMasterCreated(ERP.Server.Models.Postgres.AccountMaster item);
-
-        public async Task<ERP.Server.Models.Postgres.AccountMaster> CreateAccountMaster(ERP.Server.Models.Postgres.AccountMaster accountmaster)
-        {
-            OnAccountMasterCreated(accountmaster);
-
-            var existingItem = Context.AccountMasters
-                              .Where(i => i.MasterId == accountmaster.MasterId)
-                              .FirstOrDefault();
-
-            if (existingItem != null)
-            {
-               throw new Exception("Item already available");
-            }            
-
-            try
-            {
-                Context.AccountMasters.Add(accountmaster);
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(accountmaster).State = EntityState.Detached;
-                throw;
-            }
-
-            OnAfterAccountMasterCreated(accountmaster);
-
-            return accountmaster;
-        }
-
-        public async Task<ERP.Server.Models.Postgres.AccountMaster> CancelAccountMasterChanges(ERP.Server.Models.Postgres.AccountMaster item)
-        {
-            var entityToCancel = Context.Entry(item);
-            if (entityToCancel.State == EntityState.Modified)
-            {
-              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
-              entityToCancel.State = EntityState.Unchanged;
-            }
-
-            return item;
-        }
-
-        partial void OnAccountMasterUpdated(ERP.Server.Models.Postgres.AccountMaster item);
-        partial void OnAfterAccountMasterUpdated(ERP.Server.Models.Postgres.AccountMaster item);
-
-        public async Task<ERP.Server.Models.Postgres.AccountMaster> UpdateAccountMaster(int masterid, ERP.Server.Models.Postgres.AccountMaster accountmaster)
-        {
-            OnAccountMasterUpdated(accountmaster);
-
-            var itemToUpdate = Context.AccountMasters
-                              .Where(i => i.MasterId == accountmaster.MasterId)
-                              .FirstOrDefault();
-
-            if (itemToUpdate == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-                
-            var entryToUpdate = Context.Entry(itemToUpdate);
-            entryToUpdate.CurrentValues.SetValues(accountmaster);
-            entryToUpdate.State = EntityState.Modified;
-
-            Context.SaveChanges();
-
-            OnAfterAccountMasterUpdated(accountmaster);
-
-            return accountmaster;
-        }
-
-        partial void OnAccountMasterDeleted(ERP.Server.Models.Postgres.AccountMaster item);
-        partial void OnAfterAccountMasterDeleted(ERP.Server.Models.Postgres.AccountMaster item);
-
-        public async Task<ERP.Server.Models.Postgres.AccountMaster> DeleteAccountMaster(int masterid)
-        {
-            var itemToDelete = Context.AccountMasters
-                              .Where(i => i.MasterId == masterid)
-                              .FirstOrDefault();
-
-            if (itemToDelete == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-
-            OnAccountMasterDeleted(itemToDelete);
-
-
-            Context.AccountMasters.Remove(itemToDelete);
-
-            try
-            {
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(itemToDelete).State = EntityState.Unchanged;
-                throw;
-            }
-
-            OnAfterAccountMasterDeleted(itemToDelete);
-
-            return itemToDelete;
-        }
-    
-        public async Task ExportAccountGroupMastersToExcel(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountgroupmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountgroupmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        public async Task ExportAccountGroupMastersToCSV(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountgroupmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountgroupmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        partial void OnAccountGroupMastersRead(ref IQueryable<ERP.Server.Models.Postgres.AccountGroupMaster> items);
-
-        public async Task<IQueryable<ERP.Server.Models.Postgres.AccountGroupMaster>> GetAccountGroupMasters(Query query = null)
-        {
-            var items = Context.AccountGroupMasters.AsQueryable();
-
-            items = items.Include(i => i.Master);
-            items = items.Include(i => i.AccountGroupMaster1);
-
-            if (query != null)
-            {
-                if (!string.IsNullOrEmpty(query.Expand))
-                {
-                    var propertiesToExpand = query.Expand.Split(',');
-                    foreach(var p in propertiesToExpand)
-                    {
-                        items = items.Include(p.Trim());
-                    }
-                }
-
-                ApplyQuery(ref items, query);
-            }
-
-            OnAccountGroupMastersRead(ref items);
-
-            return await Task.FromResult(items);
-        }
-
-        partial void OnAccountGroupMasterGet(ERP.Server.Models.Postgres.AccountGroupMaster item);
-        partial void OnGetAccountGroupMasterByMasterId(ref IQueryable<ERP.Server.Models.Postgres.AccountGroupMaster> items);
-
-
-        public async Task<ERP.Server.Models.Postgres.AccountGroupMaster> GetAccountGroupMasterByMasterId(int masterid)
-        {
-            var items = Context.AccountGroupMasters
-                              .AsNoTracking()
-                              .Where(i => i.MasterId == masterid);
-
-            items = items.Include(i => i.Master);
-            items = items.Include(i => i.AccountGroupMaster1);
- 
-            OnGetAccountGroupMasterByMasterId(ref items);
-
-            var itemToReturn = items.FirstOrDefault();
-
-            OnAccountGroupMasterGet(itemToReturn);
-
-            return await Task.FromResult(itemToReturn);
-        }
-
-        partial void OnAccountGroupMasterCreated(ERP.Server.Models.Postgres.AccountGroupMaster item);
-        partial void OnAfterAccountGroupMasterCreated(ERP.Server.Models.Postgres.AccountGroupMaster item);
-
-        public async Task<ERP.Server.Models.Postgres.AccountGroupMaster> CreateAccountGroupMaster(ERP.Server.Models.Postgres.AccountGroupMaster accountgroupmaster)
-        {
-            OnAccountGroupMasterCreated(accountgroupmaster);
-
-            var existingItem = Context.AccountGroupMasters
-                              .Where(i => i.MasterId == accountgroupmaster.MasterId)
-                              .FirstOrDefault();
-
-            if (existingItem != null)
-            {
-               throw new Exception("Item already available");
-            }            
-
-            try
-            {
-                Context.AccountGroupMasters.Add(accountgroupmaster);
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(accountgroupmaster).State = EntityState.Detached;
-                throw;
-            }
-
-            OnAfterAccountGroupMasterCreated(accountgroupmaster);
-
-            return accountgroupmaster;
-        }
-
-        public async Task<ERP.Server.Models.Postgres.AccountGroupMaster> CancelAccountGroupMasterChanges(ERP.Server.Models.Postgres.AccountGroupMaster item)
-        {
-            var entityToCancel = Context.Entry(item);
-            if (entityToCancel.State == EntityState.Modified)
-            {
-              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
-              entityToCancel.State = EntityState.Unchanged;
-            }
-
-            return item;
-        }
-
-        partial void OnAccountGroupMasterUpdated(ERP.Server.Models.Postgres.AccountGroupMaster item);
-        partial void OnAfterAccountGroupMasterUpdated(ERP.Server.Models.Postgres.AccountGroupMaster item);
-
-        public async Task<ERP.Server.Models.Postgres.AccountGroupMaster> UpdateAccountGroupMaster(int masterid, ERP.Server.Models.Postgres.AccountGroupMaster accountgroupmaster)
-        {
-            OnAccountGroupMasterUpdated(accountgroupmaster);
-
-            var itemToUpdate = Context.AccountGroupMasters
-                              .Where(i => i.MasterId == accountgroupmaster.MasterId)
-                              .FirstOrDefault();
-
-            if (itemToUpdate == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-                
-            var entryToUpdate = Context.Entry(itemToUpdate);
-            entryToUpdate.CurrentValues.SetValues(accountgroupmaster);
-            entryToUpdate.State = EntityState.Modified;
-
-            Context.SaveChanges();
-
-            OnAfterAccountGroupMasterUpdated(accountgroupmaster);
-
-            return accountgroupmaster;
-        }
-
-        partial void OnAccountGroupMasterDeleted(ERP.Server.Models.Postgres.AccountGroupMaster item);
-        partial void OnAfterAccountGroupMasterDeleted(ERP.Server.Models.Postgres.AccountGroupMaster item);
-
-        public async Task<ERP.Server.Models.Postgres.AccountGroupMaster> DeleteAccountGroupMaster(int masterid)
-        {
-            var itemToDelete = Context.AccountGroupMasters
-                              .Where(i => i.MasterId == masterid)
-                              .Include(i => i.AccountGroupMasters1)
-                              .Include(i => i.AccountMasters)
-                              .FirstOrDefault();
-
-            if (itemToDelete == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-
-            OnAccountGroupMasterDeleted(itemToDelete);
-
-
-            Context.AccountGroupMasters.Remove(itemToDelete);
-
-            try
-            {
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(itemToDelete).State = EntityState.Unchanged;
-                throw;
-            }
-
-            OnAfterAccountGroupMasterDeleted(itemToDelete);
+            OnAfterUnitDeleted(itemToDelete);
 
             return itemToDelete;
         }

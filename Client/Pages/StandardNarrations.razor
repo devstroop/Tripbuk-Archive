@@ -1,0 +1,42 @@
+@page "/standard-narrations"
+@attribute [Authorize]
+
+<PageTitle>StandardNarrations</PageTitle>
+<RadzenStack>
+    <RadzenRow AlignItems="AlignItems.Center">
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText Text="StandardNarrations" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                <RadzenButton Icon="add_circle_outline" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+            </RadzenStack>
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" aria-label="Search by all string columns" />
+    <RadzenRow>
+      <RadzenColumn SizeMD=12>
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"   AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
+            Data="@standardNarrations" LoadData="@Grid0LoadData" Count="@count" TItem="ERP.Server.Models.Postgres.StandardNarration" RowSelect="@EditRow">
+            <Columns>
+                <RadzenDataGridColumn TItem="ERP.Server.Models.Postgres.StandardNarration" Property="Id" Title="Id">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ERP.Server.Models.Postgres.StandardNarration" Property="VoucherType" Title="Voucher Type">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ERP.Server.Models.Postgres.StandardNarration" Property="Narration" Title="Narration">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ERP.Server.Models.Postgres.StandardNarration" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="standardNarration">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, standardNarration)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+
+        </RadzenDataGrid>
+
+    </RadzenColumn>
+  </RadzenRow>
+</RadzenStack>

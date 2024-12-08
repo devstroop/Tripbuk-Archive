@@ -28,12 +28,12 @@ builder.Services.AddDbContext<ERP.Server.Data.PostgresContext>(options =>
 builder.Services.AddControllers().AddOData(opt =>
 {
     var oDataBuilderPostgres = new ODataConventionModelBuilder();
-    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.Master>("Masters");
-    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.StdNarrationMaster>("StdNarrationMasters");
-    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.ItemMaster>("ItemMasters");
-    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.ItemGroupMaster>("ItemGroupMasters");
-    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.AccountMaster>("AccountMasters");
-    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.AccountGroupMaster>("AccountGroupMasters");
+    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.AccountGroup>("AccountGroups");
+    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.Account>("Accounts");
+    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.ItemGroup>("ItemGroups");
+    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.Item>("Items");
+    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.StandardNarration>("StandardNarrations");
+    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.Unit>("Units");
     opt.AddRouteComponents("odata/Postgres", oDataBuilderPostgres.GetEdmModel()).Count().Filter().OrderBy().Expand().Select().SetMaxTop(null).TimeZone = TimeZoneInfo.Utc;
 });
 builder.Services.AddScoped<ERP.Client.PostgresService>();

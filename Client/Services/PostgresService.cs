@@ -31,572 +31,572 @@ namespace ERP.Client
         }
 
 
-        public async System.Threading.Tasks.Task ExportMastersToExcel(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportAccountGroupsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/masters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/masters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async System.Threading.Tasks.Task ExportMastersToCSV(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportAccountGroupsToCSV(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/masters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/masters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnGetMasters(HttpRequestMessage requestMessage);
+        partial void OnGetAccountGroups(HttpRequestMessage requestMessage);
 
-        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.Master>> GetMasters(Query query)
+        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.AccountGroup>> GetAccountGroups(Query query)
         {
-            return await GetMasters(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
+            return await GetAccountGroups(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
         }
 
-        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.Master>> GetMasters(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.AccountGroup>> GetAccountGroups(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
-            var uri = new Uri(baseUri, $"Masters");
+            var uri = new Uri(baseUri, $"AccountGroups");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-            OnGetMasters(httpRequestMessage);
+            OnGetAccountGroups(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.Master>>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.AccountGroup>>(response);
         }
 
-        partial void OnCreateMaster(HttpRequestMessage requestMessage);
+        partial void OnCreateAccountGroup(HttpRequestMessage requestMessage);
 
-        public async Task<ERP.Server.Models.Postgres.Master> CreateMaster(ERP.Server.Models.Postgres.Master master = default(ERP.Server.Models.Postgres.Master))
+        public async Task<ERP.Server.Models.Postgres.AccountGroup> CreateAccountGroup(ERP.Server.Models.Postgres.AccountGroup accountGroup = default(ERP.Server.Models.Postgres.AccountGroup))
         {
-            var uri = new Uri(baseUri, $"Masters");
+            var uri = new Uri(baseUri, $"AccountGroups");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
 
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(master), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(accountGroup), Encoding.UTF8, "application/json");
 
-            OnCreateMaster(httpRequestMessage);
+            OnCreateAccountGroup(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.Master>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.AccountGroup>(response);
         }
 
-        partial void OnDeleteMaster(HttpRequestMessage requestMessage);
+        partial void OnDeleteAccountGroup(HttpRequestMessage requestMessage);
 
-        public async Task<HttpResponseMessage> DeleteMaster(int id = default(int))
+        public async Task<HttpResponseMessage> DeleteAccountGroup(int id = default(int))
         {
-            var uri = new Uri(baseUri, $"Masters({id})");
+            var uri = new Uri(baseUri, $"AccountGroups({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
 
-            OnDeleteMaster(httpRequestMessage);
+            OnDeleteAccountGroup(httpRequestMessage);
 
             return await httpClient.SendAsync(httpRequestMessage);
         }
 
-        partial void OnGetMasterById(HttpRequestMessage requestMessage);
+        partial void OnGetAccountGroupById(HttpRequestMessage requestMessage);
 
-        public async Task<ERP.Server.Models.Postgres.Master> GetMasterById(string expand = default(string), int id = default(int))
+        public async Task<ERP.Server.Models.Postgres.AccountGroup> GetAccountGroupById(string expand = default(string), int id = default(int))
         {
-            var uri = new Uri(baseUri, $"Masters({id})");
+            var uri = new Uri(baseUri, $"AccountGroups({id})");
 
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-            OnGetMasterById(httpRequestMessage);
+            OnGetAccountGroupById(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.Master>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.AccountGroup>(response);
         }
 
-        partial void OnUpdateMaster(HttpRequestMessage requestMessage);
+        partial void OnUpdateAccountGroup(HttpRequestMessage requestMessage);
         
-        public async Task<HttpResponseMessage> UpdateMaster(int id = default(int), ERP.Server.Models.Postgres.Master master = default(ERP.Server.Models.Postgres.Master))
+        public async Task<HttpResponseMessage> UpdateAccountGroup(int id = default(int), ERP.Server.Models.Postgres.AccountGroup accountGroup = default(ERP.Server.Models.Postgres.AccountGroup))
         {
-            var uri = new Uri(baseUri, $"Masters({id})");
+            var uri = new Uri(baseUri, $"AccountGroups({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
 
-            httpRequestMessage.Headers.Add("If-Match", master.ETag);    
+            httpRequestMessage.Headers.Add("If-Match", accountGroup.ETag);    
 
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(master), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(accountGroup), Encoding.UTF8, "application/json");
 
-            OnUpdateMaster(httpRequestMessage);
+            OnUpdateAccountGroup(httpRequestMessage);
 
             return await httpClient.SendAsync(httpRequestMessage);
         }
 
-        public async System.Threading.Tasks.Task ExportStdNarrationMastersToExcel(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportAccountsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/stdnarrationmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/stdnarrationmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accounts/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accounts/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async System.Threading.Tasks.Task ExportStdNarrationMastersToCSV(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportAccountsToCSV(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/stdnarrationmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/stdnarrationmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accounts/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accounts/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnGetStdNarrationMasters(HttpRequestMessage requestMessage);
+        partial void OnGetAccounts(HttpRequestMessage requestMessage);
 
-        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.StdNarrationMaster>> GetStdNarrationMasters(Query query)
+        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.Account>> GetAccounts(Query query)
         {
-            return await GetStdNarrationMasters(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
+            return await GetAccounts(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
         }
 
-        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.StdNarrationMaster>> GetStdNarrationMasters(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.Account>> GetAccounts(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
-            var uri = new Uri(baseUri, $"StdNarrationMasters");
+            var uri = new Uri(baseUri, $"Accounts");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-            OnGetStdNarrationMasters(httpRequestMessage);
+            OnGetAccounts(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.StdNarrationMaster>>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.Account>>(response);
         }
 
-        partial void OnCreateStdNarrationMaster(HttpRequestMessage requestMessage);
+        partial void OnCreateAccount(HttpRequestMessage requestMessage);
 
-        public async Task<ERP.Server.Models.Postgres.StdNarrationMaster> CreateStdNarrationMaster(ERP.Server.Models.Postgres.StdNarrationMaster stdNarrationMaster = default(ERP.Server.Models.Postgres.StdNarrationMaster))
+        public async Task<ERP.Server.Models.Postgres.Account> CreateAccount(ERP.Server.Models.Postgres.Account account = default(ERP.Server.Models.Postgres.Account))
         {
-            var uri = new Uri(baseUri, $"StdNarrationMasters");
+            var uri = new Uri(baseUri, $"Accounts");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
 
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(stdNarrationMaster), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(account), Encoding.UTF8, "application/json");
 
-            OnCreateStdNarrationMaster(httpRequestMessage);
+            OnCreateAccount(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.StdNarrationMaster>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.Account>(response);
         }
 
-        partial void OnDeleteStdNarrationMaster(HttpRequestMessage requestMessage);
+        partial void OnDeleteAccount(HttpRequestMessage requestMessage);
 
-        public async Task<HttpResponseMessage> DeleteStdNarrationMaster(int masterId = default(int))
+        public async Task<HttpResponseMessage> DeleteAccount(int id = default(int))
         {
-            var uri = new Uri(baseUri, $"StdNarrationMasters({masterId})");
+            var uri = new Uri(baseUri, $"Accounts({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
 
-            OnDeleteStdNarrationMaster(httpRequestMessage);
+            OnDeleteAccount(httpRequestMessage);
 
             return await httpClient.SendAsync(httpRequestMessage);
         }
 
-        partial void OnGetStdNarrationMasterByMasterId(HttpRequestMessage requestMessage);
+        partial void OnGetAccountById(HttpRequestMessage requestMessage);
 
-        public async Task<ERP.Server.Models.Postgres.StdNarrationMaster> GetStdNarrationMasterByMasterId(string expand = default(string), int masterId = default(int))
+        public async Task<ERP.Server.Models.Postgres.Account> GetAccountById(string expand = default(string), int id = default(int))
         {
-            var uri = new Uri(baseUri, $"StdNarrationMasters({masterId})");
+            var uri = new Uri(baseUri, $"Accounts({id})");
 
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-            OnGetStdNarrationMasterByMasterId(httpRequestMessage);
+            OnGetAccountById(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.StdNarrationMaster>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.Account>(response);
         }
 
-        partial void OnUpdateStdNarrationMaster(HttpRequestMessage requestMessage);
+        partial void OnUpdateAccount(HttpRequestMessage requestMessage);
         
-        public async Task<HttpResponseMessage> UpdateStdNarrationMaster(int masterId = default(int), ERP.Server.Models.Postgres.StdNarrationMaster stdNarrationMaster = default(ERP.Server.Models.Postgres.StdNarrationMaster))
+        public async Task<HttpResponseMessage> UpdateAccount(int id = default(int), ERP.Server.Models.Postgres.Account account = default(ERP.Server.Models.Postgres.Account))
         {
-            var uri = new Uri(baseUri, $"StdNarrationMasters({masterId})");
+            var uri = new Uri(baseUri, $"Accounts({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
 
-            httpRequestMessage.Headers.Add("If-Match", stdNarrationMaster.ETag);    
+            httpRequestMessage.Headers.Add("If-Match", account.ETag);    
 
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(stdNarrationMaster), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(account), Encoding.UTF8, "application/json");
 
-            OnUpdateStdNarrationMaster(httpRequestMessage);
+            OnUpdateAccount(httpRequestMessage);
 
             return await httpClient.SendAsync(httpRequestMessage);
         }
 
-        public async System.Threading.Tasks.Task ExportItemMastersToExcel(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportItemGroupsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async System.Threading.Tasks.Task ExportItemMastersToCSV(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportItemGroupsToCSV(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnGetItemMasters(HttpRequestMessage requestMessage);
+        partial void OnGetItemGroups(HttpRequestMessage requestMessage);
 
-        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.ItemMaster>> GetItemMasters(Query query)
+        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.ItemGroup>> GetItemGroups(Query query)
         {
-            return await GetItemMasters(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
+            return await GetItemGroups(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
         }
 
-        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.ItemMaster>> GetItemMasters(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.ItemGroup>> GetItemGroups(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
-            var uri = new Uri(baseUri, $"ItemMasters");
+            var uri = new Uri(baseUri, $"ItemGroups");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-            OnGetItemMasters(httpRequestMessage);
+            OnGetItemGroups(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.ItemMaster>>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.ItemGroup>>(response);
         }
 
-        partial void OnCreateItemMaster(HttpRequestMessage requestMessage);
+        partial void OnCreateItemGroup(HttpRequestMessage requestMessage);
 
-        public async Task<ERP.Server.Models.Postgres.ItemMaster> CreateItemMaster(ERP.Server.Models.Postgres.ItemMaster itemMaster = default(ERP.Server.Models.Postgres.ItemMaster))
+        public async Task<ERP.Server.Models.Postgres.ItemGroup> CreateItemGroup(ERP.Server.Models.Postgres.ItemGroup itemGroup = default(ERP.Server.Models.Postgres.ItemGroup))
         {
-            var uri = new Uri(baseUri, $"ItemMasters");
+            var uri = new Uri(baseUri, $"ItemGroups");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
 
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(itemMaster), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(itemGroup), Encoding.UTF8, "application/json");
 
-            OnCreateItemMaster(httpRequestMessage);
+            OnCreateItemGroup(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.ItemMaster>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.ItemGroup>(response);
         }
 
-        partial void OnDeleteItemMaster(HttpRequestMessage requestMessage);
+        partial void OnDeleteItemGroup(HttpRequestMessage requestMessage);
 
-        public async Task<HttpResponseMessage> DeleteItemMaster(int masterId = default(int))
+        public async Task<HttpResponseMessage> DeleteItemGroup(int id = default(int))
         {
-            var uri = new Uri(baseUri, $"ItemMasters({masterId})");
+            var uri = new Uri(baseUri, $"ItemGroups({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
 
-            OnDeleteItemMaster(httpRequestMessage);
+            OnDeleteItemGroup(httpRequestMessage);
 
             return await httpClient.SendAsync(httpRequestMessage);
         }
 
-        partial void OnGetItemMasterByMasterId(HttpRequestMessage requestMessage);
+        partial void OnGetItemGroupById(HttpRequestMessage requestMessage);
 
-        public async Task<ERP.Server.Models.Postgres.ItemMaster> GetItemMasterByMasterId(string expand = default(string), int masterId = default(int))
+        public async Task<ERP.Server.Models.Postgres.ItemGroup> GetItemGroupById(string expand = default(string), int id = default(int))
         {
-            var uri = new Uri(baseUri, $"ItemMasters({masterId})");
+            var uri = new Uri(baseUri, $"ItemGroups({id})");
 
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-            OnGetItemMasterByMasterId(httpRequestMessage);
+            OnGetItemGroupById(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.ItemMaster>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.ItemGroup>(response);
         }
 
-        partial void OnUpdateItemMaster(HttpRequestMessage requestMessage);
+        partial void OnUpdateItemGroup(HttpRequestMessage requestMessage);
         
-        public async Task<HttpResponseMessage> UpdateItemMaster(int masterId = default(int), ERP.Server.Models.Postgres.ItemMaster itemMaster = default(ERP.Server.Models.Postgres.ItemMaster))
+        public async Task<HttpResponseMessage> UpdateItemGroup(int id = default(int), ERP.Server.Models.Postgres.ItemGroup itemGroup = default(ERP.Server.Models.Postgres.ItemGroup))
         {
-            var uri = new Uri(baseUri, $"ItemMasters({masterId})");
+            var uri = new Uri(baseUri, $"ItemGroups({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
 
-            httpRequestMessage.Headers.Add("If-Match", itemMaster.ETag);    
+            httpRequestMessage.Headers.Add("If-Match", itemGroup.ETag);    
 
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(itemMaster), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(itemGroup), Encoding.UTF8, "application/json");
 
-            OnUpdateItemMaster(httpRequestMessage);
+            OnUpdateItemGroup(httpRequestMessage);
 
             return await httpClient.SendAsync(httpRequestMessage);
         }
 
-        public async System.Threading.Tasks.Task ExportItemGroupMastersToExcel(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportItemsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemgroupmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemgroupmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/items/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/items/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async System.Threading.Tasks.Task ExportItemGroupMastersToCSV(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportItemsToCSV(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemgroupmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemgroupmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/items/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/items/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnGetItemGroupMasters(HttpRequestMessage requestMessage);
+        partial void OnGetItems(HttpRequestMessage requestMessage);
 
-        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.ItemGroupMaster>> GetItemGroupMasters(Query query)
+        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.Item>> GetItems(Query query)
         {
-            return await GetItemGroupMasters(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
+            return await GetItems(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
         }
 
-        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.ItemGroupMaster>> GetItemGroupMasters(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.Item>> GetItems(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
-            var uri = new Uri(baseUri, $"ItemGroupMasters");
+            var uri = new Uri(baseUri, $"Items");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-            OnGetItemGroupMasters(httpRequestMessage);
+            OnGetItems(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.ItemGroupMaster>>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.Item>>(response);
         }
 
-        partial void OnCreateItemGroupMaster(HttpRequestMessage requestMessage);
+        partial void OnCreateItem(HttpRequestMessage requestMessage);
 
-        public async Task<ERP.Server.Models.Postgres.ItemGroupMaster> CreateItemGroupMaster(ERP.Server.Models.Postgres.ItemGroupMaster itemGroupMaster = default(ERP.Server.Models.Postgres.ItemGroupMaster))
+        public async Task<ERP.Server.Models.Postgres.Item> CreateItem(ERP.Server.Models.Postgres.Item item = default(ERP.Server.Models.Postgres.Item))
         {
-            var uri = new Uri(baseUri, $"ItemGroupMasters");
+            var uri = new Uri(baseUri, $"Items");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
 
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(itemGroupMaster), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(item), Encoding.UTF8, "application/json");
 
-            OnCreateItemGroupMaster(httpRequestMessage);
+            OnCreateItem(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.ItemGroupMaster>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.Item>(response);
         }
 
-        partial void OnDeleteItemGroupMaster(HttpRequestMessage requestMessage);
+        partial void OnDeleteItem(HttpRequestMessage requestMessage);
 
-        public async Task<HttpResponseMessage> DeleteItemGroupMaster(int masterId = default(int))
+        public async Task<HttpResponseMessage> DeleteItem(int id = default(int))
         {
-            var uri = new Uri(baseUri, $"ItemGroupMasters({masterId})");
+            var uri = new Uri(baseUri, $"Items({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
 
-            OnDeleteItemGroupMaster(httpRequestMessage);
+            OnDeleteItem(httpRequestMessage);
 
             return await httpClient.SendAsync(httpRequestMessage);
         }
 
-        partial void OnGetItemGroupMasterByMasterId(HttpRequestMessage requestMessage);
+        partial void OnGetItemById(HttpRequestMessage requestMessage);
 
-        public async Task<ERP.Server.Models.Postgres.ItemGroupMaster> GetItemGroupMasterByMasterId(string expand = default(string), int masterId = default(int))
+        public async Task<ERP.Server.Models.Postgres.Item> GetItemById(string expand = default(string), int id = default(int))
         {
-            var uri = new Uri(baseUri, $"ItemGroupMasters({masterId})");
+            var uri = new Uri(baseUri, $"Items({id})");
 
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-            OnGetItemGroupMasterByMasterId(httpRequestMessage);
+            OnGetItemById(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.ItemGroupMaster>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.Item>(response);
         }
 
-        partial void OnUpdateItemGroupMaster(HttpRequestMessage requestMessage);
+        partial void OnUpdateItem(HttpRequestMessage requestMessage);
         
-        public async Task<HttpResponseMessage> UpdateItemGroupMaster(int masterId = default(int), ERP.Server.Models.Postgres.ItemGroupMaster itemGroupMaster = default(ERP.Server.Models.Postgres.ItemGroupMaster))
+        public async Task<HttpResponseMessage> UpdateItem(int id = default(int), ERP.Server.Models.Postgres.Item item = default(ERP.Server.Models.Postgres.Item))
         {
-            var uri = new Uri(baseUri, $"ItemGroupMasters({masterId})");
+            var uri = new Uri(baseUri, $"Items({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
 
-            httpRequestMessage.Headers.Add("If-Match", itemGroupMaster.ETag);    
+            httpRequestMessage.Headers.Add("If-Match", item.ETag);    
 
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(itemGroupMaster), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(item), Encoding.UTF8, "application/json");
 
-            OnUpdateItemGroupMaster(httpRequestMessage);
+            OnUpdateItem(httpRequestMessage);
 
             return await httpClient.SendAsync(httpRequestMessage);
         }
 
-        public async System.Threading.Tasks.Task ExportAccountMastersToExcel(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportStandardNarrationsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/standardnarrations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/standardnarrations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async System.Threading.Tasks.Task ExportAccountMastersToCSV(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportStandardNarrationsToCSV(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/standardnarrations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/standardnarrations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnGetAccountMasters(HttpRequestMessage requestMessage);
+        partial void OnGetStandardNarrations(HttpRequestMessage requestMessage);
 
-        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.AccountMaster>> GetAccountMasters(Query query)
+        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.StandardNarration>> GetStandardNarrations(Query query)
         {
-            return await GetAccountMasters(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
+            return await GetStandardNarrations(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
         }
 
-        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.AccountMaster>> GetAccountMasters(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.StandardNarration>> GetStandardNarrations(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
-            var uri = new Uri(baseUri, $"AccountMasters");
+            var uri = new Uri(baseUri, $"StandardNarrations");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-            OnGetAccountMasters(httpRequestMessage);
+            OnGetStandardNarrations(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.AccountMaster>>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.StandardNarration>>(response);
         }
 
-        partial void OnCreateAccountMaster(HttpRequestMessage requestMessage);
+        partial void OnCreateStandardNarration(HttpRequestMessage requestMessage);
 
-        public async Task<ERP.Server.Models.Postgres.AccountMaster> CreateAccountMaster(ERP.Server.Models.Postgres.AccountMaster accountMaster = default(ERP.Server.Models.Postgres.AccountMaster))
+        public async Task<ERP.Server.Models.Postgres.StandardNarration> CreateStandardNarration(ERP.Server.Models.Postgres.StandardNarration standardNarration = default(ERP.Server.Models.Postgres.StandardNarration))
         {
-            var uri = new Uri(baseUri, $"AccountMasters");
+            var uri = new Uri(baseUri, $"StandardNarrations");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
 
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(accountMaster), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(standardNarration), Encoding.UTF8, "application/json");
 
-            OnCreateAccountMaster(httpRequestMessage);
+            OnCreateStandardNarration(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.AccountMaster>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.StandardNarration>(response);
         }
 
-        partial void OnDeleteAccountMaster(HttpRequestMessage requestMessage);
+        partial void OnDeleteStandardNarration(HttpRequestMessage requestMessage);
 
-        public async Task<HttpResponseMessage> DeleteAccountMaster(int masterId = default(int))
+        public async Task<HttpResponseMessage> DeleteStandardNarration(int id = default(int))
         {
-            var uri = new Uri(baseUri, $"AccountMasters({masterId})");
+            var uri = new Uri(baseUri, $"StandardNarrations({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
 
-            OnDeleteAccountMaster(httpRequestMessage);
+            OnDeleteStandardNarration(httpRequestMessage);
 
             return await httpClient.SendAsync(httpRequestMessage);
         }
 
-        partial void OnGetAccountMasterByMasterId(HttpRequestMessage requestMessage);
+        partial void OnGetStandardNarrationById(HttpRequestMessage requestMessage);
 
-        public async Task<ERP.Server.Models.Postgres.AccountMaster> GetAccountMasterByMasterId(string expand = default(string), int masterId = default(int))
+        public async Task<ERP.Server.Models.Postgres.StandardNarration> GetStandardNarrationById(string expand = default(string), int id = default(int))
         {
-            var uri = new Uri(baseUri, $"AccountMasters({masterId})");
+            var uri = new Uri(baseUri, $"StandardNarrations({id})");
 
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-            OnGetAccountMasterByMasterId(httpRequestMessage);
+            OnGetStandardNarrationById(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.AccountMaster>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.StandardNarration>(response);
         }
 
-        partial void OnUpdateAccountMaster(HttpRequestMessage requestMessage);
+        partial void OnUpdateStandardNarration(HttpRequestMessage requestMessage);
         
-        public async Task<HttpResponseMessage> UpdateAccountMaster(int masterId = default(int), ERP.Server.Models.Postgres.AccountMaster accountMaster = default(ERP.Server.Models.Postgres.AccountMaster))
+        public async Task<HttpResponseMessage> UpdateStandardNarration(int id = default(int), ERP.Server.Models.Postgres.StandardNarration standardNarration = default(ERP.Server.Models.Postgres.StandardNarration))
         {
-            var uri = new Uri(baseUri, $"AccountMasters({masterId})");
+            var uri = new Uri(baseUri, $"StandardNarrations({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
 
-            httpRequestMessage.Headers.Add("If-Match", accountMaster.ETag);    
+            httpRequestMessage.Headers.Add("If-Match", standardNarration.ETag);    
 
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(accountMaster), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(standardNarration), Encoding.UTF8, "application/json");
 
-            OnUpdateAccountMaster(httpRequestMessage);
+            OnUpdateStandardNarration(httpRequestMessage);
 
             return await httpClient.SendAsync(httpRequestMessage);
         }
 
-        public async System.Threading.Tasks.Task ExportAccountGroupMastersToExcel(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportUnitsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountgroupmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountgroupmasters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/units/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/units/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async System.Threading.Tasks.Task ExportAccountGroupMastersToCSV(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportUnitsToCSV(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountgroupmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountgroupmasters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/units/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/units/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnGetAccountGroupMasters(HttpRequestMessage requestMessage);
+        partial void OnGetUnits(HttpRequestMessage requestMessage);
 
-        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.AccountGroupMaster>> GetAccountGroupMasters(Query query)
+        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.Unit>> GetUnits(Query query)
         {
-            return await GetAccountGroupMasters(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
+            return await GetUnits(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
         }
 
-        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.AccountGroupMaster>> GetAccountGroupMasters(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.Unit>> GetUnits(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
-            var uri = new Uri(baseUri, $"AccountGroupMasters");
+            var uri = new Uri(baseUri, $"Units");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-            OnGetAccountGroupMasters(httpRequestMessage);
+            OnGetUnits(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.AccountGroupMaster>>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.Unit>>(response);
         }
 
-        partial void OnCreateAccountGroupMaster(HttpRequestMessage requestMessage);
+        partial void OnCreateUnit(HttpRequestMessage requestMessage);
 
-        public async Task<ERP.Server.Models.Postgres.AccountGroupMaster> CreateAccountGroupMaster(ERP.Server.Models.Postgres.AccountGroupMaster accountGroupMaster = default(ERP.Server.Models.Postgres.AccountGroupMaster))
+        public async Task<ERP.Server.Models.Postgres.Unit> CreateUnit(ERP.Server.Models.Postgres.Unit _unit = default(ERP.Server.Models.Postgres.Unit))
         {
-            var uri = new Uri(baseUri, $"AccountGroupMasters");
+            var uri = new Uri(baseUri, $"Units");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
 
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(accountGroupMaster), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(_unit), Encoding.UTF8, "application/json");
 
-            OnCreateAccountGroupMaster(httpRequestMessage);
+            OnCreateUnit(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.AccountGroupMaster>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.Unit>(response);
         }
 
-        partial void OnDeleteAccountGroupMaster(HttpRequestMessage requestMessage);
+        partial void OnDeleteUnit(HttpRequestMessage requestMessage);
 
-        public async Task<HttpResponseMessage> DeleteAccountGroupMaster(int masterId = default(int))
+        public async Task<HttpResponseMessage> DeleteUnit(int id = default(int))
         {
-            var uri = new Uri(baseUri, $"AccountGroupMasters({masterId})");
+            var uri = new Uri(baseUri, $"Units({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
 
-            OnDeleteAccountGroupMaster(httpRequestMessage);
+            OnDeleteUnit(httpRequestMessage);
 
             return await httpClient.SendAsync(httpRequestMessage);
         }
 
-        partial void OnGetAccountGroupMasterByMasterId(HttpRequestMessage requestMessage);
+        partial void OnGetUnitById(HttpRequestMessage requestMessage);
 
-        public async Task<ERP.Server.Models.Postgres.AccountGroupMaster> GetAccountGroupMasterByMasterId(string expand = default(string), int masterId = default(int))
+        public async Task<ERP.Server.Models.Postgres.Unit> GetUnitById(string expand = default(string), int id = default(int))
         {
-            var uri = new Uri(baseUri, $"AccountGroupMasters({masterId})");
+            var uri = new Uri(baseUri, $"Units({id})");
 
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-            OnGetAccountGroupMasterByMasterId(httpRequestMessage);
+            OnGetUnitById(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.AccountGroupMaster>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.Unit>(response);
         }
 
-        partial void OnUpdateAccountGroupMaster(HttpRequestMessage requestMessage);
+        partial void OnUpdateUnit(HttpRequestMessage requestMessage);
         
-        public async Task<HttpResponseMessage> UpdateAccountGroupMaster(int masterId = default(int), ERP.Server.Models.Postgres.AccountGroupMaster accountGroupMaster = default(ERP.Server.Models.Postgres.AccountGroupMaster))
+        public async Task<HttpResponseMessage> UpdateUnit(int id = default(int), ERP.Server.Models.Postgres.Unit _unit = default(ERP.Server.Models.Postgres.Unit))
         {
-            var uri = new Uri(baseUri, $"AccountGroupMasters({masterId})");
+            var uri = new Uri(baseUri, $"Units({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
 
-            httpRequestMessage.Headers.Add("If-Match", accountGroupMaster.ETag);    
+            httpRequestMessage.Headers.Add("If-Match", _unit.ETag);    
 
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(accountGroupMaster), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(_unit), Encoding.UTF8, "application/json");
 
-            OnUpdateAccountGroupMaster(httpRequestMessage);
+            OnUpdateUnit(httpRequestMessage);
 
             return await httpClient.SendAsync(httpRequestMessage);
         }
