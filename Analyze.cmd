@@ -1,0 +1,1 @@
+dotnet "c:\Program Files\Radzen Blazor Studio\resources\Radzen.Server\Radzen.Server.dll" --analyze ./ERP.sln -o log.txt

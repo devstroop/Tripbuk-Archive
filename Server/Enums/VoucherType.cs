@@ -1,4 +1,4 @@
-namespace ERP.Support.Enums;
+namespace ERP.Server.Enums;
 
 public enum VoucherType
 {

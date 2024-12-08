@@ -81,5 +81,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseAntiforgery();
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode().AddInteractiveWebAssemblyRenderMode().AddAdditionalAssemblies(typeof(ERP.Client._Imports).Assembly);
+// app.MapRazorComponents<App>().AddInteractiveServerRenderMode().AddInteractiveWebAssemblyRenderMode();
 app.Services.CreateScope().ServiceProvider.GetRequiredService<ApplicationIdentityDbContext>().Database.Migrate();
 app.Run();

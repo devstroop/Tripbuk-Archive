@@ -41,20 +41,24 @@
         <RadzenPanelMenu>
             <RadzenPanelMenuItem Text="Home" Path="" Icon="home_app_logo" />
             <RadzenPanelMenuItem Text="Administration" Icon="security">
-                <RadzenPanelMenuItem Text="Users" Path="administration/access/users" />
-                <RadzenPanelMenuItem Text="Roles" Path="administration/access/roles" class="rz-mb-3" />
-                
-                <RadzenPanelMenuItem Text="Accounts" Path="administration/accounts" />
-                <RadzenPanelMenuItem Text="Account Groups" Path="administration/account-groups" />
-                <RadzenPanelMenuItem Text="Standard Narrations" Path="administration/standard-narrations" class="rz-mb-3" />
-                
-                <RadzenPanelMenuItem Text="Items" Path="administration/items"/>
-                <RadzenPanelMenuItem Text="Item Groups" Path="administration/item-groups" class="rz-mb-3" />
-                
-                <RadzenPanelMenuItem Text="Units" Path="administration/units" />
-                <RadzenPanelMenuItem Text="Unit Conversions" Path="administration/unit-conversions" />
-                <RadzenPanelMenuItem Text="Bill Sundries" />
-                <RadzenPanelMenuItem Text="Bill of Materials" />
+                <RadzenPanelMenuItem Text="Access">
+                    <RadzenPanelMenuItem class="rz-ml-3" Text="Users" Path="administration/access/users" />
+                    <RadzenPanelMenuItem class="rz-ml-3" Text="Roles" Path="administration/access/roles" />
+                    <RadzenPanelMenuItem class="rz-ml-3 rz-mb-3" Text="Permissions" />
+                </RadzenPanelMenuItem>
+                <RadzenPanelMenuItem Text="Masters">
+                    <RadzenPanelMenuItem class="rz-ml-3" Text="Accounts" Path="administration/masters/accounts"/>
+                    <RadzenPanelMenuItem class="rz-ml-3" Text="Account Groups" Path="administration/masters/account-groups"/>
+                    <RadzenPanelMenuItem class="rz-ml-3 rz-mb-3" Text="Standard Narrations" Path="administration/masters/standard-narrations"/>
+
+                    <RadzenPanelMenuItem class="rz-ml-3" Text="Items" Path="administration/masters/items"/>
+                    <RadzenPanelMenuItem class="rz-ml-3 rz-mb-3" Text="Item Groups" Path="administration/masters/item-groups"/>
+
+                    <RadzenPanelMenuItem class="rz-ml-3" Text="Units" Path="administration/masters/units"/>
+                    <RadzenPanelMenuItem class="rz-ml-3" Text="Unit Conversions" Path="administration/masters/unit-conversions"/>
+                    <RadzenPanelMenuItem class="rz-ml-3" Text="Bill Sundries"/>
+                    <RadzenPanelMenuItem class="rz-ml-3 rz-mb-3" Text="Bill of Materials"/>
+                </RadzenPanelMenuItem>
             </RadzenPanelMenuItem>
         </RadzenPanelMenu>
         <RadzenStack AlignItems="AlignItems.Center" Gap="0" class="rz-py-4 rz-py-lg-6" Style="padding: var(--rz-panel-menu-item-padding);">

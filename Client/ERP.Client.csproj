@@ -14,6 +14,7 @@
     <PackageReference Include="System.Net.Http.Json" Version="9.*-*" />
     <PackageReference Include="Radzen.Blazor" Version="*" />
     <Compile Include="../Server/Models/**/*.cs" />
+    <Compile Include="../Server/Enums/*.cs" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="9.*-*" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.*-*" />
   </ItemGroup>
@@ -21,7 +22,9 @@
     <ServiceWorker Include="../Server/wwwroot/service-worker.js" PublishedContent="../Server/wwwroot/service-worker.published.js" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ERP.Support\ERP.Support.csproj" />
+    <None Update="_Imports.razor">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Pages\Administration\Accounts\AccountMasters.razor" />
@@ -86,9 +89,6 @@
     <AdditionalFiles Include="Pages\Administration\Masters\Unit\AddUnit.razor" />
     <AdditionalFiles Include="Pages\Administration\Masters\Unit\EditUnit.razor" />
     <AdditionalFiles Include="Pages\Administration\Masters\Unit\Units.razor" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pages\Administration\Masters\" />
   </ItemGroup>
   <PropertyGroup>
     <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>

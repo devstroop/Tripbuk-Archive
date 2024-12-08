@@ -1,0 +1,15 @@
+Analyzing ./ERP.sln ...
+Radzen.Server.CompilationFailedException: /Volumes/EXT/ERP/Server/Program.cs(83,144): error CS0234: The type or namespace name '_Imports' does not exist in the namespace 'ERP.Client' (are you missing an assembly reference?)
+
+   at Radzen.Server.ProjectContext.Compile(Compilation compilation, AssemblyLoadContext context)
+   at Radzen.Server.ProjectContext.Compile(Compilation compilation)
+   at Radzen.Server.ProjectContext.<Rebuild>b__101_1()
+   at Radzen.Server.LoggerExtensions.Measure[T](ILogger logger, String name, Func`1 action)
+   at Radzen.Server.ProjectContext.Rebuild(Boolean throwOnBuildError)
+   at Radzen.Server.ProjectContext.Rebuild(Boolean throwOnBuildError)
+   at Radzen.Server.LoggerExtensions.MeasureAsync(ILogger logger, String name, Func`1 action)
+   at Radzen.Server.SolutionContext.BuildAllProjects(Boolean throwOnBuildError)
+   at Radzen.Server.SolutionContext.BuildAsync(String fileName, Boolean throwOnBuildError, String framework)
+   at Radzen.Server.SolutionFacade.LoadProject(String filePath, Boolean overrideLifeCycle, Boolean throwOnBuildError)
+   at Radzen.Server.ProjectAnalyzer.AnalyzeAsync(String path, IServiceProvider serviceProvider, Boolean parallel, Boolean all)
+Finished with errors.

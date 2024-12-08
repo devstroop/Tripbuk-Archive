@@ -16,7 +16,6 @@
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="9.*-*" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.*-*" />
     <PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="9.*-*" />
-    <ProjectReference Include="..\ERP.Support\ERP.Support.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\Postgres\" />
