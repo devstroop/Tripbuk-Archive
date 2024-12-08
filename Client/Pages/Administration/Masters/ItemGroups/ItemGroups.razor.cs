@@ -1,16 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Administration.Masters.Item
+namespace ERP.Client.Pages.Administration.Masters.ItemGroups
 {
-    public partial class Items
+    public partial class ItemGroups
     {
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
@@ -33,9 +29,9 @@ namespace ERP.Client.Pages.Administration.Masters.Item
         [Inject]
         public PostgresService PostgresService { get; set; }
 
-        private IEnumerable<ERP.Server.Models.Postgres.Item> _items;
+        private IEnumerable<ERP.Server.Models.Postgres.ItemGroup> _itemGroups;
 
-        private RadzenDataGrid<ERP.Server.Models.Postgres.Item> _grid0;
+        private RadzenDataGrid<ERP.Server.Models.Postgres.ItemGroup> _grid0;
         private int _count;
 
         private string _search = "";
@@ -52,39 +48,39 @@ namespace ERP.Client.Pages.Administration.Masters.Item
             await _grid0.Reload();
         }
 
-        protected async Task Grid0LoadData(LoadDataArgs args)
+        private async Task Grid0LoadData(LoadDataArgs args)
         {
             try
             {
-                var result = await PostgresService.GetItems(filter: $@"(contains(ItemName,""{_search}"")) and {(string.IsNullOrEmpty(args.Filter)? "true" : args.Filter)}", expand: "ItemGroup", orderby: $"{args.OrderBy}", top: args.Top, skip: args.Skip, count:args.Top != null && args.Skip != null);
-                _items = result.Value.AsODataEnumerable();
+                var result = await PostgresService.GetItemGroups(filter: $@"(contains(GroupName,""{_search}"") or contains(Alias,""{_search}"")) and {(string.IsNullOrEmpty(args.Filter)? "true" : args.Filter)}", expand: "ItemGroup1", orderby: $"{args.OrderBy}", top: args.Top, skip: args.Skip, count:args.Top != null && args.Skip != null);
+                _itemGroups = result.Value.AsODataEnumerable();
                 _count = result.Count;
             }
             catch (System.Exception ex)
             {
-                NotificationService.Notify(new NotificationMessage(){ Severity = NotificationSeverity.Error, Summary = $"Error", Detail = $"Unable to load Items" });
+                NotificationService.Notify(new NotificationMessage(){ Severity = NotificationSeverity.Error, Summary = $"Error", Detail = $"Unable to load ItemGroups" });
             }
         }
 
-        protected async Task AddButtonClick(MouseEventArgs args)
+        private async Task AddButtonClick(MouseEventArgs args)
         {
-            await DialogService.OpenAsync<AddItem>("Add Item", null);
+            await DialogService.OpenAsync<AddItemGroup>("Add ItemGroup", null);
             await _grid0.Reload();
         }
 
-        protected async Task EditRow(ERP.Server.Models.Postgres.Item args)
+        protected async Task EditRow(ERP.Server.Models.Postgres.ItemGroup args)
         {
-            await DialogService.OpenAsync<EditItem>("Edit Item", new Dictionary<string, object> { {"Id", args.Id} });
+            await DialogService.OpenAsync<EditItemGroup>("Edit ItemGroup", new Dictionary<string, object> { {"Id", args.Id} });
             await _grid0.Reload();
         }
 
-        protected async Task GridDeleteButtonClick(MouseEventArgs args, ERP.Server.Models.Postgres.Item item)
+        protected async Task GridDeleteButtonClick(MouseEventArgs args, ERP.Server.Models.Postgres.ItemGroup itemGroup)
         {
             try
             {
                 if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
                 {
-                    var deleteResult = await PostgresService.DeleteItem(id:item.Id);
+                    var deleteResult = await PostgresService.DeleteItemGroup(id:itemGroup.Id);
 
                     if (deleteResult != null)
                     {
@@ -98,7 +94,7 @@ namespace ERP.Client.Pages.Administration.Masters.Item
                 {
                     Severity = NotificationSeverity.Error,
                     Summary = $"Error",
-                    Detail = $"Unable to delete Item"
+                    Detail = $"Unable to delete ItemGroup"
                 });
             }
         }

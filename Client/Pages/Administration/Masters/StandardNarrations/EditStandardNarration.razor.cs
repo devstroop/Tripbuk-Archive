@@ -1,16 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Administration.Masters.Unit
+namespace ERP.Client.Pages.Administration.Masters.StandardNarrations
 {
-    public partial class AddUnit
+    public partial class EditStandardNarration
     {
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
@@ -32,19 +28,28 @@ namespace ERP.Client.Pages.Administration.Masters.Unit
         [Inject]
         public PostgresService PostgresService { get; set; }
 
+        [Parameter]
+        public int Id { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
-            Unit = new ERP.Server.Models.Postgres.Unit();
+            StandardNarration = await PostgresService.GetStandardNarrationById(id:Id);
         }
         protected bool ErrorVisible;
-        protected ERP.Server.Models.Postgres.Unit Unit;
+        protected ERP.Server.Models.Postgres.StandardNarration StandardNarration;
 
         protected async Task FormSubmit()
         {
             try
             {
-                var result = await PostgresService.CreateUnit(Unit);
-                DialogService.Close(Unit);
+                var result = await PostgresService.UpdateStandardNarration(id:Id, StandardNarration);
+                if (result.StatusCode == System.Net.HttpStatusCode.PreconditionFailed)
+                {
+                     HasChanges = true;
+                     CanEdit = false;
+                     return;
+                }
+                DialogService.Close(StandardNarration);
             }
             catch (Exception ex)
             {
@@ -63,5 +68,14 @@ namespace ERP.Client.Pages.Administration.Masters.Unit
 
         [Inject]
         protected SecurityService Security { get; set; }
+
+
+        protected async Task ReloadButtonClick(MouseEventArgs args)
+        {
+            HasChanges = false;
+            CanEdit = true;
+
+            StandardNarration = await PostgresService.GetStandardNarrationById(id:Id);
+        }
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Administration.Masters.Account
+namespace ERP.Client.Pages.Administration.Masters.Accounts
 {
     public partial class Accounts
     {

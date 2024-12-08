@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Administration.Masters.Account
+namespace ERP.Client.Pages.Administration.Masters.Accounts
 {
-    public partial class EditAccount
+    public partial class AddAccount
     {
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
@@ -32,12 +32,9 @@ namespace ERP.Client.Pages.Administration.Masters.Account
         [Inject]
         public PostgresService PostgresService { get; set; }
 
-        [Parameter]
-        public int Id { get; set; }
-
         protected override async Task OnInitializedAsync()
         {
-            Account = await PostgresService.GetAccountById(id:Id);
+            Account = new ERP.Server.Models.Postgres.Account();
         }
         protected bool ErrorVisible;
         protected ERP.Server.Models.Postgres.Account Account;
@@ -75,13 +72,7 @@ namespace ERP.Client.Pages.Administration.Masters.Account
         {
             try
             {
-                var result = await PostgresService.UpdateAccount(id:Id, Account);
-                if (result.StatusCode == System.Net.HttpStatusCode.PreconditionFailed)
-                {
-                     HasChanges = true;
-                     CanEdit = false;
-                     return;
-                }
+                var result = await PostgresService.CreateAccount(Account);
                 DialogService.Close(Account);
             }
             catch (Exception ex)
@@ -101,14 +92,5 @@ namespace ERP.Client.Pages.Administration.Masters.Account
 
         [Inject]
         protected SecurityService Security { get; set; }
-
-
-        protected async Task ReloadButtonClick(MouseEventArgs args)
-        {
-            HasChanges = false;
-            CanEdit = true;
-
-            Account = await PostgresService.GetAccountById(id:Id);
-        }
     }
 }

@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 
-namespace ERP.Client.Pages.Administration.Masters.UnitConversion
+namespace ERP.Client.Pages.Administration.Masters.UnitConversions
 {
-    public partial class EditUnitConversion
+    public partial class AddUnitConversion
     {
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
@@ -27,22 +27,17 @@ namespace ERP.Client.Pages.Administration.Masters.UnitConversion
         [Inject]
         public PostgresService PostgresService { get; set; }
 
-        [Parameter]
-        public int Id { get; set; }
-
         protected override async Task OnInitializedAsync()
         {
-            _unitConversion = await PostgresService.GetUnitConversionById(id:Id);
+            _unitConversion = new ERP.Server.Models.Postgres.UnitConversion();
         }
 
         private bool _errorVisible;
-        private Server.Models.Postgres.UnitConversion _unitConversion;
+        private ERP.Server.Models.Postgres.UnitConversion _unitConversion;
 
-        private IEnumerable<Server.Models.Postgres.Unit> _unitsForMainUnit;
-
-
+        private IEnumerable<ERP.Server.Models.Postgres.Unit> _unitsForMainUnit;
         private int _unitsForMainUnitCount;
-        private Server.Models.Postgres.Unit _unitsForMainUnitValue;
+        private ERP.Server.Models.Postgres.Unit _unitsForMainUnitValue;
 
         private async Task UnitsForMainUnitLoadData(LoadDataArgs args)
         {
@@ -70,9 +65,9 @@ namespace ERP.Client.Pages.Administration.Masters.UnitConversion
         }
 
 
-        private IEnumerable<Server.Models.Postgres.Unit> _unitsForSubUnit;
+        private IEnumerable<ERP.Server.Models.Postgres.Unit> _unitsForSubUnit;
         private int _unitsForSubUnitCount;
-        private Server.Models.Postgres.Unit _unitsForSubUnitValue;
+        private ERP.Server.Models.Postgres.Unit _unitsForSubUnitValue;
 
         private async Task UnitsForSubUnitLoadData(LoadDataArgs args)
         {
@@ -93,7 +88,7 @@ namespace ERP.Client.Pages.Administration.Masters.UnitConversion
                 }
 
             }
-            catch (Exception ex)
+            catch (System.Exception ex)
             {
                 NotificationService.Notify(new NotificationMessage(){ Severity = NotificationSeverity.Error, Summary = $"Error", Detail = $"Unable to load Unit" });
             }
@@ -103,13 +98,7 @@ namespace ERP.Client.Pages.Administration.Masters.UnitConversion
         {
             try
             {
-                var result = await PostgresService.UpdateUnitConversion(id:Id, _unitConversion);
-                if (result.StatusCode == System.Net.HttpStatusCode.PreconditionFailed)
-                {
-                     _hasChanges = true;
-                     _canEdit = false;
-                     return;
-                }
+                var result = await PostgresService.CreateUnitConversion(_unitConversion);
                 DialogService.Close(_unitConversion);
             }
             catch (Exception ex)
@@ -124,19 +113,10 @@ namespace ERP.Client.Pages.Administration.Masters.UnitConversion
         }
 
 
-        private bool _hasChanges = false;
-        private bool _canEdit = true;
+        protected bool HasChanges = false;
+        private const bool CanEdit = true;
 
         [Inject]
         protected SecurityService Security { get; set; }
-
-
-        private async Task ReloadButtonClick(MouseEventArgs args)
-        {
-            _hasChanges = false;
-            _canEdit = true;
-
-            _unitConversion = await PostgresService.GetUnitConversionById(id:Id);
-        }
     }
 }

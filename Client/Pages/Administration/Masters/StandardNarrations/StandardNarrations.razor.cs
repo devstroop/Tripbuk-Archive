@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Administration.Masters.StandardNarration
+namespace ERP.Client.Pages.Administration.Masters.StandardNarrations
 {
     public partial class StandardNarrations
     {

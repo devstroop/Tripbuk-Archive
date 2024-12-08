@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Administration.Masters.AccountGroup
+namespace ERP.Client.Pages.Administration.Masters.Accounts
 {
-    public partial class AddAccountGroup
+    public partial class EditAccount
     {
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
@@ -32,48 +32,57 @@ namespace ERP.Client.Pages.Administration.Masters.AccountGroup
         [Inject]
         public PostgresService PostgresService { get; set; }
 
+        [Parameter]
+        public int Id { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
-            AccountGroup = new ERP.Server.Models.Postgres.AccountGroup();
+            Account = await PostgresService.GetAccountById(id:Id);
         }
         protected bool ErrorVisible;
-        protected ERP.Server.Models.Postgres.AccountGroup AccountGroup;
+        protected ERP.Server.Models.Postgres.Account Account;
 
-        protected IEnumerable<ERP.Server.Models.Postgres.AccountGroup> AccountGroupsForParent;
+        protected IEnumerable<ERP.Server.Models.Postgres.AccountGroup> AccountGroupsForGroup;
 
 
-        protected int AccountGroupsForParentCount;
-        protected ERP.Server.Models.Postgres.AccountGroup AccountGroupsForParentValue;
-        protected async Task AccountGroupsForParentLoadData(LoadDataArgs args)
+        protected int AccountGroupsForGroupCount;
+        protected ERP.Server.Models.Postgres.AccountGroup AccountGroupsForGroupValue;
+        protected async Task AccountGroupsForGroupLoadData(LoadDataArgs args)
         {
             try
             {
                 var result = await PostgresService.GetAccountGroups(top: args.Top, skip: args.Skip, count:args.Top != null && args.Skip != null, filter: $"contains(GroupName, '{(!string.IsNullOrEmpty(args.Filter) ? args.Filter : "")}')", orderby: $"{args.OrderBy}");
-                AccountGroupsForParent = result.Value.AsODataEnumerable();
-                AccountGroupsForParentCount = result.Count;
+                AccountGroupsForGroup = result.Value.AsODataEnumerable();
+                AccountGroupsForGroupCount = result.Count;
 
-                if (!object.Equals(AccountGroup.Parent, null))
+                if (!object.Equals(Account.Group, null))
                 {
-                    var valueResult = await PostgresService.GetAccountGroups(filter: $"Id eq {AccountGroup.Parent}");
+                    var valueResult = await PostgresService.GetAccountGroups(filter: $"Id eq {Account.Group}");
                     var firstItem = valueResult.Value.FirstOrDefault();
                     if (firstItem != null)
                     {
-                        AccountGroupsForParentValue = firstItem;
+                        AccountGroupsForGroupValue = firstItem;
                     }
                 }
 
             }
             catch (System.Exception ex)
             {
-                NotificationService.Notify(new NotificationMessage(){ Severity = NotificationSeverity.Error, Summary = $"Error", Detail = $"Unable to load AccountGroup1" });
+                NotificationService.Notify(new NotificationMessage(){ Severity = NotificationSeverity.Error, Summary = $"Error", Detail = $"Unable to load AccountGroup" });
             }
         }
         protected async Task FormSubmit()
         {
             try
             {
-                var result = await PostgresService.CreateAccountGroup(AccountGroup);
-                DialogService.Close(AccountGroup);
+                var result = await PostgresService.UpdateAccount(id:Id, Account);
+                if (result.StatusCode == System.Net.HttpStatusCode.PreconditionFailed)
+                {
+                     HasChanges = true;
+                     CanEdit = false;
+                     return;
+                }
+                DialogService.Close(Account);
             }
             catch (Exception ex)
             {
@@ -92,5 +101,14 @@ namespace ERP.Client.Pages.Administration.Masters.AccountGroup
 
         [Inject]
         protected SecurityService Security { get; set; }
+
+
+        protected async Task ReloadButtonClick(MouseEventArgs args)
+        {
+            HasChanges = false;
+            CanEdit = true;
+
+            Account = await PostgresService.GetAccountById(id:Id);
+        }
     }
 }

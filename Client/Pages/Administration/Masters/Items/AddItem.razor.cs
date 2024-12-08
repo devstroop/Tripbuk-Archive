@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Administration.Masters.ItemGroup
+namespace ERP.Client.Pages.Administration.Masters.Items
 {
-    public partial class AddItemGroup
+    public partial class AddItem
     {
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
@@ -34,46 +34,46 @@ namespace ERP.Client.Pages.Administration.Masters.ItemGroup
 
         protected override async Task OnInitializedAsync()
         {
-            ItemGroup = new ERP.Server.Models.Postgres.ItemGroup();
+            Item = new ERP.Server.Models.Postgres.Item();
         }
         protected bool ErrorVisible;
-        protected ERP.Server.Models.Postgres.ItemGroup ItemGroup;
+        protected ERP.Server.Models.Postgres.Item Item;
 
-        protected IEnumerable<ERP.Server.Models.Postgres.ItemGroup> ItemGroupsForParent;
+        protected IEnumerable<ERP.Server.Models.Postgres.ItemGroup> ItemGroupsForGroup;
 
 
-        protected int ItemGroupsForParentCount;
-        protected ERP.Server.Models.Postgres.ItemGroup ItemGroupsForParentValue;
-        protected async Task ItemGroupsForParentLoadData(LoadDataArgs args)
+        protected int ItemGroupsForGroupCount;
+        protected ERP.Server.Models.Postgres.ItemGroup ItemGroupsForGroupValue;
+        protected async Task ItemGroupsForGroupLoadData(LoadDataArgs args)
         {
             try
             {
                 var result = await PostgresService.GetItemGroups(top: args.Top, skip: args.Skip, count:args.Top != null && args.Skip != null, filter: $"contains(GroupName, '{(!string.IsNullOrEmpty(args.Filter) ? args.Filter : "")}')", orderby: $"{args.OrderBy}");
-                ItemGroupsForParent = result.Value.AsODataEnumerable();
-                ItemGroupsForParentCount = result.Count;
+                ItemGroupsForGroup = result.Value.AsODataEnumerable();
+                ItemGroupsForGroupCount = result.Count;
 
-                if (!object.Equals(ItemGroup.Parent, null))
+                if (!object.Equals(Item.Group, null))
                 {
-                    var valueResult = await PostgresService.GetItemGroups(filter: $"Id eq {ItemGroup.Parent}");
+                    var valueResult = await PostgresService.GetItemGroups(filter: $"Id eq {Item.Group}");
                     var firstItem = valueResult.Value.FirstOrDefault();
                     if (firstItem != null)
                     {
-                        ItemGroupsForParentValue = firstItem;
+                        ItemGroupsForGroupValue = firstItem;
                     }
                 }
 
             }
             catch (System.Exception ex)
             {
-                NotificationService.Notify(new NotificationMessage(){ Severity = NotificationSeverity.Error, Summary = $"Error", Detail = $"Unable to load ItemGroup1" });
+                NotificationService.Notify(new NotificationMessage(){ Severity = NotificationSeverity.Error, Summary = $"Error", Detail = $"Unable to load ItemGroup" });
             }
         }
         protected async Task FormSubmit()
         {
             try
             {
-                var result = await PostgresService.CreateItemGroup(ItemGroup);
-                DialogService.Close(ItemGroup);
+                var result = await PostgresService.CreateItem(Item);
+                DialogService.Close(Item);
             }
             catch (Exception ex)
             {

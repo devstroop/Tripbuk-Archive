@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 
-namespace ERP.Client.Pages.Administration.Masters.StandardNarration
+namespace ERP.Client.Pages.Administration.Masters.StandardNarrations
 {
     public partial class AddStandardNarration
     {

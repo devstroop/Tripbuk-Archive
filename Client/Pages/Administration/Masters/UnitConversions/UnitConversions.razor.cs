@@ -1,16 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Administration.Masters.AccountGroup
+namespace ERP.Client.Pages.Administration.Masters.UnitConversions
 {
-    public partial class AccountGroups
+    public partial class UnitConversions
     {
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
@@ -33,19 +29,19 @@ namespace ERP.Client.Pages.Administration.Masters.AccountGroup
         [Inject]
         public PostgresService PostgresService { get; set; }
 
-        protected IEnumerable<ERP.Server.Models.Postgres.AccountGroup> _accountGroups;
+        private IEnumerable<ERP.Server.Models.Postgres.UnitConversion> _unitConversions;
 
-        private RadzenDataGrid<ERP.Server.Models.Postgres.AccountGroup> _grid0;
+        private RadzenDataGrid<ERP.Server.Models.Postgres.UnitConversion> _grid0;
         private int _count;
 
-        private string _search = "";
+        protected string search = "";
 
         [Inject]
         protected SecurityService Security { get; set; }
 
         private async Task Search(ChangeEventArgs args)
         {
-            _search = $"{args.Value}";
+            search = $"{args.Value}";
 
             await _grid0.GoToPage(0);
 
@@ -56,35 +52,35 @@ namespace ERP.Client.Pages.Administration.Masters.AccountGroup
         {
             try
             {
-                var result = await PostgresService.GetAccountGroups(filter: $@"(contains(GroupName,""{_search}"") or contains(Alias,""{_search}"")) and {(string.IsNullOrEmpty(args.Filter)? "true" : args.Filter)}", expand: "AccountGroup1", orderby: $"{args.OrderBy}", top: args.Top, skip: args.Skip, count:args.Top != null && args.Skip != null);
-                _accountGroups = result.Value.AsODataEnumerable();
+                var result = await PostgresService.GetUnitConversions(filter: $"{args.Filter}", expand: "Unit", orderby: $"{args.OrderBy}", top: args.Top, skip: args.Skip, count:args.Top != null && args.Skip != null);
+                _unitConversions = result.Value.AsODataEnumerable();
                 _count = result.Count;
             }
             catch (System.Exception ex)
             {
-                NotificationService.Notify(new NotificationMessage(){ Severity = NotificationSeverity.Error, Summary = $"Error", Detail = $"Unable to load AccountGroups" });
+                NotificationService.Notify(new NotificationMessage(){ Severity = NotificationSeverity.Error, Summary = $"Error", Detail = $"Unable to load UnitConversions" });
             }
         }
 
         private async Task AddButtonClick(MouseEventArgs args)
         {
-            await DialogService.OpenAsync<AddAccountGroup>("Add AccountGroup", null);
+            await DialogService.OpenAsync<AddUnitConversion>("Add Unit Conversion", null);
             await _grid0.Reload();
         }
 
-        private async Task EditRow(ERP.Server.Models.Postgres.AccountGroup args)
+        private async Task EditRow(ERP.Server.Models.Postgres.UnitConversion args)
         {
-            await DialogService.OpenAsync<EditAccountGroup>("Edit AccountGroup", new Dictionary<string, object> { {"Id", args.Id} });
+            await DialogService.OpenAsync<EditUnitConversion>("Edit Unit Conversion", new Dictionary<string, object> { {"Id", args.Id} });
             await _grid0.Reload();
         }
 
-        private async Task GridDeleteButtonClick(MouseEventArgs args, ERP.Server.Models.Postgres.AccountGroup accountGroup)
+        private async Task GridDeleteButtonClick(MouseEventArgs args, ERP.Server.Models.Postgres.UnitConversion unitConversion)
         {
             try
             {
                 if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
                 {
-                    var deleteResult = await PostgresService.DeleteAccountGroup(id:accountGroup.Id);
+                    var deleteResult = await PostgresService.DeleteUnitConversion(id:unitConversion.Id);
 
                     if (deleteResult != null)
                     {
@@ -98,7 +94,7 @@ namespace ERP.Client.Pages.Administration.Masters.AccountGroup
                 {
                     Severity = NotificationSeverity.Error,
                     Summary = $"Error",
-                    Detail = $"Unable to delete AccountGroup"
+                    Detail = $"Unable to delete UnitConversion"
                 });
             }
         }

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Administration.Masters.AccountGroup
+namespace ERP.Client.Pages.Administration.Masters.AccountGroups
 {
     public partial class EditAccountGroup
     {

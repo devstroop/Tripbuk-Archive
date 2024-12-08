@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Administration.Masters.Unit
+namespace ERP.Client.Pages.Administration.Masters.Units
 {
     public partial class Units
     {

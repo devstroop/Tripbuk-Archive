@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Administration.Masters.Unit
+namespace ERP.Client.Pages.Administration.Masters.Items
 {
-    public partial class EditUnit
+    public partial class EditItem
     {
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
@@ -37,23 +37,52 @@ namespace ERP.Client.Pages.Administration.Masters.Unit
 
         protected override async Task OnInitializedAsync()
         {
-            Unit = await PostgresService.GetUnitById(id:Id);
+            Item = await PostgresService.GetItemById(id:Id);
         }
         protected bool ErrorVisible;
-        protected ERP.Server.Models.Postgres.Unit Unit;
+        protected ERP.Server.Models.Postgres.Item Item;
 
+        protected IEnumerable<ERP.Server.Models.Postgres.ItemGroup> ItemGroupsForGroup;
+
+
+        protected int ItemGroupsForGroupCount;
+        protected ERP.Server.Models.Postgres.ItemGroup ItemGroupsForGroupValue;
+        protected async Task ItemGroupsForGroupLoadData(LoadDataArgs args)
+        {
+            try
+            {
+                var result = await PostgresService.GetItemGroups(top: args.Top, skip: args.Skip, count:args.Top != null && args.Skip != null, filter: $"contains(GroupName, '{(!string.IsNullOrEmpty(args.Filter) ? args.Filter : "")}')", orderby: $"{args.OrderBy}");
+                ItemGroupsForGroup = result.Value.AsODataEnumerable();
+                ItemGroupsForGroupCount = result.Count;
+
+                if (!object.Equals(Item.Group, null))
+                {
+                    var valueResult = await PostgresService.GetItemGroups(filter: $"Id eq {Item.Group}");
+                    var firstItem = valueResult.Value.FirstOrDefault();
+                    if (firstItem != null)
+                    {
+                        ItemGroupsForGroupValue = firstItem;
+                    }
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+                NotificationService.Notify(new NotificationMessage(){ Severity = NotificationSeverity.Error, Summary = $"Error", Detail = $"Unable to load ItemGroup" });
+            }
+        }
         protected async Task FormSubmit()
         {
             try
             {
-                var result = await PostgresService.UpdateUnit(id:Id, Unit);
+                var result = await PostgresService.UpdateItem(id:Id, Item);
                 if (result.StatusCode == System.Net.HttpStatusCode.PreconditionFailed)
                 {
                      HasChanges = true;
                      CanEdit = false;
                      return;
                 }
-                DialogService.Close(Unit);
+                DialogService.Close(Item);
             }
             catch (Exception ex)
             {
@@ -79,7 +108,7 @@ namespace ERP.Client.Pages.Administration.Masters.Unit
             HasChanges = false;
             CanEdit = true;
 
-            Unit = await PostgresService.GetUnitById(id:Id);
+            Item = await PostgresService.GetItemById(id:Id);
         }
     }
 }

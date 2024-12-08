@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Administration.Masters.ItemGroup
+namespace ERP.Client.Pages.Administration.Masters.ItemGroups
 {
     public partial class EditItemGroup
     {
