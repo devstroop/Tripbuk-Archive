@@ -19,11 +19,11 @@ namespace ERP.Server.Controllers.Postgres
     [Route("odata/Postgres/Accounts")]
     public partial class AccountsController : ODataController
     {
-        private ERP.Server.Data.PostgresContext context;
+        private ERP.Server.Data.PostgresContext _context;
 
         public AccountsController(ERP.Server.Data.PostgresContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
     
@@ -31,7 +31,7 @@ namespace ERP.Server.Controllers.Postgres
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
         public IEnumerable<ERP.Server.Models.Postgres.Account> GetAccounts()
         {
-            var items = this.context.Accounts.AsQueryable<ERP.Server.Models.Postgres.Account>();
+            var items = this._context.Accounts.AsQueryable<ERP.Server.Models.Postgres.Account>();
             this.OnAccountsRead(ref items);
 
             return items;
@@ -45,7 +45,7 @@ namespace ERP.Server.Controllers.Postgres
         [HttpGet("/odata/Postgres/Accounts(Id={Id})")]
         public SingleResult<ERP.Server.Models.Postgres.Account> GetAccount(int key)
         {
-            var items = this.context.Accounts.Where(i => i.Id == key);
+            var items = this._context.Accounts.Where(i => i.Id == key);
             var result = SingleResult.Create(items);
 
             OnAccountGet(ref result);
@@ -66,7 +66,7 @@ namespace ERP.Server.Controllers.Postgres
                 }
 
 
-                var items = this.context.Accounts
+                var items = this._context.Accounts
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
@@ -79,8 +79,8 @@ namespace ERP.Server.Controllers.Postgres
                     return StatusCode((int)HttpStatusCode.PreconditionFailed);
                 }
                 this.OnAccountDeleted(item);
-                this.context.Accounts.Remove(item);
-                this.context.SaveChanges();
+                this._context.Accounts.Remove(item);
+                this._context.SaveChanges();
                 this.OnAfterAccountDeleted(item);
 
                 return new NoContentResult();
@@ -107,7 +107,7 @@ namespace ERP.Server.Controllers.Postgres
                     return BadRequest(ModelState);
                 }
 
-                var items = this.context.Accounts
+                var items = this._context.Accounts
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
@@ -120,10 +120,10 @@ namespace ERP.Server.Controllers.Postgres
                     return StatusCode((int)HttpStatusCode.PreconditionFailed);
                 }
                 this.OnAccountUpdated(item);
-                this.context.Accounts.Update(item);
-                this.context.SaveChanges();
+                this._context.Accounts.Update(item);
+                this._context.SaveChanges();
 
-                var itemToReturn = this.context.Accounts.Where(i => i.Id == key);
+                var itemToReturn = this._context.Accounts.Where(i => i.Id == key);
                 Request.QueryString = Request.QueryString.Add("$expand", "AccountGroup");
                 this.OnAfterAccountUpdated(item);
                 return new ObjectResult(SingleResult.Create(itemToReturn));
@@ -146,7 +146,7 @@ namespace ERP.Server.Controllers.Postgres
                     return BadRequest(ModelState);
                 }
 
-                var items = this.context.Accounts
+                var items = this._context.Accounts
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
@@ -161,10 +161,10 @@ namespace ERP.Server.Controllers.Postgres
                 patch.Patch(item);
 
                 this.OnAccountUpdated(item);
-                this.context.Accounts.Update(item);
-                this.context.SaveChanges();
+                this._context.Accounts.Update(item);
+                this._context.SaveChanges();
 
-                var itemToReturn = this.context.Accounts.Where(i => i.Id == key);
+                var itemToReturn = this._context.Accounts.Where(i => i.Id == key);
                 Request.QueryString = Request.QueryString.Add("$expand", "AccountGroup");
                 this.OnAfterAccountUpdated(item);
                 return new ObjectResult(SingleResult.Create(itemToReturn));
@@ -196,10 +196,10 @@ namespace ERP.Server.Controllers.Postgres
                 }
 
                 this.OnAccountCreated(item);
-                this.context.Accounts.Add(item);
-                this.context.SaveChanges();
+                this._context.Accounts.Add(item);
+                this._context.SaveChanges();
 
-                var itemToReturn = this.context.Accounts.Where(i => i.Id == item.Id);
+                var itemToReturn = this._context.Accounts.Where(i => i.Id == item.Id);
 
                 Request.QueryString = Request.QueryString.Add("$expand", "AccountGroup");
 

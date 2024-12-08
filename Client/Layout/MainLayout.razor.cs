@@ -15,7 +15,7 @@ namespace ERP.Client.Layout
     public partial class MainLayout
     {
         [Inject]
-        protected IJSRuntime JSRuntime { get; set; }
+        protected IJSRuntime JsRuntime { get; set; }
 
         [Inject]
         protected NavigationManager NavigationManager { get; set; }
@@ -32,14 +32,14 @@ namespace ERP.Client.Layout
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        private bool sidebarExpanded = true;
+        private bool _sidebarExpanded = true;
 
         [Inject]
         protected SecurityService Security { get; set; }
 
         void SidebarToggleClick()
         {
-            sidebarExpanded = !sidebarExpanded;
+            _sidebarExpanded = !_sidebarExpanded;
         }
 
         protected void ProfileMenuClick(RadzenProfileMenuItem args)

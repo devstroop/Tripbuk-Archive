@@ -13,7 +13,7 @@ namespace ERP.Client.Pages
     public partial class ApplicationRoles
     {
         [Inject]
-        protected IJSRuntime JSRuntime { get; set; }
+        protected IJSRuntime JsRuntime { get; set; }
 
         [Inject]
         protected NavigationManager NavigationManager { get; set; }
@@ -30,24 +30,24 @@ namespace ERP.Client.Pages
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        protected IEnumerable<ERP.Server.Models.ApplicationRole> roles;
-        protected RadzenDataGrid<ERP.Server.Models.ApplicationRole> grid0;
-        protected string error;
-        protected bool errorVisible;
+        protected IEnumerable<ERP.Server.Models.ApplicationRole> Roles;
+        protected RadzenDataGrid<ERP.Server.Models.ApplicationRole> Grid0;
+        protected string Error;
+        protected bool ErrorVisible;
 
         [Inject]
         protected SecurityService Security { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            roles = await Security.GetRoles();
+            Roles = await Security.GetRoles();
         }
 
         protected async Task AddClick()
         {
             await DialogService.OpenAsync<AddApplicationRole>("Add Application Role");
 
-            roles = await Security.GetRoles();
+            Roles = await Security.GetRoles();
         }
 
         protected async Task DeleteClick(ERP.Server.Models.ApplicationRole role)
@@ -58,13 +58,13 @@ namespace ERP.Client.Pages
                 {
                     await Security.DeleteRole($"{role.Id}");
 
-                    roles = await Security.GetRoles();
+                    Roles = await Security.GetRoles();
                 }
             }
             catch (Exception ex)
             {
-                errorVisible = true;
-                error = ex.Message;
+                ErrorVisible = true;
+                Error = ex.Message;
             }
         }
     }

@@ -19,11 +19,11 @@ namespace ERP.Server.Controllers.Postgres
     [Route("odata/Postgres/Units")]
     public partial class UnitsController : ODataController
     {
-        private ERP.Server.Data.PostgresContext context;
+        private ERP.Server.Data.PostgresContext _context;
 
         public UnitsController(ERP.Server.Data.PostgresContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
     
@@ -31,7 +31,7 @@ namespace ERP.Server.Controllers.Postgres
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
         public IEnumerable<ERP.Server.Models.Postgres.Unit> GetUnits()
         {
-            var items = this.context.Units.AsQueryable<ERP.Server.Models.Postgres.Unit>();
+            var items = this._context.Units.AsQueryable<ERP.Server.Models.Postgres.Unit>();
             this.OnUnitsRead(ref items);
 
             return items;
@@ -45,7 +45,7 @@ namespace ERP.Server.Controllers.Postgres
         [HttpGet("/odata/Postgres/Units(Id={Id})")]
         public SingleResult<ERP.Server.Models.Postgres.Unit> GetUnit(int key)
         {
-            var items = this.context.Units.Where(i => i.Id == key);
+            var items = this._context.Units.Where(i => i.Id == key);
             var result = SingleResult.Create(items);
 
             OnUnitGet(ref result);
@@ -66,7 +66,7 @@ namespace ERP.Server.Controllers.Postgres
                 }
 
 
-                var items = this.context.Units
+                var items = this._context.Units
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
@@ -79,8 +79,8 @@ namespace ERP.Server.Controllers.Postgres
                     return StatusCode((int)HttpStatusCode.PreconditionFailed);
                 }
                 this.OnUnitDeleted(item);
-                this.context.Units.Remove(item);
-                this.context.SaveChanges();
+                this._context.Units.Remove(item);
+                this._context.SaveChanges();
                 this.OnAfterUnitDeleted(item);
 
                 return new NoContentResult();
@@ -107,7 +107,7 @@ namespace ERP.Server.Controllers.Postgres
                     return BadRequest(ModelState);
                 }
 
-                var items = this.context.Units
+                var items = this._context.Units
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
@@ -120,10 +120,10 @@ namespace ERP.Server.Controllers.Postgres
                     return StatusCode((int)HttpStatusCode.PreconditionFailed);
                 }
                 this.OnUnitUpdated(item);
-                this.context.Units.Update(item);
-                this.context.SaveChanges();
+                this._context.Units.Update(item);
+                this._context.SaveChanges();
 
-                var itemToReturn = this.context.Units.Where(i => i.Id == key);
+                var itemToReturn = this._context.Units.Where(i => i.Id == key);
                 
                 this.OnAfterUnitUpdated(item);
                 return new ObjectResult(SingleResult.Create(itemToReturn));
@@ -146,7 +146,7 @@ namespace ERP.Server.Controllers.Postgres
                     return BadRequest(ModelState);
                 }
 
-                var items = this.context.Units
+                var items = this._context.Units
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
@@ -161,10 +161,10 @@ namespace ERP.Server.Controllers.Postgres
                 patch.Patch(item);
 
                 this.OnUnitUpdated(item);
-                this.context.Units.Update(item);
-                this.context.SaveChanges();
+                this._context.Units.Update(item);
+                this._context.SaveChanges();
 
-                var itemToReturn = this.context.Units.Where(i => i.Id == key);
+                var itemToReturn = this._context.Units.Where(i => i.Id == key);
                 
                 this.OnAfterUnitUpdated(item);
                 return new ObjectResult(SingleResult.Create(itemToReturn));
@@ -196,10 +196,10 @@ namespace ERP.Server.Controllers.Postgres
                 }
 
                 this.OnUnitCreated(item);
-                this.context.Units.Add(item);
-                this.context.SaveChanges();
+                this._context.Units.Add(item);
+                this._context.SaveChanges();
 
-                var itemToReturn = this.context.Units.Where(i => i.Id == item.Id);
+                var itemToReturn = this._context.Units.Where(i => i.Id == item.Id);
 
                 
 

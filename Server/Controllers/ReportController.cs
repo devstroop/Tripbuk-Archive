@@ -148,7 +148,7 @@ namespace ERP.Server.Controllers
         {
             var result = await responseMessage.Content.ReadAsStringAsync();
 
-            var ReportServer = url.Contains("/ReportServer/", StringComparison.InvariantCultureIgnoreCase) ? "ReportServer" : "Reports";
+            var reportServer = url.Contains("/ReportServer/", StringComparison.InvariantCultureIgnoreCase) ? "ReportServer" : "Reports";
 
             var reportUri = new Uri(url);
             var proxyUrl = String.Format("{0}://{1}{2}/ssrsproxy/{3}/{4}/{5}", currentReqest.Scheme, currentReqest.Host.Value, currentReqest.PathBase,
@@ -205,14 +205,14 @@ namespace ERP.Server.Controllers
                     }
                     index++;
 
-                    content = content.Replace($"/{ReportServer}/", $"{proxyUrl}/{ReportServer}/", StringComparison.InvariantCultureIgnoreCase);
+                    content = content.Replace($"/{reportServer}/", $"{proxyUrl}/{reportServer}/", StringComparison.InvariantCultureIgnoreCase);
                     if (content.Contains("./ReportViewer.aspx", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        content = content.Replace("./ReportViewer.aspx", $"{proxyUrl}/{ReportServer}/Pages/ReportViewer.aspx", StringComparison.InvariantCultureIgnoreCase);
+                        content = content.Replace("./ReportViewer.aspx", $"{proxyUrl}/{reportServer}/Pages/ReportViewer.aspx", StringComparison.InvariantCultureIgnoreCase);
                     }
                     else
                     {
-                        content = content.Replace("ReportViewer.aspx", $"{proxyUrl}/{ReportServer}/Pages/ReportViewer.aspx", StringComparison.InvariantCultureIgnoreCase);
+                        content = content.Replace("ReportViewer.aspx", $"{proxyUrl}/{reportServer}/Pages/ReportViewer.aspx", StringComparison.InvariantCultureIgnoreCase);
                     }
 
                     builder.Append(String.Format("{0}|{1}|{2}|{3}|", content.Length, type, id, content));
@@ -222,15 +222,15 @@ namespace ERP.Server.Controllers
             }
             else
             {
-                result = result.Replace($"/{ReportServer}/", $"{proxyUrl}/{ReportServer}/", StringComparison.InvariantCultureIgnoreCase);
+                result = result.Replace($"/{reportServer}/", $"{proxyUrl}/{reportServer}/", StringComparison.InvariantCultureIgnoreCase);
 
                 if (result.Contains("./ReportViewer.aspx", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    result = result.Replace("./ReportViewer.aspx", $"{proxyUrl}/{ReportServer}/Pages/ReportViewer.aspx", StringComparison.InvariantCultureIgnoreCase);
+                    result = result.Replace("./ReportViewer.aspx", $"{proxyUrl}/{reportServer}/Pages/ReportViewer.aspx", StringComparison.InvariantCultureIgnoreCase);
                 }
                 else
                 {
-                    result = result.Replace("ReportViewer.aspx", $"{proxyUrl}/{ReportServer}/Pages/ReportViewer.aspx", StringComparison.InvariantCultureIgnoreCase);
+                    result = result.Replace("ReportViewer.aspx", $"{proxyUrl}/{reportServer}/Pages/ReportViewer.aspx", StringComparison.InvariantCultureIgnoreCase);
                 }
             }
 

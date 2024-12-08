@@ -13,7 +13,7 @@ namespace ERP.Client.Pages
     public partial class AddApplicationRole
     {
         [Inject]
-        protected IJSRuntime JSRuntime { get; set; }
+        protected IJSRuntime JsRuntime { get; set; }
 
         [Inject]
         protected NavigationManager NavigationManager { get; set; }
@@ -30,16 +30,16 @@ namespace ERP.Client.Pages
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        protected ERP.Server.Models.ApplicationRole role;
-        protected string error;
-        protected bool errorVisible;
+        protected ERP.Server.Models.ApplicationRole Role;
+        protected string Error;
+        protected bool ErrorVisible;
 
         [Inject]
         protected SecurityService Security { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            role = new ERP.Server.Models.ApplicationRole();
+            Role = new ERP.Server.Models.ApplicationRole();
         }
 
         protected async Task FormSubmit(ERP.Server.Models.ApplicationRole role)
@@ -52,8 +52,8 @@ namespace ERP.Client.Pages
             }
             catch (Exception ex)
             {
-                errorVisible = true;
-                error = ex.Message;
+                ErrorVisible = true;
+                Error = ex.Message;
             }
         }
 

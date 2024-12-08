@@ -24,9 +24,6 @@
     <ProjectReference Include="..\ERP.Support\ERP.Support.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Pages\Administration\" />
-  </ItemGroup>
-  <ItemGroup>
     <_ContentIncludedByDefault Remove="Pages\Administration\Accounts\AccountMasters.razor" />
     <_ContentIncludedByDefault Remove="Pages\Administration\Accounts\AddAccountMaster.razor" />
     <_ContentIncludedByDefault Remove="Pages\Administration\Accounts\EditAccountMaster.razor" />

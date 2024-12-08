@@ -13,7 +13,7 @@ namespace ERP.Client.Pages
     public partial class ApplicationUsers
     {
         [Inject]
-        protected IJSRuntime JSRuntime { get; set; }
+        protected IJSRuntime JsRuntime { get; set; }
 
         [Inject]
         protected NavigationManager NavigationManager { get; set; }
@@ -30,31 +30,31 @@ namespace ERP.Client.Pages
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        protected IEnumerable<ERP.Server.Models.ApplicationUser> users;
-        protected RadzenDataGrid<ERP.Server.Models.ApplicationUser> grid0;
-        protected string error;
-        protected bool errorVisible;
+        protected IEnumerable<ERP.Server.Models.ApplicationUser> Users;
+        protected RadzenDataGrid<ERP.Server.Models.ApplicationUser> Grid0;
+        protected string Error;
+        protected bool ErrorVisible;
 
         [Inject]
         protected SecurityService Security { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            users = await Security.GetUsers();
+            Users = await Security.GetUsers();
         }
 
         protected async Task AddClick()
         {
             await DialogService.OpenAsync<AddApplicationUser>("Add Application User");
 
-            users = await Security.GetUsers();
+            Users = await Security.GetUsers();
         }
 
         protected async Task RowSelect(ERP.Server.Models.ApplicationUser user)
         {
             await DialogService.OpenAsync<EditApplicationUser>("Edit Application User", new Dictionary<string, object>{ {"Id", user.Id} });
 
-            users = await Security.GetUsers();
+            Users = await Security.GetUsers();
         }
 
         protected async Task DeleteClick(ERP.Server.Models.ApplicationUser user)
@@ -65,13 +65,13 @@ namespace ERP.Client.Pages
                 {
                     await Security.DeleteUser($"{user.Id}");
 
-                    users = await Security.GetUsers();
+                    Users = await Security.GetUsers();
                 }
             }
             catch (Exception ex)
             {
-                errorVisible = true;
-                error = ex.Message;
+                ErrorVisible = true;
+                Error = ex.Message;
             }
         }
     }

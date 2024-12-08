@@ -2,50 +2,50 @@ namespace ERP.Support.Enums;
 
 public enum UniqueQtyCode
 {
-    BAG, // BAGS
-    BAL, // BALE
-    BDL, // BUNDLES
-    BKL, // BUCKLES
-    BOU, // BILLIONS OF UNITS
-    BOX, // BOX
-    BTL, // BOTTLES
-    BUN, // BUNCHES
-    CAN, // CANS
-    CBM, // CUBIC METER
-    CCM, // CUBIC CENTIMETER
-    CMS, // CENTIMETER
-    CTN, // CARTONS
-    DOZ, // DOZEN
-    DRM, // DRUM
-    GGR, // GREAT GROSS
-    GMS, // GRAMS
-    GRS, // GROSS
-    GYD, // GROSS YARDS
-    KGS, // KILOGRAMS
-    KLR, // KILOLITRE
-    KME, // KILOMETRE
-    MLT, // MILLILITRE
-    MTR, // METERS
-    MTS, // METRIC TON
-    NOS, // NUMBERS
-    PAC, // PACKS
-    PCS, // PIECES
-    PRS, // PAIRS
-    QTL, // QUINTAL
-    ROL, // ROLLS
-    SET, // SETS
-    SQF, // SQUARE FEET
-    SQM, // SQUARE METERS
-    SQY, // SQUARE YARDS
-    TBS, // TABLETS
-    TGM, // TEN GRAMS
-    THD, // THOUSANDS
-    TON, // TONNES
-    TUB, // TUBES
-    UGS, // US GALLONS
-    UNT, // UNITS
-    YDS, // YARDS
-    OTH  // OTHERS
+    Bag, // BAGS
+    Bal, // BALE
+    Bdl, // BUNDLES
+    Bkl, // BUCKLES
+    Bou, // BILLIONS OF UNITS
+    Box, // BOX
+    Btl, // BOTTLES
+    Bun, // BUNCHES
+    Can, // CANS
+    Cbm, // CUBIC METER
+    Ccm, // CUBIC CENTIMETER
+    Cms, // CENTIMETER
+    Ctn, // CARTONS
+    Doz, // DOZEN
+    Drm, // DRUM
+    Ggr, // GREAT GROSS
+    Gms, // GRAMS
+    Grs, // GROSS
+    Gyd, // GROSS YARDS
+    Kgs, // KILOGRAMS
+    Klr, // KILOLITRE
+    Kme, // KILOMETRE
+    Mlt, // MILLILITRE
+    Mtr, // METERS
+    Mts, // METRIC TON
+    Nos, // NUMBERS
+    Pac, // PACKS
+    Pcs, // PIECES
+    Prs, // PAIRS
+    Qtl, // QUINTAL
+    Rol, // ROLLS
+    Set, // SETS
+    Sqf, // SQUARE FEET
+    Sqm, // SQUARE METERS
+    Sqy, // SQUARE YARDS
+    Tbs, // TABLETS
+    Tgm, // TEN GRAMS
+    Thd, // THOUSANDS
+    Ton, // TONNES
+    Tub, // TUBES
+    Ugs, // US GALLONS
+    Unt, // UNITS
+    Yds, // YARDS
+    Oth  // OTHERS
 }
 
 public static class UniqueQtyCodeExtensions
@@ -59,50 +59,50 @@ public static class UniqueQtyCodeExtensions
     {
         return code switch
         {
-            UniqueQtyCode.BAG => "BAGS",
-            UniqueQtyCode.BAL => "BALE",
-            UniqueQtyCode.BDL => "BUNDLES",
-            UniqueQtyCode.BKL => "BUCKLES",
-            UniqueQtyCode.BOU => "BILLIONS OF UNITS",
-            UniqueQtyCode.BOX => "BOX",
-            UniqueQtyCode.BTL => "BOTTLES",
-            UniqueQtyCode.BUN => "BUNCHES",
-            UniqueQtyCode.CAN => "CANS",
-            UniqueQtyCode.CBM => "CUBIC METER",
-            UniqueQtyCode.CCM => "CUBIC CENTIMETER",
-            UniqueQtyCode.CMS => "CENTIMETER",
-            UniqueQtyCode.CTN => "CARTONS",
-            UniqueQtyCode.DOZ => "DOZEN",
-            UniqueQtyCode.DRM => "DRUM",
-            UniqueQtyCode.GGR => "GREAT GROSS",
-            UniqueQtyCode.GMS => "GRAMS",
-            UniqueQtyCode.GRS => "GROSS",
-            UniqueQtyCode.GYD => "GROSS YARDS",
-            UniqueQtyCode.KGS => "KILOGRAMS",
-            UniqueQtyCode.KLR => "KILOLITRE",
-            UniqueQtyCode.KME => "KILOMETRE",
-            UniqueQtyCode.MLT => "MILLILITRE",
-            UniqueQtyCode.MTR => "METERS",
-            UniqueQtyCode.MTS => "METRIC TON",
-            UniqueQtyCode.NOS => "NUMBERS",
-            UniqueQtyCode.PAC => "PACKS",
-            UniqueQtyCode.PCS => "PIECES",
-            UniqueQtyCode.PRS => "PAIRS",
-            UniqueQtyCode.QTL => "QUINTAL",
-            UniqueQtyCode.ROL => "ROLLS",
-            UniqueQtyCode.SET => "SETS",
-            UniqueQtyCode.SQF => "SQUARE FEET",
-            UniqueQtyCode.SQM => "SQUARE METERS",
-            UniqueQtyCode.SQY => "SQUARE YARDS",
-            UniqueQtyCode.TBS => "TABLETS",
-            UniqueQtyCode.TGM => "TEN GRAMS",
-            UniqueQtyCode.THD => "THOUSANDS",
-            UniqueQtyCode.TON => "TONNES",
-            UniqueQtyCode.TUB => "TUBES",
-            UniqueQtyCode.UGS => "US GALLONS",
-            UniqueQtyCode.UNT => "UNITS",
-            UniqueQtyCode.YDS => "YARDS",
-            UniqueQtyCode.OTH => "OTHERS",
+            UniqueQtyCode.Bag => "BAGS",
+            UniqueQtyCode.Bal => "BALE",
+            UniqueQtyCode.Bdl => "BUNDLES",
+            UniqueQtyCode.Bkl => "BUCKLES",
+            UniqueQtyCode.Bou => "BILLIONS OF UNITS",
+            UniqueQtyCode.Box => "BOX",
+            UniqueQtyCode.Btl => "BOTTLES",
+            UniqueQtyCode.Bun => "BUNCHES",
+            UniqueQtyCode.Can => "CANS",
+            UniqueQtyCode.Cbm => "CUBIC METER",
+            UniqueQtyCode.Ccm => "CUBIC CENTIMETER",
+            UniqueQtyCode.Cms => "CENTIMETER",
+            UniqueQtyCode.Ctn => "CARTONS",
+            UniqueQtyCode.Doz => "DOZEN",
+            UniqueQtyCode.Drm => "DRUM",
+            UniqueQtyCode.Ggr => "GREAT GROSS",
+            UniqueQtyCode.Gms => "GRAMS",
+            UniqueQtyCode.Grs => "GROSS",
+            UniqueQtyCode.Gyd => "GROSS YARDS",
+            UniqueQtyCode.Kgs => "KILOGRAMS",
+            UniqueQtyCode.Klr => "KILOLITRE",
+            UniqueQtyCode.Kme => "KILOMETRE",
+            UniqueQtyCode.Mlt => "MILLILITRE",
+            UniqueQtyCode.Mtr => "METERS",
+            UniqueQtyCode.Mts => "METRIC TON",
+            UniqueQtyCode.Nos => "NUMBERS",
+            UniqueQtyCode.Pac => "PACKS",
+            UniqueQtyCode.Pcs => "PIECES",
+            UniqueQtyCode.Prs => "PAIRS",
+            UniqueQtyCode.Qtl => "QUINTAL",
+            UniqueQtyCode.Rol => "ROLLS",
+            UniqueQtyCode.Set => "SETS",
+            UniqueQtyCode.Sqf => "SQUARE FEET",
+            UniqueQtyCode.Sqm => "SQUARE METERS",
+            UniqueQtyCode.Sqy => "SQUARE YARDS",
+            UniqueQtyCode.Tbs => "TABLETS",
+            UniqueQtyCode.Tgm => "TEN GRAMS",
+            UniqueQtyCode.Thd => "THOUSANDS",
+            UniqueQtyCode.Ton => "TONNES",
+            UniqueQtyCode.Tub => "TUBES",
+            UniqueQtyCode.Ugs => "US GALLONS",
+            UniqueQtyCode.Unt => "UNITS",
+            UniqueQtyCode.Yds => "YARDS",
+            UniqueQtyCode.Oth => "OTHERS",
             _ => string.Empty
         };
     }

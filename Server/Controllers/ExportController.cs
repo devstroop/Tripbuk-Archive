@@ -65,7 +65,7 @@ namespace ERP.Server.Controllers
             return items;
         }
 
-        public FileStreamResult ToCSV(IQueryable query, string fileName = null)
+        public FileStreamResult ToCsv(IQueryable query, string fileName = null)
         {
             var columns = GetProperties(query.ElementType);
 

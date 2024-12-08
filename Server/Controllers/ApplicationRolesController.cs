@@ -14,11 +14,11 @@ namespace ERP.Server.Controllers
     [Route("odata/Identity/ApplicationRoles")]
     public partial class ApplicationRolesController : ODataController
     {
-       private readonly RoleManager<ApplicationRole> roleManager;
+       private readonly RoleManager<ApplicationRole> _roleManager;
 
        public ApplicationRolesController(RoleManager<ApplicationRole> roleManager)
        {
-           this.roleManager = roleManager;
+           this._roleManager = roleManager;
        }
 
        partial void OnRolesRead(ref IQueryable<ApplicationRole> roles);
@@ -27,7 +27,7 @@ namespace ERP.Server.Controllers
        [HttpGet]
        public IEnumerable<ApplicationRole> Get()
        {
-           var roles = roleManager.Roles;
+           var roles = _roleManager.Roles;
            OnRolesRead(ref roles);
 
            return roles;
@@ -45,7 +45,7 @@ namespace ERP.Server.Controllers
 
            OnRoleCreated(role);
 
-           var result = await roleManager.CreateAsync(role);
+           var result = await _roleManager.CreateAsync(role);
 
            if (!result.Succeeded)
            {
@@ -62,7 +62,7 @@ namespace ERP.Server.Controllers
        [HttpDelete("{Id}")]
        public async Task<IActionResult> Delete(string key)
        {
-           var role = await roleManager.FindByIdAsync(key);
+           var role = await _roleManager.FindByIdAsync(key);
 
            if (role == null)
            {
@@ -71,7 +71,7 @@ namespace ERP.Server.Controllers
 
            OnRoleDeleted(role);
 
-           var result = await roleManager.DeleteAsync(role);
+           var result = await _roleManager.DeleteAsync(role);
 
            if (!result.Succeeded)
            {

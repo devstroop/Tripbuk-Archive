@@ -8,11 +8,11 @@ namespace ERP.Server.Controllers
 {
     public partial class UploadController : Controller
     {
-        private readonly IWebHostEnvironment environment;
+        private readonly IWebHostEnvironment _environment;
 
         public UploadController(IWebHostEnvironment environment)
         {
-            this.environment = environment;
+            this._environment = environment;
         }
 
         // Single file upload
@@ -68,7 +68,7 @@ namespace ERP.Server.Controllers
             {
                 var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
 
-                using (var stream = new FileStream(Path.Combine(environment.WebRootPath, fileName), FileMode.Create))
+                using (var stream = new FileStream(Path.Combine(_environment.WebRootPath, fileName), FileMode.Create))
                 {
                     // Save the file
                     file.CopyTo(stream);

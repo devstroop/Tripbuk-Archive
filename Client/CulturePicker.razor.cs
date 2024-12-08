@@ -14,7 +14,7 @@ namespace ERP.Client
     public partial class CulturePicker
     {
         [Inject]
-        protected IJSRuntime JSRuntime { get; set; }
+        protected IJSRuntime JsRuntime { get; set; }
 
         [Inject]
         protected NavigationManager NavigationManager { get; set; }
@@ -31,18 +31,18 @@ namespace ERP.Client
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        protected string culture;
+        protected string Culture;
 
         protected override void OnInitialized()
         {
-            culture = CultureInfo.CurrentCulture.Name;
+            Culture = CultureInfo.CurrentCulture.Name;
         }
 
         protected void ChangeCulture()
         {
             var redirect = new Uri(NavigationManager.Uri).GetComponents(UriComponents.PathAndQuery | UriComponents.Fragment, UriFormat.UriEscaped);
 
-            var query = $"?culture={Uri.EscapeDataString(culture)}&redirectUri={redirect}";
+            var query = $"?culture={Uri.EscapeDataString(Culture)}&redirectUri={redirect}";
 
             NavigationManager.NavigateTo("Culture/SetCulture" + query, forceLoad: true);
         }

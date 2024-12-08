@@ -21,14 +21,14 @@ namespace ERP.Server.Controllers
     [Route("odata/Identity/ApplicationUsers")]
     public partial class ApplicationUsersController : ODataController
     {
-        private readonly ApplicationIdentityDbContext context;
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly ApplicationIdentityDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
 
         public ApplicationUsersController(ApplicationIdentityDbContext context, UserManager<ApplicationUser> userManager)
         {
-            this.context = context;
-            this.userManager = userManager;
+            this._context = context;
+            this._userManager = userManager;
         }
 
         partial void OnUsersRead(ref IQueryable<ApplicationUser> users);
@@ -37,7 +37,7 @@ namespace ERP.Server.Controllers
         [HttpGet]
         public IEnumerable<ApplicationUser> Get()
         {
-            var users = userManager.Users;
+            var users = _userManager.Users;
             OnUsersRead(ref users);
 
             return users;
@@ -47,7 +47,7 @@ namespace ERP.Server.Controllers
         [HttpGet("{Id}")]
         public SingleResult<ApplicationUser> GetApplicationUser(string key)
         {
-            var user = context.Users.Where(i => i.Id == key);
+            var user = _context.Users.Where(i => i.Id == key);
 
             return SingleResult.Create(user);
         }
@@ -57,7 +57,7 @@ namespace ERP.Server.Controllers
         [HttpDelete("{Id}")]
         public async Task<IActionResult> Delete(string key)
         {
-            var user = await userManager.FindByIdAsync(key);
+            var user = await _userManager.FindByIdAsync(key);
 
             if (user == null)
             {
@@ -66,7 +66,7 @@ namespace ERP.Server.Controllers
 
             OnUserDeleted(user);
 
-            var result = await userManager.DeleteAsync(user);
+            var result = await _userManager.DeleteAsync(user);
 
             if (!result.Succeeded)
             {
@@ -81,7 +81,7 @@ namespace ERP.Server.Controllers
         [HttpPatch("{Id}")]
         public async Task<IActionResult> Patch(string key, [FromBody]ApplicationUser data)
         {
-            var user = await userManager.FindByIdAsync(key);
+            var user = await _userManager.FindByIdAsync(key);
 
             if (user == null)
             {
@@ -94,25 +94,25 @@ namespace ERP.Server.Controllers
 
             user.Roles = null;
 
-            result = await userManager.UpdateAsync(user);
+            result = await _userManager.UpdateAsync(user);
 
             if (data.Roles != null)
             {
-                result = await userManager.RemoveFromRolesAsync(user, await userManager.GetRolesAsync(user));
+                result = await _userManager.RemoveFromRolesAsync(user, await _userManager.GetRolesAsync(user));
 
                 if (result.Succeeded) 
                 {
-                    result = await userManager.AddToRolesAsync(user, data.Roles.Select(r => r.Name));
+                    result = await _userManager.AddToRolesAsync(user, data.Roles.Select(r => r.Name));
                 }
             }
 
             if (!string.IsNullOrEmpty(data.Password))
             {
-                result = await userManager.RemovePasswordAsync(user);
+                result = await _userManager.RemovePasswordAsync(user);
 
                 if (result.Succeeded)
                 {
-                    result = await userManager.AddPasswordAsync(user, data.Password);
+                    result = await _userManager.AddPasswordAsync(user, data.Password);
                 }
 
                 if (!result.Succeeded)
@@ -139,11 +139,11 @@ namespace ERP.Server.Controllers
             var password = user.Password;
             var roles = user.Roles;
             user.Roles = null;
-            IdentityResult result = await userManager.CreateAsync(user, password);
+            IdentityResult result = await _userManager.CreateAsync(user, password);
 
             if (result.Succeeded && roles != null)
             {
-                result = await userManager.AddToRolesAsync(user, roles.Select(r => r.Name));
+                result = await _userManager.AddToRolesAsync(user, roles.Select(r => r.Name));
             }
 
             user.Roles = roles;

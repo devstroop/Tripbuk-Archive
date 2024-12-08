@@ -19,11 +19,11 @@ namespace ERP.Server.Controllers.Postgres
     [Route("odata/Postgres/StandardNarrations")]
     public partial class StandardNarrationsController : ODataController
     {
-        private ERP.Server.Data.PostgresContext context;
+        private ERP.Server.Data.PostgresContext _context;
 
         public StandardNarrationsController(ERP.Server.Data.PostgresContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
     
@@ -31,7 +31,7 @@ namespace ERP.Server.Controllers.Postgres
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
         public IEnumerable<ERP.Server.Models.Postgres.StandardNarration> GetStandardNarrations()
         {
-            var items = this.context.StandardNarrations.AsQueryable<ERP.Server.Models.Postgres.StandardNarration>();
+            var items = this._context.StandardNarrations.AsQueryable<ERP.Server.Models.Postgres.StandardNarration>();
             this.OnStandardNarrationsRead(ref items);
 
             return items;
@@ -45,7 +45,7 @@ namespace ERP.Server.Controllers.Postgres
         [HttpGet("/odata/Postgres/StandardNarrations(Id={Id})")]
         public SingleResult<ERP.Server.Models.Postgres.StandardNarration> GetStandardNarration(int key)
         {
-            var items = this.context.StandardNarrations.Where(i => i.Id == key);
+            var items = this._context.StandardNarrations.Where(i => i.Id == key);
             var result = SingleResult.Create(items);
 
             OnStandardNarrationGet(ref result);
@@ -66,7 +66,7 @@ namespace ERP.Server.Controllers.Postgres
                 }
 
 
-                var items = this.context.StandardNarrations
+                var items = this._context.StandardNarrations
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
@@ -79,8 +79,8 @@ namespace ERP.Server.Controllers.Postgres
                     return StatusCode((int)HttpStatusCode.PreconditionFailed);
                 }
                 this.OnStandardNarrationDeleted(item);
-                this.context.StandardNarrations.Remove(item);
-                this.context.SaveChanges();
+                this._context.StandardNarrations.Remove(item);
+                this._context.SaveChanges();
                 this.OnAfterStandardNarrationDeleted(item);
 
                 return new NoContentResult();
@@ -107,7 +107,7 @@ namespace ERP.Server.Controllers.Postgres
                     return BadRequest(ModelState);
                 }
 
-                var items = this.context.StandardNarrations
+                var items = this._context.StandardNarrations
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
@@ -120,10 +120,10 @@ namespace ERP.Server.Controllers.Postgres
                     return StatusCode((int)HttpStatusCode.PreconditionFailed);
                 }
                 this.OnStandardNarrationUpdated(item);
-                this.context.StandardNarrations.Update(item);
-                this.context.SaveChanges();
+                this._context.StandardNarrations.Update(item);
+                this._context.SaveChanges();
 
-                var itemToReturn = this.context.StandardNarrations.Where(i => i.Id == key);
+                var itemToReturn = this._context.StandardNarrations.Where(i => i.Id == key);
                 
                 this.OnAfterStandardNarrationUpdated(item);
                 return new ObjectResult(SingleResult.Create(itemToReturn));
@@ -146,7 +146,7 @@ namespace ERP.Server.Controllers.Postgres
                     return BadRequest(ModelState);
                 }
 
-                var items = this.context.StandardNarrations
+                var items = this._context.StandardNarrations
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
@@ -161,10 +161,10 @@ namespace ERP.Server.Controllers.Postgres
                 patch.Patch(item);
 
                 this.OnStandardNarrationUpdated(item);
-                this.context.StandardNarrations.Update(item);
-                this.context.SaveChanges();
+                this._context.StandardNarrations.Update(item);
+                this._context.SaveChanges();
 
-                var itemToReturn = this.context.StandardNarrations.Where(i => i.Id == key);
+                var itemToReturn = this._context.StandardNarrations.Where(i => i.Id == key);
                 
                 this.OnAfterStandardNarrationUpdated(item);
                 return new ObjectResult(SingleResult.Create(itemToReturn));
@@ -196,10 +196,10 @@ namespace ERP.Server.Controllers.Postgres
                 }
 
                 this.OnStandardNarrationCreated(item);
-                this.context.StandardNarrations.Add(item);
-                this.context.SaveChanges();
+                this._context.StandardNarrations.Add(item);
+                this._context.SaveChanges();
 
-                var itemToReturn = this.context.StandardNarrations.Where(i => i.Id == item.Id);
+                var itemToReturn = this._context.StandardNarrations.Where(i => i.Id == item.Id);
 
                 
 

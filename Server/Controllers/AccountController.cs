@@ -17,20 +17,20 @@ namespace ERP.Server.Controllers
     [Route("Account/[action]")]
     public partial class AccountController : Controller
     {
-        private readonly SignInManager<ApplicationUser> signInManager;
-        private readonly UserManager<ApplicationUser> userManager;
-        private readonly RoleManager<ApplicationRole> roleManager;
-        private readonly IWebHostEnvironment env;
-        private readonly IConfiguration configuration;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly IWebHostEnvironment _env;
+        private readonly IConfiguration _configuration;
 
         public AccountController(IWebHostEnvironment env, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager, IConfiguration configuration)
         {
-            this.signInManager = signInManager;
-            this.userManager = userManager;
-            this.roleManager = roleManager;
-            this.env = env;
-            this.configuration = configuration;
+            this._signInManager = signInManager;
+            this._userManager = userManager;
+            this._roleManager = roleManager;
+            this._env = env;
+            this._configuration = configuration;
         }
 
         private IActionResult RedirectWithError(string error, string redirectUrl = null)
@@ -61,7 +61,7 @@ namespace ERP.Server.Controllers
         {
             redirectUrl = string.IsNullOrEmpty(redirectUrl) ? "~/" : redirectUrl.StartsWith("/") ? redirectUrl : $"~/{redirectUrl}";
 
-            if (env.EnvironmentName == "Development" && userName == "admin" && password == "admin")
+            if (_env.EnvironmentName == "Development" && userName == "admin" && password == "admin")
             {
                 var claims = new List<Claim>()
                 {
@@ -69,15 +69,15 @@ namespace ERP.Server.Controllers
                     new Claim(ClaimTypes.Email, "admin")
                 };
 
-                roleManager.Roles.ToList().ForEach(r => claims.Add(new Claim(ClaimTypes.Role, r.Name)));
-                await signInManager.SignInWithClaimsAsync(new ApplicationUser { UserName = userName, Email = userName }, isPersistent: false, claims);
+                _roleManager.Roles.ToList().ForEach(r => claims.Add(new Claim(ClaimTypes.Role, r.Name)));
+                await _signInManager.SignInWithClaimsAsync(new ApplicationUser { UserName = userName, Email = userName }, isPersistent: false, claims);
 
                 return Redirect(redirectUrl);
             }
 
             if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(password))
             {
-                var result = await signInManager.PasswordSignInAsync(userName, password, false, false);
+                var result = await _signInManager.PasswordSignInAsync(userName, password, false, false);
 
                 if (result.Succeeded)
                 {
@@ -98,8 +98,8 @@ namespace ERP.Server.Controllers
 
             var id = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var user = await userManager.FindByIdAsync(id);
-            var result = await userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+            var user = await _userManager.FindByIdAsync(id);
+            var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
 
             if (result.Succeeded)
             {
@@ -124,7 +124,7 @@ namespace ERP.Server.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            await signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
 
             return Redirect("~/");
         }

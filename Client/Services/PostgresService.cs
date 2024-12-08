@@ -18,27 +18,27 @@ namespace ERP.Client
 {
     public partial class PostgresService
     {
-        private readonly HttpClient httpClient;
-        private readonly Uri baseUri;
-        private readonly NavigationManager navigationManager;
+        private readonly HttpClient _httpClient;
+        private readonly Uri _baseUri;
+        private readonly NavigationManager _navigationManager;
 
         public PostgresService(NavigationManager navigationManager, HttpClient httpClient, IConfiguration configuration)
         {
-            this.httpClient = httpClient;
+            this._httpClient = httpClient;
 
-            this.navigationManager = navigationManager;
-            this.baseUri = new Uri($"{navigationManager.BaseUri}odata/Postgres/");
+            this._navigationManager = navigationManager;
+            this._baseUri = new Uri($"{navigationManager.BaseUri}odata/Postgres/");
         }
 
 
         public async System.Threading.Tasks.Task ExportAccountGroupsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async System.Threading.Tasks.Task ExportAccountGroupsToCSV(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportAccountGroupsToCsv(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
         partial void OnGetAccountGroups(HttpRequestMessage requestMessage);
@@ -50,14 +50,14 @@ namespace ERP.Client
 
         public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.AccountGroup>> GetAccountGroups(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
-            var uri = new Uri(baseUri, $"AccountGroups");
+            var uri = new Uri(_baseUri, $"AccountGroups");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
             OnGetAccountGroups(httpRequestMessage);
 
-            var response = await httpClient.SendAsync(httpRequestMessage);
+            var response = await _httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.AccountGroup>>(response);
         }
@@ -66,7 +66,7 @@ namespace ERP.Client
 
         public async Task<ERP.Server.Models.Postgres.AccountGroup> CreateAccountGroup(ERP.Server.Models.Postgres.AccountGroup accountGroup = default(ERP.Server.Models.Postgres.AccountGroup))
         {
-            var uri = new Uri(baseUri, $"AccountGroups");
+            var uri = new Uri(_baseUri, $"AccountGroups");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
 
@@ -74,7 +74,7 @@ namespace ERP.Client
 
             OnCreateAccountGroup(httpRequestMessage);
 
-            var response = await httpClient.SendAsync(httpRequestMessage);
+            var response = await _httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.AccountGroup>(response);
         }
@@ -83,20 +83,20 @@ namespace ERP.Client
 
         public async Task<HttpResponseMessage> DeleteAccountGroup(int id = default(int))
         {
-            var uri = new Uri(baseUri, $"AccountGroups({id})");
+            var uri = new Uri(_baseUri, $"AccountGroups({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
 
             OnDeleteAccountGroup(httpRequestMessage);
 
-            return await httpClient.SendAsync(httpRequestMessage);
+            return await _httpClient.SendAsync(httpRequestMessage);
         }
 
         partial void OnGetAccountGroupById(HttpRequestMessage requestMessage);
 
         public async Task<ERP.Server.Models.Postgres.AccountGroup> GetAccountGroupById(string expand = default(string), int id = default(int))
         {
-            var uri = new Uri(baseUri, $"AccountGroups({id})");
+            var uri = new Uri(_baseUri, $"AccountGroups({id})");
 
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
 
@@ -104,7 +104,7 @@ namespace ERP.Client
 
             OnGetAccountGroupById(httpRequestMessage);
 
-            var response = await httpClient.SendAsync(httpRequestMessage);
+            var response = await _httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.AccountGroup>(response);
         }
@@ -113,7 +113,7 @@ namespace ERP.Client
         
         public async Task<HttpResponseMessage> UpdateAccountGroup(int id = default(int), ERP.Server.Models.Postgres.AccountGroup accountGroup = default(ERP.Server.Models.Postgres.AccountGroup))
         {
-            var uri = new Uri(baseUri, $"AccountGroups({id})");
+            var uri = new Uri(_baseUri, $"AccountGroups({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
 
@@ -123,17 +123,17 @@ namespace ERP.Client
 
             OnUpdateAccountGroup(httpRequestMessage);
 
-            return await httpClient.SendAsync(httpRequestMessage);
+            return await _httpClient.SendAsync(httpRequestMessage);
         }
 
         public async System.Threading.Tasks.Task ExportAccountsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accounts/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accounts/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accounts/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accounts/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async System.Threading.Tasks.Task ExportAccountsToCSV(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportAccountsToCsv(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accounts/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accounts/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accounts/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accounts/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
         partial void OnGetAccounts(HttpRequestMessage requestMessage);
@@ -145,14 +145,14 @@ namespace ERP.Client
 
         public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.Account>> GetAccounts(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
-            var uri = new Uri(baseUri, $"Accounts");
+            var uri = new Uri(_baseUri, $"Accounts");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
             OnGetAccounts(httpRequestMessage);
 
-            var response = await httpClient.SendAsync(httpRequestMessage);
+            var response = await _httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.Account>>(response);
         }
@@ -161,7 +161,7 @@ namespace ERP.Client
 
         public async Task<ERP.Server.Models.Postgres.Account> CreateAccount(ERP.Server.Models.Postgres.Account account = default(ERP.Server.Models.Postgres.Account))
         {
-            var uri = new Uri(baseUri, $"Accounts");
+            var uri = new Uri(_baseUri, $"Accounts");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
 
@@ -169,7 +169,7 @@ namespace ERP.Client
 
             OnCreateAccount(httpRequestMessage);
 
-            var response = await httpClient.SendAsync(httpRequestMessage);
+            var response = await _httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.Account>(response);
         }
@@ -178,20 +178,20 @@ namespace ERP.Client
 
         public async Task<HttpResponseMessage> DeleteAccount(int id = default(int))
         {
-            var uri = new Uri(baseUri, $"Accounts({id})");
+            var uri = new Uri(_baseUri, $"Accounts({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
 
             OnDeleteAccount(httpRequestMessage);
 
-            return await httpClient.SendAsync(httpRequestMessage);
+            return await _httpClient.SendAsync(httpRequestMessage);
         }
 
         partial void OnGetAccountById(HttpRequestMessage requestMessage);
 
         public async Task<ERP.Server.Models.Postgres.Account> GetAccountById(string expand = default(string), int id = default(int))
         {
-            var uri = new Uri(baseUri, $"Accounts({id})");
+            var uri = new Uri(_baseUri, $"Accounts({id})");
 
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
 
@@ -199,7 +199,7 @@ namespace ERP.Client
 
             OnGetAccountById(httpRequestMessage);
 
-            var response = await httpClient.SendAsync(httpRequestMessage);
+            var response = await _httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.Account>(response);
         }
@@ -208,7 +208,7 @@ namespace ERP.Client
         
         public async Task<HttpResponseMessage> UpdateAccount(int id = default(int), ERP.Server.Models.Postgres.Account account = default(ERP.Server.Models.Postgres.Account))
         {
-            var uri = new Uri(baseUri, $"Accounts({id})");
+            var uri = new Uri(_baseUri, $"Accounts({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
 
@@ -218,17 +218,17 @@ namespace ERP.Client
 
             OnUpdateAccount(httpRequestMessage);
 
-            return await httpClient.SendAsync(httpRequestMessage);
+            return await _httpClient.SendAsync(httpRequestMessage);
         }
 
         public async System.Threading.Tasks.Task ExportItemGroupsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async System.Threading.Tasks.Task ExportItemGroupsToCSV(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportItemGroupsToCsv(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
         partial void OnGetItemGroups(HttpRequestMessage requestMessage);
@@ -240,14 +240,14 @@ namespace ERP.Client
 
         public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.ItemGroup>> GetItemGroups(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
-            var uri = new Uri(baseUri, $"ItemGroups");
+            var uri = new Uri(_baseUri, $"ItemGroups");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
             OnGetItemGroups(httpRequestMessage);
 
-            var response = await httpClient.SendAsync(httpRequestMessage);
+            var response = await _httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.ItemGroup>>(response);
         }
@@ -256,7 +256,7 @@ namespace ERP.Client
 
         public async Task<ERP.Server.Models.Postgres.ItemGroup> CreateItemGroup(ERP.Server.Models.Postgres.ItemGroup itemGroup = default(ERP.Server.Models.Postgres.ItemGroup))
         {
-            var uri = new Uri(baseUri, $"ItemGroups");
+            var uri = new Uri(_baseUri, $"ItemGroups");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
 
@@ -264,7 +264,7 @@ namespace ERP.Client
 
             OnCreateItemGroup(httpRequestMessage);
 
-            var response = await httpClient.SendAsync(httpRequestMessage);
+            var response = await _httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.ItemGroup>(response);
         }
@@ -273,20 +273,20 @@ namespace ERP.Client
 
         public async Task<HttpResponseMessage> DeleteItemGroup(int id = default(int))
         {
-            var uri = new Uri(baseUri, $"ItemGroups({id})");
+            var uri = new Uri(_baseUri, $"ItemGroups({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
 
             OnDeleteItemGroup(httpRequestMessage);
 
-            return await httpClient.SendAsync(httpRequestMessage);
+            return await _httpClient.SendAsync(httpRequestMessage);
         }
 
         partial void OnGetItemGroupById(HttpRequestMessage requestMessage);
 
         public async Task<ERP.Server.Models.Postgres.ItemGroup> GetItemGroupById(string expand = default(string), int id = default(int))
         {
-            var uri = new Uri(baseUri, $"ItemGroups({id})");
+            var uri = new Uri(_baseUri, $"ItemGroups({id})");
 
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
 
@@ -294,7 +294,7 @@ namespace ERP.Client
 
             OnGetItemGroupById(httpRequestMessage);
 
-            var response = await httpClient.SendAsync(httpRequestMessage);
+            var response = await _httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.ItemGroup>(response);
         }
@@ -303,7 +303,7 @@ namespace ERP.Client
         
         public async Task<HttpResponseMessage> UpdateItemGroup(int id = default(int), ERP.Server.Models.Postgres.ItemGroup itemGroup = default(ERP.Server.Models.Postgres.ItemGroup))
         {
-            var uri = new Uri(baseUri, $"ItemGroups({id})");
+            var uri = new Uri(_baseUri, $"ItemGroups({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
 
@@ -313,17 +313,17 @@ namespace ERP.Client
 
             OnUpdateItemGroup(httpRequestMessage);
 
-            return await httpClient.SendAsync(httpRequestMessage);
+            return await _httpClient.SendAsync(httpRequestMessage);
         }
 
         public async System.Threading.Tasks.Task ExportItemsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/items/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/items/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/items/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/items/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async System.Threading.Tasks.Task ExportItemsToCSV(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportItemsToCsv(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/items/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/items/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/items/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/items/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
         partial void OnGetItems(HttpRequestMessage requestMessage);
@@ -335,14 +335,14 @@ namespace ERP.Client
 
         public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.Item>> GetItems(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
-            var uri = new Uri(baseUri, $"Items");
+            var uri = new Uri(_baseUri, $"Items");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
             OnGetItems(httpRequestMessage);
 
-            var response = await httpClient.SendAsync(httpRequestMessage);
+            var response = await _httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.Item>>(response);
         }
@@ -351,7 +351,7 @@ namespace ERP.Client
 
         public async Task<ERP.Server.Models.Postgres.Item> CreateItem(ERP.Server.Models.Postgres.Item item = default(ERP.Server.Models.Postgres.Item))
         {
-            var uri = new Uri(baseUri, $"Items");
+            var uri = new Uri(_baseUri, $"Items");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
 
@@ -359,7 +359,7 @@ namespace ERP.Client
 
             OnCreateItem(httpRequestMessage);
 
-            var response = await httpClient.SendAsync(httpRequestMessage);
+            var response = await _httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.Item>(response);
         }
@@ -368,20 +368,20 @@ namespace ERP.Client
 
         public async Task<HttpResponseMessage> DeleteItem(int id = default(int))
         {
-            var uri = new Uri(baseUri, $"Items({id})");
+            var uri = new Uri(_baseUri, $"Items({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
 
             OnDeleteItem(httpRequestMessage);
 
-            return await httpClient.SendAsync(httpRequestMessage);
+            return await _httpClient.SendAsync(httpRequestMessage);
         }
 
         partial void OnGetItemById(HttpRequestMessage requestMessage);
 
         public async Task<ERP.Server.Models.Postgres.Item> GetItemById(string expand = default(string), int id = default(int))
         {
-            var uri = new Uri(baseUri, $"Items({id})");
+            var uri = new Uri(_baseUri, $"Items({id})");
 
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
 
@@ -389,7 +389,7 @@ namespace ERP.Client
 
             OnGetItemById(httpRequestMessage);
 
-            var response = await httpClient.SendAsync(httpRequestMessage);
+            var response = await _httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.Item>(response);
         }
@@ -398,7 +398,7 @@ namespace ERP.Client
         
         public async Task<HttpResponseMessage> UpdateItem(int id = default(int), ERP.Server.Models.Postgres.Item item = default(ERP.Server.Models.Postgres.Item))
         {
-            var uri = new Uri(baseUri, $"Items({id})");
+            var uri = new Uri(_baseUri, $"Items({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
 
@@ -408,17 +408,17 @@ namespace ERP.Client
 
             OnUpdateItem(httpRequestMessage);
 
-            return await httpClient.SendAsync(httpRequestMessage);
+            return await _httpClient.SendAsync(httpRequestMessage);
         }
 
         public async System.Threading.Tasks.Task ExportStandardNarrationsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/standardnarrations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/standardnarrations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/standardnarrations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/standardnarrations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async System.Threading.Tasks.Task ExportStandardNarrationsToCSV(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportStandardNarrationsToCsv(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/standardnarrations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/standardnarrations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/standardnarrations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/standardnarrations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
         partial void OnGetStandardNarrations(HttpRequestMessage requestMessage);
@@ -430,14 +430,14 @@ namespace ERP.Client
 
         public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.StandardNarration>> GetStandardNarrations(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
-            var uri = new Uri(baseUri, $"StandardNarrations");
+            var uri = new Uri(_baseUri, $"StandardNarrations");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
             OnGetStandardNarrations(httpRequestMessage);
 
-            var response = await httpClient.SendAsync(httpRequestMessage);
+            var response = await _httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.StandardNarration>>(response);
         }
@@ -446,7 +446,7 @@ namespace ERP.Client
 
         public async Task<ERP.Server.Models.Postgres.StandardNarration> CreateStandardNarration(ERP.Server.Models.Postgres.StandardNarration standardNarration = default(ERP.Server.Models.Postgres.StandardNarration))
         {
-            var uri = new Uri(baseUri, $"StandardNarrations");
+            var uri = new Uri(_baseUri, $"StandardNarrations");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
 
@@ -454,7 +454,7 @@ namespace ERP.Client
 
             OnCreateStandardNarration(httpRequestMessage);
 
-            var response = await httpClient.SendAsync(httpRequestMessage);
+            var response = await _httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.StandardNarration>(response);
         }
@@ -463,20 +463,20 @@ namespace ERP.Client
 
         public async Task<HttpResponseMessage> DeleteStandardNarration(int id = default(int))
         {
-            var uri = new Uri(baseUri, $"StandardNarrations({id})");
+            var uri = new Uri(_baseUri, $"StandardNarrations({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
 
             OnDeleteStandardNarration(httpRequestMessage);
 
-            return await httpClient.SendAsync(httpRequestMessage);
+            return await _httpClient.SendAsync(httpRequestMessage);
         }
 
         partial void OnGetStandardNarrationById(HttpRequestMessage requestMessage);
 
         public async Task<ERP.Server.Models.Postgres.StandardNarration> GetStandardNarrationById(string expand = default(string), int id = default(int))
         {
-            var uri = new Uri(baseUri, $"StandardNarrations({id})");
+            var uri = new Uri(_baseUri, $"StandardNarrations({id})");
 
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
 
@@ -484,7 +484,7 @@ namespace ERP.Client
 
             OnGetStandardNarrationById(httpRequestMessage);
 
-            var response = await httpClient.SendAsync(httpRequestMessage);
+            var response = await _httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.StandardNarration>(response);
         }
@@ -493,7 +493,7 @@ namespace ERP.Client
         
         public async Task<HttpResponseMessage> UpdateStandardNarration(int id = default(int), ERP.Server.Models.Postgres.StandardNarration standardNarration = default(ERP.Server.Models.Postgres.StandardNarration))
         {
-            var uri = new Uri(baseUri, $"StandardNarrations({id})");
+            var uri = new Uri(_baseUri, $"StandardNarrations({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
 
@@ -503,17 +503,17 @@ namespace ERP.Client
 
             OnUpdateStandardNarration(httpRequestMessage);
 
-            return await httpClient.SendAsync(httpRequestMessage);
+            return await _httpClient.SendAsync(httpRequestMessage);
         }
 
         public async System.Threading.Tasks.Task ExportUnitsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/units/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/units/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/units/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/units/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async System.Threading.Tasks.Task ExportUnitsToCSV(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportUnitsToCsv(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/units/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/units/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/units/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/units/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
         partial void OnGetUnits(HttpRequestMessage requestMessage);
@@ -525,31 +525,31 @@ namespace ERP.Client
 
         public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.Unit>> GetUnits(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
-            var uri = new Uri(baseUri, $"Units");
+            var uri = new Uri(_baseUri, $"Units");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
             OnGetUnits(httpRequestMessage);
 
-            var response = await httpClient.SendAsync(httpRequestMessage);
+            var response = await _httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.Unit>>(response);
         }
 
         partial void OnCreateUnit(HttpRequestMessage requestMessage);
 
-        public async Task<ERP.Server.Models.Postgres.Unit> CreateUnit(ERP.Server.Models.Postgres.Unit _unit = default(ERP.Server.Models.Postgres.Unit))
+        public async Task<ERP.Server.Models.Postgres.Unit> CreateUnit(ERP.Server.Models.Postgres.Unit unit = default(ERP.Server.Models.Postgres.Unit))
         {
-            var uri = new Uri(baseUri, $"Units");
+            var uri = new Uri(_baseUri, $"Units");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
 
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(_unit), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(unit), Encoding.UTF8, "application/json");
 
             OnCreateUnit(httpRequestMessage);
 
-            var response = await httpClient.SendAsync(httpRequestMessage);
+            var response = await _httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.Unit>(response);
         }
@@ -558,20 +558,20 @@ namespace ERP.Client
 
         public async Task<HttpResponseMessage> DeleteUnit(int id = default(int))
         {
-            var uri = new Uri(baseUri, $"Units({id})");
+            var uri = new Uri(_baseUri, $"Units({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
 
             OnDeleteUnit(httpRequestMessage);
 
-            return await httpClient.SendAsync(httpRequestMessage);
+            return await _httpClient.SendAsync(httpRequestMessage);
         }
 
         partial void OnGetUnitById(HttpRequestMessage requestMessage);
 
         public async Task<ERP.Server.Models.Postgres.Unit> GetUnitById(string expand = default(string), int id = default(int))
         {
-            var uri = new Uri(baseUri, $"Units({id})");
+            var uri = new Uri(_baseUri, $"Units({id})");
 
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
 
@@ -579,26 +579,26 @@ namespace ERP.Client
 
             OnGetUnitById(httpRequestMessage);
 
-            var response = await httpClient.SendAsync(httpRequestMessage);
+            var response = await _httpClient.SendAsync(httpRequestMessage);
 
             return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.Unit>(response);
         }
 
         partial void OnUpdateUnit(HttpRequestMessage requestMessage);
         
-        public async Task<HttpResponseMessage> UpdateUnit(int id = default(int), ERP.Server.Models.Postgres.Unit _unit = default(ERP.Server.Models.Postgres.Unit))
+        public async Task<HttpResponseMessage> UpdateUnit(int id = default(int), ERP.Server.Models.Postgres.Unit unit = default(ERP.Server.Models.Postgres.Unit))
         {
-            var uri = new Uri(baseUri, $"Units({id})");
+            var uri = new Uri(_baseUri, $"Units({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
 
-            httpRequestMessage.Headers.Add("If-Match", _unit.ETag);    
+            httpRequestMessage.Headers.Add("If-Match", unit.ETag);    
 
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(_unit), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(unit), Encoding.UTF8, "application/json");
 
             OnUpdateUnit(httpRequestMessage);
 
-            return await httpClient.SendAsync(httpRequestMessage);
+            return await _httpClient.SendAsync(httpRequestMessage);
         }
     }
 }
