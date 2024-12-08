@@ -3,8 +3,8 @@
 
 <PageTitle>Add Standard Narration</PageTitle>
     <RadzenColumn SizeMD=12>
-        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@ErrorVisible">Cannot save StandardNarration</RadzenAlert>
-        <RadzenTemplateForm TItem="Server.Models.Postgres.StandardNarration" Data="@StandardNarration" Visible="@(StandardNarration != null && CanEdit)" Submit="@FormSubmit">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@_errorVisible">Cannot save StandardNarration</RadzenAlert>
+        <RadzenTemplateForm TItem="Server.Models.Postgres.StandardNarration" Data="@_standardNarration" Visible="@(_standardNarration != null && CanEdit)" Submit="@FormSubmit">
             <RadzenRow style="margin-bottom: 1rem">
                 <RadzenColumn SizeMD="3">
                     <RadzenLabel Text="Voucher Type" Component="VoucherType" style="width: 100%" />
@@ -15,7 +15,7 @@
                         Data="@Server.Enums.VoucherTypeExtensions.GetOptions()"
                         TextProperty="Text"
                         ValueProperty="Value"
-                        style="display: block; width: 100%" @bind-Value="@StandardNarration.VoucherType" 
+                        style="display: block; width: 100%" @bind-Value="@_standardNarration.VoucherType" 
                         Name="VoucherType" 
                         Placeholder="Select a voucher type"/>
                     <RadzenRequiredValidator Component="VoucherType" Text="VoucherType is required" />
@@ -26,7 +26,7 @@
                     <RadzenLabel Text="Narration" Component="Narration" style="width: 100%" />
                 </RadzenColumn>
                 <RadzenColumn SizeMD="9">
-                    <RadzenTextArea style="display: block; width: 100%" @bind-Value="@StandardNarration.Narration" Name="Narration" />
+                    <RadzenTextArea style="display: block; width: 100%" @bind-Value="@_standardNarration.Narration" Name="Narration" />
                     <RadzenRequiredValidator Component="Narration" Text="Narration is required" />
                 </RadzenColumn>
             </RadzenRow>

@@ -6,6 +6,7 @@ using Radzen;
 namespace ERP.Client.Pages.Administration.Masters.StandardNarration
 {
     public partial class AddStandardNarration
+    public partial class AddStandardNarration : ComponentBase
     {
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
@@ -29,32 +30,33 @@ namespace ERP.Client.Pages.Administration.Masters.StandardNarration
 
         protected override async Task OnInitializedAsync()
         {
-            StandardNarration = new ERP.Server.Models.Postgres.StandardNarration();
+            _standardNarration = new ERP.Server.Models.Postgres.StandardNarration();
         }
-        protected bool ErrorVisible;
-        protected ERP.Server.Models.Postgres.StandardNarration StandardNarration;
 
-        protected async Task FormSubmit()
+        private bool _errorVisible;
+        private ERP.Server.Models.Postgres.StandardNarration _standardNarration;
+
+        private async Task FormSubmit()
         {
             try
             {
-                var result = await PostgresService.CreateStandardNarration(StandardNarration);
-                DialogService.Close(StandardNarration);
+                var result = await PostgresService.CreateStandardNarration(_standardNarration);
+                DialogService.Close(_standardNarration);
             }
             catch (Exception ex)
             {
-                ErrorVisible = true;
+                _errorVisible = true;
             }
         }
 
-        protected async Task CancelButtonClick(MouseEventArgs args)
+        private async Task CancelButtonClick(MouseEventArgs args)
         {
             DialogService.Close(null);
         }
 
 
         protected bool HasChanges = false;
-        protected bool CanEdit = true;
+        private const bool CanEdit = true;
 
         [Inject]
         protected SecurityService Security { get; set; }
