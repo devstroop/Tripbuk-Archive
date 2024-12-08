@@ -6,7 +6,6 @@ using Radzen;
 namespace ERP.Client.Pages.Administration.Masters.StandardNarration
 {
     public partial class AddStandardNarration
-    public partial class AddStandardNarration : ComponentBase
     {
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
