@@ -7,8 +7,8 @@ using System.Text.Json.Serialization;
 
 namespace ERP.Server.Models.Postgres
 {
-    [Table("Units", Schema = "public")]
-    public partial class Unit
+    [Table("UnitConversions", Schema = "public")]
+    public partial class UnitConversion
     {
 
         [NotMapped]
@@ -26,20 +26,17 @@ namespace ERP.Server.Models.Postgres
 
         [Required]
         [ConcurrencyCheck]
-        public string UnitName { get; set; }
+        public int MainUnit { get; set; }
+
+        public Unit Unit { get; set; }
+
+        [Required]
+        [ConcurrencyCheck]
+        public int SubUnit { get; set; }
+
+        public Unit Unit1 { get; set; }
 
         [ConcurrencyCheck]
-        public string Alias { get; set; }
-
-        [ConcurrencyCheck]
-        public string PrintName { get; set; }
-
-        [Column("UQC")]
-        [ConcurrencyCheck]
-        public string Uqc { get; set; }
-
-        public ICollection<UnitConversion> UnitConversions { get; set; }
-
-        public ICollection<UnitConversion> UnitConversions1 { get; set; }
+        public double ConversionFactor { get; set; }
     }
 }

@@ -116,7 +116,7 @@ public static class UniqueQtyCodeExtensions
         var options = new List<object>();
         foreach (UniqueQtyCode code in Enum.GetValues(typeof(UniqueQtyCode)))
         {
-            options.Add(new { Value = code, Text = code.ToDisplayName() });
+            options.Add(new { Value = code.ToString(), Text = code.ToDisplayName() });
         }
         return options;
     }

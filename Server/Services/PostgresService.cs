@@ -19,17 +19,17 @@ namespace ERP.Server
         {
            get
            {
-             return this._context;
+             return this.context;
            }
         }
 
-        private readonly PostgresContext _context;
-        private readonly NavigationManager _navigationManager;
+        private readonly PostgresContext context;
+        private readonly NavigationManager navigationManager;
 
         public PostgresService(PostgresContext context, NavigationManager navigationManager)
         {
-            this._context = context;
-            this._navigationManager = navigationManager;
+            this.context = context;
+            this.navigationManager = navigationManager;
         }
 
         public void Reset() => Context.ChangeTracker.Entries().Where(e => e.Entity != null).ToList().ForEach(e => e.State = EntityState.Detached);
@@ -70,12 +70,12 @@ namespace ERP.Server
 
         public async Task ExportAccountGroupsToExcel(Query query = null, string fileName = null)
         {
-            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async Task ExportAccountGroupsToCsv(Query query = null, string fileName = null)
+        public async Task ExportAccountGroupsToCSV(Query query = null, string fileName = null)
         {
-            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
         partial void OnAccountGroupsRead(ref IQueryable<ERP.Server.Models.Postgres.AccountGroup> items);
@@ -235,12 +235,12 @@ namespace ERP.Server
     
         public async Task ExportAccountsToExcel(Query query = null, string fileName = null)
         {
-            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accounts/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accounts/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accounts/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accounts/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async Task ExportAccountsToCsv(Query query = null, string fileName = null)
+        public async Task ExportAccountsToCSV(Query query = null, string fileName = null)
         {
-            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accounts/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accounts/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accounts/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accounts/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
         partial void OnAccountsRead(ref IQueryable<ERP.Server.Models.Postgres.Account> items);
@@ -398,12 +398,12 @@ namespace ERP.Server
     
         public async Task ExportItemGroupsToExcel(Query query = null, string fileName = null)
         {
-            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async Task ExportItemGroupsToCsv(Query query = null, string fileName = null)
+        public async Task ExportItemGroupsToCSV(Query query = null, string fileName = null)
         {
-            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
         partial void OnItemGroupsRead(ref IQueryable<ERP.Server.Models.Postgres.ItemGroup> items);
@@ -563,12 +563,12 @@ namespace ERP.Server
     
         public async Task ExportItemsToExcel(Query query = null, string fileName = null)
         {
-            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/items/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/items/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/items/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/items/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async Task ExportItemsToCsv(Query query = null, string fileName = null)
+        public async Task ExportItemsToCSV(Query query = null, string fileName = null)
         {
-            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/items/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/items/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/items/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/items/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
         partial void OnItemsRead(ref IQueryable<ERP.Server.Models.Postgres.Item> items);
@@ -726,12 +726,12 @@ namespace ERP.Server
     
         public async Task ExportStandardNarrationsToExcel(Query query = null, string fileName = null)
         {
-            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/standardnarrations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/standardnarrations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/standardnarrations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/standardnarrations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async Task ExportStandardNarrationsToCsv(Query query = null, string fileName = null)
+        public async Task ExportStandardNarrationsToCSV(Query query = null, string fileName = null)
         {
-            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/standardnarrations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/standardnarrations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/standardnarrations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/standardnarrations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
         partial void OnStandardNarrationsRead(ref IQueryable<ERP.Server.Models.Postgres.StandardNarration> items);
@@ -885,14 +885,179 @@ namespace ERP.Server
             return itemToDelete;
         }
     
-        public async Task ExportUnitsToExcel(Query query = null, string fileName = null)
+        public async Task ExportUnitConversionsToExcel(Query query = null, string fileName = null)
         {
-            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/units/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/units/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/unitconversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/unitconversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async Task ExportUnitsToCsv(Query query = null, string fileName = null)
+        public async Task ExportUnitConversionsToCSV(Query query = null, string fileName = null)
         {
-            _navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/units/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/units/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/unitconversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/unitconversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        partial void OnUnitConversionsRead(ref IQueryable<ERP.Server.Models.Postgres.UnitConversion> items);
+
+        public async Task<IQueryable<ERP.Server.Models.Postgres.UnitConversion>> GetUnitConversions(Query query = null)
+        {
+            var items = Context.UnitConversions.AsQueryable();
+
+            items = items.Include(i => i.Unit);
+            items = items.Include(i => i.Unit1);
+
+            if (query != null)
+            {
+                if (!string.IsNullOrEmpty(query.Expand))
+                {
+                    var propertiesToExpand = query.Expand.Split(',');
+                    foreach(var p in propertiesToExpand)
+                    {
+                        items = items.Include(p.Trim());
+                    }
+                }
+
+                ApplyQuery(ref items, query);
+            }
+
+            OnUnitConversionsRead(ref items);
+
+            return await Task.FromResult(items);
+        }
+
+        partial void OnUnitConversionGet(ERP.Server.Models.Postgres.UnitConversion item);
+        partial void OnGetUnitConversionById(ref IQueryable<ERP.Server.Models.Postgres.UnitConversion> items);
+
+
+        public async Task<ERP.Server.Models.Postgres.UnitConversion> GetUnitConversionById(int id)
+        {
+            var items = Context.UnitConversions
+                              .AsNoTracking()
+                              .Where(i => i.Id == id);
+
+            items = items.Include(i => i.Unit);
+            items = items.Include(i => i.Unit1);
+ 
+            OnGetUnitConversionById(ref items);
+
+            var itemToReturn = items.FirstOrDefault();
+
+            OnUnitConversionGet(itemToReturn);
+
+            return await Task.FromResult(itemToReturn);
+        }
+
+        partial void OnUnitConversionCreated(ERP.Server.Models.Postgres.UnitConversion item);
+        partial void OnAfterUnitConversionCreated(ERP.Server.Models.Postgres.UnitConversion item);
+
+        public async Task<ERP.Server.Models.Postgres.UnitConversion> CreateUnitConversion(ERP.Server.Models.Postgres.UnitConversion unitconversion)
+        {
+            OnUnitConversionCreated(unitconversion);
+
+            var existingItem = Context.UnitConversions
+                              .Where(i => i.Id == unitconversion.Id)
+                              .FirstOrDefault();
+
+            if (existingItem != null)
+            {
+               throw new Exception("Item already available");
+            }            
+
+            try
+            {
+                Context.UnitConversions.Add(unitconversion);
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(unitconversion).State = EntityState.Detached;
+                throw;
+            }
+
+            OnAfterUnitConversionCreated(unitconversion);
+
+            return unitconversion;
+        }
+
+        public async Task<ERP.Server.Models.Postgres.UnitConversion> CancelUnitConversionChanges(ERP.Server.Models.Postgres.UnitConversion item)
+        {
+            var entityToCancel = Context.Entry(item);
+            if (entityToCancel.State == EntityState.Modified)
+            {
+              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
+              entityToCancel.State = EntityState.Unchanged;
+            }
+
+            return item;
+        }
+
+        partial void OnUnitConversionUpdated(ERP.Server.Models.Postgres.UnitConversion item);
+        partial void OnAfterUnitConversionUpdated(ERP.Server.Models.Postgres.UnitConversion item);
+
+        public async Task<ERP.Server.Models.Postgres.UnitConversion> UpdateUnitConversion(int id, ERP.Server.Models.Postgres.UnitConversion unitconversion)
+        {
+            OnUnitConversionUpdated(unitconversion);
+
+            var itemToUpdate = Context.UnitConversions
+                              .Where(i => i.Id == unitconversion.Id)
+                              .FirstOrDefault();
+
+            if (itemToUpdate == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+                
+            var entryToUpdate = Context.Entry(itemToUpdate);
+            entryToUpdate.CurrentValues.SetValues(unitconversion);
+            entryToUpdate.State = EntityState.Modified;
+
+            Context.SaveChanges();
+
+            OnAfterUnitConversionUpdated(unitconversion);
+
+            return unitconversion;
+        }
+
+        partial void OnUnitConversionDeleted(ERP.Server.Models.Postgres.UnitConversion item);
+        partial void OnAfterUnitConversionDeleted(ERP.Server.Models.Postgres.UnitConversion item);
+
+        public async Task<ERP.Server.Models.Postgres.UnitConversion> DeleteUnitConversion(int id)
+        {
+            var itemToDelete = Context.UnitConversions
+                              .Where(i => i.Id == id)
+                              .FirstOrDefault();
+
+            if (itemToDelete == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+
+            OnUnitConversionDeleted(itemToDelete);
+
+
+            Context.UnitConversions.Remove(itemToDelete);
+
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(itemToDelete).State = EntityState.Unchanged;
+                throw;
+            }
+
+            OnAfterUnitConversionDeleted(itemToDelete);
+
+            return itemToDelete;
+        }
+    
+        public async Task ExportUnitsToExcel(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/units/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/units/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        public async Task ExportUnitsToCSV(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/units/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/units/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
         partial void OnUnitsRead(ref IQueryable<ERP.Server.Models.Postgres.Unit> items);
@@ -944,12 +1109,12 @@ namespace ERP.Server
         partial void OnUnitCreated(ERP.Server.Models.Postgres.Unit item);
         partial void OnAfterUnitCreated(ERP.Server.Models.Postgres.Unit item);
 
-        public async Task<ERP.Server.Models.Postgres.Unit> CreateUnit(ERP.Server.Models.Postgres.Unit unit)
+        public async Task<ERP.Server.Models.Postgres.Unit> CreateUnit(ERP.Server.Models.Postgres.Unit _unit)
         {
-            OnUnitCreated(unit);
+            OnUnitCreated(_unit);
 
             var existingItem = Context.Units
-                              .Where(i => i.Id == unit.Id)
+                              .Where(i => i.Id == _unit.Id)
                               .FirstOrDefault();
 
             if (existingItem != null)
@@ -959,18 +1124,18 @@ namespace ERP.Server
 
             try
             {
-                Context.Units.Add(unit);
+                Context.Units.Add(_unit);
                 Context.SaveChanges();
             }
             catch
             {
-                Context.Entry(unit).State = EntityState.Detached;
+                Context.Entry(_unit).State = EntityState.Detached;
                 throw;
             }
 
-            OnAfterUnitCreated(unit);
+            OnAfterUnitCreated(_unit);
 
-            return unit;
+            return _unit;
         }
 
         public async Task<ERP.Server.Models.Postgres.Unit> CancelUnitChanges(ERP.Server.Models.Postgres.Unit item)
@@ -988,12 +1153,12 @@ namespace ERP.Server
         partial void OnUnitUpdated(ERP.Server.Models.Postgres.Unit item);
         partial void OnAfterUnitUpdated(ERP.Server.Models.Postgres.Unit item);
 
-        public async Task<ERP.Server.Models.Postgres.Unit> UpdateUnit(int id, ERP.Server.Models.Postgres.Unit unit)
+        public async Task<ERP.Server.Models.Postgres.Unit> UpdateUnit(int id, ERP.Server.Models.Postgres.Unit _unit)
         {
-            OnUnitUpdated(unit);
+            OnUnitUpdated(_unit);
 
             var itemToUpdate = Context.Units
-                              .Where(i => i.Id == unit.Id)
+                              .Where(i => i.Id == _unit.Id)
                               .FirstOrDefault();
 
             if (itemToUpdate == null)
@@ -1002,14 +1167,14 @@ namespace ERP.Server
             }
                 
             var entryToUpdate = Context.Entry(itemToUpdate);
-            entryToUpdate.CurrentValues.SetValues(unit);
+            entryToUpdate.CurrentValues.SetValues(_unit);
             entryToUpdate.State = EntityState.Modified;
 
             Context.SaveChanges();
 
-            OnAfterUnitUpdated(unit);
+            OnAfterUnitUpdated(_unit);
 
-            return unit;
+            return _unit;
         }
 
         partial void OnUnitDeleted(ERP.Server.Models.Postgres.Unit item);
@@ -1019,6 +1184,8 @@ namespace ERP.Server
         {
             var itemToDelete = Context.Units
                               .Where(i => i.Id == id)
+                              .Include(i => i.UnitConversions)
+                              .Include(i => i.UnitConversions1)
                               .FirstOrDefault();
 
             if (itemToDelete == null)

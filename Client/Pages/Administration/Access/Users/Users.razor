@@ -16,7 +16,7 @@
     <RadzenRow>
         <RadzenColumn SizeMD="12">
             <RadzenAlert Size="AlertSize.Large" Shade="Shade.Light" AlertStyle="AlertStyle.Danger" Variant="Variant.Flat" Title="Cannot delete user" Visible="@_errorVisible">@_error</RadzenAlert>
-            <RadzenDataGrid @ref="Grid0" AllowFiltering="true" AllowPaging="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30}) AllowSorting="true" Data="@_users"
+            <RadzenDataGrid @ref="Grid0" AllowFiltering="true" AllowPaging="true" ShowPagingSummary="true" PageSizeOptions="@(new []{5, 10, 20, 30})" AllowSorting="true" Data="@_users"
                 TItem="Server.Models.ApplicationUser" RowSelect="@RowSelect">
                 <Columns>
                     <RadzenDataGridColumn TItem="Server.Models.ApplicationUser" Property="UserName" Title="User Name" />

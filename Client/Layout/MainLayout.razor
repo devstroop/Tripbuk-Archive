@@ -34,24 +34,32 @@
         </RadzenRow>
     </RadzenBody>
     <RadzenSidebar @bind-Expanded="@_sidebarExpanded" style="z-index: 2">
-        <RadzenStack AlignItems="Radzen.AlignItems.Center" class="rz-py-4 rz-py-lg-6" Style="padding: var(--rz-panel-menu-item-padding); border-bottom: var(--rz-panel-menu-item-border);">
+        <RadzenStack AlignItems="AlignItems.Center" class="rz-py-4 rz-py-lg-6" Style="padding: var(--rz-panel-menu-item-padding); border-bottom: var(--rz-panel-menu-item-border);">
             <RadzenImage Path="images/logo.png"  style="width: 48px; height: 48px;" AlternateText="Application logo"></RadzenImage>
-            <RadzenText Text="ERP" TextStyle="Radzen.Blazor.TextStyle.Subtitle1" class="rz-mb-0" style="color: var(--rz-sidebar-color);" />
+            <RadzenText Text="ERP" TextStyle="TextStyle.Subtitle1" class="rz-mb-0" style="color: var(--rz-sidebar-color);" />
         </RadzenStack>
         <RadzenPanelMenu>
-            <RadzenPanelMenuItem Text="Home" Path="" />
-            <RadzenPanelMenuItem Text="Accounts" Path="administration/accounts">
-                <RadzenPanelMenuItem Text="Groups" Path="administration/accounts/groups" />
+            <RadzenPanelMenuItem Text="Home" Path="" Icon="home_app_logo" />
+            <RadzenPanelMenuItem Text="Administration" Icon="security">
+                <RadzenPanelMenuItem Text="Users" Path="administration/access/users" />
+                <RadzenPanelMenuItem Text="Roles" Path="administration/access/roles" class="rz-mb-3" />
+                
+                <RadzenPanelMenuItem Text="Accounts" Path="administration/accounts" />
+                <RadzenPanelMenuItem Text="Account Groups" Path="administration/account-groups" />
+                <RadzenPanelMenuItem Text="Standard Narrations" Path="administration/standard-narrations" class="rz-mb-3" />
+                
+                <RadzenPanelMenuItem Text="Items" Path="administration/items"/>
+                <RadzenPanelMenuItem Text="Item Groups" Path="administration/item-groups" class="rz-mb-3" />
+                
+                <RadzenPanelMenuItem Text="Units" Path="administration/units" />
+                <RadzenPanelMenuItem Text="Unit Conversions" Path="administration/unit-conversions" />
+                <RadzenPanelMenuItem Text="Bill Sundries" />
+                <RadzenPanelMenuItem Text="Bill of Materials" />
             </RadzenPanelMenuItem>
-            <RadzenPanelMenuItem Text="Items" Path="administration/items">
-                <RadzenPanelMenuItem Text="Groups" Path="administration/items/groups" />
-            </RadzenPanelMenuItem>
-            <RadzenPanelMenuItem Text="Standard Narrations" Path="administration/standard-narrations" />
-            <RadzenPanelMenuItem Text="Units" Path="administration/units" />
         </RadzenPanelMenu>
-        <RadzenStack AlignItems="Radzen.AlignItems.Center" Gap="0" class="rz-py-4 rz-py-lg-6" Style="padding: var(--rz-panel-menu-item-padding);">
-            <RadzenText Text="ERP v1.0.0" TextStyle="Radzen.Blazor.TextStyle.Caption" TagName="Radzen.Blazor.TagName.P" TextAlign="Radzen.TextAlign.Center" />
-            <RadzenText Text="Copyright Ⓒ 2024" TextStyle="Radzen.Blazor.TextStyle.Caption" class="rz-mb-0" TagName="Radzen.Blazor.TagName.P" TextAlign="Radzen.TextAlign.Center" />
+        <RadzenStack AlignItems="AlignItems.Center" Gap="0" class="rz-py-4 rz-py-lg-6" Style="padding: var(--rz-panel-menu-item-padding);">
+            <RadzenText Text="ERP v1.0.0" TextStyle="TextStyle.Caption" TagName="TagName.P" TextAlign="TextAlign.Center" />
+            <RadzenText Text="Copyright Ⓒ 2024" TextStyle="TextStyle.Caption" class="rz-mb-0" TagName="TagName.P" TextAlign="TextAlign.Center" />
         </RadzenStack>
     </RadzenSidebar>
 </RadzenLayout>

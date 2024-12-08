@@ -19,11 +19,11 @@ namespace ERP.Server.Controllers.Postgres
     [Route("odata/Postgres/ItemGroups")]
     public partial class ItemGroupsController : ODataController
     {
-        private ERP.Server.Data.PostgresContext _context;
+        private ERP.Server.Data.PostgresContext context;
 
         public ItemGroupsController(ERP.Server.Data.PostgresContext context)
         {
-            this._context = context;
+            this.context = context;
         }
 
     
@@ -31,7 +31,7 @@ namespace ERP.Server.Controllers.Postgres
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
         public IEnumerable<ERP.Server.Models.Postgres.ItemGroup> GetItemGroups()
         {
-            var items = this._context.ItemGroups.AsQueryable<ERP.Server.Models.Postgres.ItemGroup>();
+            var items = this.context.ItemGroups.AsQueryable<ERP.Server.Models.Postgres.ItemGroup>();
             this.OnItemGroupsRead(ref items);
 
             return items;
@@ -45,7 +45,7 @@ namespace ERP.Server.Controllers.Postgres
         [HttpGet("/odata/Postgres/ItemGroups(Id={Id})")]
         public SingleResult<ERP.Server.Models.Postgres.ItemGroup> GetItemGroup(int key)
         {
-            var items = this._context.ItemGroups.Where(i => i.Id == key);
+            var items = this.context.ItemGroups.Where(i => i.Id == key);
             var result = SingleResult.Create(items);
 
             OnItemGroupGet(ref result);
@@ -66,7 +66,7 @@ namespace ERP.Server.Controllers.Postgres
                 }
 
 
-                var items = this._context.ItemGroups
+                var items = this.context.ItemGroups
                     .Where(i => i.Id == key)
                     .Include(i => i.ItemGroups1)
                     .Include(i => i.Items)
@@ -81,8 +81,8 @@ namespace ERP.Server.Controllers.Postgres
                     return StatusCode((int)HttpStatusCode.PreconditionFailed);
                 }
                 this.OnItemGroupDeleted(item);
-                this._context.ItemGroups.Remove(item);
-                this._context.SaveChanges();
+                this.context.ItemGroups.Remove(item);
+                this.context.SaveChanges();
                 this.OnAfterItemGroupDeleted(item);
 
                 return new NoContentResult();
@@ -109,7 +109,7 @@ namespace ERP.Server.Controllers.Postgres
                     return BadRequest(ModelState);
                 }
 
-                var items = this._context.ItemGroups
+                var items = this.context.ItemGroups
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
@@ -122,10 +122,10 @@ namespace ERP.Server.Controllers.Postgres
                     return StatusCode((int)HttpStatusCode.PreconditionFailed);
                 }
                 this.OnItemGroupUpdated(item);
-                this._context.ItemGroups.Update(item);
-                this._context.SaveChanges();
+                this.context.ItemGroups.Update(item);
+                this.context.SaveChanges();
 
-                var itemToReturn = this._context.ItemGroups.Where(i => i.Id == key);
+                var itemToReturn = this.context.ItemGroups.Where(i => i.Id == key);
                 Request.QueryString = Request.QueryString.Add("$expand", "ItemGroup1");
                 this.OnAfterItemGroupUpdated(item);
                 return new ObjectResult(SingleResult.Create(itemToReturn));
@@ -148,7 +148,7 @@ namespace ERP.Server.Controllers.Postgres
                     return BadRequest(ModelState);
                 }
 
-                var items = this._context.ItemGroups
+                var items = this.context.ItemGroups
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
@@ -163,10 +163,10 @@ namespace ERP.Server.Controllers.Postgres
                 patch.Patch(item);
 
                 this.OnItemGroupUpdated(item);
-                this._context.ItemGroups.Update(item);
-                this._context.SaveChanges();
+                this.context.ItemGroups.Update(item);
+                this.context.SaveChanges();
 
-                var itemToReturn = this._context.ItemGroups.Where(i => i.Id == key);
+                var itemToReturn = this.context.ItemGroups.Where(i => i.Id == key);
                 Request.QueryString = Request.QueryString.Add("$expand", "ItemGroup1");
                 this.OnAfterItemGroupUpdated(item);
                 return new ObjectResult(SingleResult.Create(itemToReturn));
@@ -198,10 +198,10 @@ namespace ERP.Server.Controllers.Postgres
                 }
 
                 this.OnItemGroupCreated(item);
-                this._context.ItemGroups.Add(item);
-                this._context.SaveChanges();
+                this.context.ItemGroups.Add(item);
+                this.context.SaveChanges();
 
-                var itemToReturn = this._context.ItemGroups.Where(i => i.Id == item.Id);
+                var itemToReturn = this.context.ItemGroups.Where(i => i.Id == item.Id);
 
                 Request.QueryString = Request.QueryString.Add("$expand", "ItemGroup1");
 

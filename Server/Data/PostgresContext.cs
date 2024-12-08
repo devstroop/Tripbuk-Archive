@@ -46,6 +46,22 @@ namespace ERP.Server.Data
               .HasForeignKey(i => i.Group)
               .HasPrincipalKey(i => i.Id);
 
+            builder.Entity<ERP.Server.Models.Postgres.UnitConversion>()
+              .HasOne(i => i.Unit)
+              .WithMany(i => i.UnitConversions)
+              .HasForeignKey(i => i.MainUnit)
+              .HasPrincipalKey(i => i.Id);
+
+            builder.Entity<ERP.Server.Models.Postgres.UnitConversion>()
+              .HasOne(i => i.Unit1)
+              .WithMany(i => i.UnitConversions1)
+              .HasForeignKey(i => i.SubUnit)
+              .HasPrincipalKey(i => i.Id);
+
+            builder.Entity<ERP.Server.Models.Postgres.UnitConversion>()
+              .Property(p => p.ConversionFactor)
+              .HasDefaultValueSql(@"1");
+
             builder.Entity<ERP.Server.Models.Postgres.Account>()
               .Property(p => p.CreditLimit)
               .HasPrecision(18,2);
@@ -65,6 +81,8 @@ namespace ERP.Server.Data
         public DbSet<ERP.Server.Models.Postgres.Item> Items { get; set; }
 
         public DbSet<ERP.Server.Models.Postgres.StandardNarration> StandardNarrations { get; set; }
+
+        public DbSet<ERP.Server.Models.Postgres.UnitConversion> UnitConversions { get; set; }
 
         public DbSet<ERP.Server.Models.Postgres.Unit> Units { get; set; }
 

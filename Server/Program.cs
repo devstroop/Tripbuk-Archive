@@ -33,6 +33,7 @@ builder.Services.AddControllers().AddOData(opt =>
     oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.ItemGroup>("ItemGroups");
     oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.Item>("Items");
     oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.StandardNarration>("StandardNarrations");
+    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.UnitConversion>("UnitConversions");
     oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.Unit>("Units");
     opt.AddRouteComponents("odata/Postgres", oDataBuilderPostgres.GetEdmModel()).Count().Filter().OrderBy().Expand().Select().SetMaxTop(null).TimeZone = TimeZoneInfo.Utc;
 });
