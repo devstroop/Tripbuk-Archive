@@ -20,6 +20,12 @@
   <ItemGroup>
     <ServiceWorker Include="../Server/wwwroot/service-worker.js" PublishedContent="../Server/wwwroot/service-worker.published.js" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ERP.Support\ERP.Support.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\Administration\Units\" />
+  </ItemGroup>
   <PropertyGroup>
     <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
   </PropertyGroup>

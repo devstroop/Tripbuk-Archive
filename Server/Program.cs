@@ -28,6 +28,12 @@ builder.Services.AddDbContext<ERP.Server.Data.PostgresContext>(options =>
 builder.Services.AddControllers().AddOData(opt =>
 {
     var oDataBuilderPostgres = new ODataConventionModelBuilder();
+    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.Master>("Masters");
+    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.StdNarrationMaster>("StdNarrationMasters");
+    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.ItemMaster>("ItemMasters");
+    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.ItemGroupMaster>("ItemGroupMasters");
+    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.AccountMaster>("AccountMasters");
+    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.AccountGroupMaster>("AccountGroupMasters");
     opt.AddRouteComponents("odata/Postgres", oDataBuilderPostgres.GetEdmModel()).Count().Filter().OrderBy().Expand().Select().SetMaxTop(null).TimeZone = TimeZoneInfo.Utc;
 });
 builder.Services.AddScoped<ERP.Client.PostgresService>();

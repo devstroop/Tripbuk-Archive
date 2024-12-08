@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERP.Server", "Server\ERP.Se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERP.Client", "Client\ERP.Client.csproj", "{FE7D8007-3F91-43FF-92C1-5DF5A7E39B30}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP.Support", "ERP.Support\ERP.Support.csproj", "{FF02749D-D642-4B6A-9DE5-27570D73EFDA}"
+EndProject
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{1BA6B657-1C46-41AA-9570-3271C3CF369E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BA6B657-1C46-41AA-9570-3271C3CF369E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BA6B657-1C46-41AA-9570-3271C3CF369E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF02749D-D642-4B6A-9DE5-27570D73EFDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF02749D-D642-4B6A-9DE5-27570D73EFDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF02749D-D642-4B6A-9DE5-27570D73EFDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF02749D-D642-4B6A-9DE5-27570D73EFDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
