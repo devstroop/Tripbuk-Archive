@@ -14,15 +14,12 @@
                     <RadzenAppearanceToggle />
                     <RadzenProfileMenu Visible="@Security.IsAuthenticated()" Click="@ProfileMenuClick">
                         <ChildContent>
-
                             <RadzenProfileMenuItem Path="profile" Icon="settings" Text="Profile" />
-                            <RadzenProfileMenuItem Path="application-users" Icon="person" Text="Users" />
-                            <RadzenProfileMenuItem Path="application-roles" Icon="security" Text="Roles" />
                             <RadzenProfileMenuItem Text="Logout" Value="Logout" Icon="power_settings_new" />
                         </ChildContent>
                         <Template>
                             @Security.User?.Name
-                            <RadzenGravatar Email="@Security.User?.Name" />
+                            <RadzenGravatar Email="@(Security.User?.Name ?? "identicon")" />
                         </Template>
                     </RadzenProfileMenu>
                 </RadzenStack>
@@ -43,12 +40,14 @@
         </RadzenStack>
         <RadzenPanelMenu>
             <RadzenPanelMenuItem Text="Home" Path="" />
-            <RadzenPanelMenuItem Text="Account Groups" Path="account-groups" />
-            <RadzenPanelMenuItem Text="Accounts" Path="accounts" />
-            <RadzenPanelMenuItem Text="Item Groups" Path="item-groups" />
-            <RadzenPanelMenuItem Text="Items" Path="items" />
-            <RadzenPanelMenuItem Text="Standard Narrations" Path="standard-narrations" />
-            <RadzenPanelMenuItem Text="Units" Path="units" />
+            <RadzenPanelMenuItem Text="Accounts" Path="administration/accounts">
+                <RadzenPanelMenuItem Text="Groups" Path="administration/accounts/groups" />
+            </RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Items" Path="administration/items">
+                <RadzenPanelMenuItem Text="Groups" Path="administration/items/groups" />
+            </RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Standard Narrations" Path="administration/standard-narrations" />
+            <RadzenPanelMenuItem Text="Units" Path="administration/units" />
         </RadzenPanelMenu>
         <RadzenStack AlignItems="Radzen.AlignItems.Center" Gap="0" class="rz-py-4 rz-py-lg-6" Style="padding: var(--rz-panel-menu-item-padding);">
             <RadzenText Text="ERP v1.0.0" TextStyle="Radzen.Blazor.TextStyle.Caption" TagName="Radzen.Blazor.TagName.P" TextAlign="Radzen.TextAlign.Center" />
