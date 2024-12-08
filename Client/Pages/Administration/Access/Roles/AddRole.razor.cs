@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Radzen;
-using Radzen.Blazor;
 
-namespace ERP.Client.Pages
+namespace ERP.Client.Pages.Administration.Access.Roles
 {
-    public partial class Login
+    public partial class AddRole
     {
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
@@ -30,28 +24,36 @@ namespace ERP.Client.Pages
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        protected string RedirectUrl;
+        protected ERP.Server.Models.ApplicationRole Role;
         protected string Error;
-        protected string Info;
         protected bool ErrorVisible;
-        protected bool InfoVisible;
 
         [Inject]
         protected SecurityService Security { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            var query = System.Web.HttpUtility.ParseQueryString(new Uri(NavigationManager.ToAbsoluteUri(NavigationManager.Uri).ToString()).Query);
+            Role = new ERP.Server.Models.ApplicationRole();
+        }
 
-            Error = query.Get("error");
+        protected async Task FormSubmit(ERP.Server.Models.ApplicationRole role)
+        {
+            try
+            {
+                await Security.CreateRole(role);
 
-            Info = query.Get("info");
+                DialogService.Close(null);
+            }
+            catch (Exception ex)
+            {
+                ErrorVisible = true;
+                Error = ex.Message;
+            }
+        }
 
-            RedirectUrl = query.Get("redirectUrl");
-
-            ErrorVisible = !string.IsNullOrEmpty(Error);
-
-            InfoVisible = !string.IsNullOrEmpty(Info);
+        protected async Task CancelClick()
+        {
+            DialogService.Close(null);
         }
     }
 }

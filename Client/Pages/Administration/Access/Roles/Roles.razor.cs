@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages
+namespace ERP.Client.Pages.Administration.Access.Roles
 {
-    public partial class ApplicationRoles
+    public partial class Roles
     {
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
@@ -30,27 +25,27 @@ namespace ERP.Client.Pages
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        protected IEnumerable<ERP.Server.Models.ApplicationRole> Roles;
-        protected RadzenDataGrid<ERP.Server.Models.ApplicationRole> Grid0;
-        protected string Error;
-        protected bool ErrorVisible;
+        private IEnumerable<ERP.Server.Models.ApplicationRole> _roles;
+        private RadzenDataGrid<ERP.Server.Models.ApplicationRole> _grid0;
+        private string _error;
+        private bool _errorVisible;
 
         [Inject]
         protected SecurityService Security { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            Roles = await Security.GetRoles();
+            _roles = await Security.GetRoles();
         }
 
-        protected async Task AddClick()
+        private async Task AddClick()
         {
-            await DialogService.OpenAsync<AddApplicationRole>("Add Application Role");
+            await DialogService.OpenAsync<AddRole>("Add Role");
 
-            Roles = await Security.GetRoles();
+            _roles = await Security.GetRoles();
         }
 
-        protected async Task DeleteClick(ERP.Server.Models.ApplicationRole role)
+        private async Task DeleteClick(ERP.Server.Models.ApplicationRole role)
         {
             try
             {
@@ -58,13 +53,13 @@ namespace ERP.Client.Pages
                 {
                     await Security.DeleteRole($"{role.Id}");
 
-                    Roles = await Security.GetRoles();
+                    _roles = await Security.GetRoles();
                 }
             }
             catch (Exception ex)
             {
-                ErrorVisible = true;
-                Error = ex.Message;
+                _errorVisible = true;
+                _error = ex.Message;
             }
         }
     }

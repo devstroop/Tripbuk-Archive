@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages
+namespace ERP.Client.Pages.Administration.Access.Users
 {
-    public partial class ApplicationUsers
+    public partial class Users
     {
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
@@ -30,34 +25,34 @@ namespace ERP.Client.Pages
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        protected IEnumerable<ERP.Server.Models.ApplicationUser> Users;
+        private IEnumerable<ERP.Server.Models.ApplicationUser> _users;
         protected RadzenDataGrid<ERP.Server.Models.ApplicationUser> Grid0;
-        protected string Error;
-        protected bool ErrorVisible;
+        private string _error;
+        private bool _errorVisible;
 
         [Inject]
         protected SecurityService Security { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            Users = await Security.GetUsers();
+            _users = await Security.GetUsers();
         }
 
-        protected async Task AddClick()
+        private async Task AddClick()
         {
-            await DialogService.OpenAsync<AddApplicationUser>("Add Application User");
+            await DialogService.OpenAsync<AddUser>("Add User");
 
-            Users = await Security.GetUsers();
+            _users = await Security.GetUsers();
         }
 
-        protected async Task RowSelect(ERP.Server.Models.ApplicationUser user)
+        private async Task RowSelect(ERP.Server.Models.ApplicationUser user)
         {
-            await DialogService.OpenAsync<EditApplicationUser>("Edit Application User", new Dictionary<string, object>{ {"Id", user.Id} });
+            await DialogService.OpenAsync<EditUser>("Edit User", new Dictionary<string, object>{ {"Id", user.Id} });
 
-            Users = await Security.GetUsers();
+            _users = await Security.GetUsers();
         }
 
-        protected async Task DeleteClick(ERP.Server.Models.ApplicationUser user)
+        private async Task DeleteClick(ERP.Server.Models.ApplicationUser user)
         {
             try
             {
@@ -65,13 +60,13 @@ namespace ERP.Client.Pages
                 {
                     await Security.DeleteUser($"{user.Id}");
 
-                    Users = await Security.GetUsers();
+                    _users = await Security.GetUsers();
                 }
             }
             catch (Exception ex)
             {
-                ErrorVisible = true;
-                Error = ex.Message;
+                _errorVisible = true;
+                _error = ex.Message;
             }
         }
     }

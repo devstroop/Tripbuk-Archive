@@ -1,4 +1,4 @@
-@page "/application-roles"
+@page "/administration/access/roles"
 @attribute [Authorize]
 
 <PageTitle>Roles</PageTitle>
@@ -15,8 +15,8 @@
     </RadzenRow>
     <RadzenRow>
         <RadzenColumn SizeMD="12">
-            <RadzenAlert Size="AlertSize.Large" Shade="Shade.Light" AlertStyle="AlertStyle.Danger" Variant="Variant.Flat" Title="Cannot delete role" Visible="@ErrorVisible">@Error</RadzenAlert>
-            <RadzenDataGrid @ref="Grid0" AllowFiltering="true" AllowPaging="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30}) AllowSorting="true" Data="@Roles" TItem="Server.Models.ApplicationRole">
+            <RadzenAlert Size="AlertSize.Large" Shade="Shade.Light" AlertStyle="AlertStyle.Danger" Variant="Variant.Flat" Title="Cannot delete role" Visible="@_errorVisible">@_error</RadzenAlert>
+            <RadzenDataGrid @ref="_grid0" AllowFiltering="true" AllowPaging="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30}) AllowSorting="true" Data="@_roles" TItem="Server.Models.ApplicationRole">
                 <Columns>
                     <RadzenDataGridColumn TItem="Server.Models.ApplicationRole" Property="Name" Title="Name" />
                     <RadzenDataGridColumn TItem="Server.Models.ApplicationRole" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">

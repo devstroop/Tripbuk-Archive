@@ -1,8 +1,8 @@
-@page "/add-account-group"
+@page "/administration/accounts/groups/add"
 @attribute [Authorize]
 
-<PageTitle>Add AccountGroup</PageTitle>
-    <RadzenColumn SizeMD=12>
+<PageTitle>Add Account Group</PageTitle>
+    <RadzenColumn SizeMD="12">
         <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@ErrorVisible">Cannot save AccountGroup</RadzenAlert>
         <RadzenTemplateForm TItem="Server.Models.Postgres.AccountGroup" Data="@AccountGroup" Visible="@(AccountGroup != null && CanEdit)" Submit="@FormSubmit">
             <RadzenRow style="margin-bottom: 1rem">
