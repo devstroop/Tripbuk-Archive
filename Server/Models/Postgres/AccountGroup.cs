@@ -21,7 +21,7 @@ namespace ERP.Server.Models.Postgres
         }
 
         [Key]
-        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
