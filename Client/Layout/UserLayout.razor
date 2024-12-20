@@ -1,17 +1,26 @@
 @inherits LayoutComponentBase
-@inject CookieThemeService CookieThemeService
-@inject Microsoft.Extensions.Localization.IStringLocalizer<MainLayout> L
-<RadzenComponents />
-
-<RadzenLayout style="grid-template-areas: 'rz-sidebar rz-header' 'rz-sidebar rz-body';">
+<RadzenDialog />
+<RadzenNotification />
+<RadzenTooltip />
+<RadzenContextMenu />
+<RadzenLayout style="grid-template-areas: 'rz-sidebar rz-header' 'rz-sidebar rz-body' 'rz-sidebar rz-footer';">
     <RadzenHeader>
-        <RadzenRow JustifyContent="JustifyContent.Start" AlignItems="AlignItems.Center" Gap="0">
-            <RadzenColumn Size="5">
-                <RadzenSidebarToggle Click="@SidebarToggleClick"></RadzenSidebarToggle>
+        <RadzenRow JustifyContent="JustifyContent.Start" AlignItems="AlignItems.Center" Gap="0" Class="" Style="height: 100%;">
+            <RadzenColumn Size="6">
+                <RadzenStack AlignItems="AlignItems.Center" Orientation="Orientation.Horizontal" Gap="1rem">
+                    <RadzenSidebarToggle Click="@SidebarToggleClick" class="rz-mx-0 rz-display-block rz-display-sm-none"></RadzenSidebarToggle>
+                    <RadzenText Text="ERP" TextStyle="TextStyle.Subtitle1" Class="rz-mb-0 rz-ml-sm-6" Style="color: var(--rz-header-color); font-weight: bolder;" />
+                    <RadzenMenu class="rz-display-none rz-display-sm-inline-flex">
+                        <RadzenMenuItem Text="Dashboard" Icon="space_dashboard" Path="" />
+                        <RadzenMenuItem Text="Management" Icon="hub"></RadzenMenuItem>
+                        <RadzenMenuItem Text="Transactions" Icon="swap_horiz"></RadzenMenuItem>
+                        <RadzenMenuItem Text="Reports" Icon="analytics"></RadzenMenuItem>
+                        <RadzenMenuItem Text="Help" Icon="help"></RadzenMenuItem>
+                    </RadzenMenu>
+                </RadzenStack>
             </RadzenColumn>
-            <RadzenColumn Size="7">
+            <RadzenColumn Size="6">
                 <RadzenStack AlignItems="AlignItems.Center" Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End" Gap="0.5rem" class="rz-px-2">
-                    <CulturePicker/>
                     <RadzenAppearanceToggle/>
                     <RadzenProfileMenu Visible="@Security.IsAuthenticated()" Click="@ProfileMenuClick">
                         <ChildContent>
@@ -19,7 +28,7 @@
                             <RadzenProfileMenuItem Text="Logout" Value="Logout" Icon="power_settings_new"/>
                         </ChildContent>
                         <Template>
-                            @Security.User?.Name
+                            <span class="rz-display-none rz-display-sm-inline-flex">@Security.User?.Name</span>
                             <RadzenGravatar Email="@(Security.User?.Name ?? "identicon")"/>
                         </Template>
                     </RadzenProfileMenu>
@@ -28,16 +37,15 @@
         </RadzenRow>
     </RadzenHeader>
     <RadzenBody Expanded="@_sidebarExpanded">
-        <RadzenRow class="rz-mx-auto rz-px-4 rz-pt-2 rz-pt-md-4 rz-pt-lg-6 rz-pt-xl-12 rz-pb-2 rz-pb-lg-12" Style="max-width: 1440px;">
+        <RadzenRow Class="rz-mx-auto rz-px-4 rz-pt-2 rz-pt-md-4 rz-pt-lg-6 rz-pt-xl-12 rz-pb-2 rz-pb-lg-12" Style="max-width: 1440px;">
             <RadzenColumn Size="12">
             @Body
             </RadzenColumn>
         </RadzenRow>
     </RadzenBody>
-    <RadzenSidebar @bind-Expanded="@_sidebarExpanded" style="z-index: 2">
+    <RadzenSidebar @bind-Expanded="@_sidebarExpanded" style="z-index: 2" Responsive="false" class="rz-display-block rz-display-sm-none">
         <RadzenStack AlignItems="AlignItems.Center" class="rz-py-4 rz-py-lg-6" Style="padding: var(--rz-panel-menu-item-padding); border-bottom: var(--rz-panel-menu-item-border);">
-            @* <RadzenImage Path="images/logo.png"  style="width: 48px; height: 48px;" AlternateText="Application logo"></RadzenImage> *@
-            <RadzenText Text="ERP" TextStyle="TextStyle.DisplayH5" class="rz-mb-0" style="color: var(--rz-sidebar-color); font-weight: bold;" />
+            <RadzenText Text="ERP" TextStyle="TextStyle.DisplayH5" class="rz-mb-0" style="color: var(--rz-sidebar-color); font-weight: bold;" ></RadzenText>
         </RadzenStack>
         <RadzenPanelMenu>
             <RadzenPanelMenuItem Text="Dashboard" Path="/" Icon="space_dashboard" />
@@ -54,13 +62,13 @@
                     <RadzenPanelMenuItem class="rz-ml-2" Text="Unit Conversion" Path="management/masters/unit-conversions"/>
                     <RadzenPanelMenuItem class="rz-ml-2" Text="Bill Sundry"/>
                     <RadzenPanelMenuItem class="rz-ml-2 rz-mb-4" Text="Bill of Material"/>
-                    
+
                     <RadzenPanelMenuItem class="rz-ml-2" Text="Sale Type"/>
                     <RadzenPanelMenuItem class="rz-ml-2" Text="Purchase Type"/>
                     <RadzenPanelMenuItem class="rz-ml-2 rz-mb-4" Text="Tax Category"/>
 
                     <RadzenPanelMenuItem class="rz-ml-2 rz-mb-4" Text="Misc. Masters"/>
-                    
+
                     <RadzenPanelMenuItem class="rz-ml-2 rz-mb-4" Text="Bulk Modification"/>
                 </RadzenPanelMenuItem>
                 <RadzenPanelMenuItem Text="Access" Icon="shield_person">
@@ -69,16 +77,38 @@
                     <RadzenPanelMenuItem class="rz-ml-2 rz-mb-4" Text="Permissions" Icon="admin_panel_settings" />
                 </RadzenPanelMenuItem>
                 <RadzenPanelMenuItem Text="Configuration" Icon="manufacturing">
-                                    <RadzenPanelMenuItem class="rz-ml-2" Text="Users" Path="management/access/users" Icon="group" />
-                                    <RadzenPanelMenuItem class="rz-ml-2" Text="Roles" Path="management/access/roles" Icon="groups" />
-                                    <RadzenPanelMenuItem class="rz-ml-2 rz-mb-4" Text="Permissions" Icon="admin_panel_settings" />
-                                </RadzenPanelMenuItem>
+                    <RadzenPanelMenuItem class="rz-ml-2" Text="Users" Path="management/access/users" Icon="group" />
+                    <RadzenPanelMenuItem class="rz-ml-2" Text="Roles" Path="management/access/roles" Icon="groups" />
+                    <RadzenPanelMenuItem class="rz-ml-2 rz-mb-4" Text="Permissions" Icon="admin_panel_settings" />
+                </RadzenPanelMenuItem>
             </RadzenPanelMenuItem>
             <RadzenPanelMenuItem Text="Transactions" Icon="swap_horiz"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Reports" Icon="analytics"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Help" Icon="help"></RadzenPanelMenuItem>
         </RadzenPanelMenu>
         <RadzenStack AlignItems="AlignItems.Center" Gap="0" class="rz-py-4 rz-py-lg-6" Style="padding: var(--rz-panel-menu-item-padding);">
             <RadzenText Text="ERP v1.0.0" TextStyle="TextStyle.Caption" TagName="TagName.P" TextAlign="TextAlign.Center" />
             <RadzenText Text="Copyright Ⓒ 2024" TextStyle="TextStyle.Caption" class="rz-mb-0" TagName="TagName.P" TextAlign="TextAlign.Center" />
         </RadzenStack>
     </RadzenSidebar>
+    <RadzenFooter>
+        <RadzenRow AlignItems="AlignItems.Center">
+            <RadzenColumn SizeMD="4" Size="12">
+                <RadzenStack AlignItems="Radzen.AlignItems.Center" Orientation="Radzen.Orientation.Horizontal">
+                    <CulturePicker/>
+                </RadzenStack>
+            </RadzenColumn>
+            <RadzenColumn SizeMD="4" Size="12">
+                <RadzenStack AlignItems="Radzen.AlignItems.Center" Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Center">
+                    <RadzenText Text="ERP v1.0.0" TextStyle="Radzen.Blazor.TextStyle.Caption" TagName="Radzen.Blazor.TagName.P" TextAlign="Radzen.TextAlign.Center" class="rz-mb-0"/>
+                    <RadzenText Text="Copyright Ⓒ 2024" TextStyle="Radzen.Blazor.TextStyle.Caption" TagName="Radzen.Blazor.TagName.P" TextAlign="Radzen.TextAlign.Center" class="rz-mb-0" />
+                </RadzenStack>
+            </RadzenColumn>
+            <RadzenColumn SizeMD="4" Size="12">
+                <RadzenStack AlignItems="Radzen.AlignItems.Center" Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.End">
+                    
+                </RadzenStack>
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenFooter>
 </RadzenLayout>

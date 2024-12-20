@@ -1,2 +1,5 @@
-<RadzenDropDown @bind-Value="@Culture" TValue="string" Data="@(new [] { new { Text = "English", Value = "en" }, new { Text = "हिन्दी", Value = "hi" } })"
-    TextProperty="Text" ValueProperty="Value" Change="@ChangeCulture" />
+<RadzenRow AlignItems="AlignItems.Center" Gap="0.5rem">
+    <RadzenIcon Icon="language" Style="font-size: 20px"></RadzenIcon>
+    <RadzenDropDown @bind-Value="@Culture" TValue="string" Data="@(new[] { new { Text = "English", Value = "en" }, new { Text = "हिन्दी", Value = "hi" } })"
+                    TextProperty="Text" ValueProperty="Value" Change="@ChangeCulture"/>
+</RadzenRow>
