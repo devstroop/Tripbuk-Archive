@@ -25,16 +25,12 @@
         <RadzenDataGrid @ref="_grid0" ColumnWidth="200px"   AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions="@(new []{5, 10, 20, 30, 40, 50})"
             Data="@_accountGroups" LoadData="@Grid0LoadData" Count="@_count" TItem="Server.Models.Postgres.AccountGroup" RowSelect="@EditRow">
             <Columns>
-                @* <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Property="Id" Title="Id"> *@
-                @* </RadzenDataGridColumn> *@
                 <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Property="GroupName" Title="Group Name">
                     <Template>
                         <RadzenText Text="@context.GroupName" TextStyle="TextStyle.Body2"></RadzenText>
                         <RadzenText Text="@context.Alias" TextStyle="TextStyle.Caption" Visible="@(context.Alias != null)"> </RadzenText>
                     </Template>
                 </RadzenDataGridColumn>
-                @* <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Property="Alias" Title="Alias"> *@
-                @* </RadzenDataGridColumn> *@
                 <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Property="IsPrimary" Title="Primary">
                     <Template>
                         <RadzenBadge Text="Yes" IsPill="true" Visible="@(context.IsPrimary == true)"></RadzenBadge>
