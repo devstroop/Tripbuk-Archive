@@ -31,7 +31,7 @@
                         <RadzenText Text="@context.Alias" TextStyle="TextStyle.Caption" Visible="@(context.Alias != null)"> </RadzenText>
                     </Template>
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Property="IsPrimary" Title="Primary">
+                <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Property="IsPrimary" Title="Primary" Filterable="false">
                     <Template>
                         <RadzenBadge Text="Yes" IsPill="true" Visible="@(context.IsPrimary == true)"></RadzenBadge>
                     </Template>
