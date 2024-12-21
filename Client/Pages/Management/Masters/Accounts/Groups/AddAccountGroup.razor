@@ -37,7 +37,7 @@
                 </RadzenColumn>
                 <RadzenColumn SizeMD="9">
                     <RadzenDropDownDataGrid Data="@AccountGroupsForParent" TextProperty="GroupName" ValueProperty="Id" AllowClear=true
-                         Placeholder="Choose Parent Group" style="display: block; width: 100%" @bind-Value="@AccountGroup.Parent" Name="Parent"
+                         Placeholder="Choose Parent Group" style="display: block; width: 100%" @bind-Value="@AccountGroup.Parent" Name="AccountGroup1"
                         SelectedValue=@AccountGroupsForParentValue Count=@AccountGroupsForParentCount LoadData=@AccountGroupsForParentLoadData Disabled="@(AccountGroup.IsPrimary == true)" />
                 </RadzenColumn>
             </RadzenRow>

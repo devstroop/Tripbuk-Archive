@@ -50,12 +50,12 @@
             </RadzenRow>
             <RadzenRow style="margin-bottom: 1rem">
                 <RadzenColumn SizeMD="3">
-                    <RadzenLabel Text="Account Group1" Component="AccountGroup1" style="width: 100%" />
+                    <RadzenLabel Text="Parent" Component="AccountGroup1" style="width: 100%" />
                 </RadzenColumn>
                 <RadzenColumn SizeMD="9">
                     <RadzenDropDownDataGrid Data="@AccountGroupsForParent" TextProperty="GroupName" ValueProperty="Id" AllowClear=true
-                         Placeholder="Choose AccountGroup1" style="display: block; width: 100%" @bind-Value="@AccountGroup.Parent" Name="Parent"
-                        SelectedValue=@AccountGroupsForParentValue Count=@AccountGroupsForParentCount LoadData=@AccountGroupsForParentLoadData />
+                         Placeholder="Choose Parent Group" style="display: block; width: 100%" @bind-Value="@AccountGroup.Parent" Name="AccountGroup1"
+                        SelectedValue=@AccountGroupsForParentValue Count=@AccountGroupsForParentCount LoadData=@AccountGroupsForParentLoadData Disabled="@(AccountGroup.IsPrimary == true)" />
                 </RadzenColumn>
             </RadzenRow>
           <RadzenStack  Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">

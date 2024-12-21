@@ -1,5 +1,5 @@
 @layout UserLayout
-@page "/management/masters/account-groups"
+@page "/management/masters/accounts/groups"
 @attribute [Authorize]
 
 <PageTitle>Account Groups</PageTitle>
@@ -7,7 +7,8 @@
     <RadzenBreadCrumb>
         <RadzenBreadCrumbItem Text="Management" />
         <RadzenBreadCrumbItem Text="Masters" />
-        <RadzenBreadCrumbItem Text="Account Groups" Path="/management/masters/account-groups" />
+        <RadzenBreadCrumbItem Text="Accounts" Path="/management/masters/accounts"/>
+        <RadzenBreadCrumbItem Text="Groups" Path="/management/masters/account-groups" />
     </RadzenBreadCrumb>
     <RadzenRow AlignItems="AlignItems.Center">
         <RadzenColumn Size="12" SizeMD="6">
@@ -15,6 +16,7 @@
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="6">
             <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                <RadzenButton Text="Accounts" ButtonStyle="ButtonStyle.Base" Click="@(() => NavigationManager.NavigateTo("/management/masters/accounts"))" Variant="Variant.Flat" />
                 <RadzenButton Icon="add_circle_outline" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
             </RadzenStack>
         </RadzenColumn>
@@ -22,21 +24,25 @@
     <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" aria-label="Search by all string columns" />
     <RadzenRow>
       <RadzenColumn SizeMD="12">
-        <RadzenDataGrid @ref="_grid0" ColumnWidth="200px"   AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions="@(new []{5, 10, 20, 30, 40, 50})"
+        <RadzenDataGrid @ref="_grid0" ColumnWidth="200px" AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" PageSize="20" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions="@(new []{10, 20, 50, 100})"
             Data="@_accountGroups" LoadData="@Grid0LoadData" Count="@_count" TItem="Server.Models.Postgres.AccountGroup" RowSelect="@EditRow">
             <Columns>
                 <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Property="GroupName" Title="Group Name">
                     <Template>
-                        <RadzenText Text="@context.GroupName" TextStyle="TextStyle.Body2"></RadzenText>
-                        <RadzenText Text="@context.Alias" TextStyle="TextStyle.Caption" Visible="@(context.Alias != null)"> </RadzenText>
+                        <RadzenText Text="@context.GroupName" TextStyle="TextStyle.Body2" Style="font-weight: bold;" class="rz-mb-0"></RadzenText>
+                        <RadzenText Text="@context.Alias" TextStyle="TextStyle.Caption" Visible="@(context.Alias != null)" class="rz-mb-0"> </RadzenText>
                     </Template>
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Property="IsPrimary" Title="Primary" Filterable="false">
                     <Template>
                         <RadzenBadge Text="Yes" IsPill="true" Visible="@(context.IsPrimary == true)"></RadzenBadge>
+                        <RadzenBadge Text="No" BadgeStyle="BadgeStyle.Base" IsPill="true" Visible="@(context.IsPrimary != true)"></RadzenBadge>
                     </Template>
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Property="AccountGroup1.GroupName" Title="Parent">
+                    <Template>
+                        <RadzenText TextStyle="TextStyle.Body2" Text="@($"{context.AccountGroup1?.GroupName}")" Visible="@(context.IsPrimary != true && context.AccountGroup1 != null)"></RadzenText>
+                    </Template>
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
                     <Template Context="accountGroup">

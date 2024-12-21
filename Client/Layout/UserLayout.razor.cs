@@ -83,8 +83,14 @@ namespace ERP.Client.Layout
                         Text = "Masters", 
                         Icon = "book_2",
                         Items = [
-                            new MenuItem() { Text = "Accounts", Path = "management/masters/accounts" },
-                            new MenuItem() { Text = "Account Groups", Path = "management/masters/account-groups" },
+                            new MenuItem()
+                            {
+                                Text = "Accounts",
+                                Path = "management/masters/accounts",
+                                Items = [
+                                    new MenuItem() { Text = "Groups", Path = "management/masters/accounts/groups" },
+                                ]
+                            },
                             new MenuItem() { Text = "Standard Narrations", Path = "management/masters/standard-narrations", Class = "rz-mb-4" },
                             new MenuItem() { Text = "Items", Path = "management/masters/items" },
                             new MenuItem() { Text = "Item Groups", Path = "management/masters/item-groups", Class = "rz-mb-4" },

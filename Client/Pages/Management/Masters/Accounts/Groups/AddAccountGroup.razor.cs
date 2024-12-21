@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Management.Masters.AccountGroups
+namespace ERP.Client.Pages.Management.Masters.Accounts.Groups
 {
-    public partial class EditAccountGroup
+    public partial class AddAccountGroup
     {
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
@@ -32,12 +32,9 @@ namespace ERP.Client.Pages.Management.Masters.AccountGroups
         [Inject]
         public PostgresService PostgresService { get; set; }
 
-        [Parameter]
-        public int Id { get; set; }
-
         protected override async Task OnInitializedAsync()
         {
-            AccountGroup = await PostgresService.GetAccountGroupById(id:Id);
+            AccountGroup = new ERP.Server.Models.Postgres.AccountGroup();
         }
         protected bool ErrorVisible;
         protected ERP.Server.Models.Postgres.AccountGroup AccountGroup;
@@ -75,13 +72,7 @@ namespace ERP.Client.Pages.Management.Masters.AccountGroups
         {
             try
             {
-                var result = await PostgresService.UpdateAccountGroup(id:Id, AccountGroup);
-                if (result.StatusCode == System.Net.HttpStatusCode.PreconditionFailed)
-                {
-                     HasChanges = true;
-                     CanEdit = false;
-                     return;
-                }
+                var result = await PostgresService.CreateAccountGroup(AccountGroup);
                 DialogService.Close(AccountGroup);
             }
             catch (Exception ex)
@@ -101,14 +92,5 @@ namespace ERP.Client.Pages.Management.Masters.AccountGroups
 
         [Inject]
         protected SecurityService Security { get; set; }
-
-
-        protected async Task ReloadButtonClick(MouseEventArgs args)
-        {
-            HasChanges = false;
-            CanEdit = true;
-
-            AccountGroup = await PostgresService.GetAccountGroupById(id:Id);
-        }
     }
 }
