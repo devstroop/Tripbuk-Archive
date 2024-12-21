@@ -68,13 +68,13 @@ namespace ERP.Client.Pages.Management.Masters.AccountGroups
 
         private async Task AddButtonClick(MouseEventArgs args)
         {
-            await DialogService.OpenAsync<AddAccountGroup>("Add AccountGroup", null);
+            await DialogService.OpenAsync<AddAccountGroup>("Add Account Group", null);
             await _grid0.Reload();
         }
 
         private async Task EditRow(ERP.Server.Models.Postgres.AccountGroup args)
         {
-            await DialogService.OpenAsync<EditAccountGroup>("Edit AccountGroup", new Dictionary<string, object> { {"Id", args.Id} });
+            await DialogService.OpenAsync<EditAccountGroup>("Edit Account Group", new Dictionary<string, object> { {"Id", args.Id} });
             await _grid0.Reload();
         }
 

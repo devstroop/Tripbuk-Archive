@@ -47,6 +47,15 @@
             <RadzenColumn Size="6">
                 <RadzenStack AlignItems="AlignItems.Center" Orientation="Orientation.Horizontal"
                              JustifyContent="JustifyContent.End" Gap="0.5rem" class="rz-px-2">
+                    <RadzenSplitButton Text="Create" Icon="add" Shade="Shade.Lighter" Size="ButtonSize.Small">
+                        <ChildContent>
+                            <RadzenSplitButtonItem Text="Account" Value="1" />
+                            <RadzenSplitButtonItem Text="Item" Value="2" />
+                            <RadzenSplitButtonItem Text="Voucher" Value="3" />
+                            <RadzenSplitButtonItem Text="Payment" Value="4" />
+                            <RadzenSplitButtonItem Text="Receipt" Value="5" />
+                        </ChildContent>
+                    </RadzenSplitButton>
                     <RadzenAppearanceToggle/>
                     <RadzenProfileMenu Visible="@Security.IsAuthenticated()" Click="@ProfileMenuClick">
                         <ChildContent>

@@ -113,8 +113,129 @@ namespace ERP.Client.Layout
                 ]
             },
 
-            new () { Text = "Transactions", Icon = "swap_horiz", Path = "#" },
-            new () { Text = "Reports", Icon = "analytics", Path = "#" },
+            new ()
+            {
+                Text = "Transactions", 
+                Icon = "swap_horiz",
+                Items = [
+                    new MenuItem() { Text = "Sales", Path = "#" },
+                    new MenuItem() { Text = "Purchase", Path = "#" },
+                    new MenuItem() { Text = "Sales Return (Cr. Note)", Path = "#" },
+                    new MenuItem() { Text = "Purchase Return (Dr. Note)", Path = "#", Class = "rz-mb-4" },
+                    new MenuItem() { Text = "Payment", Path = "#" },
+                    new MenuItem() { Text = "Receipt", Path = "#" },
+                    new MenuItem() { Text = "Journal", Path = "#" },
+                    new MenuItem() { Text = "Contra", Path = "#" },
+                    new MenuItem() { Text = "Dr. Note (w/o Items)", Path = "#" },
+                    new MenuItem() { Text = "Cr. Note (w/o Items)", Path = "#", Class = "rz-mb-4" },
+                    new MenuItem() { Text = "Production", Path = "#" },
+                    new MenuItem() { Text = "Disassemble", Path = "#" },
+                    new MenuItem() { Text = "Stock Journal", Path = "#", Class = "rz-mb-4" },
+                    new MenuItem() { Text = "Material Issued to Party", Path = "#" },
+                    new MenuItem() { Text = "Material Received from Party", Path = "#", Class = "rz-mb-4" },
+                    new MenuItem() { Text = "Physical Stock", Path = "#", Class = "rz-mb-4" },
+                    new MenuItem() { Text = "GST Misc. Utilities", Path = "#" },
+                ]
+            },
+            new ()
+            {
+                Text = "Reports", 
+                Icon = "analytics",
+                Items = [
+                    new MenuItem()
+                    {
+                        Text = "Final Results",
+                        Items = [
+                            new MenuItem(){ Text = "Balance Sheet", Path = "#" },
+                            new MenuItem(){ Text = "Profit & Loss", Path = "#" },
+                            new MenuItem(){ Text = "Payment & Receipt", Path = "#" },
+                            new MenuItem(){ Text = "Income & Expense", Path = "#" },
+                        ]
+                    },
+                    new MenuItem()
+                    {
+                        Text = "Trial Balance",
+                        Items = [
+                            new MenuItem(){ Text = "Closing", Path = "#" },
+                            new MenuItem(){ Text = "Opening", Path = "#" },
+                        ]
+                    },
+                    new MenuItem()
+                    {
+                        Text = "Account Books",
+                        Items = [
+                            new MenuItem(){ Text = "Day Book", Path = "#" },
+                            new MenuItem(){ Text = "Account Ledger", Path = "#" },
+                            new MenuItem(){ Text = "Cash/Bank Book", Path = "#" },
+                            new MenuItem()
+                            {
+                                Text = "Account Registers",
+                                Items = [
+                                    new MenuItem(){ Text = "Sales Register", Path = "#" },
+                                    new MenuItem(){ Text = "Purchase Register", Path = "#" },
+                                    new MenuItem(){ Text = "Sale Return Register", Path = "#" },
+                                    new MenuItem(){ Text = "Purchase Return Register", Path = "#" },
+                                    new MenuItem(){ Text = "Payment Register", Path = "#" },
+                                    new MenuItem(){ Text = "Receipt Register", Path = "#" },
+                                    new MenuItem(){ Text = "Journal Register", Path = "#" },
+                                    new MenuItem(){ Text = "Contra Register", Path = "#" },
+                                    new MenuItem(){ Text = "Debit Note Register", Path = "#" },
+                                    new MenuItem(){ Text = "Credit Note Register", Path = "#" },
+                                ]
+                            },
+                            new MenuItem(){ Text = "Account Activity", Path = "#" },
+                            new MenuItem(){ Text = "Party Day Book", Path = "#" },
+                        ]
+                    },
+                    new MenuItem()
+                    {
+                        Text = "Account Summaries",
+                        Items = [
+                            new MenuItem(){ Text = "Daily Balances", Path = "#" },
+                            new MenuItem(){ Text = "Daily Summary", Path = "#" },
+                            new MenuItem(){ Text = "Monthly Summary", Path = "#" },
+                            new MenuItem(){ Text = "Consolidated Summary", Path = "#" },
+                            new MenuItem(){ Text = "Transaction Summary", Path = "#" },
+                            new MenuItem(){ Text = "Min/Max Cash Balances", Path = "#" },
+                            new MenuItem(){ Text = "Account Ledger Comparison", Path = "#" },
+                            new MenuItem(){ Text = "Settlement Summary", Path = "#" },
+                            new MenuItem(){ Text = "Settlement Details", Path = "#" },
+                            new MenuItem(){ Text = "Ledger Abstract", Path = "#" },
+                            new MenuItem(){ Text = "Unmoved Accounts", Path = "#" },
+                            new MenuItem(){ Text = "UnBilled Parties", Path = "#", Class = "rz-mb-4" },
+                            new MenuItem(){ Text = "Parties with Invalid PAN", Path = "#" },
+                            new MenuItem(){ Text = "Party Turnover Details", Path = "#" },
+                            new MenuItem(){ Text = "Cash/Credit Sales Summary", Path = "#" },
+                            new MenuItem(){ Text = "Cash/Credit Purchase Summary", Path = "#" },
+                            new MenuItem(){ Text = "Party Cash Summary", Path = "#" },
+                            new MenuItem(){ Text = "Cash Against Invoices", Path = "#" },
+                            
+                        ]
+                    },
+                    new MenuItem()
+                    {
+                        Text = "Outstanding Analysis",
+                        Items = [
+                            new MenuItem(){ Text = "Amount Receivable", Path = "#" },
+                            new MenuItem(){ Text = "Bills Receivable", Path = "#" },
+                            new MenuItem(){ Text = "Ageing Receivable", Path = "#" },
+                            new MenuItem(){ Text = "Ageing Receivable (FIFO)", Path = "#", Class = "rz-mb-4" },
+                            new MenuItem(){ Text = "Amount Payable", Path = "#" },
+                            new MenuItem(){ Text = "Bills Payable", Path = "#" },
+                            new MenuItem(){ Text = "Ageing Payable", Path = "#" },
+                            new MenuItem(){ Text = "Ageing Payable (FIFO)", Path = "#", Class = "rz-mb-4" },
+                            new MenuItem(){ Text = "Bills Summary", Path = "#" },
+                            new MenuItem(){ Text = "Bills-wise Statement", Path = "#" },
+                            new MenuItem(){ Text = "Bill Reference Details", Path = "#" },
+                            new MenuItem(){ Text = "On Account Entries", Path = "#" },
+                            new MenuItem(){ Text = "Statement of A/c", Path = "#" },
+                            new MenuItem(){ Text = "Confirmation of A/c", Path = "#" },
+                            new MenuItem(){ Text = "Payment Reminder", Path = "#" },
+                            
+                        ]
+                    },
+                ]
+            },
             new () { Text = "Help", Icon = "help", Path = "#" }
 
         ];
