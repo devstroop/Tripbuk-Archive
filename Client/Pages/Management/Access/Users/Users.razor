@@ -1,8 +1,14 @@
+@layout UserLayout
 @page "/management/access/users"
 @attribute [Authorize]
 
 <PageTitle>Users</PageTitle>
 <RadzenStack>
+    <RadzenBreadCrumb>
+        <RadzenBreadCrumbItem Text="Management" />
+        <RadzenBreadCrumbItem Text="Access" />
+        <RadzenBreadCrumbItem Text="Users" Path="/management/access/users" />
+    </RadzenBreadCrumb>
     <RadzenRow AlignItems="AlignItems.Center">
         <RadzenColumn Size="12" SizeMD="6">
             <RadzenText Text="Users" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />

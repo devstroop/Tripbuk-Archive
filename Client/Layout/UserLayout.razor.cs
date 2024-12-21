@@ -73,7 +73,7 @@ namespace ERP.Client.Layout
         
         private readonly List<MenuItem> _menuItems =
         [
-            new() { Text = "Dashboard", Icon = "dashboard", Path = "dashboard" },
+            new() { Text = "Dashboard", Icon = "dashboard", Path = "/" },
             new()
             {
                 Text = "Management", Icon = "hub",
@@ -99,7 +99,16 @@ namespace ERP.Client.Layout
                             new MenuItem() { Text = "Bulk Modifications", Path = "#", Class = "rz-mb-4" },
                         ]
                     },
-                    new MenuItem() { Text = "Access", Icon = "shield_person", Path = "#" },
+                    new MenuItem()
+                    {
+                        Text = "Access", 
+                        Icon = "shield_person", 
+                        Items = [
+                            new MenuItem() { Text = "Users", Path = "management/access/users" },
+                            new MenuItem() { Text = "Roles", Path = "management/access/roles" },
+                            new MenuItem() { Text = "Permissions", Path = "#" },
+                        ]
+                    },
                     new MenuItem() { Text = "Configuration", Icon = "manufacturing", Path = "#" }
                 ]
             },
