@@ -1,10 +1,27 @@
 @layout UserLayout
 @inject Microsoft.Extensions.Localization.IStringLocalizer<Index> L
 @page "/"
+@using ERP.Client.Components
 @attribute [Authorize]
 <PageTitle>Dashboard</PageTitle>
-<RadzenRow>
-    <RadzenColumn Size="12">
-        <RadzenText Text="Dashboard" TextStyle="TextStyle.H3" TagName="TagName.H1" />
-    </RadzenColumn>
-</RadzenRow>
+<RadzenStack>
+    <RadzenRow>
+        <RadzenColumn Size="12">
+            <RadzenText Text="Dashboard" TextStyle="TextStyle.H3" TagName="TagName.H1"/>
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenRow AlignItems="AlignItems.Stretch">
+        <RadzenColumn SizeMD="3" SizeSM="4" SizeXS="6">
+            <StatCard OverlineText="Sales" Text="@($"{9999:C}")" Icon="arrow_upward" Percentage="10"></StatCard>
+        </RadzenColumn>
+        <RadzenColumn SizeMD="3" SizeSM="4" SizeXS="6">
+            <StatCard OverlineText="Purchase" Text="@($"{9999:C}")" Icon="arrow_downward" Percentage="-10"></StatCard>
+        </RadzenColumn>
+        <RadzenColumn SizeMD="3" SizeSM="4" SizeXS="6">
+            <StatCard OverlineText="Payments" Text="@($"{9999:C}")" Icon="moving" Percentage="55"></StatCard>
+        </RadzenColumn>
+        <RadzenColumn SizeMD="3" SizeSM="4" SizeXS="6">
+            <StatCard OverlineText="Receipts" Text="@($"{9999:C}")" Icon="south_west" Percentage="-20"></StatCard>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenStack>

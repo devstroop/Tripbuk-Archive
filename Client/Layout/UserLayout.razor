@@ -9,7 +9,7 @@
             <RadzenColumn Size="6">
                 <RadzenStack AlignItems="AlignItems.Center" Orientation="Orientation.Horizontal" Gap="1rem">
                     <RadzenSidebarToggle Click="@SidebarToggleClick" class="rz-mx-0 rz-display-block rz-display-sm-none"></RadzenSidebarToggle>
-                    <RadzenText Text="ERP" TextStyle="TextStyle.Subtitle1" Class="rz-mb-0 rz-ml-sm-6" Style="color: var(--rz-header-color); font-weight: bolder;" />
+                    <RadzenText Text="ERP" TextStyle="TextStyle.Subtitle1" Class="rz-mb-0 rz-ml-sm-6" Style="color: var(--rz-header-color); font-weight: bolder;" Visible="!_sidebarExpanded" />
                     <RadzenMenu class="rz-display-none rz-display-sm-inline-flex">
                         <RadzenMenuItem Text="Dashboard" Icon="space_dashboard" Path="" />
                         <RadzenMenuItem Text="Management" Icon="hub"></RadzenMenuItem>
@@ -86,27 +86,36 @@
             <RadzenPanelMenuItem Text="Reports" Icon="analytics"></RadzenPanelMenuItem>
             <RadzenPanelMenuItem Text="Help" Icon="help"></RadzenPanelMenuItem>
         </RadzenPanelMenu>
+        <RadzenStack AlignItems="AlignItems.Center" class="rz-mt-6">
+            <CulturePicker/>
+        </RadzenStack>
         <RadzenStack AlignItems="AlignItems.Center" Gap="0" class="rz-py-4 rz-py-lg-6" Style="padding: var(--rz-panel-menu-item-padding);">
             <RadzenText Text="ERP v1.0.0" TextStyle="TextStyle.Caption" TagName="TagName.P" TextAlign="TextAlign.Center" />
             <RadzenText Text="Copyright Ⓒ 2024" TextStyle="TextStyle.Caption" class="rz-mb-0" TagName="TagName.P" TextAlign="TextAlign.Center" />
         </RadzenStack>
     </RadzenSidebar>
-    <RadzenFooter>
+    <RadzenFooter class="rz-px-4 rz-py-2 rz-display-none rz-display-sm-block">
         <RadzenRow AlignItems="AlignItems.Center">
-            <RadzenColumn SizeMD="4" Size="12">
-                <RadzenStack AlignItems="Radzen.AlignItems.Center" Orientation="Radzen.Orientation.Horizontal">
+            <RadzenColumn Size="4">
+                <RadzenStack 
+                    AlignItems="AlignItems.Center" 
+                    Orientation="Orientation.Horizontal" 
+                    JustifyContent="JustifyContent.Start">
                     <CulturePicker/>
                 </RadzenStack>
             </RadzenColumn>
-            <RadzenColumn SizeMD="4" Size="12">
-                <RadzenStack AlignItems="Radzen.AlignItems.Center" Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Center">
-                    <RadzenText Text="ERP v1.0.0" TextStyle="Radzen.Blazor.TextStyle.Caption" TagName="Radzen.Blazor.TagName.P" TextAlign="Radzen.TextAlign.Center" class="rz-mb-0"/>
-                    <RadzenText Text="Copyright Ⓒ 2024" TextStyle="Radzen.Blazor.TextStyle.Caption" TagName="Radzen.Blazor.TagName.P" TextAlign="Radzen.TextAlign.Center" class="rz-mb-0" />
+            <RadzenColumn Size="4">
+                <RadzenStack AlignItems="AlignItems.Center" Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.Center" Wrap="FlexWrap.Wrap" Gap="0.5rem">
+                    <RadzenText Text="ERP v1.0.0" TextStyle="TextStyle.Caption" TagName="TagName.P" TextAlign="TextAlign.Center" class="rz-mb-0"/>
+                    <RadzenText Text="Copyright Ⓒ 2024" TextStyle="TextStyle.Caption" TagName="TagName.P" TextAlign="TextAlign.Center" class="rz-mb-0" />
                 </RadzenStack>
             </RadzenColumn>
-            <RadzenColumn SizeMD="4" Size="12">
-                <RadzenStack AlignItems="Radzen.AlignItems.Center" Orientation="Radzen.Orientation.Horizontal" JustifyContent="JustifyContent.End">
-                    
+            <RadzenColumn Size="4">
+                <RadzenStack
+                    AlignItems="AlignItems.Center"
+                    Orientation="Orientation.Horizontal"
+                    JustifyContent="JustifyContent.End">
+                    <RadzenBadge Text="Beta" BadgeStyle="BadgeStyle.Danger"></RadzenBadge>
                 </RadzenStack>
             </RadzenColumn>
         </RadzenRow>

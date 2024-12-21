@@ -1,0 +1,47 @@
+<RadzenCard Variant="Variant.Outlined">
+    <RadzenRow Gap="1rem" AlignItems="AlignItems.Start"
+                 Wrap="FlexWrap.Wrap">
+        <RadzenIcon Icon="@Icon"
+                    Visible="@(!string.IsNullOrWhiteSpace(Icon))"
+                    class="rz-background-color-primary-light rz-color-on-primary-light rz-border-radius-10"
+                    Style="font-size: 28px; min-width: 44px; min-height: 44px"></RadzenIcon>
+        <RadzenColumn>
+            <RadzenRow AlignItems="AlignItems.Center" Gap="0.5rem">
+                <RadzenText Text="@OverlineText" TextStyle="TextStyle.Overline"
+                            TagName="TagName.H4" class="rz-mb-0"/>
+                <RadzenStack Orientation="Orientation.Horizontal" Gap="0.25rem"
+                             Visible="@Percentage.HasValue"
+                             AlignItems="AlignItems.Center">
+                    <RadzenIcon Icon="@TrendingIcon" class="@TrendingColorClass"></RadzenIcon>
+                    <RadzenText Text="@PercentageText" TextStyle="Radzen.Blazor.TextStyle.Caption"
+                                class="@($"{TrendingColorClass} rz-m-0")"/>
+                </RadzenStack>
+            </RadzenRow>
+            <RadzenRow Gap="0.5rem"
+                         Style="display: block; width: 100%;"
+                         JustifyContent="JustifyContent.SpaceBetween"
+                         AlignItems="AlignItems.Center" Wrap="FlexWrap.Wrap">
+                <RadzenText Text="@Text" TagName="TagName.P" TextStyle="Radzen.Blazor.TextStyle.H5" class="rz-m-0"/>
+                <RadzenButton Size="ButtonSize.Small" Shade="Shade.Lighter" Icon="chevron_right"></RadzenButton>
+            </RadzenRow>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenCard>
+
+@*                 <RadzenBadge BadgeStyle="BadgeStyle.Danger" Shade="Shade.Light" IsPill="true"> *@
+@*                     <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" *@
+@*                                  Gap="0.125rem" Style="padding: 0.25rem; text-transform: none;"> *@
+@*                         <RadzenIcon Icon="south" Style="font-size: 0.75rem"></RadzenIcon> *@
+@*                         <span style="font-size: 0.75rem">10%</span> *@
+@*                     </RadzenStack> *@
+@*                 </RadzenBadge> *@
+
+@code {
+    [Parameter] public required string OverlineText { get; set; }
+    [Parameter] public required string Text { get; set; }
+    [Parameter] public string Icon { get; set; }
+    [Parameter] public float? Percentage { get; set; }
+    private string PercentageText => Percentage.HasValue ? $"{Percentage.Value}%" : string.Empty;
+    private string TrendingColorClass => Percentage.HasValue ? (Percentage.Value > 0 ? "rz-color-success" : "rz-color-danger") : string.Empty;
+    private string TrendingIcon => Percentage.HasValue ? (Percentage.Value > 0 ? "trending_up" : "trending_down") : string.Empty;
+}
