@@ -66,24 +66,12 @@ namespace ERP.Client.Pages.Management.Masters.Accounts
             }
         }
 
-        private async Task AddButtonClick(MouseEventArgs args)
+        private async Task ShowAccountDetails(ERP.Server.Models.Postgres.Account args)
         {
-            await DialogService.OpenAsync<AddAccount>("Add Account", null, new DialogOptions()
+            await DialogService.OpenAsync<AccountDetails>("Account Details", new Dictionary<string, object> { {"Id", args.Id} }, new DialogOptions()
             {
-                Width = "100%",
-                Height = "100%",
+                Width = "800px",
             });
-            await _grid0.Reload();
-        }
-
-        private async Task EditRow(ERP.Server.Models.Postgres.Account args)
-        {
-            await DialogService.OpenAsync<EditAccount>("Edit Account", new Dictionary<string, object> { {"Id", args.Id} }, new DialogOptions()
-            {
-                Width = "100%",
-                Height = "100%",
-            });
-            await _grid0.Reload();
         }
 
         private async Task GridDeleteButtonClick(MouseEventArgs args, ERP.Server.Models.Postgres.Account account)

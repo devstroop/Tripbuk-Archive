@@ -30,7 +30,7 @@
                 <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Property="GroupName" Title="Group Name">
                     <Template>
                         <RadzenText Text="@context.GroupName" TextStyle="TextStyle.Body2" Style="font-weight: bold;" class="rz-mb-0"></RadzenText>
-                        <RadzenText Text="@context.Alias" TextStyle="TextStyle.Caption" Visible="@(context.Alias != null)" class="rz-mb-0"> </RadzenText>
+                        <RadzenText Text="@context.Alias" TextStyle="TextStyle.Caption" Visible="@(context.Alias != null)" class="rz-mb-0"></RadzenText>
                     </Template>
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Property="IsPrimary" Title="Primary" Filterable="false">

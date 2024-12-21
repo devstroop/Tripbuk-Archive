@@ -10,7 +10,7 @@ using Radzen.Blazor;
 
 namespace ERP.Client.Pages.Management.Masters.Accounts
 {
-    public partial class AddAccount
+    public partial class CreateAccount
     {
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
@@ -73,7 +73,8 @@ namespace ERP.Client.Pages.Management.Masters.Accounts
             try
             {
                 var result = await PostgresService.CreateAccount(Account);
-                DialogService.Close(Account);
+                // DialogService.Close(Account);
+                NavigationManager.NavigateTo("/management/masters/accounts");
             }
             catch (Exception ex)
             {
@@ -81,10 +82,10 @@ namespace ERP.Client.Pages.Management.Masters.Accounts
             }
         }
 
-        protected async Task CancelButtonClick(MouseEventArgs args)
-        {
-            DialogService.Close(null);
-        }
+        // protected async Task CancelButtonClick(MouseEventArgs args)
+        // {
+        //     DialogService.Close(null);
+        // }
 
 
         protected bool HasChanges = false;
