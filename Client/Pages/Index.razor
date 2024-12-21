@@ -6,22 +6,75 @@
 <PageTitle>Dashboard</PageTitle>
 <RadzenStack>
     <RadzenRow>
-        <RadzenColumn Size="12">
+        <RadzenColumn Size="6">
             <RadzenText Text="Dashboard" TextStyle="TextStyle.H3" TagName="TagName.H1"/>
+        </RadzenColumn>
+        <RadzenColumn Size="6">
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
+            </RadzenStack>
         </RadzenColumn>
     </RadzenRow>
     <RadzenRow AlignItems="AlignItems.Stretch">
         <RadzenColumn SizeMD="3" SizeSM="4" SizeXS="6">
-            <StatCard OverlineText="Sales" Text="@($"{9999:C}")" Icon="arrow_upward" Percentage="10"></StatCard>
+            <StatCard OverlineText="Sales" Text="@($"{9999:C}")" Icon="arrow_upward" Trends="10"></StatCard>
         </RadzenColumn>
         <RadzenColumn SizeMD="3" SizeSM="4" SizeXS="6">
-            <StatCard OverlineText="Purchase" Text="@($"{9999:C}")" Icon="arrow_downward" Percentage="-10"></StatCard>
+            <StatCard OverlineText="Purchase" Text="@($"{9999:C}")" Icon="arrow_downward" Trends="-10"></StatCard>
         </RadzenColumn>
         <RadzenColumn SizeMD="3" SizeSM="4" SizeXS="6">
-            <StatCard OverlineText="Payments" Text="@($"{9999:C}")" Icon="moving" Percentage="55"></StatCard>
+            <StatCard OverlineText="Payments" Text="@($"{9999:C}")" Icon="moving" Trends="55"></StatCard>
         </RadzenColumn>
         <RadzenColumn SizeMD="3" SizeSM="4" SizeXS="6">
-            <StatCard OverlineText="Receipts" Text="@($"{9999:C}")" Icon="south_west" Percentage="-20"></StatCard>
+            <StatCard OverlineText="Receipts" Text="@($"{9999:C}")" Icon="south_west" Trends="-20"></StatCard>
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenRow class="rz-mt-6">
+        <RadzenColumn SizeMD="8">
+            <RadzenStack Gap="0.5rem">
+                <RadzenRow AlignItems="AlignItems.Center">
+                    <RadzenColumn>
+                        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+                            <RadzenText Text="Transactions" TextStyle="TextStyle.H6" Style="font-weight: bold;"
+                                        class="rz-mb-0"/>
+                        </RadzenStack>
+                    </RadzenColumn>
+                    <RadzenColumn>
+                        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center"
+                                     JustifyContent="JustifyContent.End">
+                            <RadzenButton Icon="add" Variant="Variant.Text"></RadzenButton>
+                            <RadzenButton Icon="refresh" Variant="Variant.Text"></RadzenButton>
+                            <RadzenButton Icon="more_vert" Variant="Variant.Text"></RadzenButton>
+                        </RadzenStack>
+                    </RadzenColumn>
+                </RadzenRow>
+                <RadzenDataGrid Data="@_txns" TItem="Txn" AllowPaging="false" Style="height: 300px;">
+                    <Columns>
+                        <RadzenDataGridColumn TItem="Txn" Property="Id" Title="ID"/>
+                        <RadzenDataGridColumn TItem="Txn" Property="Name" Title="Account Name"/>
+                        <RadzenDataGridColumn TItem="Txn" Property="Date" Title="Date">
+                            <Template Context="txn">
+                                @txn.Date.ToString("dd/MM/yyyy")
+                            </Template>
+                        </RadzenDataGridColumn>
+                        <RadzenDataGridColumn TItem="Txn" Property="Total" Title="Total">
+                            <Template Context="txn">
+                                @($"{txn.Total:C}")
+                            </Template>
+                        </RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
+            </RadzenStack>
+        </RadzenColumn>
+        <RadzenColumn SizeMD="4">
+            <RadzenStack Gap="0.5rem">
+                <RadzenText Text="Masters by Type" TextStyle="TextStyle.H6" Style="font-weight: bold;"/>
+                <RadzenChart SeriesClick="@OnSeriesClick">
+                    <RadzenPieSeries Data="@_accounts" Title="Type" CategoryProperty="Type"
+                                     ValueProperty="Count">
+                        <RadzenSeriesDataLabels Visible="true"/>
+                    </RadzenPieSeries>
+                </RadzenChart>
+            </RadzenStack>
         </RadzenColumn>
     </RadzenRow>
 </RadzenStack>

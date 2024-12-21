@@ -34,5 +34,127 @@ namespace ERP.Client.Pages
 
         [Inject]
         protected SecurityService Security { get; set; }
+        
+        void OnSeriesClick(SeriesClickEventArgs args)
+        {
+            NotificationService.Notify(new NotificationMessage() { Severity = NotificationSeverity.Info, Summary = "Series Click", Detail = $"Title: {args.Title}" });
+        }
+        
+        class MastersByType
+        {
+            public string Type { get; set; }
+            public double Count { get; set; }
+        }
+
+        private readonly MastersByType[] _accounts =
+        [
+            new MastersByType
+            {
+                Type = "Accounts",
+                Count = 10
+            },
+            new MastersByType
+            {
+                Type = "Items",
+                Count = 20
+            },
+            new MastersByType
+            {
+                Type = "Units",
+                Count = 30
+            },
+            new MastersByType
+            {
+                Type = "Tax Slabs",
+                Count = 40
+            },
+            new MastersByType
+            {
+                Type = "Miscellaneous",
+                Count = 5
+            },
+        ];
+
+        class Txn
+        {
+            public string Id { get; set; }
+            public string Name { get; set; }
+            public DateTime Date { get; set; }
+            public double Total { get; set; }
+        }
+
+        private readonly Txn[] _txns =
+        [
+            new Txn
+            {
+                Id = "1",
+                Name = "Online",
+                Date = DateTime.Now,
+                Total = 30000
+            },
+            new Txn
+            {
+                Id = "2",
+                Name = "In-Store",
+                Date = DateTime.Now,
+                Total = 40000
+            },
+            new Txn
+            {
+                Id = "3",
+                Name = "Mail-Order",
+                Date = DateTime.Now,
+                Total = 50000
+            },
+            new Txn
+            {
+                Id = "4",
+                Name = "Others",
+                Date = DateTime.Now,
+                Total = 80000
+            },
+            new Txn
+            {
+                Id = "5",
+                Name = "Online",
+                Date = DateTime.Now,
+                Total = 30000
+            },
+            new Txn
+            {
+                Id = "6",
+                Name = "In-Store",
+                Date = DateTime.Now,
+                Total = 40000
+            },
+            new Txn
+            {
+                Id = "7",
+                Name = "Mail-Order",
+                Date = DateTime.Now,
+                Total = 50000
+            },
+            new Txn
+            {
+                Id = "8",
+                Name = "Others",
+                Date = DateTime.Now,
+                Total = 80000
+            },
+            new Txn
+            {
+                Id = "9",
+                Name = "Online",
+                Date = DateTime.Now,
+                Total = 30000
+            },
+            new Txn
+            {
+                Id = "10",
+                Name = "In-Store",
+                Date = DateTime.Now,
+                Total = 40000
+            },
+        ];
     }
 }
