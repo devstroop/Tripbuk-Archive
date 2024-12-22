@@ -110,5 +110,18 @@ namespace ERP.Client.Pages.Management.Masters.Accounts.Groups
 
             AccountGroup = await PostgresService.GetAccountGroupById(id:Id);
         }
+
+        private async Task DeleteClick(MouseEventArgs arg)
+        {
+            if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+            {
+                var deleteResult = await PostgresService.DeleteAccountGroup(id:AccountGroup.Id);
+
+                if (deleteResult != null)
+                {
+                    DialogService.Close(null);
+                }
+            }
+        }
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Management.Masters.ItemGroups
+namespace ERP.Client.Pages.Management.Masters.Items.Groups
 {
     public partial class ItemGroups
     {
@@ -64,7 +64,7 @@ namespace ERP.Client.Pages.Management.Masters.ItemGroups
 
         private async Task AddButtonClick(MouseEventArgs args)
         {
-            await DialogService.OpenAsync<AddItemGroup>("Add ItemGroup", null);
+            await DialogService.OpenAsync<CreateItemGroup>("Add ItemGroup", null);
             await _grid0.Reload();
         }
 

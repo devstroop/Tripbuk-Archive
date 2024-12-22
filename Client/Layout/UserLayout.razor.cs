@@ -86,14 +86,53 @@ namespace ERP.Client.Layout
                             new MenuItem()
                             {
                                 Text = "Accounts",
+                                Icon = "account_balance",
                                 Path = "management/masters/accounts",
-                                Items = [
-                                    new MenuItem() { Text = "Groups", Path = "management/masters/accounts/groups" },
+                                Items = 
+                                [
+                                    new MenuItem() 
+                                    { 
+                                        Text = "Groups",
+                                        Icon = "category",
+                                        Path = "management/masters/accounts/groups",
+                                        Items = 
+                                        [
+                                            new MenuItem() { Text = "Create", Icon = "add", Path = "management/masters/accounts/groups/create" },
+                                        ]
+                                    },
+                                    new MenuItem() { Text = "Create", Icon = "add", Path = "management/masters/accounts/create" },
                                 ]
                             },
-                            new MenuItem() { Text = "Standard Narrations", Path = "management/masters/standard-narrations", Class = "rz-mb-4" },
-                            new MenuItem() { Text = "Items", Path = "management/masters/items" },
-                            new MenuItem() { Text = "Item Groups", Path = "management/masters/item-groups", Class = "rz-mb-4" },
+                            new MenuItem()
+                            { 
+                                Text = "Standard Narrations",
+                                Icon = "description",
+                                Path = "management/masters/standard-narrations",
+                                Items = 
+                                [
+                                            new MenuItem() { Text = "Create", Icon = "add", Path = "management/masters/standard-narrations/create" },
+                                ]
+                            },
+                            new MenuItem()
+                            {
+                                Text = "Items",
+                                Icon = "inventory_2",
+                                Path = "management/masters/items",
+                                Items = 
+                                [
+                                    new MenuItem() 
+                                    { 
+                                        Text = "Groups",
+                                        Icon = "category",
+                                        Path = "management/masters/items/groups",
+                                        Items = 
+                                        [
+                                            new MenuItem() { Text = "Create", Icon = "add", Path = "management/masters/items/groups/create" },
+                                        ]
+                                    },
+                                    new MenuItem() { Text = "Create", Icon = "add", Path = "management/masters/items/create" },
+                                ]
+                            },
                             new MenuItem() { Text = "Units", Path = "management/masters/units" },
                             new MenuItem() { Text = "Unit Conversions", Path = "management/masters/unit-conversions" },
                             new MenuItem() { Text = "Bill Sundries", Path = "#" },

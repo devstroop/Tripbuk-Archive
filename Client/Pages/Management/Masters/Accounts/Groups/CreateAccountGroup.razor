@@ -1,17 +1,17 @@
 @layout UserLayout
-@page "/management/masters/item-groups/add"
+@page "/management/masters/account-groups/create"
 @attribute [Authorize]
 
-<PageTitle>Add ItemGroup</PageTitle>
-    <RadzenColumn SizeMD=12>
-        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@ErrorVisible">Cannot save ItemGroup</RadzenAlert>
-        <RadzenTemplateForm TItem="Server.Models.Postgres.ItemGroup" Data="@ItemGroup" Visible="@(ItemGroup != null && CanEdit)" Submit="@FormSubmit">
+<PageTitle>Create Account Group</PageTitle>
+    <RadzenColumn SizeMD="12">
+        <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@ErrorVisible">Cannot save AccountGroup</RadzenAlert>
+        <RadzenTemplateForm TItem="Server.Models.Postgres.AccountGroup" Data="@AccountGroup" Visible="@(AccountGroup != null && CanEdit)" Submit="@FormSubmit">
             <RadzenRow style="margin-bottom: 1rem">
                 <RadzenColumn SizeMD="3">
                     <RadzenLabel Text="Group Name" Component="GroupName" style="width: 100%" />
                 </RadzenColumn>
                 <RadzenColumn SizeMD="9">
-                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@ItemGroup.GroupName" Name="GroupName" />
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@AccountGroup.GroupName" Name="GroupName" />
                     <RadzenRequiredValidator Component="GroupName" Text="GroupName is required" />
                 </RadzenColumn>
             </RadzenRow>
@@ -20,7 +20,7 @@
                     <RadzenLabel Text="Alias" Component="Alias" style="width: 100%" />
                 </RadzenColumn>
                 <RadzenColumn SizeMD="9">
-                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@ItemGroup.Alias" Name="Alias" />
+                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@AccountGroup.Alias" Name="Alias" />
                 </RadzenColumn>
             </RadzenRow>
             <RadzenRow style="margin-bottom: 1rem">
@@ -28,17 +28,17 @@
                     <RadzenLabel Text="Is Primary" Component="IsPrimary" style="width: 100%" />
                 </RadzenColumn>
                 <RadzenColumn SizeMD="9">
-                    <RadzenCheckBox @bind-Value="@ItemGroup.IsPrimary" Name="IsPrimary" />
+                    <RadzenCheckBox @bind-Value="@AccountGroup.IsPrimary" Name="IsPrimary" />
                 </RadzenColumn>
             </RadzenRow>
             <RadzenRow style="margin-bottom: 1rem">
                 <RadzenColumn SizeMD="3">
-                    <RadzenLabel Text="Item Group1" Component="ItemGroup1" style="width: 100%" />
+                    <RadzenLabel Text="Parent" Component="AccountGroup1" style="width: 100%" />
                 </RadzenColumn>
                 <RadzenColumn SizeMD="9">
-                    <RadzenDropDownDataGrid Data="@ItemGroupsForParent" TextProperty="GroupName" ValueProperty="Id" AllowClear=true
-                         Placeholder="Choose ItemGroup1" style="display: block; width: 100%" @bind-Value="@ItemGroup.Parent" Name="Parent"
-                        SelectedValue=@ItemGroupsForParentValue Count=@ItemGroupsForParentCount LoadData=@ItemGroupsForParentLoadData />
+                    <RadzenDropDownDataGrid Data="@AccountGroupsForParent" TextProperty="GroupName" ValueProperty="Id" AllowClear=true
+                         Placeholder="Choose Parent Group" style="display: block; width: 100%" @bind-Value="@AccountGroup.Parent" Name="AccountGroup1"
+                        SelectedValue=@AccountGroupsForParentValue Count=@AccountGroupsForParentCount LoadData=@AccountGroupsForParentLoadData Disabled="@(AccountGroup.IsPrimary == true)" />
                 </RadzenColumn>
             </RadzenRow>
           <RadzenStack  Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">

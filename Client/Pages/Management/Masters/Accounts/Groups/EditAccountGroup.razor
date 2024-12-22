@@ -58,10 +58,19 @@
                         SelectedValue=@AccountGroupsForParentValue Count=@AccountGroupsForParentCount LoadData=@AccountGroupsForParentLoadData Disabled="@(AccountGroup.IsPrimary == true)" />
                 </RadzenColumn>
             </RadzenRow>
-          <RadzenStack  Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
-                    <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Variant="Variant.Flat" />
-                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
-          </RadzenStack>
+            <RadzenRow>
+                <RadzenColumn Size="6">
+                    <RadzenStack Orientation="Orientation.Horizontal">
+                        <RadzenButton Text="Delete" Icon="delete" ButtonStyle="ButtonStyle.Danger" Click="@DeleteClick"></RadzenButton>
+                    </RadzenStack>
+                </RadzenColumn>
+                <RadzenColumn Size="6">
+                    <RadzenStack  Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                        <RadzenButton ButtonStyle="ButtonStyle.Primary" ButtonType="ButtonType.Submit" Icon="save" Text="Save" Variant="Variant.Flat" />
+                        <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Variant="Variant.Flat" Click="@CancelButtonClick"  />
+                    </RadzenStack>
+                </RadzenColumn>
+            </RadzenRow>
         </RadzenTemplateForm>
     </RadzenColumn>
 

@@ -15,6 +15,7 @@
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="6">
             <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                <RadzenButton Text="Groups" ButtonStyle="ButtonStyle.Base" Click="@(() => NavigationManager.NavigateTo("/management/masters/items/groups"))" Variant="Variant.Flat" />
                 <RadzenButton Icon="add_circle_outline" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
             </RadzenStack>
         </RadzenColumn>

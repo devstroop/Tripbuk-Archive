@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Management.Masters.ItemGroups
+namespace ERP.Client.Pages.Management.Masters.Items.Groups
 {
-    public partial class EditItemGroup
+    public partial class CreateItemGroup
     {
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
@@ -32,12 +32,9 @@ namespace ERP.Client.Pages.Management.Masters.ItemGroups
         [Inject]
         public PostgresService PostgresService { get; set; }
 
-        [Parameter]
-        public int Id { get; set; }
-
         protected override async Task OnInitializedAsync()
         {
-            ItemGroup = await PostgresService.GetItemGroupById(id:Id);
+            ItemGroup = new ERP.Server.Models.Postgres.ItemGroup();
         }
         protected bool ErrorVisible;
         protected ERP.Server.Models.Postgres.ItemGroup ItemGroup;
@@ -75,13 +72,7 @@ namespace ERP.Client.Pages.Management.Masters.ItemGroups
         {
             try
             {
-                var result = await PostgresService.UpdateItemGroup(id:Id, ItemGroup);
-                if (result.StatusCode == System.Net.HttpStatusCode.PreconditionFailed)
-                {
-                     HasChanges = true;
-                     CanEdit = false;
-                     return;
-                }
+                var result = await PostgresService.CreateItemGroup(ItemGroup);
                 DialogService.Close(ItemGroup);
             }
             catch (Exception ex)
@@ -101,14 +92,5 @@ namespace ERP.Client.Pages.Management.Masters.ItemGroups
 
         [Inject]
         protected SecurityService Security { get; set; }
-
-
-        protected async Task ReloadButtonClick(MouseEventArgs args)
-        {
-            HasChanges = false;
-            CanEdit = true;
-
-            ItemGroup = await PostgresService.GetItemGroupById(id:Id);
-        }
     }
 }

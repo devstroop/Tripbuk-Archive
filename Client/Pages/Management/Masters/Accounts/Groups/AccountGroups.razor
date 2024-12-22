@@ -1,5 +1,6 @@
 @layout UserLayout
 @page "/management/masters/accounts/groups"
+@using ERP.Server.Extensions
 @attribute [Authorize]
 
 <PageTitle>Account Groups</PageTitle>
@@ -17,7 +18,7 @@
         <RadzenColumn Size="12" SizeMD="6">
             <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
                 <RadzenButton Text="Accounts" ButtonStyle="ButtonStyle.Base" Click="@(() => NavigationManager.NavigateTo("/management/masters/accounts"))" Variant="Variant.Flat" />
-                <RadzenButton Icon="add_circle_outline" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+                <RadzenButton Icon="add_circle_outline" Text="Create" Click="@AddButtonClick" Variant="Variant.Flat" />
             </RadzenStack>
         </RadzenColumn>
     </RadzenRow>
@@ -25,15 +26,24 @@
     <RadzenRow>
       <RadzenColumn SizeMD="12">
         <RadzenDataGrid @ref="_grid0" ColumnWidth="200px" AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" PageSize="20" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions="@(new []{10, 20, 50, 100})"
-            Data="@_accountGroups" LoadData="@Grid0LoadData" Count="@_count" TItem="Server.Models.Postgres.AccountGroup" RowSelect="@EditRow">
+            Data="@_accountGroups" LoadData="@Grid0LoadData" Count="@_count" TItem="Server.Models.Postgres.AccountGroup" Density="Radzen.Density.Default" Style="max-height: 600px">
             <Columns>
-                <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Property="GroupName" Title="Group Name">
+                <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Title="Prefix" Width="60px" Filterable="false" Sortable="false" TextAlign="Radzen.TextAlign.Center" Frozen="true" Resizable="false" Groupable="false">
                     <Template>
-                        <RadzenText Text="@context.GroupName" TextStyle="TextStyle.Body2" Style="font-weight: bold;" class="rz-mb-0"></RadzenText>
+                        <RadzenRow JustifyContent="JustifyContent.Center">
+                            <RadzenStack Style="width: 32px; height: 32px; text-transform: uppercase" class="rz-background-color-primary-lighter rz-border-radius-2 rz-shadow-2 rz-m-05" JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center">
+                                <RadzenText Text="@context.GroupName.GetPrefix()" TextStyle="TextStyle.Body2" class="rz-mb-0 rz-color-on-primary-lighter" Style="font-weight: bold"></RadzenText>
+                            </RadzenStack>
+                        </RadzenRow>
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Property="GroupName" Title="Group Name" Frozen="true">
+                    <Template>
+                        <RadzenText Text="@context.GroupName" TextStyle="TextStyle.Body2" class="rz-mb-0" Style="font-weight: 500"></RadzenText>
                         <RadzenText Text="@context.Alias" TextStyle="TextStyle.Caption" Visible="@(context.Alias != null)" class="rz-mb-0"></RadzenText>
                     </Template>
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Property="IsPrimary" Title="Primary" Filterable="false">
+                <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Property="IsPrimary" Title="Primary" Filterable="false" TextAlign="Radzen.TextAlign.Center">
                     <Template>
                         <RadzenBadge Text="Yes" IsPill="true" Visible="@(context.IsPrimary == true)"></RadzenBadge>
                         <RadzenBadge Text="No" BadgeStyle="BadgeStyle.Base" IsPill="true" Visible="@(context.IsPrimary != true)"></RadzenBadge>
@@ -44,18 +54,19 @@
                         <RadzenText TextStyle="TextStyle.Body2" Text="@($"{context.AccountGroup1?.GroupName}")" Visible="@(context.IsPrimary != true && context.AccountGroup1 != null)"></RadzenText>
                     </Template>
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Filterable="false" Sortable="false" Width="100px" TextAlign="TextAlign.Center" Frozen="true" FrozenPosition="FrozenColumnPosition.Right" Resizable="false">
                     <Template Context="accountGroup">
-
-                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
-                            Shade="Shade.Lighter" Variant="Variant.Flat"
-                            Click=@(args => GridDeleteButtonClick(args, accountGroup)) @onclick:stopPropagation="true" />
+                        <RadzenSplitButton Text="Edit" Size="ButtonSize.Small"
+                                           Shade="Shade.Lighter" Variant="Variant.Flat"
+                                           Click=@(args => RowSplitButtonClick(args?.Value, accountGroup))                                                                                                                  @onclick:stopPropagation="true">
+                            <ChildContent>
+                                <RadzenSplitButtonItem Text="Delete" Value="delete"></RadzenSplitButtonItem>
+                            </ChildContent>
+                        </RadzenSplitButton>
                     </Template>
                 </RadzenDataGridColumn>
             </Columns>
-
         </RadzenDataGrid>
-
     </RadzenColumn>
   </RadzenRow>
 </RadzenStack>

@@ -1,5 +1,5 @@
 @layout UserLayout
-@page "/management/masters/item-groups"
+@page "/management/masters/items/groups"
 @attribute [Authorize]
 
 <PageTitle>Item Groups</PageTitle>
@@ -7,7 +7,8 @@
     <RadzenBreadCrumb>
         <RadzenBreadCrumbItem Text="Management" />
         <RadzenBreadCrumbItem Text="Masters" />
-        <RadzenBreadCrumbItem Text="Item Groups" Path="/management/masters/item-groups" />
+        <RadzenBreadCrumbItem Text="Items" Path="/management/masters/items" />
+        <RadzenBreadCrumbItem Text="Groups" Path="/management/masters/items/groups" />
     </RadzenBreadCrumb>
     <RadzenRow AlignItems="AlignItems.Center">
         <RadzenColumn Size="12" SizeMD="6">
@@ -15,6 +16,7 @@
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="6">
             <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                <RadzenButton Text="Items" ButtonStyle="ButtonStyle.Base" Click="@(() => NavigationManager.NavigateTo("/management/masters/items"))" Variant="Variant.Flat" />
                 <RadzenButton Icon="add_circle_outline" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
             </RadzenStack>
         </RadzenColumn>

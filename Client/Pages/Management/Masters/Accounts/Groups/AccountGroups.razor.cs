@@ -68,28 +68,35 @@ namespace ERP.Client.Pages.Management.Masters.Accounts.Groups
 
         private async Task AddButtonClick(MouseEventArgs args)
         {
-            await DialogService.OpenAsync<AddAccountGroup>("Add Account Group", null);
+            await DialogService.OpenAsync<CreateAccountGroup>("Create Account Group", null);
             await _grid0.Reload();
         }
 
-        private async Task EditRow(ERP.Server.Models.Postgres.AccountGroup args)
-        {
-            await DialogService.OpenAsync<EditAccountGroup>("Edit Account Group", new Dictionary<string, object> { {"Id", args.Id} });
-            await _grid0.Reload();
-        }
 
-        private async Task GridDeleteButtonClick(MouseEventArgs args, ERP.Server.Models.Postgres.AccountGroup accountGroup)
+        private async Task RowSplitButtonClick(string value, ERP.Server.Models.Postgres.AccountGroup accountGroup)
         {
             try
             {
-                if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+                if (value == null)
                 {
-                    var deleteResult = await PostgresService.DeleteAccountGroup(id:accountGroup.Id);
+                    await DialogService.OpenAsync<EditAccountGroup>("Edit Account Group", new Dictionary<string, object> { {"Id", accountGroup.Id} });
+                    await _grid0.Reload();
+                    return;
+                }
+                switch (value)
+                {
+                    case "delete":
+                        if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+                        {
+                            var deleteResult = await PostgresService.DeleteAccountGroup(id:accountGroup.Id);
 
-                    if (deleteResult != null)
-                    {
-                        await _grid0.Reload();
-                    }
+                            if (deleteResult != null)
+                            {
+                                await _grid0.Reload();
+                            }
+                        }
+                        break;
+                    
                 }
             }
             catch (Exception ex)

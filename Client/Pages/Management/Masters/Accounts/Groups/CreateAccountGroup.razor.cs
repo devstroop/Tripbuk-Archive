@@ -10,7 +10,7 @@ using Radzen.Blazor;
 
 namespace ERP.Client.Pages.Management.Masters.Accounts.Groups
 {
-    public partial class AddAccountGroup
+    public partial class CreateAccountGroup
     {
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }
