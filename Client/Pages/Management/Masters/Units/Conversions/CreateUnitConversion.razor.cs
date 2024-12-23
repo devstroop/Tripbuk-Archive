@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 
-namespace ERP.Client.Pages.Management.Masters.UnitConversions
+namespace ERP.Client.Pages.Management.Masters.Units.Conversions
 {
-    public partial class AddUnitConversion
+    public partial class CreateUnitConversion
     {
         [Inject]
         protected IJSRuntime JsRuntime { get; set; }

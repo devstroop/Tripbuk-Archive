@@ -1,0 +1,27 @@
+@if (Visible)
+{
+    <dotlottie-player
+        src="@Path"
+        background="@BackgroundColor"
+        speed="@Speed"
+        style="@Style"
+        direction="@Direction"
+        playMode="normal"
+        loop="@Loop"
+        controls="@Controls"
+        autoplay="@Autoplay"
+    >
+    </dotlottie-player>
+}
+@code {
+    [Parameter] public required string Path { get; set; }
+    [Parameter] public string BackgroundColor { get; set; } = "transparent";
+    [Parameter] public string Style { get; set; }
+    [Parameter] public int Speed { get; set; } = 1;
+    [Parameter] public int Direction { get; set; } = 1;
+    [Parameter] public LottiePlayMode PlayMode { get; set; } = LottiePlayMode.Normal;
+    [Parameter] public bool Loop { get; set; } = true;
+    [Parameter] public bool Controls { get; set; } = false;
+    [Parameter] public bool Autoplay { get; set; } = true;
+    [Parameter] public bool Visible { get; set; } = true;
+}

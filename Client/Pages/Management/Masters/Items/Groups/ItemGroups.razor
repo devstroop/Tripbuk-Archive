@@ -1,5 +1,7 @@
 @layout UserLayout
 @page "/management/masters/items/groups"
+@using ERP.Server.Extensions
+@using ERP.Client.Components
 @attribute [Authorize]
 
 <PageTitle>Item Groups</PageTitle>
@@ -24,29 +26,54 @@
     <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" aria-label="Search by all string columns" />
     <RadzenRow>
       <RadzenColumn SizeMD=12>
-        <RadzenDataGrid @ref="_grid0" ColumnWidth="200px"   AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions="@(new []{5, 10, 20, 30})"
+        <RadzenDataGrid @ref="_grid0" ColumnWidth="200px" AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions="@(new []{5, 10, 20, 30})"
             Data="@_itemGroups" LoadData="@Grid0LoadData" Count="@_count" TItem="Server.Models.Postgres.ItemGroup" RowSelect="@EditRow">
+            <EmptyTemplate>
+                <NoRecordsFound Text="No item groups found!"></NoRecordsFound>
+            </EmptyTemplate>
             <Columns>
-                <RadzenDataGridColumn TItem="Server.Models.Postgres.ItemGroup" Property="Id" Title="Id">
+                <RadzenDataGridColumn TItem="Server.Models.Postgres.ItemGroup" Title="Prefix" TextAlign="Radzen.TextAlign.Center" Frozen="true" Resizable="false" Groupable="false" Width="60px" Filterable="false" Sortable="false">
+                    <Template>
+                        <RadzenRow JustifyContent="JustifyContent.Center">
+                            <RadzenStack Style="width: 32px; height: 32px; text-transform: uppercase" class="rz-background-color-primary-lighter rz-border-radius-2 rz-shadow-2 rz-m-05" JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center">
+                                <RadzenText Text="@context.GroupName.GetPrefix()" TextStyle="TextStyle.Body2" class="rz-mb-0 rz-color-on-primary-lighter" Style="font-weight: bold"></RadzenText>
+                            </RadzenStack>
+                        </RadzenRow>
+                    </Template>
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Server.Models.Postgres.ItemGroup" Property="GroupName" Title="Group Name">
+                <RadzenDataGridColumn TItem="Server.Models.Postgres.ItemGroup" Property="GroupName" Title="Name" Frozen="true">
+                    <Template>
+                        <RadzenRow JustifyContent="JustifyContent.Center">
+                            <RadzenStack Style="width: 32px; height: 32px; text-transform: uppercase" class="rz-background-color-primary-lighter rz-border-radius-2 rz-shadow-2 rz-m-05" JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center">
+                                <RadzenText Text="@context.GroupName.GetPrefix()" TextStyle="TextStyle.Body2" class="rz-mb-0 rz-color-on-primary-lighter" Style="font-weight: bold"></RadzenText>
+                            </RadzenStack>
+                        </RadzenRow>
+                    </Template>
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Server.Models.Postgres.ItemGroup" Property="Alias" Title="Alias">
+                <RadzenDataGridColumn TItem="Server.Models.Postgres.ItemGroup" Property="IsPrimary" Title="Primary">
+                    <Template>
+                        <RadzenBadge Text="Yes" IsPill="true" Visible="@(context.IsPrimary == true)"></RadzenBadge>
+                        <RadzenBadge Text="No" BadgeStyle="BadgeStyle.Base" IsPill="true" Visible="@(context.IsPrimary != true)"></RadzenBadge>
+                    </Template>
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Server.Models.Postgres.ItemGroup" Property="IsPrimary" Title="Is Primary">
-                </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Server.Models.Postgres.ItemGroup" Property="ItemGroup1.GroupName" Title="Item Group1">
+                <RadzenDataGridColumn TItem="Server.Models.Postgres.ItemGroup" Property="ItemGroup1.GroupName" Title="Parent">
+                    <Template>
+                        <RadzenText TextStyle="TextStyle.Body2" Text="@($"{context.ItemGroup1?.GroupName}")" Visible="@(context.IsPrimary != true && context.ItemGroup1 != null)"></RadzenText>
+                    </Template>
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn TItem="Server.Models.Postgres.ItemGroup" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
                     <Template Context="itemGroup">
-
-                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
-                            Shade="Shade.Lighter" Variant="Variant.Flat"
-                            Click=@(args => GridDeleteButtonClick(args, itemGroup)) @onclick:stopPropagation="true" />
+                        <RadzenSplitButton Text="Edit" Size="ButtonSize.Medium"
+                                           Shade="Shade.Lighter" Variant="Variant.Flat"
+                                           Click=@(args => RowSplitButtonClick(args?.Value, itemGroup))
+                                           @onclick:stopPropagation="true">
+                            <ChildContent>
+                                <RadzenSplitButtonItem Icon="delete" Text="Delete" Value="delete"></RadzenSplitButtonItem>
+                            </ChildContent>
+                        </RadzenSplitButton>
                     </Template>
                 </RadzenDataGridColumn>
             </Columns>
-
         </RadzenDataGrid>
 
     </RadzenColumn>

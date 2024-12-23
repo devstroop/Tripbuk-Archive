@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ERP.Client.Components;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -62,14 +63,27 @@ namespace ERP.Client.Layout
             }
         }
         
-        class MenuItem
+        private RenderFragment RenderMenuItem(MenuItem item) => builder =>
         {
-            public required string Text { get; set; }
-            public string Icon { get; set; }
-            public string Path { get; set; }
-            public string Class { get; set; }
-            public List<MenuItem> Items { get; set; }
-        }
+            builder.OpenComponent<RadzenMenuItem>(0);
+            builder.AddAttribute(1, "Text", item.Text);
+            if (item.Icon != null) builder.AddAttribute(2, "Icon", item.Icon);
+            if (item.Path != null) builder.AddAttribute(3, "Path", item.Path);
+            if (item.Class != null) builder.AddAttribute(4, "class", item.Class);
+            if (item.Items != null && item.Items.Count != 0)
+            {
+                builder.AddAttribute(4, "ChildContent", (RenderFragment)(childBuilder =>
+                {
+                    foreach (var subItem in item.Items)
+                    {
+                        childBuilder.AddContent(5, RenderMenuItem(subItem));
+                    }
+                }));
+            }
+
+            builder.CloseComponent();
+        };
+        
         
         private readonly List<MenuItem> _menuItems =
         [
@@ -104,16 +118,6 @@ namespace ERP.Client.Layout
                                 ]
                             },
                             new MenuItem()
-                            { 
-                                Text = "Standard Narrations",
-                                Icon = "description",
-                                Path = "management/masters/standard-narrations",
-                                Items = 
-                                [
-                                            new MenuItem() { Text = "Create", Icon = "add", Path = "management/masters/standard-narrations/create" },
-                                ]
-                            },
-                            new MenuItem()
                             {
                                 Text = "Items",
                                 Icon = "inventory_2",
@@ -133,15 +137,75 @@ namespace ERP.Client.Layout
                                     new MenuItem() { Text = "Create", Icon = "add", Path = "management/masters/items/create" },
                                 ]
                             },
-                            new MenuItem() { Text = "Units", Path = "management/masters/units" },
-                            new MenuItem() { Text = "Unit Conversions", Path = "management/masters/unit-conversions" },
-                            new MenuItem() { Text = "Bill Sundries", Path = "#" },
-                            new MenuItem() { Text = "Bill of Materials", Path = "#", Class = "rz-mb-4" },
-                            new MenuItem() { Text = "Sale Types", Path = "#" },
-                            new MenuItem() { Text = "Purchase Types", Path = "#" },
-                            new MenuItem() { Text = "Tax Slabs", Path = "#", Class = "rz-mb-4" },
-                            new MenuItem() { Text = "Misc. Masters", Path = "#", Class = "rz-mb-4" },
-                            new MenuItem() { Text = "Bulk Modifications", Path = "#", Class = "rz-mb-4" },
+                            new MenuItem()
+                            {
+                                Text = "Units",
+                                Icon = "scale",
+                                Path = "management/masters/units",
+                                Items = 
+                                [
+                                    new MenuItem()
+                                    {
+                                        Text = "Conversions",
+                                        Icon = "rule_settings",
+                                        Path = "management/masters/units/conversions",
+                                        Items = 
+                                        [
+                                            new MenuItem() { Text = "Create", Icon = "add", Path = "management/masters/units/conversions/create" },
+                                        ]
+                                    },
+                                    new MenuItem() { Text = "Create", Icon = "add", Path = "management/masters/units/create" },
+                                ]
+                            },
+                            new MenuItem()
+                            {
+                                Text = "Bill Sundries", 
+                                Path = "#"
+                            },
+                            new MenuItem()
+                            {
+                                Text = "Bill of Materials", 
+                                Path = "#", 
+                                Class = "rz-mb-4"
+                            },
+                            new MenuItem()
+                            { 
+                                Text = "Standard Narrations",
+                                Icon = "description",
+                                Path = "management/masters/standard-narrations",
+                                Items = 
+                                [
+                                    new MenuItem() { Text = "Create", Icon = "add", Path = "management/masters/standard-narrations/create" },
+                                ]
+                            },
+                            new MenuItem()
+                            {
+                                Text = "Sale Types", 
+                                Path = "#"
+                            },
+                            new MenuItem()
+                            {
+                                Text = "Purchase Types",
+                                Path = "#"
+                            },
+                            new MenuItem()
+                            {
+                                Text = "Tax Slabs",
+                                Path = "#", 
+                                Class = "rz-mb-4"
+                            },
+                            new MenuItem()
+                            {
+                                Text = "Misc. Masters", 
+                                Path = "#", 
+                                Class = "rz-mb-4"
+                            },
+                            new MenuItem()
+                            {
+                                Text = "Bulk Modifications", 
+                                Path = "#",
+                                Class = "rz-mb-4"
+                            },
                         ]
                     },
                     new MenuItem()
@@ -149,12 +213,29 @@ namespace ERP.Client.Layout
                         Text = "Access", 
                         Icon = "shield_person", 
                         Items = [
-                            new MenuItem() { Text = "Users", Path = "management/access/users" },
-                            new MenuItem() { Text = "Roles", Path = "management/access/roles" },
-                            new MenuItem() { Text = "Permissions", Path = "#" },
+                            new MenuItem()
+                            {
+                                Text = "Users", 
+                                Path = "management/access/users"
+                            },
+                            new MenuItem()
+                            {
+                                Text = "Roles",
+                                Path = "management/access/roles"
+                            },
+                            new MenuItem()
+                            {
+                                Text = "Permissions",
+                                Path = "#"
+                            },
                         ]
                     },
-                    new MenuItem() { Text = "Configuration", Icon = "manufacturing", Path = "#" }
+                    new MenuItem()
+                    {
+                        Text = "Configuration",
+                        Icon = "manufacturing",
+                        Path = "#"
+                    }
                 ]
             },
 

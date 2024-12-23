@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Management.Masters.UnitConversions
+namespace ERP.Client.Pages.Management.Masters.Units.Conversions
 {
     public partial class UnitConversions
     {
@@ -64,7 +64,7 @@ namespace ERP.Client.Pages.Management.Masters.UnitConversions
 
         private async Task AddButtonClick(MouseEventArgs args)
         {
-            await DialogService.OpenAsync<AddUnitConversion>("Add Unit Conversion", null);
+            await DialogService.OpenAsync<CreateUnitConversion>("Add Unit Conversion", null);
             await _grid0.Reload();
         }
 

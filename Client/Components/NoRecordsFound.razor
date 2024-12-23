@@ -1,0 +1,34 @@
+<RadzenStack JustifyContent="JustifyContent.Center"
+             AlignItems="AlignItems.Center"
+             class="rz-p-12 rz-mb-4">
+    @if (IsAnimation)
+    {
+        <LottieAnimation Path="@Src"
+                         Style="height: 300px; width: 300px; opacity: 0.5">
+        </LottieAnimation>
+    } 
+    else if (IsImage)
+    {
+        <RadzenImage Path="@Src"
+                     Style="height: 300px; width: 300px; opacity: 0.5">
+        </RadzenImage>
+    }
+    else
+    {
+        <RadzenIcon Icon="info"
+                    class="rz-color-base-300"
+                    Style="opacity: 0.5; font-size: 300px">
+        </RadzenIcon>
+    }
+    <RadzenText Text="@Text"
+                TextStyle="TextStyle.DisplayH5"
+                class="rz-color-base-300"
+                Style="font-weight: bold">
+    </RadzenText>
+</RadzenStack>
+@code {
+    [Parameter] public string Text { get; set; } = "No records found!";
+    [Parameter] public string Src { get; set; } = "/animations/empty.json";
+    private bool IsAnimation => Src.EndsWith(".json");
+    private bool IsImage => Src.EndsWith(".png") || Src.EndsWith(".jpg") || Src.EndsWith(".jpeg");
+}

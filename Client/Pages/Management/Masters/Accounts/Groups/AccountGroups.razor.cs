@@ -33,7 +33,7 @@ namespace ERP.Client.Pages.Management.Masters.Accounts.Groups
         [Inject]
         public PostgresService PostgresService { get; set; }
 
-        protected IEnumerable<ERP.Server.Models.Postgres.AccountGroup> _accountGroups;
+        private IEnumerable<ERP.Server.Models.Postgres.AccountGroup> _accountGroups;
 
         private RadzenDataGrid<ERP.Server.Models.Postgres.AccountGroup> _grid0;
         private int _count;
@@ -75,18 +75,18 @@ namespace ERP.Client.Pages.Management.Masters.Accounts.Groups
 
         private async Task RowSplitButtonClick(string value, ERP.Server.Models.Postgres.AccountGroup accountGroup)
         {
-            try
+            if (value == null)
             {
-                if (value == null)
-                {
-                    await DialogService.OpenAsync<EditAccountGroup>("Edit Account Group", new Dictionary<string, object> { {"Id", accountGroup.Id} });
-                    await _grid0.Reload();
-                    return;
-                }
-                switch (value)
-                {
-                    case "delete":
-                        if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+                await DialogService.OpenAsync<EditAccountGroup>("Edit Account Group", new Dictionary<string, object> { {"Id", accountGroup.Id} });
+                await _grid0.Reload();
+                return;
+            }
+            switch (value)
+            {
+                case "delete":
+                    if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+                    {
+                        try
                         {
                             var deleteResult = await PostgresService.DeleteAccountGroup(id:accountGroup.Id);
 
@@ -95,18 +95,18 @@ namespace ERP.Client.Pages.Management.Masters.Accounts.Groups
                                 await _grid0.Reload();
                             }
                         }
-                        break;
+                        catch (Exception ex)
+                        {
+                            NotificationService.Notify(new NotificationMessage
+                            {
+                                Severity = NotificationSeverity.Error,
+                                Summary = $"Error",
+                                Detail = $"Unable to delete Account Group"
+                            });
+                        }
+                    }
+                    break;
                     
-                }
-            }
-            catch (Exception ex)
-            {
-                NotificationService.Notify(new NotificationMessage
-                {
-                    Severity = NotificationSeverity.Error,
-                    Summary = $"Error",
-                    Detail = $"Unable to delete AccountGroup"
-                });
             }
         }
     }

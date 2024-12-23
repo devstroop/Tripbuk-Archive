@@ -98,8 +98,13 @@
                                     <RadzenLabel Text="GSTIN" Component="Gstin" style="width: 100%"/>
                                 </RadzenColumn>
                                 <RadzenColumn SizeMD="9">
-                                    <RadzenTextBox style="display: block; width: 100%" @bind-Value="@Account.Gstin"
-                                                   Name="Gstin" Placeholder="GSTIN"/>
+                                    <RadzenRow Gap="1rem">
+                                        <RadzenColumn>
+                                            <RadzenTextBox style="display: block; width: 100%" @bind-Value="@Account.Gstin"
+                                                           Name="Gstin" Placeholder="GSTIN"/>
+                                        </RadzenColumn>
+                                        <RadzenButton Text="Validate"></RadzenButton>
+                                    </RadzenRow>
                                 </RadzenColumn>
                             </RadzenRow>
                             <RadzenRow style="margin-bottom: 1rem">

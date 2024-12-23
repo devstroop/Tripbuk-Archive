@@ -68,34 +68,45 @@ namespace ERP.Client.Pages.Management.Masters.Items.Groups
             await _grid0.Reload();
         }
 
-        protected async Task EditRow(ERP.Server.Models.Postgres.ItemGroup args)
+        private async Task EditRow(ERP.Server.Models.Postgres.ItemGroup args)
         {
             await DialogService.OpenAsync<EditItemGroup>("Edit ItemGroup", new Dictionary<string, object> { {"Id", args.Id} });
             await _grid0.Reload();
         }
 
-        protected async Task GridDeleteButtonClick(MouseEventArgs args, ERP.Server.Models.Postgres.ItemGroup itemGroup)
+        private async Task RowSplitButtonClick(string value, ERP.Server.Models.Postgres.ItemGroup itemGroup)
         {
-            try
+            if (value == null)
             {
-                if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
-                {
-                    var deleteResult = await PostgresService.DeleteItemGroup(id:itemGroup.Id);
-
-                    if (deleteResult != null)
-                    {
-                        await _grid0.Reload();
-                    }
-                }
+                await DialogService.OpenAsync<EditItemGroup>("Edit Item Group", new Dictionary<string, object> { {"Id", itemGroup.Id} });
+                await _grid0.Reload();
+                return;
             }
-            catch (Exception ex)
+            switch (value)
             {
-                NotificationService.Notify(new NotificationMessage
-                {
-                    Severity = NotificationSeverity.Error,
-                    Summary = $"Error",
-                    Detail = $"Unable to delete ItemGroup"
-                });
+                case "delete":
+                    if (await DialogService.Confirm("Are you sure you want to delete this record?") == true)
+                    {
+                        try
+                        {
+                            var deleteResult = await PostgresService.DeleteAccountGroup(id:itemGroup.Id);
+
+                            if (deleteResult != null)
+                            {
+                                await _grid0.Reload();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            NotificationService.Notify(new NotificationMessage
+                            {
+                                Severity = NotificationSeverity.Error,
+                                Summary = $"Error",
+                                Detail = $"Unable to delete ItemGroup"
+                            });
+                        }
+                    }
+                    break;
             }
         }
     }

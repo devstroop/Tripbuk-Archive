@@ -1,5 +1,6 @@
 @layout UserLayout
-@page "/management/masters/unit-conversions"
+@page "/management/masters/units/conversions"
+@using ERP.Client.Components
 @attribute [Authorize]
 
 <PageTitle>Unit Conversions</PageTitle>
@@ -24,6 +25,9 @@
       <RadzenColumn SizeMD="12">
         <RadzenDataGrid @ref="_grid0" ColumnWidth="200px"   AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions="@(new []{5, 10, 20, 30})"
             Data="@_unitConversions" LoadData="@Grid0LoadData" Count="@_count" TItem="Server.Models.Postgres.UnitConversion" RowSelect="@EditRow">
+            <EmptyTemplate>
+                <NoRecordsFound Text="No unit conversions found!"></NoRecordsFound>
+            </EmptyTemplate>
             <Columns>
                 <RadzenDataGridColumn TItem="Server.Models.Postgres.UnitConversion" Property="Id" Title="Id">
                 </RadzenDataGridColumn>

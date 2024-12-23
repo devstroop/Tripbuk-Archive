@@ -1,5 +1,6 @@
 @layout UserLayout
 @page "/management/access/users"
+@using ERP.Client.Components
 @attribute [Authorize]
 
 <PageTitle>Users</PageTitle>
@@ -24,6 +25,9 @@
             <RadzenAlert Size="AlertSize.Large" Shade="Shade.Light" AlertStyle="AlertStyle.Danger" Variant="Variant.Flat" Title="Cannot delete user" Visible="@_errorVisible">@_error</RadzenAlert>
             <RadzenDataGrid @ref="Grid0" AllowFiltering="true" AllowPaging="true" ShowPagingSummary="true" PageSizeOptions="@(new []{5, 10, 20, 30})" AllowSorting="true" Data="@_users"
                 TItem="Server.Models.ApplicationUser" RowSelect="@RowSelect">
+                <EmptyTemplate>
+                    <NoRecordsFound Text="No users found!"></NoRecordsFound>
+                </EmptyTemplate>
                 <Columns>
                     <RadzenDataGridColumn TItem="Server.Models.ApplicationUser" Property="UserName" Title="User Name" />
                     <RadzenDataGridColumn TItem="Server.Models.ApplicationUser" Property="Email" Title="Email" />

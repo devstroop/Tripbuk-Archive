@@ -1,5 +1,6 @@
 @layout UserLayout
 @page "/management/masters/items"
+@using ERP.Client.Components
 @attribute [Authorize]
 
 <PageTitle>Items</PageTitle>
@@ -25,6 +26,9 @@
       <RadzenColumn SizeMD=12>
         <RadzenDataGrid @ref="_grid0" ColumnWidth="200px"   AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions="@(new []{5, 10, 20, 30})"
             Data="@_items" LoadData="@Grid0LoadData" Count="@_count" TItem="Server.Models.Postgres.Item" RowSelect="@EditRow">
+            <EmptyTemplate>
+                <NoRecordsFound Text="No items found!"></NoRecordsFound>
+            </EmptyTemplate>
             <Columns>
                 <RadzenDataGridColumn TItem="Server.Models.Postgres.Item" Property="Id" Title="Id">
                 </RadzenDataGridColumn>

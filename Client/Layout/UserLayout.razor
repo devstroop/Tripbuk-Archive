@@ -1,3 +1,4 @@
+@using ERP.Client.Components
 @inherits LayoutComponentBase
 <RadzenDialog/>
 <RadzenNotification/>
@@ -15,28 +16,6 @@
                                 Style="color: var(--rz-header-color); font-weight: bolder;"
                                 Visible="!_sidebarExpanded"/>
                     <RadzenMenu class="rz-display-none rz-display-sm-inline-flex">
-                        @code {
-                            private RenderFragment RenderMenuItem(MenuItem item) => builder =>
-                            {
-                                builder.OpenComponent<RadzenMenuItem>(0);
-                                builder.AddAttribute(1, "Text", item.Text);
-                                if (item.Icon != null) builder.AddAttribute(2, "Icon", item.Icon);
-                                if (item.Path != null) builder.AddAttribute(3, "Path", item.Path);
-                                if (item.Class != null) builder.AddAttribute(4, "class", item.Class);
-                                if (item.Items != null && item.Items.Any())
-                                {
-                                    builder.AddAttribute(4, "ChildContent", (RenderFragment)(childBuilder =>
-                                    {
-                                        foreach (var subItem in item.Items)
-                                        {
-                                            childBuilder.AddContent(5, RenderMenuItem(subItem));
-                                        }
-                                    }));
-                                }
-
-                                builder.CloseComponent();
-                            };
-                        }
                         @foreach (var item in _menuItems)
                         {
                             @RenderMenuItem(item)

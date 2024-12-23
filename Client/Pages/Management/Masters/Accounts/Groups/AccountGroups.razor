@@ -1,6 +1,7 @@
 @layout UserLayout
 @page "/management/masters/accounts/groups"
 @using ERP.Server.Extensions
+@using ERP.Client.Components
 @attribute [Authorize]
 
 <PageTitle>Account Groups</PageTitle>
@@ -27,6 +28,9 @@
       <RadzenColumn SizeMD="12">
         <RadzenDataGrid @ref="_grid0" ColumnWidth="200px" AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" PageSize="20" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions="@(new []{10, 20, 50, 100})"
             Data="@_accountGroups" LoadData="@Grid0LoadData" Count="@_count" TItem="Server.Models.Postgres.AccountGroup" Density="Radzen.Density.Default" Style="max-height: 600px">
+            <EmptyTemplate>
+                <NoRecordsFound Text="No account groups found!"></NoRecordsFound>
+            </EmptyTemplate>
             <Columns>
                 <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Title="Prefix" Width="60px" Filterable="false" Sortable="false" TextAlign="Radzen.TextAlign.Center" Frozen="true" Resizable="false" Groupable="false">
                     <Template>
@@ -37,7 +41,7 @@
                         </RadzenRow>
                     </Template>
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Property="GroupName" Title="Group Name" Frozen="true">
+                <RadzenDataGridColumn TItem="Server.Models.Postgres.AccountGroup" Property="GroupName" Title="Name" Frozen="true">
                     <Template>
                         <RadzenText Text="@context.GroupName" TextStyle="TextStyle.Body2" class="rz-mb-0" Style="font-weight: 500"></RadzenText>
                         <RadzenText Text="@context.Alias" TextStyle="TextStyle.Caption" Visible="@(context.Alias != null)" class="rz-mb-0"></RadzenText>
@@ -60,7 +64,7 @@
                                            Shade="Shade.Lighter" Variant="Variant.Flat"
                                            Click=@(args => RowSplitButtonClick(args?.Value, accountGroup))                                                                                                                  @onclick:stopPropagation="true">
                             <ChildContent>
-                                <RadzenSplitButtonItem Text="Delete" Value="delete"></RadzenSplitButtonItem>
+                                <RadzenSplitButtonItem Icon="delete" Text="Delete" Value="delete"></RadzenSplitButtonItem>
                             </ChildContent>
                         </RadzenSplitButton>
                     </Template>
