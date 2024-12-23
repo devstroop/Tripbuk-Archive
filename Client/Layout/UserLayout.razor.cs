@@ -159,14 +159,23 @@ namespace ERP.Client.Layout
                             },
                             new MenuItem()
                             {
-                                Text = "Bill Sundries", 
-                                Path = "#"
+                                Text = "Bill Sundries",
+                                Icon = "receipt",
+                                Path = "#",
+                                Items = 
+                                [
+                                    new MenuItem() { Text = "Create", Icon = "add", Path = "#" },
+                                ]
                             },
                             new MenuItem()
                             {
                                 Text = "Bill of Materials", 
+                                Icon = "checklist",
                                 Path = "#", 
-                                Class = "rz-mb-4"
+                                Items = 
+                                [
+                                    new MenuItem() { Text = "Create", Icon = "add", Path = "#" },
+                                ]
                             },
                             new MenuItem()
                             { 
@@ -181,51 +190,84 @@ namespace ERP.Client.Layout
                             new MenuItem()
                             {
                                 Text = "Sale Types", 
-                                Path = "#"
+                                Icon = "sell",
+                                Path = "#", 
+                                Items = 
+                                [
+                                    new MenuItem() { Text = "Create", Icon = "add", Path = "#" },
+                                ]
                             },
                             new MenuItem()
                             {
                                 Text = "Purchase Types",
-                                Path = "#"
+                                Icon = "handshake",
+                                Path = "#", 
+                                Items = 
+                                [
+                                    new MenuItem() { Text = "Create", Icon = "add", Path = "#" },
+                                ]
                             },
                             new MenuItem()
                             {
                                 Text = "Tax Slabs",
+                                Icon = "percent",
                                 Path = "#", 
-                                Class = "rz-mb-4"
+                                Items = 
+                                [
+                                    new MenuItem() { Text = "Create", Icon = "add", Path = "#" },
+                                ]
                             },
                             new MenuItem()
                             {
                                 Text = "Misc. Masters", 
-                                Path = "#", 
-                                Class = "rz-mb-4"
+                                Path = "#",
+                                Icon = "other_admission", 
+                                Items = 
+                                [
+                                    new MenuItem() { Text = "Create", Icon = "add", Path = "#" },
+                                ]
                             },
                             new MenuItem()
                             {
                                 Text = "Bulk Modifications", 
                                 Path = "#",
-                                Class = "rz-mb-4"
+                                Icon = "published_with_changes", 
+                                Items = 
+                                [
+                                    new MenuItem() { Text = "Create", Icon = "add", Path = "#" },
+                                ]
                             },
                         ]
                     },
                     new MenuItem()
                     {
                         Text = "Access", 
-                        Icon = "shield_person", 
+                        Icon = "security", 
                         Items = [
                             new MenuItem()
                             {
-                                Text = "Users", 
-                                Path = "management/access/users"
+                                Text = "Users",
+                                Icon = "group",
+                                Path = "management/access/users", 
+                                Items = 
+                                [
+                                    new MenuItem() { Text = "Create", Icon = "add", Path = "#" },
+                                ]
                             },
                             new MenuItem()
                             {
                                 Text = "Roles",
-                                Path = "management/access/roles"
+                                Icon = "groups",
+                                Path = "management/access/roles", 
+                                Items = 
+                                [
+                                    new MenuItem() { Text = "Create", Icon = "add", Path = "#" },
+                                ]
                             },
                             new MenuItem()
                             {
                                 Text = "Permissions",
+                                Icon = "shield_person",
                                 Path = "#"
                             },
                         ]
