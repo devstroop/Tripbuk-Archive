@@ -20,15 +20,19 @@
 :root {
     font-size: var(--rz-root-font-size);
     --rz-border-radius: 0px;
-    --rz-badge-font-size: 14px;
+    --rz-badge-font-size: 12px;
     --rz-badge-font-weight: bold;
-    --rz-badge-line-height: 20px;
+    --rz-badge-padding: 0.15rem 0.3rem;
     --rz-button-border-radius: 0.5rem;
     --rz-icon-size: 18px;
     --rz-input-border-radius: 8px;
     --rz-input-line-height: 1.8rem;
     --rz-input-height: 2.5rem;
     --rz-root-font-size: 14px;
+    --rz-sidebar-border-inline-end: 1px solid var(--rz-base);
+    --rz-header-border: 1px solid var(--rz-base);
+    --rz-footer-border: 1px solid var(--rz-base);
+    --rz-text-font-family: Poppins, sans-serif;
 }
 
 body {

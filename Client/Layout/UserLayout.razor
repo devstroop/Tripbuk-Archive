@@ -11,6 +11,7 @@
             <RadzenColumn Size="6">
                 <RadzenStack AlignItems="AlignItems.Center" Orientation="Orientation.Horizontal" Gap="1rem">
                     <RadzenSidebarToggle Click="@SidebarToggleClick"
+                                         Icon="@(_sidebarExpanded ? "close" : "menu")"
                                          class="rz-mx-0 rz-display-block rz-display-sm-none"></RadzenSidebarToggle>
                     <RadzenText Text="ERP" TextStyle="Radzen.Blazor.TextStyle.DisplayH5" Class="rz-mb-0 rz-ml-sm-6"
                                 Style="color: var(--rz-header-color); cursor: pointer; font-weight: bolder; font-size: 24px; background-image: linear-gradient(45deg, var(--rz-primary), #af4261); -webkit-background-clip: text; -moz-background-clip: text; -webkit-text-fill-color: transparent; -moz-text-fill-color: transparent;"
@@ -113,10 +114,10 @@
             <RadzenColumn Size="4">
                 <RadzenStack AlignItems="AlignItems.Center" Orientation="Radzen.Orientation.Horizontal"
                              JustifyContent="JustifyContent.Center" Wrap="FlexWrap.Wrap" Gap="0.5rem">
-                    <RadzenText Text="ERP v1.0.0" TextStyle="TextStyle.Caption" TagName="TagName.P"
-                                TextAlign="TextAlign.Center" class="rz-mb-0" Style="font-size: 14px"/>
+                    <RadzenText Text="ERP v1.0.0" TextStyle="Radzen.Blazor.TextStyle.Body2"
+                                TextAlign="TextAlign.Center" class="rz-mb-0"/>
                     <RadzenText Text="Copyright Ⓒ 2025"
-                                TextAlign="TextAlign.Center" class="rz-mb-0" TextStyle="Radzen.Blazor.TextStyle.Caption" Style="font-size: 14px"/>
+                                TextAlign="TextAlign.Center" class="rz-mb-0" TextStyle="Radzen.Blazor.TextStyle.Body2"/>
                 </RadzenStack>
             </RadzenColumn>
             <RadzenColumn Size="4">
