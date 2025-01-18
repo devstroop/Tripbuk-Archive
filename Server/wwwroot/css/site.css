@@ -33,6 +33,10 @@
     --rz-header-border: 1px solid var(--rz-base);
     --rz-footer-border: 1px solid var(--rz-base);
     --rz-text-font-family: Poppins, sans-serif;
+    --rz-grid-cell-font-size: 1rem;
+    --rz-grid-cell-line-height: 1.5rem;
+    --rz-grid-header-font-size: 1rem;
+    --rz-grid-header-font-weight: 600;
 }
 
 body {

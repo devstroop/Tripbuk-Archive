@@ -40,13 +40,24 @@
             <StatCard OverlineText="Receipts" Text="@($"{9999:C}")" Icon="south_west" Trends="-20"></StatCard>
         </RadzenColumn>
     </RadzenRow>
-    <RadzenRow class="rz-mt-6">
-        <RadzenColumn SizeMD="8">
+    <RadzenRow class="rz-pt-8 rz-border-top rz-mt-4" Style="border-top: 1px dashed var(--rz-base)">
+        <RadzenColumn SizeMD="6" Size="12">
+            <RadzenStack Gap="0.5rem">
+                <RadzenText Text="Overview" TextStyle="Radzen.Blazor.TextStyle.DisplayH6" Style="font-weight: bold;"/>
+                <RadzenChart SeriesClick="@OnSeriesClick">
+                    <RadzenPieSeries Data="@_accounts" Title="Type" CategoryProperty="Type"
+                                     ValueProperty="Count">
+                        <RadzenSeriesDataLabels Visible="true"/>
+                    </RadzenPieSeries>
+                </RadzenChart>
+            </RadzenStack>
+        </RadzenColumn>
+        <RadzenColumn SizeMD="6" Size="12">
             <RadzenStack Gap="0.5rem">
                 <RadzenRow AlignItems="AlignItems.Center">
                     <RadzenColumn>
                         <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
-                            <RadzenText Text="Transactions" TextStyle="TextStyle.H6" Style="font-weight: bold;"
+                            <RadzenText Text="Transactions" TextStyle="Radzen.Blazor.TextStyle.DisplayH6" Style="font-weight: bold;"
                                         class="rz-mb-0"/>
                         </RadzenStack>
                     </RadzenColumn>
@@ -59,7 +70,7 @@
                         </RadzenStack>
                     </RadzenColumn>
                 </RadzenRow>
-                <RadzenDataGrid Data="@_txns" TItem="Txn" AllowPaging="false" Style="height: 300px;">
+                <RadzenDataGrid Data="@_txns" TItem="Txn" AllowPaging="false" Density="Radzen.Density.Compact" Responsive="false">
                     <Columns>
                         <RadzenDataGridColumn TItem="Txn" Property="Id" Title="ID"/>
                         <RadzenDataGridColumn TItem="Txn" Property="Name" Title="Account Name"/>
@@ -75,17 +86,6 @@
                         </RadzenDataGridColumn>
                     </Columns>
                 </RadzenDataGrid>
-            </RadzenStack>
-        </RadzenColumn>
-        <RadzenColumn SizeMD="4">
-            <RadzenStack Gap="0.5rem">
-                <RadzenText Text="Masters by Type" TextStyle="TextStyle.H6" Style="font-weight: bold;"/>
-                <RadzenChart SeriesClick="@OnSeriesClick">
-                    <RadzenPieSeries Data="@_accounts" Title="Type" CategoryProperty="Type"
-                                     ValueProperty="Count">
-                        <RadzenSeriesDataLabels Visible="true"/>
-                    </RadzenPieSeries>
-                </RadzenChart>
             </RadzenStack>
         </RadzenColumn>
     </RadzenRow>
