@@ -7,9 +7,9 @@
 <RadzenStack>
     <RadzenRow class="rz-mb-4">
         <RadzenColumn Size="6">
-            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem">
                 <RadzenIcon Icon="dashboard" Style="font-size: 2rem; margin-right: 0.5rem" />
-                <RadzenText Text="Dashboard" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0; font-weight: bold"/>
+                <RadzenText Text="Dashboard" TextStyle="Radzen.Blazor.TextStyle.DisplayH4" TagName="TagName.H1" style="margin: 0; font-weight: 600"/>
             </RadzenStack>
         </RadzenColumn>
         <RadzenColumn Size="6">
@@ -40,37 +40,56 @@
             <StatCard OverlineText="Receipts" Text="@($"{9999:C}")" Icon="south_west" Trends="-20"></StatCard>
         </RadzenColumn>
     </RadzenRow>
-    <RadzenRow class="rz-pt-8 rz-border-top rz-mt-4" Style="border-top: 1px dashed var(--rz-base)">
-        <RadzenColumn SizeMD="6" Size="12">
-            <RadzenStack Gap="0.5rem">
-                <RadzenText Text="Overview" TextStyle="Radzen.Blazor.TextStyle.DisplayH6" Style="font-weight: bold;"/>
+    <RadzenRow class="rz-pt-8 rz-border-top rz-mt-4" Style="border-top: 1px dashed var(--rz-base)" JustifyContent="Radzen.JustifyContent.Start" AlignItems="Radzen.AlignItems.Start">
+        <RadzenColumn SizeSM="12" SizeMD="4" SizeLG="3">
+            <RadzenCard Variant="Variant.Flat">
+                <RadzenText Text="Masters Overview" TextStyle="Radzen.Blazor.TextStyle.DisplayH6" Style="font-weight: bold;"/>
                 <RadzenChart SeriesClick="@OnSeriesClick">
                     <RadzenPieSeries Data="@_accounts" Title="Type" CategoryProperty="Type"
-                                     ValueProperty="Count">
+                                     ValueProperty="Count" Radius="72">
                         <RadzenSeriesDataLabels Visible="true"/>
                     </RadzenPieSeries>
                 </RadzenChart>
-            </RadzenStack>
+            </RadzenCard>
         </RadzenColumn>
-        <RadzenColumn SizeMD="6" Size="12">
-            <RadzenStack Gap="0.5rem">
-                <RadzenRow AlignItems="AlignItems.Center">
+        <RadzenColumn SizeSM="12" SizeMD="8" SizeLG="4">
+            <RadzenCard Variant="Variant.Flat">
+                <RadzenText Text="Masters Overview" TextStyle="Radzen.Blazor.TextStyle.DisplayH6" Style="font-weight: bold;"/>
+                <RadzenChart>
+                    <RadzenChartTooltipOptions Shared="true" />
+                    <RadzenLineSeries Smooth="true" Data="@revenue2023" CategoryProperty="Date" Title="2023" LineType="LineType.Dashed" ValueProperty="Revenue">
+                        <RadzenMarkers Visible="false" MarkerType="MarkerType.Square" />
+                        <RadzenSeriesDataLabels Visible="false" />
+                    </RadzenLineSeries>
+                    <RadzenLineSeries Smooth="@true" Data="@revenue2024" CategoryProperty="Date" Title="2024" ValueProperty="Revenue">
+                        <RadzenMarkers Visible="true" MarkerType="MarkerType.Circle" />
+                        <RadzenSeriesDataLabels Visible="false" />
+                    </RadzenLineSeries>
+                    <RadzenCategoryAxis Padding="20" />
+                    <RadzenValueAxis Formatter="@FormatAsUSD">
+                        <RadzenGridLines Visible="true" />
+                        <RadzenAxisTitle Text="Revenue in USD" />
+                    </RadzenValueAxis>
+                </RadzenChart>
+            </RadzenCard>
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeLG="5">
+            <RadzenCard Variant="Variant.Flat">
+                <RadzenRow AlignItems="Radzen.AlignItems.Start">
                     <RadzenColumn>
                         <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
-                            <RadzenText Text="Transactions" TextStyle="Radzen.Blazor.TextStyle.DisplayH6" Style="font-weight: bold;"
-                                        class="rz-mb-0"/>
+                            <RadzenText Text="Transactions" TextStyle="Radzen.Blazor.TextStyle.DisplayH6" Style="font-weight: bold;" class="rz-mb-0"/>
                         </RadzenStack>
                     </RadzenColumn>
                     <RadzenColumn>
-                        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center"
-                                     JustifyContent="JustifyContent.End">
+                        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End">
                             <RadzenButton Icon="add" Variant="Variant.Text"></RadzenButton>
                             <RadzenButton Icon="refresh" Variant="Variant.Text"></RadzenButton>
                             <RadzenButton Icon="more_vert" Variant="Variant.Text"></RadzenButton>
                         </RadzenStack>
                     </RadzenColumn>
                 </RadzenRow>
-                <RadzenDataGrid Data="@_txns" TItem="Txn" AllowPaging="false" Density="Radzen.Density.Compact" Responsive="false">
+                <RadzenDataGrid Data="@_txns" TItem="Txn" AllowPaging="false" Density="Radzen.Density.Compact" Responsive="true" Style="display: block; height: 285px">
                     <Columns>
                         <RadzenDataGridColumn TItem="Txn" Property="Id" Title="ID"/>
                         <RadzenDataGridColumn TItem="Txn" Property="Name" Title="Account Name"/>
@@ -86,7 +105,7 @@
                         </RadzenDataGridColumn>
                     </Columns>
                 </RadzenDataGrid>
-            </RadzenStack>
+            </RadzenCard>
         </RadzenColumn>
     </RadzenRow>
 </RadzenStack>
