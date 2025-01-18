@@ -1,0 +1,14 @@
+@page "/dev/dashboard"
+@attribute [Authorize]
+<PageTitle>Home</PageTitle>
+<RadzenStack>
+<RadzenRow class="rz-mb-4">
+    <RadzenColumn Size="6">
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+            <RadzenIcon Icon="dashboard" Style="font-size: 2rem; margin-right: 0.5rem" />
+            <RadzenText Text="Dashboard" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0; font-weight: bold"/>
+        </RadzenStack>
+    </RadzenColumn>
+    <RadzenColumn Size="6"></RadzenColumn>
+</RadzenRow>
+</RadzenStack>

@@ -15,12 +15,16 @@
                     <RadzenAppearanceToggle/>
                     <RadzenProfileMenu Visible="@Security.IsAuthenticated()" Click="@ProfileMenuClick">
                         <ChildContent>
-                            <RadzenProfileMenuItem Path="profile" Icon="settings" Text="Profile"/>
-                            <RadzenProfileMenuItem Text="Logout" Value="Logout" Icon="power_settings_new"/>
+
+                            <RadzenProfileMenuItem Path="profile" Icon="settings" Text="Profile" Visible="@(Security.IsAuthenticated() || Security.User?.Name == "tenantsadmin")"/>
+                            <RadzenProfileMenuItem Path="application-users" Icon="person" Text="Users" Visible="@(Security.IsAuthenticated() && Security.Tenant != null)"/>
+                            <RadzenProfileMenuItem Path="application-roles" Icon="security" Text="Roles" Visible="@(Security.IsAuthenticated() && Security.Tenant != null)" />
+                            <RadzenProfileMenuItem Path="application-tenants" Icon="account_balance_wallet" Text="Tenants" Visible="@(Security.User?.Name == "tenantsadmin")" />
+                            <RadzenProfileMenuItem Text="Logout" Value="Logout" Icon="power_settings_new" />
                         </ChildContent>
                         <Template>
                             @Security.User?.Name
-                            <RadzenGravatar Email="@(Security.User?.Name ?? "identicon")"/>
+                            <RadzenGravatar Email="@Security.User?.Name" />
                         </Template>
                     </RadzenProfileMenu>
                 </RadzenStack>

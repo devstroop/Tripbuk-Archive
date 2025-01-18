@@ -16,7 +16,7 @@ namespace ERP.Client.Shared
     public partial class LoginLayout
     {
         [Inject]
-        protected IJSRuntime JsRuntime { get; set; }
+        protected IJSRuntime JSRuntime { get; set; }
 
         [Inject]
         protected NavigationManager NavigationManager { get; set; }

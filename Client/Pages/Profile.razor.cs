@@ -13,7 +13,7 @@ namespace ERP.Client.Pages
     public partial class Profile
     {
         [Inject]
-        protected IJSRuntime JsRuntime { get; set; }
+        protected IJSRuntime JSRuntime { get; set; }
 
         [Inject]
         protected NavigationManager NavigationManager { get; set; }
@@ -30,33 +30,33 @@ namespace ERP.Client.Pages
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        protected string OldPassword = "";
-        protected string NewPassword = "";
-        protected string ConfirmPassword = "";
-        protected ERP.Server.Models.ApplicationUser User;
-        protected string Error;
-        protected bool ErrorVisible;
-        protected bool SuccessVisible;
+        protected string oldPassword = "";
+        protected string newPassword = "";
+        protected string confirmPassword = "";
+        protected ERP.Server.Models.ApplicationUser user;
+        protected string error;
+        protected bool errorVisible;
+        protected bool successVisible;
 
         [Inject]
         protected SecurityService Security { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            User = await Security.GetUserById($"{Security.User.Id}");
+            user = await Security.GetUserById($"{Security.User.Id}");
         }
 
         protected async Task FormSubmit()
         {
             try
             {
-                await Security.ChangePassword(OldPassword, NewPassword);
-                SuccessVisible = true;
+                await Security.ChangePassword(oldPassword, newPassword);
+                successVisible = true;
             }
             catch (Exception ex)
             {
-                ErrorVisible = true;
-                Error = ex.Message;
+                errorVisible = true;
+                error = ex.Message;
             }
         }
     }

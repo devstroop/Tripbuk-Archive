@@ -25,6 +25,10 @@
     --rz-badge-line-height: 20px;
     --rz-button-border-radius: 0.5rem;
     --rz-icon-size: 18px;
+    --rz-input-border-radius: 8px;
+    --rz-input-line-height: 1.8rem;
+    --rz-input-height: 2.5rem;
+    --rz-root-font-size: 14px;
 }
 
 body {

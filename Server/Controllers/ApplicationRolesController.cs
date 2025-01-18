@@ -10,15 +10,31 @@ using ERP.Server.Models;
 
 namespace ERP.Server.Controllers
 {
+
+    public class MultiTenancyRoleValidator : RoleValidator<ApplicationRole>
+    {
+        public override Task<IdentityResult> ValidateAsync(RoleManager<ApplicationRole> manager, ApplicationRole role)
+        {
+            return Task.FromResult(IdentityResult.Success);
+        }
+    }
     [Authorize]
     [Route("odata/Identity/ApplicationRoles")]
     public partial class ApplicationRolesController : ODataController
     {
-       private readonly RoleManager<ApplicationRole> _roleManager;
+       private readonly RoleManager<ApplicationRole> roleManager;
 
-       public ApplicationRolesController(RoleManager<ApplicationRole> roleManager)
+       private readonly IWebHostEnvironment env;
+       private readonly Data.ApplicationIdentityDbContext context;
+
+       public ApplicationRolesController(IWebHostEnvironment env, Data.ApplicationIdentityDbContext context, RoleManager<ApplicationRole> roleManager)
        {
-           this._roleManager = roleManager;
+           this.roleManager = roleManager;
+
+           this.env = env;
+           this.context = context;
+           this.roleManager.RoleValidators.Clear();
+           this.roleManager.RoleValidators.Add(new MultiTenancyRoleValidator());
        }
 
        partial void OnRolesRead(ref IQueryable<ApplicationRole> roles);
@@ -27,7 +43,17 @@ namespace ERP.Server.Controllers
        [HttpGet]
        public IEnumerable<ApplicationRole> Get()
        {
-           var roles = _roleManager.Roles;
+           var roles = roleManager.Roles;
+
+           if (env.EnvironmentName != "Development")
+           {
+               var tenant = context.Tenants.ToList().Where(t => t.Hosts.Split(',').Where(h => h.Contains(HttpContext.Request.Host.Value)).Any()).FirstOrDefault();
+               if (tenant != null)
+               {
+                   roles = roles.Where(r => r.TenantId == tenant.Id);
+               }
+
+           }
            OnRolesRead(ref roles);
 
            return roles;
@@ -45,7 +71,7 @@ namespace ERP.Server.Controllers
 
            OnRoleCreated(role);
 
-           var result = await _roleManager.CreateAsync(role);
+           var result = await roleManager.CreateAsync(role);
 
            if (!result.Succeeded)
            {
@@ -62,7 +88,7 @@ namespace ERP.Server.Controllers
        [HttpDelete("{Id}")]
        public async Task<IActionResult> Delete(string key)
        {
-           var role = await _roleManager.FindByIdAsync(key);
+           var role = await roleManager.FindByIdAsync(key);
 
            if (role == null)
            {
@@ -71,7 +97,7 @@ namespace ERP.Server.Controllers
 
            OnRoleDeleted(role);
 
-           var result = await _roleManager.DeleteAsync(role);
+           var result = await roleManager.DeleteAsync(role);
 
            if (!result.Succeeded)
            {

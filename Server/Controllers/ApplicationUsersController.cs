@@ -21,14 +21,18 @@ namespace ERP.Server.Controllers
     [Route("odata/Identity/ApplicationUsers")]
     public partial class ApplicationUsersController : ODataController
     {
-        private readonly ApplicationIdentityDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationIdentityDbContext context;
+        private readonly UserManager<ApplicationUser> userManager;
 
 
-        public ApplicationUsersController(ApplicationIdentityDbContext context, UserManager<ApplicationUser> userManager)
+        private readonly IWebHostEnvironment env;
+
+        public ApplicationUsersController(IWebHostEnvironment env, ApplicationIdentityDbContext context, UserManager<ApplicationUser> userManager)
         {
-            this._context = context;
-            this._userManager = userManager;
+            this.context = context;
+            this.userManager = userManager;
+
+            this.env = env;
         }
 
         partial void OnUsersRead(ref IQueryable<ApplicationUser> users);
@@ -37,7 +41,16 @@ namespace ERP.Server.Controllers
         [HttpGet]
         public IEnumerable<ApplicationUser> Get()
         {
-            var users = _userManager.Users;
+            var users = userManager.Users;
+
+            if (env.EnvironmentName != "Development")
+            {
+                var tenant = context.Tenants.ToList().Where(t => t.Hosts.Split(',').Where(h => h.Contains(HttpContext.Request.Host.Value)).Any()).FirstOrDefault();
+                if (tenant != null)
+                {
+                    users = users.Where(r => r.TenantId == tenant.Id);
+                }
+            }
             OnUsersRead(ref users);
 
             return users;
@@ -47,7 +60,7 @@ namespace ERP.Server.Controllers
         [HttpGet("{Id}")]
         public SingleResult<ApplicationUser> GetApplicationUser(string key)
         {
-            var user = _context.Users.Where(i => i.Id == key);
+            var user = context.Users.Where(i => i.Id == key);
 
             return SingleResult.Create(user);
         }
@@ -57,7 +70,7 @@ namespace ERP.Server.Controllers
         [HttpDelete("{Id}")]
         public async Task<IActionResult> Delete(string key)
         {
-            var user = await _userManager.FindByIdAsync(key);
+            var user = await userManager.FindByIdAsync(key);
 
             if (user == null)
             {
@@ -66,7 +79,7 @@ namespace ERP.Server.Controllers
 
             OnUserDeleted(user);
 
-            var result = await _userManager.DeleteAsync(user);
+            var result = await userManager.DeleteAsync(user);
 
             if (!result.Succeeded)
             {
@@ -81,7 +94,7 @@ namespace ERP.Server.Controllers
         [HttpPatch("{Id}")]
         public async Task<IActionResult> Patch(string key, [FromBody]ApplicationUser data)
         {
-            var user = await _userManager.FindByIdAsync(key);
+            var user = await userManager.FindByIdAsync(key);
 
             if (user == null)
             {
@@ -92,27 +105,29 @@ namespace ERP.Server.Controllers
 
             IdentityResult result = null;
 
+
+            userManager.UserValidators.Clear();
             user.Roles = null;
 
-            result = await _userManager.UpdateAsync(user);
+            result = await userManager.UpdateAsync(user);
 
             if (data.Roles != null)
             {
-                result = await _userManager.RemoveFromRolesAsync(user, await _userManager.GetRolesAsync(user));
+                result = await userManager.RemoveFromRolesAsync(user, await userManager.GetRolesAsync(user));
 
                 if (result.Succeeded) 
                 {
-                    result = await _userManager.AddToRolesAsync(user, data.Roles.Select(r => r.Name));
+                    result = await userManager.AddToRolesAsync(user, data.Roles.Select(r => r.Name));
                 }
             }
 
             if (!string.IsNullOrEmpty(data.Password))
             {
-                result = await _userManager.RemovePasswordAsync(user);
+                result = await userManager.RemovePasswordAsync(user);
 
                 if (result.Succeeded)
                 {
-                    result = await _userManager.AddPasswordAsync(user, data.Password);
+                    result = await userManager.AddPasswordAsync(user, data.Password);
                 }
 
                 if (!result.Succeeded)
@@ -139,11 +154,19 @@ namespace ERP.Server.Controllers
             var password = user.Password;
             var roles = user.Roles;
             user.Roles = null;
-            IdentityResult result = await _userManager.CreateAsync(user, password);
+
+            userManager.UserValidators.Clear();
+
+            if (context.Users.Any(u => u.TenantId == user.TenantId && u.UserName == user.Name))
+            {
+                ModelState.AddModelError("", "User with the same name already exist for this tenant.");
+                return BadRequest(ModelState);
+            }
+            IdentityResult result = await userManager.CreateAsync(user, password);
 
             if (result.Succeeded && roles != null)
             {
-                result = await _userManager.AddToRolesAsync(user, roles.Select(r => r.Name));
+                result = await userManager.AddToRolesAsync(user, roles.Select(r => r.Name));
             }
 
             user.Roles = roles;
@@ -165,6 +188,169 @@ namespace ERP.Server.Controllers
             var message = string.Join(", ", result.Errors.Select(error => error.Description));
 
             return BadRequest(new { error = new { message } });
+        }
+    }
+
+    [Authorize]
+    [Route("odata/Identity/ApplicationTenants")]
+    public partial class ApplicationTenantsController : ODataController
+    {
+        private ApplicationIdentityDbContext context;
+        private IWebHostEnvironment env;
+
+        public ApplicationTenantsController(IWebHostEnvironment env, ApplicationIdentityDbContext context)
+        {
+          this.context = context;
+          this.env = env;
+        }
+
+        partial void OnTenantsRead(ref IQueryable<ApplicationTenant> tenants);
+
+        [EnableQuery]
+        [HttpGet]
+        public IEnumerable<ApplicationTenant> Get()
+        {
+            if (HttpContext.User.Identity.Name != "tenantsadmin")
+            {
+                return Enumerable.Empty<ApplicationTenant>();
+            }
+            
+            var items = this.context.Tenants.AsQueryable<ApplicationTenant>();
+
+            OnTenantsRead(ref items);
+
+            return items;
+        }
+
+        [EnableQuery]
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> GetApplicationTenant(int key)
+        {
+            var item = this.context.Tenants.Where(i=>i.Id == key).FirstOrDefault();
+
+            return new ObjectResult(item);
+        }
+
+        partial void OnTenantDeleted(ApplicationTenant tenant);
+
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> Delete(int key)
+        {
+            try
+            {
+                if (HttpContext.User.Identity.Name != "tenantsadmin")
+                {
+                    return new UnauthorizedResult();
+                }
+
+                if(!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var item = this.context.Tenants
+                    .Where(i => i.Id == key)
+                    .FirstOrDefault();
+
+                if (item == null)
+                {
+                    ModelState.AddModelError("", "Item no longer available");
+                    return BadRequest(ModelState);
+                }
+
+                this.OnTenantDeleted(item);
+                this.context.Tenants.Remove(item);
+                this.context.SaveChanges();
+
+                return new NoContentResult();
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return BadRequest(ModelState);
+            }
+        }
+
+        partial void OnTenantUpdated(ApplicationTenant tenant);
+
+        [HttpPatch("{Id}")]
+        public async Task<IActionResult> Patch(int key, [FromBody]Delta<ApplicationTenant> patch)
+        {
+            if (HttpContext.User.Identity.Name != "tenantsadmin")
+            {
+                return new UnauthorizedResult();
+            }
+
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var item = this.context.Tenants.Where(i => i.Id == key).FirstOrDefault();
+
+            if (item == null)
+            {
+                ModelState.AddModelError("", "Item no longer available");
+                return BadRequest(ModelState);
+            }
+
+            if (env.EnvironmentName != "Development")
+            {
+                if (context.Tenants.ToList().Where(t => t.Hosts.Split(',').Where(h => item.Hosts.Split(',').Contains(h)).Any()).Any())
+                {
+                    ModelState.AddModelError("", "Tenant with the same host already exist.");
+                    return BadRequest(ModelState);
+                }
+            }
+
+            patch.Patch(item);
+
+            this.OnTenantUpdated(item);
+            this.context.Tenants.Update(item);
+            this.context.SaveChanges();
+
+            var itemToReturn = this.context.Tenants.Where(i => i.Id == key);
+            return new ObjectResult(SingleResult.Create(itemToReturn));
+        }
+
+        partial void OnTenantCreated(ApplicationTenant tenant);
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] ApplicationTenant item)
+        {
+            if (HttpContext.User.Identity.Name != "tenantsadmin")
+            {
+                return new UnauthorizedResult();
+            }
+
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (item == null)
+            {
+                return BadRequest();
+            }
+
+            if (env.EnvironmentName != "Development")
+            {
+                if (context.Tenants.ToList().Where(t => t.Hosts.Split(',').Where(h => item.Hosts.Split(',').Contains(h)).Any()).Any())
+                {
+                    ModelState.AddModelError("", "Tenant with the same host already exist.");
+                    return BadRequest(ModelState);
+                }
+            }
+            
+            this.OnTenantCreated(item);
+            this.context.Tenants.Add(item);
+            this.context.SaveChanges();
+
+            var key = item.Id;
+
+            var itemToReturn = this.context.Tenants.Where(i => i.Id == key).FirstOrDefault();
+
+            return Created($"auth/ApplicationTenants({itemToReturn.Id})", itemToReturn);
         }
     }
 }

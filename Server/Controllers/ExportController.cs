@@ -162,7 +162,14 @@ namespace ERP.Server.Controllers
                         {
                             if (value != null)
                             {
-                                stringValue = Convert.ToString(value, CultureInfo.InvariantCulture);
+                                if (value is Enum enumValue)
+                                {
+                                    stringValue = Radzen.Blazor.EnumExtensions.GetDisplayDescription(enumValue);
+                                }
+                                else 
+                                {
+                                    stringValue = Convert.ToString(value, CultureInfo.InvariantCulture);
+                                }
                             }
                             cell.CellValue = new CellValue(stringValue);
                             cell.DataType = new EnumValue<CellValues>(CellValues.Number);

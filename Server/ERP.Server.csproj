@@ -17,8 +17,5 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="9.0.1" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\Postgres\" />
-    <Folder Include="Models\Postgres\" />
-  </ItemGroup>
+
 </Project>

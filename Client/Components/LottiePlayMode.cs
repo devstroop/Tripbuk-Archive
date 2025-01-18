@@ -1,6 +1,5 @@
 namespace ERP.Client.Components;
 
-
 public enum LottiePlayMode
 {
     Normal,
@@ -8,7 +7,7 @@ public enum LottiePlayMode
 }
 public static class LottiePlayModeExtensions
 {
-    public static string ToLottiePlayModeString(this LottiePlayMode mode)
+    public static string ToLottiePlayModeString(LottiePlayMode mode)
     {
         return mode switch
         {

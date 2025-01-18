@@ -3,18 +3,30 @@
 @page "/"
 @using ERP.Client.Components
 @attribute [Authorize]
-<PageTitle>Dashboard</PageTitle>
+<PageTitle>Home</PageTitle>
 <RadzenStack>
-    <RadzenRow>
+    <RadzenRow class="rz-mb-4">
         <RadzenColumn Size="6">
-            <RadzenText Text="Dashboard" TextStyle="TextStyle.H3" TagName="TagName.H1"/>
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+                <RadzenIcon Icon="dashboard" Style="font-size: 2rem; margin-right: 0.5rem" />
+                <RadzenText Text="Dashboard" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0; font-weight: bold"/>
+            </RadzenStack>
         </RadzenColumn>
         <RadzenColumn Size="6">
             <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End">
+                <RadzenSplitButton Text="Quick" Icon="shortcut" Shade="Shade.Lighter" Variant="Radzen.Variant.Flat">
+                    <ChildContent>
+                        <RadzenSplitButtonItem Text="Account" Value="1" />
+                        <RadzenSplitButtonItem Text="Item" Value="2" />
+                        <RadzenSplitButtonItem Text="Voucher" Value="3" />
+                        <RadzenSplitButtonItem Text="Payment" Value="4" />
+                        <RadzenSplitButtonItem Text="Receipt" Value="5" />
+                    </ChildContent>
+                </RadzenSplitButton>
             </RadzenStack>
         </RadzenColumn>
     </RadzenRow>
-    <RadzenRow AlignItems="AlignItems.Stretch">
+    <RadzenRow>
         <RadzenColumn SizeMD="3" SizeSM="4" SizeXS="6">
             <StatCard OverlineText="Sales" Text="@($"{9999:C}")" Icon="arrow_upward" Trends="10"></StatCard>
         </RadzenColumn>

@@ -13,7 +13,8 @@
                     <RadzenSidebarToggle Click="@SidebarToggleClick"
                                          class="rz-mx-0 rz-display-block rz-display-sm-none"></RadzenSidebarToggle>
                     <RadzenText Text="ERP" TextStyle="Radzen.Blazor.TextStyle.DisplayH5" Class="rz-mb-0 rz-ml-sm-6"
-                                Style="color: var(--rz-header-color); font-weight: bolder;"
+                                Style="color: var(--rz-header-color); cursor: pointer; font-weight: bolder; font-size: 24px; background-image: linear-gradient(45deg, var(--rz-primary), #af4261); -webkit-background-clip: text; -moz-background-clip: text; -webkit-text-fill-color: transparent; -moz-text-fill-color: transparent;"
+                                @onclick="@(() => NavigationManager.NavigateTo("/"))"
                                 Visible="!_sidebarExpanded"/>
                     <RadzenMenu class="rz-display-none rz-display-sm-inline-flex">
                         @foreach (var item in _menuItems)
@@ -26,19 +27,13 @@
             <RadzenColumn Size="6">
                 <RadzenStack AlignItems="AlignItems.Center" Orientation="Orientation.Horizontal"
                              JustifyContent="JustifyContent.End" Gap="0.5rem" class="rz-px-2">
-                    <RadzenSplitButton Text="Create" Icon="add" Shade="Shade.Lighter" Size="Radzen.ButtonSize.Small" Variant="Radzen.Variant.Flat">
-                        <ChildContent>
-                            <RadzenSplitButtonItem Text="Account" Value="1" />
-                            <RadzenSplitButtonItem Text="Item" Value="2" />
-                            <RadzenSplitButtonItem Text="Voucher" Value="3" />
-                            <RadzenSplitButtonItem Text="Payment" Value="4" />
-                            <RadzenSplitButtonItem Text="Receipt" Value="5" />
-                        </ChildContent>
-                    </RadzenSplitButton>
                     <RadzenAppearanceToggle/>
                     <RadzenProfileMenu Visible="@Security.IsAuthenticated()" Click="@ProfileMenuClick" ShowIcon="false" Style="padding: 0px">
                         <ChildContent>
-                            <RadzenProfileMenuItem Path="profile" Icon="settings" Text="Profile"/>
+                            <RadzenProfileMenuItem Path="profile" Icon="settings" Text="Profile" Visible="@(Security.IsAuthenticated() || Security.User?.Name == "tenantsadmin")"/>
+                            <RadzenProfileMenuItem Path="application-users" Icon="person" Text="Users" Visible="@(Security.IsAuthenticated() && Security.Tenant != null)"/>
+                            <RadzenProfileMenuItem Path="application-roles" Icon="security" Text="Roles" Visible="@(Security.IsAuthenticated() && Security.Tenant != null)" />
+                            <RadzenProfileMenuItem Path="application-tenants" Icon="account_balance_wallet" Text="Tenants" Visible="@(Security.User?.Name == "tenantsadmin")" />
                             <RadzenProfileMenuItem Text="Logout" Value="Logout" Icon="power_settings_new"/>
                         </ChildContent>
                         <Template>
@@ -58,12 +53,13 @@
             </RadzenColumn>
         </RadzenRow>
     </RadzenBody>
-    <RadzenSidebar @bind-Expanded="@_sidebarExpanded" style="z-index: 2" Responsive="false"
+    <RadzenSidebar @bind-Expanded="@_sidebarExpanded" style="z-index: 2; width: 270px;" Responsive="false"
                    class="rz-display-block rz-display-sm-none">
         <RadzenStack AlignItems="AlignItems.Center" class="rz-py-4 rz-py-lg-6"
                      Style="padding: var(--rz-panel-menu-item-padding); border-bottom: var(--rz-panel-menu-item-border);">
-            <RadzenText Text="ERP" TextStyle="TextStyle.DisplayH5" class="rz-mb-0"
-                        style="color: var(--rz-sidebar-color); font-weight: bold;"></RadzenText>
+            <RadzenText Text="ERP" TextStyle="Radzen.Blazor.TextStyle.DisplayH3" Class="rz-mb-0"
+                        Style="color: var(--rz-sidebar-color); cursor: pointer; font-weight: bolder; background-image: linear-gradient(45deg, var(--rz-primary), #af4261); -webkit-background-clip: text; -moz-background-clip: text; -webkit-text-fill-color: transparent; -moz-text-fill-color: transparent;"
+                        @onclick="@(() => NavigationManager.NavigateTo("/"))"/>
         </RadzenStack>
         <RadzenPanelMenu>
             @code {

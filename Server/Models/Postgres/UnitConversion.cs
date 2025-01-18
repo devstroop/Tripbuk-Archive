@@ -38,5 +38,8 @@ namespace ERP.Server.Models.Postgres
 
         [ConcurrencyCheck]
         public double ConversionFactor { get; set; }
+
+        [ConcurrencyCheck]
+        public int? TenantId { get; set; }
     }
 }

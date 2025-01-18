@@ -204,8 +204,8 @@ namespace ERP.Server
         {
             var itemToDelete = Context.AccountGroups
                               .Where(i => i.Id == id)
-                              .Include(i => i.Accounts)
                               .Include(i => i.AccountGroups1)
+                              .Include(i => i.Accounts)
                               .FirstOrDefault();
 
             if (itemToDelete == null)

@@ -31,5 +31,8 @@ namespace ERP.Server.Models.Postgres
         [Required]
         [ConcurrencyCheck]
         public string Narration { get; set; }
+
+        [ConcurrencyCheck]
+        public int? TenantId { get; set; }
     }
 }

@@ -39,6 +39,9 @@ namespace ERP.Server.Models.Postgres
 
         public ItemGroup ItemGroup1 { get; set; }
 
+        [ConcurrencyCheck]
+        public int? TenantId { get; set; }
+
         public ICollection<ItemGroup> ItemGroups1 { get; set; }
 
         public ICollection<Item> Items { get; set; }

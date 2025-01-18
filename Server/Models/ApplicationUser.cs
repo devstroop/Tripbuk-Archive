@@ -33,5 +33,10 @@ namespace ERP.Server.Models
         }
 
         public ICollection<ApplicationRole> Roles { get; set; }
+
+        public int? TenantId { get; set; }
+
+        [ForeignKey("TenantId")]
+        public ApplicationTenant ApplicationTenant { get; set; }
     }
 }

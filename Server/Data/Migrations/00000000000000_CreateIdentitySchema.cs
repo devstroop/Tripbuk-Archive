@@ -11,6 +11,20 @@ namespace ERP.Server.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
+            migrationBuilder.CreateTable(
+                name: "AspNetTenants",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", Npgsql.EntityFrameworkCore.PostgreSQL.Metadata.NpgsqlValueGenerationStrategy.SerialColumn),
+                    Name = table.Column<string>(nullable: false),
+                    Hosts = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tenants", x => x.Id);
+                });
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -19,10 +33,19 @@ namespace ERP.Server.Data.Migrations
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
+
+                    TenantId = table.Column<int>(nullable: true),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+
+                    table.ForeignKey(
+                        name: "FK_AspNetRoles_Tenants_TenantId",
+                        column: x => x.TenantId,
+                        principalTable: "AspNetTenants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,10 +67,19 @@ namespace ERP.Server.Data.Migrations
                     SecurityStamp = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
+
+                    TenantId = table.Column<int>(nullable: true),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Tenants_TenantId",
+                        column: x => x.TenantId,
+                        principalTable: "AspNetTenants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -160,7 +192,7 @@ namespace ERP.Server.Data.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true,
+                unique: false,
                 filter: "\"NormalizedName\" IS NOT NULL");
 
             migrationBuilder.CreateIndex(
@@ -192,13 +224,14 @@ namespace ERP.Server.Data.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-
-                unique: true,
                 filter: "\"NormalizedUserName\" IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+
+            migrationBuilder.DropTable(
+                name: "AspNetTenants");
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 

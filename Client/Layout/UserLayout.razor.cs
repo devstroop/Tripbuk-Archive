@@ -87,7 +87,6 @@ namespace ERP.Client.Layout
         
         private readonly List<MenuItem> _menuItems =
         [
-            new() { Text = "Dashboard", Icon = "dashboard", Path = "/" },
             new()
             {
                 Text = "Administration", Icon = "shield",
@@ -308,7 +307,7 @@ namespace ERP.Client.Layout
             new ()
             {
                 Text = "Reports", 
-                Icon = "analytics",
+                Icon = "print",
                 Items = [
                     new MenuItem()
                     {
