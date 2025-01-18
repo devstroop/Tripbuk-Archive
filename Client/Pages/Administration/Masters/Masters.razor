@@ -1,0 +1,32 @@
+@layout UserLayout
+@page "/administration/masters"
+@attribute [Authorize]
+
+<PageTitle>Masters</PageTitle>
+<RadzenStack>
+    <RadzenBreadCrumb>
+        <RadzenBreadCrumbItem Text="Administration"/>
+        <RadzenBreadCrumbItem Text="Masters" Path="/administration/masters"/>
+    </RadzenBreadCrumb>
+    <RadzenRow AlignItems="AlignItems.Center">
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText Text="Masters" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0"/>
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            @* <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" *@
+            @*              JustifyContent="JustifyContent.End" Gap="0.5rem"> *@
+            @*     <RadzenButton Text="Groups" ButtonStyle="ButtonStyle.Base" *@
+            @*                   Click="@(() => NavigationManager.NavigateTo("/administration/masters/accounts/groups"))" *@
+            @*                   Variant="Variant.Flat"/> *@
+            @*     <RadzenButton Icon="add_circle_outline" Text="Create" *@
+            @*                   Click="@(() => NavigationManager.NavigateTo("/administration/masters/accounts/create"))" *@
+            @*                   Variant="Variant.Flat"/> *@
+            @* </RadzenStack> *@
+        </RadzenColumn>
+    </RadzenRow>
+    
+</RadzenStack>
+
+@code {
+
+}

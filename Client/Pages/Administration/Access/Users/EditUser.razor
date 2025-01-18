@@ -1,0 +1,60 @@
+@layout UserLayout
+@page "/administration/access/users/edit/{Id}"
+@attribute [Authorize]
+
+<RadzenRow>
+    <RadzenColumn SizeMD="12">
+        <RadzenTemplateForm TItem="Server.Models.ApplicationUser" Data="@_user" Visible="@(_user != null)" Submit="@FormSubmit">
+            <RadzenAlert Title="Cannot update user" Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@_errorVisible">@_error</RadzenAlert>
+
+            <RadzenRow style="margin-bottom: 1rem">
+                <RadzenColumn SizeMD="3">
+                    <RadzenLabel Component="UserName" style="width: 100%" Text="User Name" />
+                </RadzenColumn>
+                <RadzenColumn SizeMD="9">
+                    <RadzenTextBox Disabled="true" style="width: 100%" @bind-Value="@(_user.UserName)"
+                        Name="UserName" />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenRow style="margin-bottom: 1rem">
+                <RadzenColumn SizeMD="3">
+                    <RadzenLabel Component="Email" style="width: 100%" Text="Email" />
+                </RadzenColumn>
+                <RadzenColumn SizeMD="9">
+                    <RadzenTextBox style="width: 100%" @bind-Value="@(_user.Email)" Name="Email" />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenRow style="margin-bottom: 1rem">
+                <RadzenColumn SizeMD="3">
+                    <RadzenLabel Component="RoleNames" style="width: 100%" Text="Roles" />
+                </RadzenColumn>
+                <RadzenColumn SizeMD="9">
+                    <RadzenDropDown Data="@_roles" Multiple="true" style="width: 100%" TextProperty="Name"
+                        @bind-Value="@(_userRoles)" ValueProperty="Id" Name="Roles" />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenRow style="margin-bottom: 1rem">
+                <RadzenColumn SizeMD="3">
+                    <RadzenLabel Component="Password" style="width: 100%" Text="Password" />
+                </RadzenColumn>
+                <RadzenColumn SizeMD="9">
+                    <RadzenPassword style="width: 100%" @bind-Value="@(_user.Password)" Name="Password" />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenRow style="margin-bottom: 1rem">
+                <RadzenColumn SizeMD="3">
+                    <RadzenLabel Component="ConfirmPassword" style="width: 100%" Text="Confirm password" />
+                </RadzenColumn>
+                <RadzenColumn SizeMD="9">
+                    <RadzenPassword style="width: 100%" @bind-Value="@(_user.ConfirmPassword)"
+                        Name="ConfirmPassword" />
+                    <RadzenCompareValidator Text="Passwords must match" Component="ConfirmPassword" Value="@_user.Password" />
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                    <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Save" Variant="Variant.Flat" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Click="@CancelClick" Variant="Variant.Flat" />
+            </RadzenStack>
+        </RadzenTemplateForm>
+    </RadzenColumn>
+</RadzenRow>

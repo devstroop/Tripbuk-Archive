@@ -90,7 +90,7 @@ namespace ERP.Client.Layout
             new() { Text = "Dashboard", Icon = "dashboard", Path = "/" },
             new()
             {
-                Text = "Management", Icon = "hub",
+                Text = "Administration", Icon = "shield",
                 Items =
                 [
                     new MenuItem() { 
@@ -101,60 +101,60 @@ namespace ERP.Client.Layout
                             {
                                 Text = "Accounts",
                                 Icon = "account_balance",
-                                Path = "management/masters/accounts",
+                                Path = "administration/masters/accounts",
                                 Items = 
                                 [
                                     new MenuItem() 
                                     { 
                                         Text = "Groups",
                                         Icon = "category",
-                                        Path = "management/masters/accounts/groups",
+                                        Path = "administration/masters/accounts/groups",
                                         Items = 
                                         [
-                                            new MenuItem() { Text = "Create", Icon = "add", Path = "management/masters/accounts/groups/create" },
+                                            new MenuItem() { Text = "Create", Icon = "add", Path = "administration/masters/accounts/groups/create" },
                                         ]
                                     },
-                                    new MenuItem() { Text = "Create", Icon = "add", Path = "management/masters/accounts/create" },
+                                    new MenuItem() { Text = "Create", Icon = "add", Path = "administration/masters/accounts/create" },
                                 ]
                             },
                             new MenuItem()
                             {
                                 Text = "Items",
                                 Icon = "inventory_2",
-                                Path = "management/masters/items",
+                                Path = "administration/masters/items",
                                 Items = 
                                 [
                                     new MenuItem() 
                                     { 
                                         Text = "Groups",
                                         Icon = "category",
-                                        Path = "management/masters/items/groups",
+                                        Path = "administration/masters/items/groups",
                                         Items = 
                                         [
-                                            new MenuItem() { Text = "Create", Icon = "add", Path = "management/masters/items/groups/create" },
+                                            new MenuItem() { Text = "Create", Icon = "add", Path = "administration/masters/items/groups/create" },
                                         ]
                                     },
-                                    new MenuItem() { Text = "Create", Icon = "add", Path = "management/masters/items/create" },
+                                    new MenuItem() { Text = "Create", Icon = "add", Path = "administration/masters/items/create" },
                                 ]
                             },
                             new MenuItem()
                             {
                                 Text = "Units",
                                 Icon = "scale",
-                                Path = "management/masters/units",
+                                Path = "administration/masters/units",
                                 Items = 
                                 [
                                     new MenuItem()
                                     {
                                         Text = "Conversions",
                                         Icon = "rule_settings",
-                                        Path = "management/masters/units/conversions",
+                                        Path = "administration/masters/units/conversions",
                                         Items = 
                                         [
-                                            new MenuItem() { Text = "Create", Icon = "add", Path = "management/masters/units/conversions/create" },
+                                            new MenuItem() { Text = "Create", Icon = "add", Path = "administration/masters/units/conversions/create" },
                                         ]
                                     },
-                                    new MenuItem() { Text = "Create", Icon = "add", Path = "management/masters/units/create" },
+                                    new MenuItem() { Text = "Create", Icon = "add", Path = "administration/masters/units/create" },
                                 ]
                             },
                             new MenuItem()
@@ -181,10 +181,10 @@ namespace ERP.Client.Layout
                             { 
                                 Text = "Standard Narrations",
                                 Icon = "description",
-                                Path = "management/masters/standard-narrations",
+                                Path = "administration/masters/standard-narrations",
                                 Items = 
                                 [
-                                    new MenuItem() { Text = "Create", Icon = "add", Path = "management/masters/standard-narrations/create" },
+                                    new MenuItem() { Text = "Create", Icon = "add", Path = "administration/masters/standard-narrations/create" },
                                 ]
                             },
                             new MenuItem()
@@ -248,7 +248,7 @@ namespace ERP.Client.Layout
                             {
                                 Text = "Users",
                                 Icon = "group",
-                                Path = "management/access/users", 
+                                Path = "administration/access/users", 
                                 Items = 
                                 [
                                     new MenuItem() { Text = "Create", Icon = "add", Path = "#" },
@@ -258,7 +258,7 @@ namespace ERP.Client.Layout
                             {
                                 Text = "Roles",
                                 Icon = "groups",
-                                Path = "management/access/roles", 
+                                Path = "administration/access/roles", 
                                 Items = 
                                 [
                                     new MenuItem() { Text = "Create", Icon = "add", Path = "#" },

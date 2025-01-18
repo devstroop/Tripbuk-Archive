@@ -12,7 +12,7 @@
                 <RadzenStack AlignItems="AlignItems.Center" Orientation="Orientation.Horizontal" Gap="1rem">
                     <RadzenSidebarToggle Click="@SidebarToggleClick"
                                          class="rz-mx-0 rz-display-block rz-display-sm-none"></RadzenSidebarToggle>
-                    <RadzenText Text="ERP" TextStyle="TextStyle.Subtitle1" Class="rz-mb-0 rz-ml-sm-6"
+                    <RadzenText Text="ERP" TextStyle="Radzen.Blazor.TextStyle.DisplayH5" Class="rz-mb-0 rz-ml-sm-6"
                                 Style="color: var(--rz-header-color); font-weight: bolder;"
                                 Visible="!_sidebarExpanded"/>
                     <RadzenMenu class="rz-display-none rz-display-sm-inline-flex">
@@ -26,7 +26,7 @@
             <RadzenColumn Size="6">
                 <RadzenStack AlignItems="AlignItems.Center" Orientation="Orientation.Horizontal"
                              JustifyContent="JustifyContent.End" Gap="0.5rem" class="rz-px-2">
-                    <RadzenSplitButton Text="Create" Icon="add" Shade="Shade.Lighter" Size="ButtonSize.Small">
+                    <RadzenSplitButton Text="Create" Icon="add" Shade="Shade.Lighter" Size="Radzen.ButtonSize.Small" Variant="Radzen.Variant.Flat">
                         <ChildContent>
                             <RadzenSplitButtonItem Text="Account" Value="1" />
                             <RadzenSplitButtonItem Text="Item" Value="2" />
@@ -36,13 +36,13 @@
                         </ChildContent>
                     </RadzenSplitButton>
                     <RadzenAppearanceToggle/>
-                    <RadzenProfileMenu Visible="@Security.IsAuthenticated()" Click="@ProfileMenuClick">
+                    <RadzenProfileMenu Visible="@Security.IsAuthenticated()" Click="@ProfileMenuClick" ShowIcon="false" Style="padding: 0px">
                         <ChildContent>
                             <RadzenProfileMenuItem Path="profile" Icon="settings" Text="Profile"/>
                             <RadzenProfileMenuItem Text="Logout" Value="Logout" Icon="power_settings_new"/>
                         </ChildContent>
                         <Template>
-                            <span class="rz-display-none rz-display-sm-inline-flex">@Security.User?.Name</span>
+                            <span class="rz-display-none rz-display-sm-inline-flex"></span>
                             <RadzenGravatar Email="@(Security.User?.Name ?? "identicon")"/>
                         </Template>
                     </RadzenProfileMenu>
@@ -50,7 +50,7 @@
             </RadzenColumn>
         </RadzenRow>
     </RadzenHeader>
-    <RadzenBody Expanded="@_sidebarExpanded">
+    <RadzenBody Expanded="@_sidebarExpanded" Style="margin: 0px">
         <RadzenRow Class="rz-mx-auto rz-px-4 rz-pt-2 rz-pt-md-4 rz-pt-lg-6 rz-pt-xl-12 rz-pb-2 rz-pb-lg-12"
                    Style="max-width: 1440px;">
             <RadzenColumn Size="12">
@@ -118,9 +118,9 @@
                 <RadzenStack AlignItems="AlignItems.Center" Orientation="Radzen.Orientation.Horizontal"
                              JustifyContent="JustifyContent.Center" Wrap="FlexWrap.Wrap" Gap="0.5rem">
                     <RadzenText Text="ERP v1.0.0" TextStyle="TextStyle.Caption" TagName="TagName.P"
-                                TextAlign="TextAlign.Center" class="rz-mb-0"/>
-                    <RadzenText Text="Copyright Ⓒ 2024" TextStyle="TextStyle.Caption" TagName="TagName.P"
-                                TextAlign="TextAlign.Center" class="rz-mb-0"/>
+                                TextAlign="TextAlign.Center" class="rz-mb-0" Style="font-size: 14px"/>
+                    <RadzenText Text="Copyright Ⓒ 2025"
+                                TextAlign="TextAlign.Center" class="rz-mb-0" TextStyle="Radzen.Blazor.TextStyle.Caption" Style="font-size: 14px"/>
                 </RadzenStack>
             </RadzenColumn>
             <RadzenColumn Size="4">

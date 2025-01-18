@@ -19,6 +19,12 @@
 
 :root {
     font-size: var(--rz-root-font-size);
+    --rz-border-radius: 0px;
+    --rz-badge-font-size: 14px;
+    --rz-badge-font-weight: bold;
+    --rz-badge-line-height: 20px;
+    --rz-button-border-radius: 0.5rem;
+    --rz-icon-size: 18px;
 }
 
 body {
