@@ -31,17 +31,21 @@
             </RadzenColumn>
         </RadzenRow>
     </RadzenHeader>
-    <RadzenBody Expanded="@_sidebarExpanded">
+    <RadzenBody Expanded="@_sidebarExpanded" class="rz-m-0">
         <RadzenRow class="rz-mx-auto rz-px-4 rz-pt-2 rz-pt-md-4 rz-pt-lg-6 rz-pt-xl-12 rz-pb-2 rz-pb-lg-12" Style="max-width: 1440px;">
             <RadzenColumn Size="12">
             @Body
             </RadzenColumn>
         </RadzenRow>
     </RadzenBody>
-    <RadzenSidebar @bind-Expanded="@_sidebarExpanded" style="z-index: 2">
+    <RadzenSidebar @bind-Expanded="@_sidebarExpanded" style="z-index: 2; width: 270px;">
         <RadzenStack AlignItems="AlignItems.Center" class="rz-py-4 rz-py-lg-6" Style="padding: var(--rz-panel-menu-item-padding); border-bottom: var(--rz-panel-menu-item-border);">
-            @* <RadzenImage Path="images/logo.png"  style="width: 48px; height: 48px;" AlternateText="Application logo"></RadzenImage> *@
-            <RadzenText Text="ERP" TextStyle="TextStyle.DisplayH5" class="rz-mb-0" style="color: var(--rz-sidebar-color); font-weight: bold;" />
+            <RadzenStack Gap="0" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Center">
+                <RadzenText Text="ERP" TextStyle="Radzen.Blazor.TextStyle.DisplayH5" Class="rz-mb-0 rz-ml-sm-6"
+                            Style="color: var(--rz-header-color); cursor: pointer; font-weight: bolder; font-size: 32px; background-image: linear-gradient(45deg, var(--rz-primary), #af4261); -webkit-background-clip: text; -moz-background-clip: text; -webkit-text-fill-color: transparent; -moz-text-fill-color: transparent;"
+                            @onclick="@(() => NavigationManager.NavigateTo("/"))"/>
+                <RadzenBadge BadgeStyle="BadgeStyle.Secondary" Shade="Shade.Lighter" Text="Admin" Style="text-transform: uppercase; font-weight: 600; font-size: 10px"></RadzenBadge>
+            </RadzenStack>
         </RadzenStack>
         <RadzenPanelMenu>
             <RadzenPanelMenuItem Text="Dashboard" Path="/" Icon="space_dashboard" />
