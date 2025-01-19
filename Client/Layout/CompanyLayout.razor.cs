@@ -11,7 +11,7 @@ using Radzen.Blazor;
 
 namespace ERP.Client.Layout
 {
-    public partial class UserLayout
+    public partial class CompanyLayout
     {
         [Inject]
         protected IJSRuntime JSRuntime { get; set; }

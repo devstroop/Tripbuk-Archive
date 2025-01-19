@@ -38,6 +38,8 @@
     --rz-grid-header-font-size: 1rem;
     --rz-grid-header-font-weight: 600;
     --rz-body-line-height: 1.2rem;
+    --rz-header-background-color: var(--rz-body-background-color);
+    --rz-footer-background-color: var(--rz-body-background-color);
 }
 
 body {

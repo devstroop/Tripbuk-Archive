@@ -1,12 +1,41 @@
 @inject NavigationManager NavigationManager
-<RadzenStack Gap="0" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Center">
-    <RadzenText Text="ERP" TextStyle="Radzen.Blazor.TextStyle.DisplayH5" Class="rz-mb-0 rz-ml-sm-6"
-                Style="color: var(--rz-header-color); cursor: pointer; font-weight: bolder; font-size: 32px; background-image: linear-gradient(45deg, var(--rz-primary), #af4261); -webkit-background-clip: text; -moz-background-clip: unset; -webkit-text-fill-color: transparent; -moz-text-fill-color: transparent;"
-                @onclick="@NavigateToHome"/>
-    <RadzenBadge BadgeStyle="BadgeStyle.Secondary" Shade="Shade.Lighter" Text="@Caption" Style="text-transform: uppercase; font-weight: 600; font-size: 10px" Visible="!(string.IsNullOrEmpty(Caption))"></RadzenBadge>
+<RadzenStack Gap="0" AlignItems="AlignItems.Start" JustifyContent="JustifyContent.Center" Visible="@Visible" @onclick="@NavigateToHome" class="application-logo">
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
+        <RadzenText Text="RE" TextStyle="TextStyle.DisplayH5" class="application-logo-prefix-text rz-mb-0"/>
+        <RadzenText Text="" TextStyle="TextStyle.DisplayH5" class="application-logo-prefix-text rz-mb-0"/>
+        <RadzenText Text="ERP" TextStyle="TextStyle.DisplayH5" class="application-logo-text rz-mb-0"/>
+    </RadzenStack>
+    <RadzenBadge BadgeStyle="BadgeStyle.Secondary" Shade="Shade.Lighter" Text="@Caption"
+                 Style="text-transform: uppercase; font-weight: 600; font-size: 10px"
+                 Visible="!(string.IsNullOrEmpty(Caption))"></RadzenBadge>
 </RadzenStack>
+
+<style>
+    .application-logo {
+        cursor: pointer;
+    }
+
+    .application-logo-prefix-text {
+        font-weight: bold;
+        font-size: @Size;
+        color: var(--rz-primary);
+    }
+    
+    .application-logo-text {
+        font-weight: bolder;
+        font-size: @Size;
+        background-image: linear-gradient(45deg, var(--rz-primary), #af4261); 
+        -webkit-background-clip: text; 
+        -moz-background-clip: unset; 
+        -webkit-text-fill-color: transparent; 
+        -moz-text-fill-color: transparent;
+    }
+</style>
 
 @code {
     [Parameter] public string Caption { get; set; }
+    [Parameter] public string Size { get; set; } = "32px";
+    [Parameter] public bool Visible { get; set; } = true;
+
     private void NavigateToHome() => NavigationManager.NavigateTo("/");
 }

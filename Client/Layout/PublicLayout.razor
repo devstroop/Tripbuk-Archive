@@ -4,7 +4,7 @@
 <RadzenNotification/>
 <RadzenTooltip/>
 <RadzenContextMenu/>
-<RadzenLayout style="grid-template-areas: 'rz-sidebar rz-header' 'rz-sidebar rz-body' 'rz-sidebar rz-footer';">
+<RadzenLayout style="grid-template-areas: 'rz-sidebar rz-header' 'rz-sidebar rz-body';">
     <RadzenHeader>
         <RadzenRow JustifyContent="JustifyContent.Start" AlignItems="AlignItems.Center" Gap="0" Class=""
                    Style="height: 100%;">
@@ -13,10 +13,9 @@
                     <RadzenSidebarToggle Click="@SidebarToggleClick"
                                          Icon="@(_sidebarExpanded ? "close" : "menu")"
                                          class="rz-mx-0 rz-display-block rz-display-sm-none"></RadzenSidebarToggle>
-                    <RadzenText Text="ERP" TextStyle="Radzen.Blazor.TextStyle.DisplayH5" Class="rz-mb-0 rz-ml-sm-6"
-                                Style="color: var(--rz-header-color); cursor: pointer; font-weight: bolder; font-size: 24px; background-image: linear-gradient(45deg, var(--rz-primary), #af4261); -webkit-background-clip: text; -moz-background-clip: text; -webkit-text-fill-color: transparent; -moz-text-fill-color: transparent;"
-                                @onclick="@(() => NavigationManager.NavigateTo("/"))"
-                                Visible="!_sidebarExpanded"/>
+
+                    <div class="rz-p-1"></div>
+                    <Logo Size="24px" Visible="!_sidebarExpanded"></Logo>
                     <RadzenMenu class="rz-display-none rz-display-sm-inline-flex">
                         @foreach (var item in _menuItems)
                         {
@@ -46,12 +45,41 @@
             </RadzenColumn>
         </RadzenRow>
     </RadzenHeader>
-    <RadzenBody Expanded="@_sidebarExpanded" Style="margin: 0px">
-        <RadzenRow class="rz-px-sm-4 rz-mt-sm-8 rz-p-lg-4 rz-mx-auto rz-p-md-6">
+    <RadzenBody Expanded="@_sidebarExpanded" class="rz-p-0 rz-m-0">
+        <RadzenRow class="rz-layout-body-padding rz-px-sm-4 rz-mt-sm-8 rz-p-lg-4 rz-mx-auto rz-p-md-6" Style="min-height: 90vh">
             <RadzenColumn Size="12">
                 @Body
             </RadzenColumn>
         </RadzenRow>
+        <RadzenFooter class="rz-px-4 rz-py-2 rz-display-none rz-display-sm-block">
+            <RadzenRow AlignItems="AlignItems.Center">
+                <RadzenColumn Size="4">
+                    <RadzenStack
+                        AlignItems="AlignItems.Center"
+                        Orientation="Orientation.Horizontal"
+                        JustifyContent="JustifyContent.Start">
+                        <CulturePicker/>
+                    </RadzenStack>
+                </RadzenColumn>
+                <RadzenColumn Size="4">
+                    <RadzenStack AlignItems="AlignItems.Center" Orientation="Radzen.Orientation.Horizontal"
+                                 JustifyContent="JustifyContent.Center" Wrap="FlexWrap.Wrap" Gap="0.5rem">
+                        <RadzenText Text="ERP v1.0.0" TextStyle="Radzen.Blazor.TextStyle.Body2"
+                                    TextAlign="TextAlign.Center" class="rz-mb-0"/>
+                        <RadzenText Text="Copyright Ⓒ 2025"
+                                    TextAlign="TextAlign.Center" class="rz-mb-0" TextStyle="Radzen.Blazor.TextStyle.Body2"/>
+                    </RadzenStack>
+                </RadzenColumn>
+                <RadzenColumn Size="4">
+                    <RadzenStack
+                        AlignItems="AlignItems.Center"
+                        Orientation="Orientation.Horizontal"
+                        JustifyContent="JustifyContent.End">
+                        <RadzenBadge Text="Beta" BadgeStyle="BadgeStyle.Danger"></RadzenBadge>
+                    </RadzenStack>
+                </RadzenColumn>
+            </RadzenRow>
+        </RadzenFooter>
     </RadzenBody>
     <RadzenSidebar @bind-Expanded="@_sidebarExpanded" style="z-index: 2; width: 270px;" Responsive="false"
                    class="rz-display-block rz-display-sm-none">
@@ -100,33 +128,4 @@
                         TextAlign="TextAlign.Center"/>
         </RadzenStack>
     </RadzenSidebar>
-    <RadzenFooter class="rz-px-4 rz-py-2 rz-display-none rz-display-sm-block">
-        <RadzenRow AlignItems="AlignItems.Center">
-            <RadzenColumn Size="4">
-                <RadzenStack
-                    AlignItems="AlignItems.Center"
-                    Orientation="Orientation.Horizontal"
-                    JustifyContent="JustifyContent.Start">
-                    <CulturePicker/>
-                </RadzenStack>
-            </RadzenColumn>
-            <RadzenColumn Size="4">
-                <RadzenStack AlignItems="AlignItems.Center" Orientation="Radzen.Orientation.Horizontal"
-                             JustifyContent="JustifyContent.Center" Wrap="FlexWrap.Wrap" Gap="0.5rem">
-                    <RadzenText Text="ERP v1.0.0" TextStyle="Radzen.Blazor.TextStyle.Body2"
-                                TextAlign="TextAlign.Center" class="rz-mb-0"/>
-                    <RadzenText Text="Copyright Ⓒ 2025"
-                                TextAlign="TextAlign.Center" class="rz-mb-0" TextStyle="Radzen.Blazor.TextStyle.Body2"/>
-                </RadzenStack>
-            </RadzenColumn>
-            <RadzenColumn Size="4">
-                <RadzenStack
-                    AlignItems="AlignItems.Center"
-                    Orientation="Orientation.Horizontal"
-                    JustifyContent="JustifyContent.End">
-                    <RadzenBadge Text="Beta" BadgeStyle="BadgeStyle.Danger"></RadzenBadge>
-                </RadzenStack>
-            </RadzenColumn>
-        </RadzenRow>
-    </RadzenFooter>
 </RadzenLayout>
