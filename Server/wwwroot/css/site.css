@@ -38,11 +38,10 @@
     --rz-grid-header-font-size: 1rem;
     --rz-grid-header-font-weight: 600;
     --rz-body-line-height: 1.2rem;
-    --rz-badge-text-transform: ;
 }
 
 body {
-    font-family: var(--rz-text-font-family);
+    font-family: var(--rz-text-font-family), serif;
     color: var(--rz-text-color);
     font-size: var(--rz-body-font-size);
     line-height: var(--rz-body-line-height);

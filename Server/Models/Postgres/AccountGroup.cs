@@ -39,9 +39,6 @@ namespace ERP.Server.Models.Postgres
 
         public AccountGroup AccountGroup1 { get; set; }
 
-        [ConcurrencyCheck]
-        public int? TenantId { get; set; }
-
         public ICollection<AccountGroup> AccountGroups1 { get; set; }
 
         public ICollection<Account> Accounts { get; set; }

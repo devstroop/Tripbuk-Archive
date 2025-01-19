@@ -88,8 +88,5 @@ namespace ERP.Server.Models.Postgres
 
         [ConcurrencyCheck]
         public string OpeningBalanceType { get; set; }
-
-        [ConcurrencyCheck]
-        public int? TenantId { get; set; }
     }
 }

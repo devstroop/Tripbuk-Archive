@@ -101,7 +101,7 @@
                         </RadzenDataGridColumn>
                         <RadzenDataGridColumn TItem="Txn" Property="Total" Title="Total">
                             <Template Context="txn">
-                                @($"{txn.Total:C}")
+                                @txn.Total.ToString("C")
                             </Template>
                         </RadzenDataGridColumn>
                     </Columns>

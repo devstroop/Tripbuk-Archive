@@ -1,0 +1,51 @@
+@page "/smtp-configs"
+@attribute [Authorize]
+
+<PageTitle>Smtp Configs</PageTitle>
+<RadzenStack>
+    <RadzenRow AlignItems="AlignItems.Center">
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText Text="Smtp Configs" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+                <RadzenSplitButton Icon="get_app" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+                    <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
+                    <RadzenSplitButtonItem Text="CSV" Value="csv" />
+                </RadzenSplitButton>
+                <RadzenButton Icon="add_circle_outline" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+            </RadzenStack>
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" aria-label="Search by all string columns" />
+    <RadzenRow>
+      <RadzenColumn SizeMD=12>
+        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"   AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
+            Data="@smtpConfigs" LoadData="@Grid0LoadData" Count="@count" TItem="ERP.Server.Models.Postgres.SmtpConfig" RowSelect="@EditRow">
+            <Columns>
+                <RadzenDataGridColumn TItem="ERP.Server.Models.Postgres.SmtpConfig" Property="Host" Title="Host" Frozen="true">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ERP.Server.Models.Postgres.SmtpConfig" Property="Port" Title="Port">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ERP.Server.Models.Postgres.SmtpConfig" Property="Ssl" Title="Ssl">
+                    <Template>
+                        @((context as ERP.Server.Models.Postgres.SmtpConfig).Ssl == true ? "Yes" : "No")
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ERP.Server.Models.Postgres.SmtpConfig" Property="User" Title="User">
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ERP.Server.Models.Postgres.SmtpConfig" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                    <Template Context="smtpConfig">
+
+                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                            Shade="Shade.Lighter" Variant="Variant.Flat"
+                            Click=@(args => GridDeleteButtonClick(args, smtpConfig)) @onclick:stopPropagation="true" />
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+
+        </RadzenDataGrid>
+
+    </RadzenColumn>
+  </RadzenRow>
+</RadzenStack>

@@ -1,0 +1,12 @@
+@inject NavigationManager NavigationManager
+<RadzenStack Gap="0" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.Center">
+    <RadzenText Text="ERP" TextStyle="Radzen.Blazor.TextStyle.DisplayH5" Class="rz-mb-0 rz-ml-sm-6"
+                Style="color: var(--rz-header-color); cursor: pointer; font-weight: bolder; font-size: 32px; background-image: linear-gradient(45deg, var(--rz-primary), #af4261); -webkit-background-clip: text; -moz-background-clip: unset; -webkit-text-fill-color: transparent; -moz-text-fill-color: transparent;"
+                @onclick="@NavigateToHome"/>
+    <RadzenBadge BadgeStyle="BadgeStyle.Secondary" Shade="Shade.Lighter" Text="@Caption" Style="text-transform: uppercase; font-weight: 600; font-size: 10px" Visible="!(string.IsNullOrEmpty(Caption))"></RadzenBadge>
+</RadzenStack>
+
+@code {
+    [Parameter] public string Caption { get; set; }
+    private void NavigateToHome() => NavigationManager.NavigateTo("/");
+}

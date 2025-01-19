@@ -16,12 +16,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace ERP.Server.Controllers.Postgres
 {
-    [Route("odata/Postgres/Units")]
-    public partial class UnitsController : ODataController
+    [Route("odata/Postgres/SmtpConfigs")]
+    public partial class SmtpConfigsController : ODataController
     {
         private ERP.Server.Data.PostgresContext context;
 
-        public UnitsController(ERP.Server.Data.PostgresContext context)
+        public SmtpConfigsController(ERP.Server.Data.PostgresContext context)
         {
             this.context = context;
         }
@@ -29,34 +29,34 @@ namespace ERP.Server.Controllers.Postgres
     
         [HttpGet]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IEnumerable<ERP.Server.Models.Postgres.Unit> GetUnits()
+        public IEnumerable<ERP.Server.Models.Postgres.SmtpConfig> GetSmtpConfigs()
         {
-            var items = this.context.Units.AsQueryable<ERP.Server.Models.Postgres.Unit>();
-            this.OnUnitsRead(ref items);
+            var items = this.context.SmtpConfigs.AsQueryable<ERP.Server.Models.Postgres.SmtpConfig>();
+            this.OnSmtpConfigsRead(ref items);
 
             return items;
         }
 
-        partial void OnUnitsRead(ref IQueryable<ERP.Server.Models.Postgres.Unit> items);
+        partial void OnSmtpConfigsRead(ref IQueryable<ERP.Server.Models.Postgres.SmtpConfig> items);
 
-        partial void OnUnitGet(ref SingleResult<ERP.Server.Models.Postgres.Unit> item);
+        partial void OnSmtpConfigGet(ref SingleResult<ERP.Server.Models.Postgres.SmtpConfig> item);
 
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        [HttpGet("/odata/Postgres/Units(Id={Id})")]
-        public SingleResult<ERP.Server.Models.Postgres.Unit> GetUnit(int key)
+        [HttpGet("/odata/Postgres/SmtpConfigs(Id={Id})")]
+        public SingleResult<ERP.Server.Models.Postgres.SmtpConfig> GetSmtpConfig(Guid key)
         {
-            var items = this.context.Units.Where(i => i.Id == key);
+            var items = this.context.SmtpConfigs.Where(i => i.Id == key);
             var result = SingleResult.Create(items);
 
-            OnUnitGet(ref result);
+            OnSmtpConfigGet(ref result);
 
             return result;
         }
-        partial void OnUnitDeleted(ERP.Server.Models.Postgres.Unit item);
-        partial void OnAfterUnitDeleted(ERP.Server.Models.Postgres.Unit item);
+        partial void OnSmtpConfigDeleted(ERP.Server.Models.Postgres.SmtpConfig item);
+        partial void OnAfterSmtpConfigDeleted(ERP.Server.Models.Postgres.SmtpConfig item);
 
-        [HttpDelete("/odata/Postgres/Units(Id={Id})")]
-        public IActionResult DeleteUnit(int key)
+        [HttpDelete("/odata/Postgres/SmtpConfigs(Id={Id})")]
+        public IActionResult DeleteSmtpConfig(Guid key)
         {
             try
             {
@@ -66,13 +66,11 @@ namespace ERP.Server.Controllers.Postgres
                 }
 
 
-                var items = this.context.Units
+                var items = this.context.SmtpConfigs
                     .Where(i => i.Id == key)
-                    .Include(i => i.UnitConversions)
-                    .Include(i => i.UnitConversions1)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.Unit>(Request, items);
+                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.SmtpConfig>(Request, items);
 
                 var item = items.FirstOrDefault();
 
@@ -80,10 +78,10 @@ namespace ERP.Server.Controllers.Postgres
                 {
                     return StatusCode((int)HttpStatusCode.PreconditionFailed);
                 }
-                this.OnUnitDeleted(item);
-                this.context.Units.Remove(item);
+                this.OnSmtpConfigDeleted(item);
+                this.context.SmtpConfigs.Remove(item);
                 this.context.SaveChanges();
-                this.OnAfterUnitDeleted(item);
+                this.OnAfterSmtpConfigDeleted(item);
 
                 return new NoContentResult();
 
@@ -95,12 +93,12 @@ namespace ERP.Server.Controllers.Postgres
             }
         }
 
-        partial void OnUnitUpdated(ERP.Server.Models.Postgres.Unit item);
-        partial void OnAfterUnitUpdated(ERP.Server.Models.Postgres.Unit item);
+        partial void OnSmtpConfigUpdated(ERP.Server.Models.Postgres.SmtpConfig item);
+        partial void OnAfterSmtpConfigUpdated(ERP.Server.Models.Postgres.SmtpConfig item);
 
-        [HttpPut("/odata/Postgres/Units(Id={Id})")]
+        [HttpPut("/odata/Postgres/SmtpConfigs(Id={Id})")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PutUnit(int key, [FromBody]ERP.Server.Models.Postgres.Unit item)
+        public IActionResult PutSmtpConfig(Guid key, [FromBody]ERP.Server.Models.Postgres.SmtpConfig item)
         {
             try
             {
@@ -109,11 +107,11 @@ namespace ERP.Server.Controllers.Postgres
                     return BadRequest(ModelState);
                 }
 
-                var items = this.context.Units
+                var items = this.context.SmtpConfigs
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.Unit>(Request, items);
+                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.SmtpConfig>(Request, items);
 
                 var firstItem = items.FirstOrDefault();
 
@@ -121,13 +119,13 @@ namespace ERP.Server.Controllers.Postgres
                 {
                     return StatusCode((int)HttpStatusCode.PreconditionFailed);
                 }
-                this.OnUnitUpdated(item);
-                this.context.Units.Update(item);
+                this.OnSmtpConfigUpdated(item);
+                this.context.SmtpConfigs.Update(item);
                 this.context.SaveChanges();
 
-                var itemToReturn = this.context.Units.Where(i => i.Id == key);
+                var itemToReturn = this.context.SmtpConfigs.Where(i => i.Id == key);
                 
-                this.OnAfterUnitUpdated(item);
+                this.OnAfterSmtpConfigUpdated(item);
                 return new ObjectResult(SingleResult.Create(itemToReturn));
             }
             catch(Exception ex)
@@ -137,9 +135,9 @@ namespace ERP.Server.Controllers.Postgres
             }
         }
 
-        [HttpPatch("/odata/Postgres/Units(Id={Id})")]
+        [HttpPatch("/odata/Postgres/SmtpConfigs(Id={Id})")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PatchUnit(int key, [FromBody]Delta<ERP.Server.Models.Postgres.Unit> patch)
+        public IActionResult PatchSmtpConfig(Guid key, [FromBody]Delta<ERP.Server.Models.Postgres.SmtpConfig> patch)
         {
             try
             {
@@ -148,11 +146,11 @@ namespace ERP.Server.Controllers.Postgres
                     return BadRequest(ModelState);
                 }
 
-                var items = this.context.Units
+                var items = this.context.SmtpConfigs
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.Unit>(Request, items);
+                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.SmtpConfig>(Request, items);
 
                 var item = items.FirstOrDefault();
 
@@ -162,13 +160,13 @@ namespace ERP.Server.Controllers.Postgres
                 }
                 patch.Patch(item);
 
-                this.OnUnitUpdated(item);
-                this.context.Units.Update(item);
+                this.OnSmtpConfigUpdated(item);
+                this.context.SmtpConfigs.Update(item);
                 this.context.SaveChanges();
 
-                var itemToReturn = this.context.Units.Where(i => i.Id == key);
+                var itemToReturn = this.context.SmtpConfigs.Where(i => i.Id == key);
                 
-                this.OnAfterUnitUpdated(item);
+                this.OnAfterSmtpConfigUpdated(item);
                 return new ObjectResult(SingleResult.Create(itemToReturn));
             }
             catch(Exception ex)
@@ -178,12 +176,12 @@ namespace ERP.Server.Controllers.Postgres
             }
         }
 
-        partial void OnUnitCreated(ERP.Server.Models.Postgres.Unit item);
-        partial void OnAfterUnitCreated(ERP.Server.Models.Postgres.Unit item);
+        partial void OnSmtpConfigCreated(ERP.Server.Models.Postgres.SmtpConfig item);
+        partial void OnAfterSmtpConfigCreated(ERP.Server.Models.Postgres.SmtpConfig item);
 
         [HttpPost]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult Post([FromBody] ERP.Server.Models.Postgres.Unit item)
+        public IActionResult Post([FromBody] ERP.Server.Models.Postgres.SmtpConfig item)
         {
             try
             {
@@ -197,15 +195,15 @@ namespace ERP.Server.Controllers.Postgres
                     return BadRequest();
                 }
 
-                this.OnUnitCreated(item);
-                this.context.Units.Add(item);
+                this.OnSmtpConfigCreated(item);
+                this.context.SmtpConfigs.Add(item);
                 this.context.SaveChanges();
 
-                var itemToReturn = this.context.Units.Where(i => i.Id == item.Id);
+                var itemToReturn = this.context.SmtpConfigs.Where(i => i.Id == item.Id);
 
                 
 
-                this.OnAfterUnitCreated(item);
+                this.OnAfterSmtpConfigCreated(item);
 
                 return new ObjectResult(SingleResult.Create(itemToReturn))
                 {

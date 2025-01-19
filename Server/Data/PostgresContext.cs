@@ -86,6 +86,8 @@ namespace ERP.Server.Data
 
         public DbSet<ERP.Server.Models.Postgres.Unit> Units { get; set; }
 
+        public DbSet<ERP.Server.Models.Postgres.SmtpConfig> SmtpConfigs { get; set; }
+
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
             configurationBuilder.Conventions.Add(_ => new BlankTriggerAddingConvention());

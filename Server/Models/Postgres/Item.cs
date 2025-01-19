@@ -32,8 +32,5 @@ namespace ERP.Server.Models.Postgres
         public int? Group { get; set; }
 
         public ItemGroup ItemGroup { get; set; }
-
-        [ConcurrencyCheck]
-        public int? TenantId { get; set; }
     }
 }

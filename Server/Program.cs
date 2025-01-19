@@ -35,6 +35,7 @@ builder.Services.AddControllers().AddOData(opt =>
     oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.StandardNarration>("StandardNarrations");
     oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.UnitConversion>("UnitConversions");
     oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.Unit>("Units");
+    oDataBuilderPostgres.EntitySet<ERP.Server.Models.Postgres.SmtpConfig>("SmtpConfigs");
     opt.AddRouteComponents("odata/Postgres", oDataBuilderPostgres.GetEdmModel()).Count().Filter().OrderBy().Expand().Select().SetMaxTop(null).TimeZone = TimeZoneInfo.Utc;
 });
 builder.Services.AddScoped<ERP.Client.PostgresService>();
@@ -70,8 +71,8 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-app.UseHsts();
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();

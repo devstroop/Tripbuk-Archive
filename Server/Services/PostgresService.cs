@@ -1212,5 +1212,166 @@ namespace ERP.Server
 
             return itemToDelete;
         }
+    
+        public async Task ExportSmtpConfigsToExcel(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/smtpconfigs/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/smtpconfigs/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        public async Task ExportSmtpConfigsToCSV(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/smtpconfigs/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/smtpconfigs/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        partial void OnSmtpConfigsRead(ref IQueryable<ERP.Server.Models.Postgres.SmtpConfig> items);
+
+        public async Task<IQueryable<ERP.Server.Models.Postgres.SmtpConfig>> GetSmtpConfigs(Query query = null)
+        {
+            var items = Context.SmtpConfigs.AsQueryable();
+
+
+            if (query != null)
+            {
+                if (!string.IsNullOrEmpty(query.Expand))
+                {
+                    var propertiesToExpand = query.Expand.Split(',');
+                    foreach(var p in propertiesToExpand)
+                    {
+                        items = items.Include(p.Trim());
+                    }
+                }
+
+                ApplyQuery(ref items, query);
+            }
+
+            OnSmtpConfigsRead(ref items);
+
+            return await Task.FromResult(items);
+        }
+
+        partial void OnSmtpConfigGet(ERP.Server.Models.Postgres.SmtpConfig item);
+        partial void OnGetSmtpConfigById(ref IQueryable<ERP.Server.Models.Postgres.SmtpConfig> items);
+
+
+        public async Task<ERP.Server.Models.Postgres.SmtpConfig> GetSmtpConfigById(Guid id)
+        {
+            var items = Context.SmtpConfigs
+                              .AsNoTracking()
+                              .Where(i => i.Id == id);
+
+ 
+            OnGetSmtpConfigById(ref items);
+
+            var itemToReturn = items.FirstOrDefault();
+
+            OnSmtpConfigGet(itemToReturn);
+
+            return await Task.FromResult(itemToReturn);
+        }
+
+        partial void OnSmtpConfigCreated(ERP.Server.Models.Postgres.SmtpConfig item);
+        partial void OnAfterSmtpConfigCreated(ERP.Server.Models.Postgres.SmtpConfig item);
+
+        public async Task<ERP.Server.Models.Postgres.SmtpConfig> CreateSmtpConfig(ERP.Server.Models.Postgres.SmtpConfig smtpconfig)
+        {
+            OnSmtpConfigCreated(smtpconfig);
+
+            var existingItem = Context.SmtpConfigs
+                              .Where(i => i.Id == smtpconfig.Id)
+                              .FirstOrDefault();
+
+            if (existingItem != null)
+            {
+               throw new Exception("Item already available");
+            }            
+
+            try
+            {
+                Context.SmtpConfigs.Add(smtpconfig);
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(smtpconfig).State = EntityState.Detached;
+                throw;
+            }
+
+            OnAfterSmtpConfigCreated(smtpconfig);
+
+            return smtpconfig;
+        }
+
+        public async Task<ERP.Server.Models.Postgres.SmtpConfig> CancelSmtpConfigChanges(ERP.Server.Models.Postgres.SmtpConfig item)
+        {
+            var entityToCancel = Context.Entry(item);
+            if (entityToCancel.State == EntityState.Modified)
+            {
+              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
+              entityToCancel.State = EntityState.Unchanged;
+            }
+
+            return item;
+        }
+
+        partial void OnSmtpConfigUpdated(ERP.Server.Models.Postgres.SmtpConfig item);
+        partial void OnAfterSmtpConfigUpdated(ERP.Server.Models.Postgres.SmtpConfig item);
+
+        public async Task<ERP.Server.Models.Postgres.SmtpConfig> UpdateSmtpConfig(Guid id, ERP.Server.Models.Postgres.SmtpConfig smtpconfig)
+        {
+            OnSmtpConfigUpdated(smtpconfig);
+
+            var itemToUpdate = Context.SmtpConfigs
+                              .Where(i => i.Id == smtpconfig.Id)
+                              .FirstOrDefault();
+
+            if (itemToUpdate == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+                
+            var entryToUpdate = Context.Entry(itemToUpdate);
+            entryToUpdate.CurrentValues.SetValues(smtpconfig);
+            entryToUpdate.State = EntityState.Modified;
+
+            Context.SaveChanges();
+
+            OnAfterSmtpConfigUpdated(smtpconfig);
+
+            return smtpconfig;
+        }
+
+        partial void OnSmtpConfigDeleted(ERP.Server.Models.Postgres.SmtpConfig item);
+        partial void OnAfterSmtpConfigDeleted(ERP.Server.Models.Postgres.SmtpConfig item);
+
+        public async Task<ERP.Server.Models.Postgres.SmtpConfig> DeleteSmtpConfig(Guid id)
+        {
+            var itemToDelete = Context.SmtpConfigs
+                              .Where(i => i.Id == id)
+                              .FirstOrDefault();
+
+            if (itemToDelete == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+
+            OnSmtpConfigDeleted(itemToDelete);
+
+
+            Context.SmtpConfigs.Remove(itemToDelete);
+
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(itemToDelete).State = EntityState.Unchanged;
+                throw;
+            }
+
+            OnAfterSmtpConfigDeleted(itemToDelete);
+
+            return itemToDelete;
+        }
         }
 }

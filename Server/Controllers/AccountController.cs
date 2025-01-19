@@ -69,8 +69,9 @@ namespace ERP.Server.Controllers
             {
                 var claims = new List<Claim>()
                 {
-                    new Claim(ClaimTypes.Name, "admin"),
-                    new Claim(ClaimTypes.Email, "admin")
+                    new Claim(ClaimTypes.Name, "Administrator"),
+                    new Claim(ClaimTypes.Email, "admin@devstroop.com"),
+                    new Claim(ClaimTypes.Role, "admin")
                 };
 
                 _roleManager.Roles.ToList().ForEach(r => claims.Add(new Claim(ClaimTypes.Role, r.Name)));

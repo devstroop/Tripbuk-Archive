@@ -126,7 +126,7 @@ namespace ERP.Server.Controllers.Postgres
                 this.context.SaveChanges();
 
                 var itemToReturn = this.context.AccountGroups.Where(i => i.Id == key);
-                Request.QueryString = Request.QueryString.Add("$expand", "AccountGroup1,AspNetTenant");
+                Request.QueryString = Request.QueryString.Add("$expand", "AccountGroup1");
                 this.OnAfterAccountGroupUpdated(item);
                 return new ObjectResult(SingleResult.Create(itemToReturn));
             }
@@ -167,7 +167,7 @@ namespace ERP.Server.Controllers.Postgres
                 this.context.SaveChanges();
 
                 var itemToReturn = this.context.AccountGroups.Where(i => i.Id == key);
-                Request.QueryString = Request.QueryString.Add("$expand", "AccountGroup1,AspNetTenant");
+                Request.QueryString = Request.QueryString.Add("$expand", "AccountGroup1");
                 this.OnAfterAccountGroupUpdated(item);
                 return new ObjectResult(SingleResult.Create(itemToReturn));
             }
@@ -203,7 +203,7 @@ namespace ERP.Server.Controllers.Postgres
 
                 var itemToReturn = this.context.AccountGroups.Where(i => i.Id == item.Id);
 
-                Request.QueryString = Request.QueryString.Add("$expand", "AccountGroup1,AspNetTenant");
+                Request.QueryString = Request.QueryString.Add("$expand", "AccountGroup1");
 
                 this.OnAfterAccountGroupCreated(item);
 

@@ -116,5 +116,19 @@ namespace ERP.Server.Controllers
         {
             return ToExcel(ApplyQuery(await service.GetUnits(), Request.Query, false), fileName);
         }
+
+        [HttpGet("/export/Postgres/smtpconfigs/csv")]
+        [HttpGet("/export/Postgres/smtpconfigs/csv(fileName='{fileName}')")]
+        public async Task<FileStreamResult> ExportSmtpConfigsToCSV(string fileName = null)
+        {
+            return ToCSV(ApplyQuery(await service.GetSmtpConfigs(), Request.Query, false), fileName);
+        }
+
+        [HttpGet("/export/Postgres/smtpconfigs/excel")]
+        [HttpGet("/export/Postgres/smtpconfigs/excel(fileName='{fileName}')")]
+        public async Task<FileStreamResult> ExportSmtpConfigsToExcel(string fileName = null)
+        {
+            return ToExcel(ApplyQuery(await service.GetSmtpConfigs(), Request.Query, false), fileName);
+        }
     }
 }

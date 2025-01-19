@@ -695,5 +695,100 @@ namespace ERP.Client
 
             return await httpClient.SendAsync(httpRequestMessage);
         }
+
+        public async System.Threading.Tasks.Task ExportSmtpConfigsToExcel(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/smtpconfigs/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/smtpconfigs/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        public async System.Threading.Tasks.Task ExportSmtpConfigsToCSV(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/smtpconfigs/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/smtpconfigs/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        partial void OnGetSmtpConfigs(HttpRequestMessage requestMessage);
+
+        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.SmtpConfig>> GetSmtpConfigs(Query query)
+        {
+            return await GetSmtpConfigs(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
+        }
+
+        public async Task<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.SmtpConfig>> GetSmtpConfigs(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        {
+            var uri = new Uri(baseUri, $"SmtpConfigs");
+            uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+
+            OnGetSmtpConfigs(httpRequestMessage);
+
+            var response = await httpClient.SendAsync(httpRequestMessage);
+
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<ERP.Server.Models.Postgres.SmtpConfig>>(response);
+        }
+
+        partial void OnCreateSmtpConfig(HttpRequestMessage requestMessage);
+
+        public async Task<ERP.Server.Models.Postgres.SmtpConfig> CreateSmtpConfig(ERP.Server.Models.Postgres.SmtpConfig smtpConfig = default(ERP.Server.Models.Postgres.SmtpConfig))
+        {
+            var uri = new Uri(baseUri, $"SmtpConfigs");
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
+
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(smtpConfig), Encoding.UTF8, "application/json");
+
+            OnCreateSmtpConfig(httpRequestMessage);
+
+            var response = await httpClient.SendAsync(httpRequestMessage);
+
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.SmtpConfig>(response);
+        }
+
+        partial void OnDeleteSmtpConfig(HttpRequestMessage requestMessage);
+
+        public async Task<HttpResponseMessage> DeleteSmtpConfig(Guid id = default(Guid))
+        {
+            var uri = new Uri(baseUri, $"SmtpConfigs({id})");
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
+
+            OnDeleteSmtpConfig(httpRequestMessage);
+
+            return await httpClient.SendAsync(httpRequestMessage);
+        }
+
+        partial void OnGetSmtpConfigById(HttpRequestMessage requestMessage);
+
+        public async Task<ERP.Server.Models.Postgres.SmtpConfig> GetSmtpConfigById(string expand = default(string), Guid id = default(Guid))
+        {
+            var uri = new Uri(baseUri, $"SmtpConfigs({id})");
+
+            uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+
+            OnGetSmtpConfigById(httpRequestMessage);
+
+            var response = await httpClient.SendAsync(httpRequestMessage);
+
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<ERP.Server.Models.Postgres.SmtpConfig>(response);
+        }
+
+        partial void OnUpdateSmtpConfig(HttpRequestMessage requestMessage);
+        
+        public async Task<HttpResponseMessage> UpdateSmtpConfig(Guid id = default(Guid), ERP.Server.Models.Postgres.SmtpConfig smtpConfig = default(ERP.Server.Models.Postgres.SmtpConfig))
+        {
+            var uri = new Uri(baseUri, $"SmtpConfigs({id})");
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
+
+            httpRequestMessage.Headers.Add("If-Match", smtpConfig.ETag);    
+
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(smtpConfig), Encoding.UTF8, "application/json");
+
+            OnUpdateSmtpConfig(httpRequestMessage);
+
+            return await httpClient.SendAsync(httpRequestMessage);
+        }
     }
 }

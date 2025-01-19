@@ -24,6 +24,7 @@
   </ItemGroup>
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Pages\Developer\Dashboard.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Marketplace\Marketplace.razor" />
   </ItemGroup>
   <PropertyGroup>
     <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>

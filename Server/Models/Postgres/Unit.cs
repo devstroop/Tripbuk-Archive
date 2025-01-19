@@ -38,9 +38,6 @@ namespace ERP.Server.Models.Postgres
         [ConcurrencyCheck]
         public string Uqc { get; set; }
 
-        [ConcurrencyCheck]
-        public int? TenantId { get; set; }
-
         public ICollection<UnitConversion> UnitConversions { get; set; }
 
         public ICollection<UnitConversion> UnitConversions1 { get; set; }

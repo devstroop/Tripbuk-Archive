@@ -124,7 +124,7 @@ namespace ERP.Server.Controllers.Postgres
                 this.context.SaveChanges();
 
                 var itemToReturn = this.context.StandardNarrations.Where(i => i.Id == key);
-                Request.QueryString = Request.QueryString.Add("$expand", "AspNetTenant");
+                
                 this.OnAfterStandardNarrationUpdated(item);
                 return new ObjectResult(SingleResult.Create(itemToReturn));
             }
@@ -165,7 +165,7 @@ namespace ERP.Server.Controllers.Postgres
                 this.context.SaveChanges();
 
                 var itemToReturn = this.context.StandardNarrations.Where(i => i.Id == key);
-                Request.QueryString = Request.QueryString.Add("$expand", "AspNetTenant");
+                
                 this.OnAfterStandardNarrationUpdated(item);
                 return new ObjectResult(SingleResult.Create(itemToReturn));
             }
@@ -201,7 +201,7 @@ namespace ERP.Server.Controllers.Postgres
 
                 var itemToReturn = this.context.StandardNarrations.Where(i => i.Id == item.Id);
 
-                Request.QueryString = Request.QueryString.Add("$expand", "AspNetTenant");
+                
 
                 this.OnAfterStandardNarrationCreated(item);
 

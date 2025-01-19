@@ -7,8 +7,8 @@ using System.Text.Json.Serialization;
 
 namespace ERP.Server.Models.Postgres
 {
-    [Table("ItemGroups", Schema = "public")]
-    public partial class ItemGroup
+    [Table("SmtpConfigs", Schema = "public")]
+    public partial class SmtpConfig
     {
 
         [NotMapped]
@@ -21,26 +21,25 @@ namespace ERP.Server.Models.Postgres
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [Column("id")]
+        [Required]
+        public Guid Id { get; set; }
 
         [Required]
         [ConcurrencyCheck]
-        public string GroupName { get; set; }
+        public string Host { get; set; }
+
+        [Required]
+        [ConcurrencyCheck]
+        public int Port { get; set; }
 
         [ConcurrencyCheck]
-        public string Alias { get; set; }
+        public bool? Ssl { get; set; }
 
         [ConcurrencyCheck]
-        public bool? IsPrimary { get; set; }
+        public string User { get; set; }
 
         [ConcurrencyCheck]
-        public int? Parent { get; set; }
-
-        public ItemGroup ItemGroup1 { get; set; }
-
-        public ICollection<ItemGroup> ItemGroups1 { get; set; }
-
-        public ICollection<Item> Items { get; set; }
+        public string Password { get; set; }
     }
 }

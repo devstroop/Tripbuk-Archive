@@ -33,8 +33,6 @@
                 <NoRecordsFound Text="Oops! No accounts found."></NoRecordsFound>
             </EmptyTemplate>
             <Columns>
-                @* <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Property="Id" Title="Id"> *@
-                @* </RadzenDataGridColumn> *@
                 <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Property="AccountName" Title="Name" Frozen="true">
                     <Template>
                         <RadzenColumn>
@@ -43,10 +41,6 @@
                         </RadzenColumn>
                     </Template>
                 </RadzenDataGridColumn>
-                @* <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Property="Alias" Title="Alias"> *@
-                @* </RadzenDataGridColumn> *@
-                @* <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Property="PrintName" Title="Print Name"> *@
-                @* </RadzenDataGridColumn> *@
                 <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Property="AccountGroup.GroupName" Title="Group" Width="150px">
                     <Template>
                         <RadzenBadge Text="@($"{context.AccountGroup?.GroupName}")" IsPill="true" Visible="@(context.AccountGroup != null)"></RadzenBadge>
@@ -57,34 +51,6 @@
                 </RadzenDataGridColumn>
                 <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Title="Op. Bal. (Dr.)">
                 </RadzenDataGridColumn>
-                @* <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Property="Address" Title="Address"> *@
-                @* </RadzenDataGridColumn> *@
-                @* <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Property="City" Title="City"> *@
-                @* </RadzenDataGridColumn> *@
-                @* <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Property="State" Title="State"> *@
-                @* </RadzenDataGridColumn> *@
-                @* <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Property="PinCode" Title="Pin Code"> *@
-                @* </RadzenDataGridColumn> *@
-                @* <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Property="Country" Title="Country"> *@
-                @* </RadzenDataGridColumn> *@
-                @* <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Property="Phone" Title="Phone"> *@
-                @* </RadzenDataGridColumn> *@
-                @* <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Property="Mobile" Title="Mobile"> *@
-                @* </RadzenDataGridColumn> *@
-                @* <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Property="Whatsapp" Title="Whatsapp"> *@
-                @* </RadzenDataGridColumn> *@
-                @* <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Property="Email" Title="Email"> *@
-                @* </RadzenDataGridColumn> *@
-                @* <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Property="ContactPerson" Title="Contact Person"> *@
-                @* </RadzenDataGridColumn> *@
-                @* <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Property="Gstin" Title="Gstin"> *@
-                @* </RadzenDataGridColumn> *@
-                @* <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Property="Pan" Title="Pan"> *@
-                @* </RadzenDataGridColumn> *@
-                @* <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Property="OpeningBalance" Title="Opening Balance"> *@
-                @* </RadzenDataGridColumn> *@
-                @* <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Property="OpeningBalanceType" Title="Opening Balance Type"> *@
-                @* </RadzenDataGridColumn> *@
                 <RadzenDataGridColumn TItem="Server.Models.Postgres.Account" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
                     <Template Context="account">
 
