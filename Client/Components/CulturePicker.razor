@@ -3,7 +3,7 @@
         <RadzenIcon Icon="language" Style="font-size: 20px"></RadzenIcon>
     </Start>
     <ChildContent>
-        <RadzenDropDown @bind-Value="@Culture" TValue="string" Data="@(new[] { new { Text = "English", Value = "en" }, new { Text = "हिन्दी", Value = "hi" } })"
+        <RadzenDropDown @bind-Value="@_culture" TValue="string" Data="@(new[] { new { Text = "English", Value = "en" }, new { Text = "हिन्दी", Value = "hi" } })"
                         TextProperty="Text" ValueProperty="Value" Change="@ChangeCulture"/>
     </ChildContent>
 </RadzenFormField>

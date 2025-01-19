@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Globalization;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Radzen;
-using Radzen.Blazor;
 
-namespace ERP.Client
+namespace ERP.Client.Components
 {
     public partial class CulturePicker
     {
@@ -31,18 +25,18 @@ namespace ERP.Client
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        protected string Culture;
+        private string _culture;
 
         protected override void OnInitialized()
         {
-            Culture = CultureInfo.CurrentCulture.Name;
+            _culture = CultureInfo.CurrentCulture.Name;
         }
 
-        protected void ChangeCulture()
+        private void ChangeCulture()
         {
             var redirect = new Uri(NavigationManager.Uri).GetComponents(UriComponents.PathAndQuery | UriComponents.Fragment, UriFormat.UriEscaped);
 
-            var query = $"?culture={Uri.EscapeDataString(Culture)}&redirectUri={redirect}";
+            var query = $"?culture={Uri.EscapeDataString(_culture)}&redirectUri={redirect}";
 
             NavigationManager.NavigateTo("Culture/SetCulture" + query, forceLoad: true);
         }
