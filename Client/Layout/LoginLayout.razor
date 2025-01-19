@@ -7,8 +7,8 @@
 
 <RadzenLayout style="background: url('images/login.jpg'); background-size: cover;">
     <RadzenBody>
-        <RadzenStack JustifyContent="Radzen.JustifyContent.Center" Class="rz-mx-auto rz-p-4" Style="max-width: 1440px; height: 100%;">
-            <RadzenCard class="rz-shadow-3 rz-border-radius-4" style="padding: 0; overflow: hidden; background-color: var(--rz-base-background-color);">
+        <RadzenStack JustifyContent="Radzen.JustifyContent.Center" Class="rz-mx-auto rz-p-4" Style="max-width: 1200px; height: 100%;">
+            <RadzenCard style="padding: 0; overflow: hidden; background-color: var(--rz-base-background-color);" Variant="Radzen.Variant.Flat">
                 <RadzenRow Gap="0">
                     <RadzenColumn Size="12" SizeSM="6" Class="rz-background-color-primary rz-p-12" style="background-image: radial-gradient(circle at 4rem 4rem, var(--rz-primary) 0%, var(--rz-primary-darker) 80%); position: relative;">
                         <RadzenText Text="ERP" TextStyle="Radzen.Blazor.TextStyle.DisplayH4" class="rz-mb-0 rz-color-on-primary" style="font-weight: bold;" />
@@ -22,7 +22,7 @@
                     </RadzenColumn>
                 </RadzenRow>
             </RadzenCard>
-            <RadzenText Text="ERP.Server v1.0.0, Copyright Ⓒ 2025" TextStyle="Radzen.Blazor.TextStyle.Caption" TextAlign="Radzen.TextAlign.Center" Style="width: 100%; margin-top: 20px" TagName="Radzen.Blazor.TagName.P"/>
+            <RadzenText Text="ERP.Server v1.0.0, Copyright Ⓒ 2025" TextStyle="Radzen.Blazor.TextStyle.Body2" TextAlign="Radzen.TextAlign.Center" Style="width: 100%; margin-top: 20px"/>
         </RadzenStack>
     </RadzenBody>
 </RadzenLayout>

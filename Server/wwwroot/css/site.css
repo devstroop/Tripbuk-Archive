@@ -37,6 +37,7 @@
     --rz-grid-cell-line-height: 1.5rem;
     --rz-grid-header-font-size: 1rem;
     --rz-grid-header-font-weight: 600;
+    --rz-body-line-height: 1.2rem;
 }
 
 body {
@@ -101,4 +102,18 @@ a:focus {
 
 .loading-progress-text:after {
     content: var(--blazor-load-percentage-text, "Loading");
+}
+
+.rz-button {
+    font-weight: 600;
+    text-align: center;
+    border-radius: var(--rz-button-border-radius);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.rz-link {
+    .rzi {
+        margin-right: 0.5rem;
+    }
 }

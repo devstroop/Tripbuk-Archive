@@ -28,22 +28,22 @@
     </RadzenRow>
     <RadzenRow>
         <RadzenColumn SizeMD="3" SizeSM="4" SizeXS="6">
-            <StatCard OverlineText="Sales" Text="@($"{9999:C}")" Icon="arrow_upward" Trends="10"></StatCard>
+            <StatCard OverlineText="Sales" Text="9999" Icon="arrow_upward" Trends="10"></StatCard>
         </RadzenColumn>
         <RadzenColumn SizeMD="3" SizeSM="4" SizeXS="6">
-            <StatCard OverlineText="Purchase" Text="@($"{9999:C}")" Icon="arrow_downward" Trends="-10"></StatCard>
+            <StatCard OverlineText="Purchase" Text="9999" Icon="arrow_downward" Trends="-10"></StatCard>
         </RadzenColumn>
         <RadzenColumn SizeMD="3" SizeSM="4" SizeXS="6">
-            <StatCard OverlineText="Payments" Text="@($"{9999:C}")" Icon="moving" Trends="55"></StatCard>
+            <StatCard OverlineText="Payments" Text="9999" Icon="moving" Trends="55"></StatCard>
         </RadzenColumn>
         <RadzenColumn SizeMD="3" SizeSM="4" SizeXS="6">
-            <StatCard OverlineText="Receipts" Text="@($"{9999:C}")" Icon="south_west" Trends="-20"></StatCard>
+            <StatCard OverlineText="Receipts" Text="9999" Icon="south_west" Trends="-20"></StatCard>
         </RadzenColumn>
     </RadzenRow>
     <RadzenRow class="rz-pt-8 rz-border-top rz-mt-4" Style="border-top: 1px dashed var(--rz-base)" JustifyContent="Radzen.JustifyContent.Start" AlignItems="Radzen.AlignItems.Start">
         <RadzenColumn SizeSM="12" SizeMD="4" SizeLG="3">
             <RadzenCard Variant="Variant.Flat">
-                <RadzenText Text="Masters Overview" TextStyle="Radzen.Blazor.TextStyle.DisplayH6" Style="font-weight: bold;"/>
+                <RadzenText Text="Masters Overview" TextStyle="Radzen.Blazor.TextStyle.DisplayH5" Style="font-weight: bold;"/>
                 <RadzenChart SeriesClick="@OnSeriesClick">
                     <RadzenPieSeries Data="@_accounts" Title="Type" CategoryProperty="Type"
                                      ValueProperty="Count" Radius="72">
@@ -54,7 +54,7 @@
         </RadzenColumn>
         <RadzenColumn SizeSM="12" SizeMD="8" SizeLG="4">
             <RadzenCard Variant="Variant.Flat">
-                <RadzenText Text="Masters Overview" TextStyle="Radzen.Blazor.TextStyle.DisplayH6" Style="font-weight: bold;"/>
+                <RadzenText Text="Masters Overview" TextStyle="Radzen.Blazor.TextStyle.DisplayH5" Style="font-weight: bold"/>
                 <RadzenChart>
                     <RadzenChartTooltipOptions Shared="true" />
                     <RadzenLineSeries Smooth="true" Data="@revenue2023" CategoryProperty="Date" Title="2023" LineType="LineType.Dashed" ValueProperty="Revenue">
@@ -77,8 +77,9 @@
             <RadzenCard Variant="Variant.Flat">
                 <RadzenRow AlignItems="Radzen.AlignItems.Start">
                     <RadzenColumn>
-                        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
-                            <RadzenText Text="Transactions" TextStyle="Radzen.Blazor.TextStyle.DisplayH6" Style="font-weight: bold;" class="rz-mb-0"/>
+                        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem">
+                            <RadzenIcon Icon="history" Style="font-size: 20px;font-weight:bold;"/>
+                            <RadzenText Text="Recent Transactions" TextStyle="Radzen.Blazor.TextStyle.DisplayH6" Style="font-weight: bold;" class="rz-mb-0"/>
                         </RadzenStack>
                     </RadzenColumn>
                     <RadzenColumn>
@@ -89,7 +90,7 @@
                         </RadzenStack>
                     </RadzenColumn>
                 </RadzenRow>
-                <RadzenDataGrid Data="@_txns" TItem="Txn" AllowPaging="false" Density="Radzen.Density.Compact" Responsive="true" Style="display: block; height: 285px">
+                <RadzenDataGrid Data="@_txns" TItem="Txn" AllowPaging="false" Density="Radzen.Density.Compact" Responsive="true" Style="display: block; height: 285px" class="rz-overflow-auto rz-mb-3">
                     <Columns>
                         <RadzenDataGridColumn TItem="Txn" Property="Id" Title="ID"/>
                         <RadzenDataGridColumn TItem="Txn" Property="Name" Title="Account Name"/>
@@ -105,7 +106,27 @@
                         </RadzenDataGridColumn>
                     </Columns>
                 </RadzenDataGrid>
+                <RadzenLink Text="See all transactions" Icon="east"></RadzenLink>
             </RadzenCard>
         </RadzenColumn>
+        <RadzenColumn>
+
+            <RadzenStack Style="width: 100%; max-width: 600px;">
+                <RadzenChart>
+                    <RadzenDonutSeries Data="@revenue" CategoryProperty="Quarter" ValueProperty="Revenue" TotalAngle="180" StartAngle="180">
+                        <ChildContent>
+                            <RadzenSeriesDataLabels Visible="true" />
+                        </ChildContent>
+                        <TitleTemplate>
+                            <div class="rz-donut-content">
+                                <div>Revenue</div>
+                                <div>for 2024</div>
+                            </div>
+                        </TitleTemplate>
+                    </RadzenDonutSeries>
+                </RadzenChart>
+            </RadzenStack>
+        </RadzenColumn>
     </RadzenRow>
+    
 </RadzenStack>

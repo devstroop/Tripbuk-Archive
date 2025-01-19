@@ -1,7 +1,7 @@
 @layout LoginLayout
 @page "/auth/login"
 <PageTitle>Login</PageTitle>
-<RadzenText Text="Login" TextStyle="Radzen.Blazor.TextStyle.H5" class="mb-4" TagName="Radzen.Blazor.TagName.H2" />
+<RadzenText Text="Login" TextStyle="Radzen.Blazor.TextStyle.DisplayH5" TagName="Radzen.Blazor.TagName.H2" Style="font-weight: bold" class="rz-mb-6" />
 <RadzenRow>
     <RadzenColumn SizeMD="12">
         <RadzenTemplateForm Action="@($"account/login?redirectUrl={redirectUrl}")" Data="@("login")"

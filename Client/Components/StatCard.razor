@@ -8,21 +8,22 @@
         <RadzenColumn>
             <RadzenRow AlignItems="AlignItems.Center" Gap="0.5rem">
                 <RadzenText Text="@OverlineText" TextStyle="TextStyle.Overline"
-                            TagName="TagName.H4" class="rz-mb-0"/>
+                            TagName="TagName.H4" class="rz-mb-0" Style="font-size: 10px; font-weight: 500"/>
                 <RadzenStack Orientation="Orientation.Horizontal" Gap="0.25rem"
                              Visible="@Trends.HasValue"
                              AlignItems="AlignItems.Center">
                     <RadzenIcon Icon="@TrendingIcon" class="@TrendingColorClass"></RadzenIcon>
                     <RadzenText Text="@PercentageText" TextStyle="Radzen.Blazor.TextStyle.Caption"
-                                class="@($"{TrendingColorClass} rz-m-0")"/>
+                                class="@($"{TrendingColorClass} rz-m-0")" Style="font-weight: bold"/>
                 </RadzenStack>
             </RadzenRow>
             <RadzenRow Gap="0.5rem"
                          Style="display: block; width: 100%;"
                          JustifyContent="JustifyContent.SpaceBetween"
                          AlignItems="AlignItems.Center" Wrap="FlexWrap.Wrap">
-                <RadzenText Text="@Text" TagName="TagName.P" TextStyle="Radzen.Blazor.TextStyle.H5" class="rz-m-0"/>
-                <RadzenButton Size="ButtonSize.Small" Shade="Shade.Lighter" Icon="chevron_right"></RadzenButton>
+                <RadzenText Text="@Text" TagName="TagName.P" TextStyle="Radzen.Blazor.TextStyle.H5" class="rz-m-0" Style="font-weight: bold"/>
+                <RadzenStack>
+                </RadzenStack>
             </RadzenRow>
         </RadzenColumn>
     </RadzenRow>
@@ -31,9 +32,10 @@
 @code {
     [Parameter] public required string OverlineText { get; set; }
     [Parameter] public required string Text { get; set; }
-    [Parameter] public string Icon { get; set; }
+    [Parameter] public string Icon { get; set; } = "info";
     [Parameter] public float? Trends { get; set; }
     private string PercentageText => Trends.HasValue ? $"{Trends.Value}%" : string.Empty;
     private string TrendingColorClass => Trends.HasValue ? (Trends.Value > 0 ? "rz-color-success" : "rz-color-danger") : string.Empty;
     private string TrendingIcon => Trends.HasValue ? (Trends.Value > 0 ? "trending_up" : "trending_down") : string.Empty;
+    
 }
