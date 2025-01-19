@@ -13,9 +13,9 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.1" />
     <PackageReference Include="System.Net.Http.Json" Version="9.0.1" />
     <PackageReference Include="Radzen.Blazor" Version="*" />
-    <Compile Include="../Server/Models/**/*.cs" />
-    <Compile Include="../Server/Enums/*.cs" />
-    <Compile Include="../Server/Extensions/*.cs" />
+    <Compile Include="../Server/Model*/**/*.cs" />
+    <Compile Include="../Server/Enum*/*.cs" />
+    <Compile Include="../Server/Extension*/*.cs" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.1" />
   </ItemGroup>
