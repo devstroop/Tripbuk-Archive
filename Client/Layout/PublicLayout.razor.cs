@@ -89,22 +89,47 @@ namespace TripBUK.Client.Layout
         [
             new ()
             {
-                Text = "Reports", 
-                Icon = "print",
+                Text = "Discover", 
+                // Icon = "print",
                 Items = [
-                    new MenuItem()
+                    new ()
                     {
-                        Text = "Final Results",
-                        Items = [
-                            new MenuItem(){ Text = "Balance Sheet", Path = "#" },
-                            new MenuItem(){ Text = "Profit & Loss", Path = "#" },
-                            new MenuItem(){ Text = "Payment & Receipt", Path = "#" },
-                            new MenuItem(){ Text = "Income & Expense", Path = "#" },
-                        ]
+                        Text = "Places",
+                        // Icon = "help", 
+                        // Path = "#"
+                    },
+                    new ()
+                    {
+                        Text = "Destinations",
+                        // Icon = "help", 
+                        // Path = "#"
+                    },
+                    new ()
+                    {
+                        Text = "Attractions",
+                        // Icon = "help", 
+                        // Path = "#"
+                    },
+                    new ()
+                    {
+                        Text = "Products",
+                        // Icon = "help", 
+                        // Path = "#"
                     },
                 ]
             },
-            new () { Text = "Help", Icon = "help", Path = "#" }
+            new ()
+            {
+                Text = "My Buckets",
+                // Icon = "help", 
+                // Path = "#"
+            },
+            new ()
+            {
+                Text = "My Trips",
+                // Icon = "help", 
+                // Path = "#"
+            }
 
         ];
     }
