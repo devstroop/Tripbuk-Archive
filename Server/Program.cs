@@ -1,11 +1,11 @@
 using Radzen;
-using TripBUK.Server.Components;
+using Tripbuk.Server.Components;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.AspNetCore.OData;
-using TripBUK.Server.Data;
+using Tripbuk.Server.Data;
 using Microsoft.AspNetCore.Identity;
-using TripBUK.Server.Models;
+using Tripbuk.Server.Models;
 using Microsoft.AspNetCore.Components.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,35 +15,35 @@ builder.Services.AddControllers();
 builder.Services.AddRadzenComponents();
 builder.Services.AddRadzenCookieThemeService(options =>
 {
-    options.Name = "TripBUKTheme";
+    options.Name = "TripbukTheme";
     options.Duration = TimeSpan.FromDays(365);
 });
 builder.Services.AddHttpClient();
 builder.Services.AddLocalization();
-builder.Services.AddScoped<TripBUK.Server.PostgresService>();
-builder.Services.AddDbContext<TripBUK.Server.Data.PostgresContext>(options =>
+builder.Services.AddScoped<Tripbuk.Server.PostgresService>();
+builder.Services.AddDbContext<Tripbuk.Server.Data.PostgresContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection"));
 });
 builder.Services.AddControllers().AddOData(opt =>
 {
     var oDataBuilderPostgres = new ODataConventionModelBuilder();
-    oDataBuilderPostgres.EntitySet<TripBUK.Server.Models.Postgres.AccountGroup>("AccountGroups");
-    oDataBuilderPostgres.EntitySet<TripBUK.Server.Models.Postgres.Account>("Accounts");
-    oDataBuilderPostgres.EntitySet<TripBUK.Server.Models.Postgres.ItemGroup>("ItemGroups");
-    oDataBuilderPostgres.EntitySet<TripBUK.Server.Models.Postgres.Item>("Items");
-    oDataBuilderPostgres.EntitySet<TripBUK.Server.Models.Postgres.StandardNarration>("StandardNarrations");
-    oDataBuilderPostgres.EntitySet<TripBUK.Server.Models.Postgres.UnitConversion>("UnitConversions");
-    oDataBuilderPostgres.EntitySet<TripBUK.Server.Models.Postgres.Unit>("Units");
-    oDataBuilderPostgres.EntitySet<TripBUK.Server.Models.Postgres.SmtpConfig>("SmtpConfigs");
+    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.AccountGroup>("AccountGroups");
+    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.Account>("Accounts");
+    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.ItemGroup>("ItemGroups");
+    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.Item>("Items");
+    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.StandardNarration>("StandardNarrations");
+    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.UnitConversion>("UnitConversions");
+    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.Unit>("Units");
+    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.SmtpConfig>("SmtpConfigs");
     opt.AddRouteComponents("odata/Postgres", oDataBuilderPostgres.GetEdmModel()).Count().Filter().OrderBy().Expand().Select().SetMaxTop(null).TimeZone = TimeZoneInfo.Utc;
 });
-builder.Services.AddScoped<TripBUK.Client.PostgresService>();
-builder.Services.AddHttpClient("TripBUK.Server").ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler { UseCookies = false }).AddHeaderPropagation(o => o.Headers.Add("Cookie"));
+builder.Services.AddScoped<Tripbuk.Client.PostgresService>();
+builder.Services.AddHttpClient("Tripbuk.Server").ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler { UseCookies = false }).AddHeaderPropagation(o => o.Headers.Add("Cookie"));
 builder.Services.AddHeaderPropagation(o => o.Headers.Add("Cookie"));
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
-builder.Services.AddScoped<TripBUK.Client.SecurityService>();
+builder.Services.AddScoped<Tripbuk.Client.SecurityService>();
 builder.Services.AddDbContext<ApplicationIdentityDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection"));
@@ -61,7 +61,17 @@ builder.Services.AddControllers().AddOData(o =>
     oDataBuilder.EntitySet<ApplicationTenant>("ApplicationTenants");
     o.AddRouteComponents("odata/Identity", oDataBuilder.GetEdmModel()).Count().Filter().OrderBy().Expand().Select().SetMaxTop(null).TimeZone = TimeZoneInfo.Utc;
 });
-builder.Services.AddScoped<AuthenticationStateProvider, TripBUK.Client.ApplicationAuthenticationStateProvider>();
+builder.Services.AddScoped<AuthenticationStateProvider, Tripbuk.Client.ApplicationAuthenticationStateProvider>();
+builder.Services.AddHttpClient("Tripbuk.Server").AddHeaderPropagation(o => o.Headers.Add("Cookie"));
+builder.Services.AddHttpClient("Viator", client => client.BaseAddress = new Uri("https://api.sandbox.viator.com/partner/"));
+builder.Services.AddScoped<Tripbuk.Client.ViatorService>();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -79,11 +89,12 @@ app.UseHttpsRedirection();
 app.MapControllers();
 app.UseRequestLocalization(options => options.AddSupportedCultures("en", "hi").AddSupportedUICultures("en", "hi").SetDefaultCulture("en"));
 app.UseHeaderPropagation();
+app.UseSession();
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseAntiforgery();
-app.MapRazorComponents<App>().AddInteractiveServerRenderMode().AddInteractiveWebAssemblyRenderMode().AddAdditionalAssemblies(typeof(TripBUK.Client._Imports).Assembly);
+app.MapRazorComponents<App>().AddInteractiveServerRenderMode().AddInteractiveWebAssemblyRenderMode().AddAdditionalAssemblies(typeof(Tripbuk.Client._Imports).Assembly);
 app.Services.CreateScope().ServiceProvider.GetRequiredService<ApplicationIdentityDbContext>().Database.Migrate();
 app.Services.CreateScope().ServiceProvider.GetRequiredService<ApplicationIdentityDbContext>().SeedTenantsAdmin().Wait();
 app.Run();

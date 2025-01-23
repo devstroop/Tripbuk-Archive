@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Pages.Admin.Masters;
+namespace Tripbuk.Client.Pages.Admin.Masters;
 
 public partial class Masters
 {

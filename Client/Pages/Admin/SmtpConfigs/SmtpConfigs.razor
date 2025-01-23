@@ -21,20 +21,20 @@
     <RadzenRow>
       <RadzenColumn SizeMD=12>
         <RadzenDataGrid @ref="grid0" ColumnWidth="200px"   AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
-            Data="@smtpConfigs" LoadData="@Grid0LoadData" Count="@count" TItem="TripBUK.Server.Models.Postgres.SmtpConfig" RowSelect="@EditRow">
+            Data="@smtpConfigs" LoadData="@Grid0LoadData" Count="@count" TItem="Tripbuk.Server.Models.Postgres.SmtpConfig" RowSelect="@EditRow">
             <Columns>
-                <RadzenDataGridColumn TItem="TripBUK.Server.Models.Postgres.SmtpConfig" Property="Host" Title="Host" Frozen="true">
+                <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.SmtpConfig" Property="Host" Title="Host" Frozen="true">
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="TripBUK.Server.Models.Postgres.SmtpConfig" Property="Port" Title="Port">
+                <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.SmtpConfig" Property="Port" Title="Port">
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="TripBUK.Server.Models.Postgres.SmtpConfig" Property="Ssl" Title="Ssl">
+                <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.SmtpConfig" Property="Ssl" Title="Ssl">
                     <Template>
-                        @((context as TripBUK.Server.Models.Postgres.SmtpConfig).Ssl == true ? "Yes" : "No")
+                        @((context as Server.Models.Postgres.SmtpConfig).Ssl == true ? "Yes" : "No")
                     </Template>
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="TripBUK.Server.Models.Postgres.SmtpConfig" Property="User" Title="User">
+                <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.SmtpConfig" Property="User" Title="User">
                 </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="TripBUK.Server.Models.Postgres.SmtpConfig" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.SmtpConfig" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
                     <Template Context="smtpConfig">
 
                         <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"

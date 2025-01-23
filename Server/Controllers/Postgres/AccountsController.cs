@@ -13,15 +13,16 @@ using Microsoft.AspNetCore.OData.Formatter;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Tripbuk.Server.Data;
 
-namespace TripBUK.Server.Controllers.Postgres
+namespace Tripbuk.Server.Controllers.Postgres
 {
     [Route("odata/Postgres/Accounts")]
     public partial class AccountsController : ODataController
     {
-        private TripBUK.Server.Data.PostgresContext context;
+        private PostgresContext context;
 
-        public AccountsController(TripBUK.Server.Data.PostgresContext context)
+        public AccountsController(PostgresContext context)
         {
             this.context = context;
         }
@@ -29,21 +30,21 @@ namespace TripBUK.Server.Controllers.Postgres
     
         [HttpGet]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IEnumerable<TripBUK.Server.Models.Postgres.Account> GetAccounts()
+        public IEnumerable<Server.Models.Postgres.Account> GetAccounts()
         {
-            var items = this.context.Accounts.AsQueryable<TripBUK.Server.Models.Postgres.Account>();
+            var items = this.context.Accounts.AsQueryable<Server.Models.Postgres.Account>();
             this.OnAccountsRead(ref items);
 
             return items;
         }
 
-        partial void OnAccountsRead(ref IQueryable<TripBUK.Server.Models.Postgres.Account> items);
+        partial void OnAccountsRead(ref IQueryable<Server.Models.Postgres.Account> items);
 
-        partial void OnAccountGet(ref SingleResult<TripBUK.Server.Models.Postgres.Account> item);
+        partial void OnAccountGet(ref SingleResult<Server.Models.Postgres.Account> item);
 
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
         [HttpGet("/odata/Postgres/Accounts(Id={Id})")]
-        public SingleResult<TripBUK.Server.Models.Postgres.Account> GetAccount(int key)
+        public SingleResult<Server.Models.Postgres.Account> GetAccount(int key)
         {
             var items = this.context.Accounts.Where(i => i.Id == key);
             var result = SingleResult.Create(items);
@@ -52,8 +53,8 @@ namespace TripBUK.Server.Controllers.Postgres
 
             return result;
         }
-        partial void OnAccountDeleted(TripBUK.Server.Models.Postgres.Account item);
-        partial void OnAfterAccountDeleted(TripBUK.Server.Models.Postgres.Account item);
+        partial void OnAccountDeleted(Server.Models.Postgres.Account item);
+        partial void OnAfterAccountDeleted(Server.Models.Postgres.Account item);
 
         [HttpDelete("/odata/Postgres/Accounts(Id={Id})")]
         public IActionResult DeleteAccount(int key)
@@ -70,7 +71,7 @@ namespace TripBUK.Server.Controllers.Postgres
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.Account>(Request, items);
+                items = Data.EntityPatch.ApplyTo<Server.Models.Postgres.Account>(Request, items);
 
                 var item = items.FirstOrDefault();
 
@@ -93,12 +94,12 @@ namespace TripBUK.Server.Controllers.Postgres
             }
         }
 
-        partial void OnAccountUpdated(TripBUK.Server.Models.Postgres.Account item);
-        partial void OnAfterAccountUpdated(TripBUK.Server.Models.Postgres.Account item);
+        partial void OnAccountUpdated(Server.Models.Postgres.Account item);
+        partial void OnAfterAccountUpdated(Server.Models.Postgres.Account item);
 
         [HttpPut("/odata/Postgres/Accounts(Id={Id})")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PutAccount(int key, [FromBody]TripBUK.Server.Models.Postgres.Account item)
+        public IActionResult PutAccount(int key, [FromBody]Server.Models.Postgres.Account item)
         {
             try
             {
@@ -111,7 +112,7 @@ namespace TripBUK.Server.Controllers.Postgres
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.Account>(Request, items);
+                items = Data.EntityPatch.ApplyTo<Server.Models.Postgres.Account>(Request, items);
 
                 var firstItem = items.FirstOrDefault();
 
@@ -137,7 +138,7 @@ namespace TripBUK.Server.Controllers.Postgres
 
         [HttpPatch("/odata/Postgres/Accounts(Id={Id})")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PatchAccount(int key, [FromBody]Delta<TripBUK.Server.Models.Postgres.Account> patch)
+        public IActionResult PatchAccount(int key, [FromBody]Delta<Server.Models.Postgres.Account> patch)
         {
             try
             {
@@ -150,7 +151,7 @@ namespace TripBUK.Server.Controllers.Postgres
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.Account>(Request, items);
+                items = Data.EntityPatch.ApplyTo<Server.Models.Postgres.Account>(Request, items);
 
                 var item = items.FirstOrDefault();
 
@@ -176,12 +177,12 @@ namespace TripBUK.Server.Controllers.Postgres
             }
         }
 
-        partial void OnAccountCreated(TripBUK.Server.Models.Postgres.Account item);
-        partial void OnAfterAccountCreated(TripBUK.Server.Models.Postgres.Account item);
+        partial void OnAccountCreated(Server.Models.Postgres.Account item);
+        partial void OnAfterAccountCreated(Server.Models.Postgres.Account item);
 
         [HttpPost]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult Post([FromBody] TripBUK.Server.Models.Postgres.Account item)
+        public IActionResult Post([FromBody] Server.Models.Postgres.Account item)
         {
             try
             {

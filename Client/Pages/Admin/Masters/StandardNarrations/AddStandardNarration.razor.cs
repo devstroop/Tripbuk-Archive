@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 
-namespace TripBUK.Client.Pages.Admin.Masters.StandardNarrations
+namespace Tripbuk.Client.Pages.Admin.Masters.StandardNarrations
 {
     public partial class AddStandardNarration
     {
@@ -29,11 +29,11 @@ namespace TripBUK.Client.Pages.Admin.Masters.StandardNarrations
 
         protected override async Task OnInitializedAsync()
         {
-            _standardNarration = new TripBUK.Server.Models.Postgres.StandardNarration();
+            _standardNarration = new Tripbuk.Server.Models.Postgres.StandardNarration();
         }
 
         private bool _errorVisible;
-        private TripBUK.Server.Models.Postgres.StandardNarration _standardNarration;
+        private Tripbuk.Server.Models.Postgres.StandardNarration _standardNarration;
 
         private async Task FormSubmit()
         {

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Radzen;
 
-namespace TripBUK.Client.Pages.Admin;
+namespace Tripbuk.Client.Pages.Admin;
 
 public partial class Dashboard
 {

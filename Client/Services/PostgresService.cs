@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 using Radzen;
 
-namespace TripBUK.Client
+namespace Tripbuk.Client
 {
     public partial class PostgresService
     {
@@ -43,12 +43,12 @@ namespace TripBUK.Client
 
         partial void OnGetAccountGroups(HttpRequestMessage requestMessage);
 
-        public async Task<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.AccountGroup>> GetAccountGroups(Query query)
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.AccountGroup>> GetAccountGroups(Query query)
         {
             return await GetAccountGroups(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
         }
 
-        public async Task<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.AccountGroup>> GetAccountGroups(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.AccountGroup>> GetAccountGroups(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
             var uri = new Uri(baseUri, $"AccountGroups");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
@@ -59,12 +59,12 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.AccountGroup>>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.AccountGroup>>(response);
         }
 
         partial void OnCreateAccountGroup(HttpRequestMessage requestMessage);
 
-        public async Task<TripBUK.Server.Models.Postgres.AccountGroup> CreateAccountGroup(TripBUK.Server.Models.Postgres.AccountGroup accountGroup = default(TripBUK.Server.Models.Postgres.AccountGroup))
+        public async Task<Tripbuk.Server.Models.Postgres.AccountGroup> CreateAccountGroup(Tripbuk.Server.Models.Postgres.AccountGroup accountGroup = default(Tripbuk.Server.Models.Postgres.AccountGroup))
         {
             var uri = new Uri(baseUri, $"AccountGroups");
 
@@ -76,7 +76,7 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<TripBUK.Server.Models.Postgres.AccountGroup>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.AccountGroup>(response);
         }
 
         partial void OnDeleteAccountGroup(HttpRequestMessage requestMessage);
@@ -94,7 +94,7 @@ namespace TripBUK.Client
 
         partial void OnGetAccountGroupById(HttpRequestMessage requestMessage);
 
-        public async Task<TripBUK.Server.Models.Postgres.AccountGroup> GetAccountGroupById(string expand = default(string), int id = default(int))
+        public async Task<Tripbuk.Server.Models.Postgres.AccountGroup> GetAccountGroupById(string expand = default(string), int id = default(int))
         {
             var uri = new Uri(baseUri, $"AccountGroups({id})");
 
@@ -106,12 +106,12 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<TripBUK.Server.Models.Postgres.AccountGroup>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.AccountGroup>(response);
         }
 
         partial void OnUpdateAccountGroup(HttpRequestMessage requestMessage);
         
-        public async Task<HttpResponseMessage> UpdateAccountGroup(int id = default(int), TripBUK.Server.Models.Postgres.AccountGroup accountGroup = default(TripBUK.Server.Models.Postgres.AccountGroup))
+        public async Task<HttpResponseMessage> UpdateAccountGroup(int id = default(int), Tripbuk.Server.Models.Postgres.AccountGroup accountGroup = default(Tripbuk.Server.Models.Postgres.AccountGroup))
         {
             var uri = new Uri(baseUri, $"AccountGroups({id})");
 
@@ -138,12 +138,12 @@ namespace TripBUK.Client
 
         partial void OnGetAccounts(HttpRequestMessage requestMessage);
 
-        public async Task<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.Account>> GetAccounts(Query query)
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Account>> GetAccounts(Query query)
         {
             return await GetAccounts(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
         }
 
-        public async Task<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.Account>> GetAccounts(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Account>> GetAccounts(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
             var uri = new Uri(baseUri, $"Accounts");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
@@ -154,12 +154,12 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.Account>>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Account>>(response);
         }
 
         partial void OnCreateAccount(HttpRequestMessage requestMessage);
 
-        public async Task<TripBUK.Server.Models.Postgres.Account> CreateAccount(TripBUK.Server.Models.Postgres.Account account = default(TripBUK.Server.Models.Postgres.Account))
+        public async Task<Tripbuk.Server.Models.Postgres.Account> CreateAccount(Tripbuk.Server.Models.Postgres.Account account = default(Tripbuk.Server.Models.Postgres.Account))
         {
             var uri = new Uri(baseUri, $"Accounts");
 
@@ -171,7 +171,7 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<TripBUK.Server.Models.Postgres.Account>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.Account>(response);
         }
 
         partial void OnDeleteAccount(HttpRequestMessage requestMessage);
@@ -189,7 +189,7 @@ namespace TripBUK.Client
 
         partial void OnGetAccountById(HttpRequestMessage requestMessage);
 
-        public async Task<TripBUK.Server.Models.Postgres.Account> GetAccountById(string expand = default(string), int id = default(int))
+        public async Task<Tripbuk.Server.Models.Postgres.Account> GetAccountById(string expand = default(string), int id = default(int))
         {
             var uri = new Uri(baseUri, $"Accounts({id})");
 
@@ -201,12 +201,12 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<TripBUK.Server.Models.Postgres.Account>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.Account>(response);
         }
 
         partial void OnUpdateAccount(HttpRequestMessage requestMessage);
         
-        public async Task<HttpResponseMessage> UpdateAccount(int id = default(int), TripBUK.Server.Models.Postgres.Account account = default(TripBUK.Server.Models.Postgres.Account))
+        public async Task<HttpResponseMessage> UpdateAccount(int id = default(int), Tripbuk.Server.Models.Postgres.Account account = default(Tripbuk.Server.Models.Postgres.Account))
         {
             var uri = new Uri(baseUri, $"Accounts({id})");
 
@@ -233,12 +233,12 @@ namespace TripBUK.Client
 
         partial void OnGetItemGroups(HttpRequestMessage requestMessage);
 
-        public async Task<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.ItemGroup>> GetItemGroups(Query query)
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.ItemGroup>> GetItemGroups(Query query)
         {
             return await GetItemGroups(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
         }
 
-        public async Task<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.ItemGroup>> GetItemGroups(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.ItemGroup>> GetItemGroups(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
             var uri = new Uri(baseUri, $"ItemGroups");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
@@ -249,12 +249,12 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.ItemGroup>>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.ItemGroup>>(response);
         }
 
         partial void OnCreateItemGroup(HttpRequestMessage requestMessage);
 
-        public async Task<TripBUK.Server.Models.Postgres.ItemGroup> CreateItemGroup(TripBUK.Server.Models.Postgres.ItemGroup itemGroup = default(TripBUK.Server.Models.Postgres.ItemGroup))
+        public async Task<Tripbuk.Server.Models.Postgres.ItemGroup> CreateItemGroup(Tripbuk.Server.Models.Postgres.ItemGroup itemGroup = default(Tripbuk.Server.Models.Postgres.ItemGroup))
         {
             var uri = new Uri(baseUri, $"ItemGroups");
 
@@ -266,7 +266,7 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<TripBUK.Server.Models.Postgres.ItemGroup>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.ItemGroup>(response);
         }
 
         partial void OnDeleteItemGroup(HttpRequestMessage requestMessage);
@@ -284,7 +284,7 @@ namespace TripBUK.Client
 
         partial void OnGetItemGroupById(HttpRequestMessage requestMessage);
 
-        public async Task<TripBUK.Server.Models.Postgres.ItemGroup> GetItemGroupById(string expand = default(string), int id = default(int))
+        public async Task<Tripbuk.Server.Models.Postgres.ItemGroup> GetItemGroupById(string expand = default(string), int id = default(int))
         {
             var uri = new Uri(baseUri, $"ItemGroups({id})");
 
@@ -296,12 +296,12 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<TripBUK.Server.Models.Postgres.ItemGroup>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.ItemGroup>(response);
         }
 
         partial void OnUpdateItemGroup(HttpRequestMessage requestMessage);
         
-        public async Task<HttpResponseMessage> UpdateItemGroup(int id = default(int), TripBUK.Server.Models.Postgres.ItemGroup itemGroup = default(TripBUK.Server.Models.Postgres.ItemGroup))
+        public async Task<HttpResponseMessage> UpdateItemGroup(int id = default(int), Tripbuk.Server.Models.Postgres.ItemGroup itemGroup = default(Tripbuk.Server.Models.Postgres.ItemGroup))
         {
             var uri = new Uri(baseUri, $"ItemGroups({id})");
 
@@ -328,12 +328,12 @@ namespace TripBUK.Client
 
         partial void OnGetItems(HttpRequestMessage requestMessage);
 
-        public async Task<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.Item>> GetItems(Query query)
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Item>> GetItems(Query query)
         {
             return await GetItems(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
         }
 
-        public async Task<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.Item>> GetItems(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Item>> GetItems(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
             var uri = new Uri(baseUri, $"Items");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
@@ -344,12 +344,12 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.Item>>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Item>>(response);
         }
 
         partial void OnCreateItem(HttpRequestMessage requestMessage);
 
-        public async Task<TripBUK.Server.Models.Postgres.Item> CreateItem(TripBUK.Server.Models.Postgres.Item item = default(TripBUK.Server.Models.Postgres.Item))
+        public async Task<Tripbuk.Server.Models.Postgres.Item> CreateItem(Tripbuk.Server.Models.Postgres.Item item = default(Tripbuk.Server.Models.Postgres.Item))
         {
             var uri = new Uri(baseUri, $"Items");
 
@@ -361,7 +361,7 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<TripBUK.Server.Models.Postgres.Item>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.Item>(response);
         }
 
         partial void OnDeleteItem(HttpRequestMessage requestMessage);
@@ -379,7 +379,7 @@ namespace TripBUK.Client
 
         partial void OnGetItemById(HttpRequestMessage requestMessage);
 
-        public async Task<TripBUK.Server.Models.Postgres.Item> GetItemById(string expand = default(string), int id = default(int))
+        public async Task<Tripbuk.Server.Models.Postgres.Item> GetItemById(string expand = default(string), int id = default(int))
         {
             var uri = new Uri(baseUri, $"Items({id})");
 
@@ -391,12 +391,12 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<TripBUK.Server.Models.Postgres.Item>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.Item>(response);
         }
 
         partial void OnUpdateItem(HttpRequestMessage requestMessage);
         
-        public async Task<HttpResponseMessage> UpdateItem(int id = default(int), TripBUK.Server.Models.Postgres.Item item = default(TripBUK.Server.Models.Postgres.Item))
+        public async Task<HttpResponseMessage> UpdateItem(int id = default(int), Tripbuk.Server.Models.Postgres.Item item = default(Tripbuk.Server.Models.Postgres.Item))
         {
             var uri = new Uri(baseUri, $"Items({id})");
 
@@ -423,12 +423,12 @@ namespace TripBUK.Client
 
         partial void OnGetStandardNarrations(HttpRequestMessage requestMessage);
 
-        public async Task<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.StandardNarration>> GetStandardNarrations(Query query)
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.StandardNarration>> GetStandardNarrations(Query query)
         {
             return await GetStandardNarrations(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
         }
 
-        public async Task<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.StandardNarration>> GetStandardNarrations(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.StandardNarration>> GetStandardNarrations(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
             var uri = new Uri(baseUri, $"StandardNarrations");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
@@ -439,12 +439,12 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.StandardNarration>>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.StandardNarration>>(response);
         }
 
         partial void OnCreateStandardNarration(HttpRequestMessage requestMessage);
 
-        public async Task<TripBUK.Server.Models.Postgres.StandardNarration> CreateStandardNarration(TripBUK.Server.Models.Postgres.StandardNarration standardNarration = default(TripBUK.Server.Models.Postgres.StandardNarration))
+        public async Task<Tripbuk.Server.Models.Postgres.StandardNarration> CreateStandardNarration(Tripbuk.Server.Models.Postgres.StandardNarration standardNarration = default(Tripbuk.Server.Models.Postgres.StandardNarration))
         {
             var uri = new Uri(baseUri, $"StandardNarrations");
 
@@ -456,7 +456,7 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<TripBUK.Server.Models.Postgres.StandardNarration>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.StandardNarration>(response);
         }
 
         partial void OnDeleteStandardNarration(HttpRequestMessage requestMessage);
@@ -474,7 +474,7 @@ namespace TripBUK.Client
 
         partial void OnGetStandardNarrationById(HttpRequestMessage requestMessage);
 
-        public async Task<TripBUK.Server.Models.Postgres.StandardNarration> GetStandardNarrationById(string expand = default(string), int id = default(int))
+        public async Task<Tripbuk.Server.Models.Postgres.StandardNarration> GetStandardNarrationById(string expand = default(string), int id = default(int))
         {
             var uri = new Uri(baseUri, $"StandardNarrations({id})");
 
@@ -486,12 +486,12 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<TripBUK.Server.Models.Postgres.StandardNarration>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.StandardNarration>(response);
         }
 
         partial void OnUpdateStandardNarration(HttpRequestMessage requestMessage);
         
-        public async Task<HttpResponseMessage> UpdateStandardNarration(int id = default(int), TripBUK.Server.Models.Postgres.StandardNarration standardNarration = default(TripBUK.Server.Models.Postgres.StandardNarration))
+        public async Task<HttpResponseMessage> UpdateStandardNarration(int id = default(int), Tripbuk.Server.Models.Postgres.StandardNarration standardNarration = default(Tripbuk.Server.Models.Postgres.StandardNarration))
         {
             var uri = new Uri(baseUri, $"StandardNarrations({id})");
 
@@ -518,12 +518,12 @@ namespace TripBUK.Client
 
         partial void OnGetUnitConversions(HttpRequestMessage requestMessage);
 
-        public async Task<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.UnitConversion>> GetUnitConversions(Query query)
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.UnitConversion>> GetUnitConversions(Query query)
         {
             return await GetUnitConversions(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
         }
 
-        public async Task<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.UnitConversion>> GetUnitConversions(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.UnitConversion>> GetUnitConversions(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
             var uri = new Uri(baseUri, $"UnitConversions");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
@@ -534,12 +534,12 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.UnitConversion>>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.UnitConversion>>(response);
         }
 
         partial void OnCreateUnitConversion(HttpRequestMessage requestMessage);
 
-        public async Task<TripBUK.Server.Models.Postgres.UnitConversion> CreateUnitConversion(TripBUK.Server.Models.Postgres.UnitConversion unitConversion = default(TripBUK.Server.Models.Postgres.UnitConversion))
+        public async Task<Tripbuk.Server.Models.Postgres.UnitConversion> CreateUnitConversion(Tripbuk.Server.Models.Postgres.UnitConversion unitConversion = default(Tripbuk.Server.Models.Postgres.UnitConversion))
         {
             var uri = new Uri(baseUri, $"UnitConversions");
 
@@ -551,7 +551,7 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<TripBUK.Server.Models.Postgres.UnitConversion>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.UnitConversion>(response);
         }
 
         partial void OnDeleteUnitConversion(HttpRequestMessage requestMessage);
@@ -569,7 +569,7 @@ namespace TripBUK.Client
 
         partial void OnGetUnitConversionById(HttpRequestMessage requestMessage);
 
-        public async Task<TripBUK.Server.Models.Postgres.UnitConversion> GetUnitConversionById(string expand = default(string), int id = default(int))
+        public async Task<Tripbuk.Server.Models.Postgres.UnitConversion> GetUnitConversionById(string expand = default(string), int id = default(int))
         {
             var uri = new Uri(baseUri, $"UnitConversions({id})");
 
@@ -581,12 +581,12 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<TripBUK.Server.Models.Postgres.UnitConversion>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.UnitConversion>(response);
         }
 
         partial void OnUpdateUnitConversion(HttpRequestMessage requestMessage);
         
-        public async Task<HttpResponseMessage> UpdateUnitConversion(int id = default(int), TripBUK.Server.Models.Postgres.UnitConversion unitConversion = default(TripBUK.Server.Models.Postgres.UnitConversion))
+        public async Task<HttpResponseMessage> UpdateUnitConversion(int id = default(int), Tripbuk.Server.Models.Postgres.UnitConversion unitConversion = default(Tripbuk.Server.Models.Postgres.UnitConversion))
         {
             var uri = new Uri(baseUri, $"UnitConversions({id})");
 
@@ -613,12 +613,12 @@ namespace TripBUK.Client
 
         partial void OnGetUnits(HttpRequestMessage requestMessage);
 
-        public async Task<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.Unit>> GetUnits(Query query)
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Unit>> GetUnits(Query query)
         {
             return await GetUnits(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
         }
 
-        public async Task<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.Unit>> GetUnits(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Unit>> GetUnits(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
             var uri = new Uri(baseUri, $"Units");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
@@ -629,12 +629,12 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.Unit>>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Unit>>(response);
         }
 
         partial void OnCreateUnit(HttpRequestMessage requestMessage);
 
-        public async Task<TripBUK.Server.Models.Postgres.Unit> CreateUnit(TripBUK.Server.Models.Postgres.Unit _unit = default(TripBUK.Server.Models.Postgres.Unit))
+        public async Task<Tripbuk.Server.Models.Postgres.Unit> CreateUnit(Tripbuk.Server.Models.Postgres.Unit _unit = default(Tripbuk.Server.Models.Postgres.Unit))
         {
             var uri = new Uri(baseUri, $"Units");
 
@@ -646,7 +646,7 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<TripBUK.Server.Models.Postgres.Unit>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.Unit>(response);
         }
 
         partial void OnDeleteUnit(HttpRequestMessage requestMessage);
@@ -664,7 +664,7 @@ namespace TripBUK.Client
 
         partial void OnGetUnitById(HttpRequestMessage requestMessage);
 
-        public async Task<TripBUK.Server.Models.Postgres.Unit> GetUnitById(string expand = default(string), int id = default(int))
+        public async Task<Tripbuk.Server.Models.Postgres.Unit> GetUnitById(string expand = default(string), int id = default(int))
         {
             var uri = new Uri(baseUri, $"Units({id})");
 
@@ -676,12 +676,12 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<TripBUK.Server.Models.Postgres.Unit>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.Unit>(response);
         }
 
         partial void OnUpdateUnit(HttpRequestMessage requestMessage);
         
-        public async Task<HttpResponseMessage> UpdateUnit(int id = default(int), TripBUK.Server.Models.Postgres.Unit _unit = default(TripBUK.Server.Models.Postgres.Unit))
+        public async Task<HttpResponseMessage> UpdateUnit(int id = default(int), Tripbuk.Server.Models.Postgres.Unit _unit = default(Tripbuk.Server.Models.Postgres.Unit))
         {
             var uri = new Uri(baseUri, $"Units({id})");
 
@@ -708,12 +708,12 @@ namespace TripBUK.Client
 
         partial void OnGetSmtpConfigs(HttpRequestMessage requestMessage);
 
-        public async Task<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.SmtpConfig>> GetSmtpConfigs(Query query)
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.SmtpConfig>> GetSmtpConfigs(Query query)
         {
             return await GetSmtpConfigs(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
         }
 
-        public async Task<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.SmtpConfig>> GetSmtpConfigs(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.SmtpConfig>> GetSmtpConfigs(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
             var uri = new Uri(baseUri, $"SmtpConfigs");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
@@ -724,12 +724,12 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<TripBUK.Server.Models.Postgres.SmtpConfig>>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.SmtpConfig>>(response);
         }
 
         partial void OnCreateSmtpConfig(HttpRequestMessage requestMessage);
 
-        public async Task<TripBUK.Server.Models.Postgres.SmtpConfig> CreateSmtpConfig(TripBUK.Server.Models.Postgres.SmtpConfig smtpConfig = default(TripBUK.Server.Models.Postgres.SmtpConfig))
+        public async Task<Tripbuk.Server.Models.Postgres.SmtpConfig> CreateSmtpConfig(Tripbuk.Server.Models.Postgres.SmtpConfig smtpConfig = default(Tripbuk.Server.Models.Postgres.SmtpConfig))
         {
             var uri = new Uri(baseUri, $"SmtpConfigs");
 
@@ -741,7 +741,7 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<TripBUK.Server.Models.Postgres.SmtpConfig>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.SmtpConfig>(response);
         }
 
         partial void OnDeleteSmtpConfig(HttpRequestMessage requestMessage);
@@ -759,7 +759,7 @@ namespace TripBUK.Client
 
         partial void OnGetSmtpConfigById(HttpRequestMessage requestMessage);
 
-        public async Task<TripBUK.Server.Models.Postgres.SmtpConfig> GetSmtpConfigById(string expand = default(string), Guid id = default(Guid))
+        public async Task<Tripbuk.Server.Models.Postgres.SmtpConfig> GetSmtpConfigById(string expand = default(string), Guid id = default(Guid))
         {
             var uri = new Uri(baseUri, $"SmtpConfigs({id})");
 
@@ -771,12 +771,12 @@ namespace TripBUK.Client
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<TripBUK.Server.Models.Postgres.SmtpConfig>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.SmtpConfig>(response);
         }
 
         partial void OnUpdateSmtpConfig(HttpRequestMessage requestMessage);
         
-        public async Task<HttpResponseMessage> UpdateSmtpConfig(Guid id = default(Guid), TripBUK.Server.Models.Postgres.SmtpConfig smtpConfig = default(TripBUK.Server.Models.Postgres.SmtpConfig))
+        public async Task<HttpResponseMessage> UpdateSmtpConfig(Guid id = default(Guid), Tripbuk.Server.Models.Postgres.SmtpConfig smtpConfig = default(Tripbuk.Server.Models.Postgres.SmtpConfig))
         {
             var uri = new Uri(baseUri, $"SmtpConfigs({id})");
 

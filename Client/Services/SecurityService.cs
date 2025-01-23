@@ -13,9 +13,9 @@ using Microsoft.AspNetCore.Components.Authorization;
 
 using Radzen;
 
-using TripBUK.Server.Models;
+using Tripbuk.Server.Models;
 
-namespace TripBUK.Client
+namespace Tripbuk.Client
 {
     public partial class SecurityService
     {
@@ -42,7 +42,7 @@ namespace TripBUK.Client
         public SecurityService(NavigationManager navigationManager, IHttpClientFactory factory)
         {
             this.baseUri = new Uri($"{navigationManager.BaseUri}odata/Identity/");
-            this.httpClient = factory.CreateClient("TripBUK.Server");
+            this.httpClient = factory.CreateClient("Tripbuk.Server");
             this.navigationManager = navigationManager;
         }
 

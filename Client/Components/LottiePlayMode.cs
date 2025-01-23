@@ -1,4 +1,4 @@
-namespace TripBUK.Client.Components;
+namespace Tripbuk.Client.Components;
 
 public enum LottiePlayMode
 {

@@ -19,32 +19,46 @@
 
 :root {
     font-size: var(--rz-root-font-size);
-    --rz-layout-body-margin: unset;
-    --rz-border-radius: 0px;
-    --rz-badge-font-size: 12px;
-    --rz-badge-font-weight: bold;
-    --rz-badge-padding: 0.15rem 0.3rem;
-    --rz-button-border-radius: 0.5rem;
-    --rz-icon-size: 18px;
-    --rz-input-border-radius: 8px;
-    --rz-input-line-height: 1.8rem;
-    --rz-input-height: 2.5rem;
-    --rz-root-font-size: 16px;
-    --rz-sidebar-border-inline-end: 1px solid var(--rz-base);
-    --rz-header-border: 1px solid var(--rz-base);
-    --rz-footer-border: 1px solid var(--rz-base);
-    --rz-text-font-family: Poppins, sans-serif;
-    --rz-grid-cell-font-size: 1rem;
-    --rz-grid-cell-line-height: 1.5rem;
-    --rz-grid-header-font-size: 1rem;
-    --rz-grid-header-font-weight: 600;
-    --rz-body-line-height: 1.2rem;
-    --rz-header-background-color: var(--rz-body-background-color);
-    --rz-footer-background-color: var(--rz-body-background-color);
+    --rz-layout-body-border-radius: unset;
+    --rz-header-border: 1px solid var(--rz-base-500);
+    --rz-footer-border: 1px solid var(--rz-base-500);
+    --rz-menu-top-item-padding-inline: unset;
+
+
+    .rz-link {
+        .rzi {
+            margin-right: 0.5rem;
+        }
+    }
+
+    .header-search {
+        .rz-form-field-content {
+            border-radius: 2.5rem;
+            margin-block: unset;
+
+            .rzi {
+                font-size: 1.25rem;
+            }
+            .rz-form-field-label {
+                display: none;
+            }
+        }
+    }
+
+    .rz-navigation-item-link {
+        .rz-navigation-item-text {
+            /*font-size: 14px;*/
+            font-weight: 600;
+        }
+    }
+    .rz-navigation-item-link.active {
+        border-bottom: 2px solid var(--rz-on-base);
+    }
 }
 
 body {
-    font-family: var(--rz-text-font-family), serif;
+    font-family: Roboto, sans-serif;
+    /*font-family: var(--rz-text-font-family), serif;*/
     color: var(--rz-text-color);
     font-size: var(--rz-body-font-size);
     line-height: var(--rz-body-line-height);
@@ -105,18 +119,4 @@ a:focus {
 
 .loading-progress-text:after {
     content: var(--blazor-load-percentage-text, "Loading");
-}
-
-.rz-button {
-    font-weight: 600;
-    text-align: center;
-    border-radius: var(--rz-button-border-radius);
-    cursor: pointer;
-    transition: background-color 0.2s, color 0.2s;
-}
-
-.rz-link {
-    .rzi {
-        margin-right: 0.5rem;
-    }
 }

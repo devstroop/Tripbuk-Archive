@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Pages.Admin.Masters.StandardNarrations
+namespace Tripbuk.Client.Pages.Admin.Masters.StandardNarrations
 {
     public partial class StandardNarrations
     {
@@ -29,9 +29,9 @@ namespace TripBUK.Client.Pages.Admin.Masters.StandardNarrations
         [Inject]
         public PostgresService PostgresService { get; set; }
 
-        private IEnumerable<TripBUK.Server.Models.Postgres.StandardNarration> _standardNarrations;
+        private IEnumerable<Tripbuk.Server.Models.Postgres.StandardNarration> _standardNarrations;
 
-        private RadzenDataGrid<TripBUK.Server.Models.Postgres.StandardNarration> _grid0;
+        private RadzenDataGrid<Tripbuk.Server.Models.Postgres.StandardNarration> _grid0;
         private int _count;
 
         private string _search = "";
@@ -68,13 +68,13 @@ namespace TripBUK.Client.Pages.Admin.Masters.StandardNarrations
             await _grid0.Reload();
         }
 
-        private async Task EditRow(TripBUK.Server.Models.Postgres.StandardNarration args)
+        private async Task EditRow(Tripbuk.Server.Models.Postgres.StandardNarration args)
         {
             await DialogService.OpenAsync<EditStandardNarration>("Edit Standard Narration", new Dictionary<string, object> { {"Id", args.Id} });
             await _grid0.Reload();
         }
 
-        private async Task GridDeleteButtonClick(MouseEventArgs args, TripBUK.Server.Models.Postgres.StandardNarration standardNarration)
+        private async Task GridDeleteButtonClick(MouseEventArgs args, Tripbuk.Server.Models.Postgres.StandardNarration standardNarration)
         {
             try
             {

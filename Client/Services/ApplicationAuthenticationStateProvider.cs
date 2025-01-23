@@ -6,9 +6,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 
-using TripBUK.Server.Models;
+using Tripbuk.Server.Models;
 
-namespace TripBUK.Client
+namespace Tripbuk.Client
 {
     public class ApplicationAuthenticationStateProvider : AuthenticationStateProvider
     {
@@ -30,7 +30,7 @@ namespace TripBUK.Client
 
                 if (state.IsAuthenticated)
                 {
-                    identity = new ClaimsIdentity(state.Claims.Select(c => new Claim(c.Type, c.Value)), "TripBUK.Server");
+                    identity = new ClaimsIdentity(state.Claims.Select(c => new Claim(c.Type, c.Value)), "Tripbuk.Server");
                 }
             }
             catch (HttpRequestException ex)

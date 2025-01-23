@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
-using TripBUK.Server.Models;
+using Tripbuk.Server.Models;
 
-namespace TripBUK.Server.Data
+namespace Tripbuk.Server.Data
 {
     public partial class ApplicationIdentityDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {

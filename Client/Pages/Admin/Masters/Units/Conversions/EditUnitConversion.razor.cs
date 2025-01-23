@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 
-namespace TripBUK.Client.Pages.Admin.Masters.Units.Conversions
+namespace Tripbuk.Client.Pages.Admin.Masters.Units.Conversions
 {
     public partial class EditUnitConversion
     {
@@ -36,13 +36,13 @@ namespace TripBUK.Client.Pages.Admin.Masters.Units.Conversions
         }
 
         private bool _errorVisible;
-        private Server.Models.Postgres.UnitConversion _unitConversion;
+        private Tripbuk.Server.Models.Postgres.UnitConversion _unitConversion;
 
-        private IEnumerable<Server.Models.Postgres.Unit> _unitsForMainUnit;
+        private IEnumerable<Tripbuk.Server.Models.Postgres.Unit> _unitsForMainUnit;
 
 
         private int _unitsForMainUnitCount;
-        private Server.Models.Postgres.Unit _unitsForMainUnitValue;
+        private Tripbuk.Server.Models.Postgres.Unit _unitsForMainUnitValue;
 
         private async Task UnitsForMainUnitLoadData(LoadDataArgs args)
         {
@@ -70,9 +70,9 @@ namespace TripBUK.Client.Pages.Admin.Masters.Units.Conversions
         }
 
 
-        private IEnumerable<Server.Models.Postgres.Unit> _unitsForSubUnit;
+        private IEnumerable<Tripbuk.Server.Models.Postgres.Unit> _unitsForSubUnit;
         private int _unitsForSubUnitCount;
-        private Server.Models.Postgres.Unit _unitsForSubUnitValue;
+        private Tripbuk.Server.Models.Postgres.Unit _unitsForSubUnitValue;
 
         private async Task UnitsForSubUnitLoadData(LoadDataArgs args)
         {

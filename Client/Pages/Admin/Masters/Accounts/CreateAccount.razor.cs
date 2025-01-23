@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Pages.Admin.Masters.Accounts
+namespace Tripbuk.Client.Pages.Admin.Masters.Accounts
 {
     public partial class CreateAccount
     {
@@ -34,16 +34,16 @@ namespace TripBUK.Client.Pages.Admin.Masters.Accounts
 
         protected override async Task OnInitializedAsync()
         {
-            Account = new TripBUK.Server.Models.Postgres.Account();
+            Account = new Tripbuk.Server.Models.Postgres.Account();
         }
         protected bool ErrorVisible;
-        protected TripBUK.Server.Models.Postgres.Account Account;
+        protected Tripbuk.Server.Models.Postgres.Account Account;
 
-        protected IEnumerable<TripBUK.Server.Models.Postgres.AccountGroup> AccountGroupsForGroup;
+        protected IEnumerable<Tripbuk.Server.Models.Postgres.AccountGroup> AccountGroupsForGroup;
 
 
         protected int AccountGroupsForGroupCount;
-        protected TripBUK.Server.Models.Postgres.AccountGroup AccountGroupsForGroupValue;
+        protected Tripbuk.Server.Models.Postgres.AccountGroup AccountGroupsForGroupValue;
         protected async Task AccountGroupsForGroupLoadData(LoadDataArgs args)
         {
             try

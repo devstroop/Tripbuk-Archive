@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TripBUK.Server.Controllers
+namespace Tripbuk.Server.Controllers
 {
     [Route("Culture/[action]")]
     public partial class CultureController : Controller
@@ -17,7 +17,6 @@ namespace TripBUK.Server.Controllers
                     CookieRequestCultureProvider.DefaultCookieName,
                     CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)));
             }
-
             return LocalRedirect(redirectUri);
         }
     }

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Pages.Auth
+namespace Tripbuk.Client.Pages.Auth
 {
     public partial class Login
     {

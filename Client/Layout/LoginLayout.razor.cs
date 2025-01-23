@@ -11,7 +11,7 @@ using Radzen;
 using Radzen.Blazor;
 
 
-namespace TripBUK.Client.Shared
+namespace Tripbuk.Client.Shared
 {
     public partial class LoginLayout
     {

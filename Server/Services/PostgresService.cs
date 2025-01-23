@@ -8,10 +8,9 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using Radzen;
+using Tripbuk.Server.Data;
 
-using TripBUK.Server.Data;
-
-namespace TripBUK.Server
+namespace Tripbuk.Server
 {
     public partial class PostgresService
     {
@@ -78,9 +77,9 @@ namespace TripBUK.Server
             navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnAccountGroupsRead(ref IQueryable<TripBUK.Server.Models.Postgres.AccountGroup> items);
+        partial void OnAccountGroupsRead(ref IQueryable<Server.Models.Postgres.AccountGroup> items);
 
-        public async Task<IQueryable<TripBUK.Server.Models.Postgres.AccountGroup>> GetAccountGroups(Query query = null)
+        public async Task<IQueryable<Server.Models.Postgres.AccountGroup>> GetAccountGroups(Query query = null)
         {
             var items = Context.AccountGroups.AsQueryable();
 
@@ -105,11 +104,11 @@ namespace TripBUK.Server
             return await Task.FromResult(items);
         }
 
-        partial void OnAccountGroupGet(TripBUK.Server.Models.Postgres.AccountGroup item);
-        partial void OnGetAccountGroupById(ref IQueryable<TripBUK.Server.Models.Postgres.AccountGroup> items);
+        partial void OnAccountGroupGet(Server.Models.Postgres.AccountGroup item);
+        partial void OnGetAccountGroupById(ref IQueryable<Server.Models.Postgres.AccountGroup> items);
 
 
-        public async Task<TripBUK.Server.Models.Postgres.AccountGroup> GetAccountGroupById(int id)
+        public async Task<Server.Models.Postgres.AccountGroup> GetAccountGroupById(int id)
         {
             var items = Context.AccountGroups
                               .AsNoTracking()
@@ -126,10 +125,10 @@ namespace TripBUK.Server
             return await Task.FromResult(itemToReturn);
         }
 
-        partial void OnAccountGroupCreated(TripBUK.Server.Models.Postgres.AccountGroup item);
-        partial void OnAfterAccountGroupCreated(TripBUK.Server.Models.Postgres.AccountGroup item);
+        partial void OnAccountGroupCreated(Server.Models.Postgres.AccountGroup item);
+        partial void OnAfterAccountGroupCreated(Server.Models.Postgres.AccountGroup item);
 
-        public async Task<TripBUK.Server.Models.Postgres.AccountGroup> CreateAccountGroup(TripBUK.Server.Models.Postgres.AccountGroup accountgroup)
+        public async Task<Server.Models.Postgres.AccountGroup> CreateAccountGroup(Server.Models.Postgres.AccountGroup accountgroup)
         {
             OnAccountGroupCreated(accountgroup);
 
@@ -158,7 +157,7 @@ namespace TripBUK.Server
             return accountgroup;
         }
 
-        public async Task<TripBUK.Server.Models.Postgres.AccountGroup> CancelAccountGroupChanges(TripBUK.Server.Models.Postgres.AccountGroup item)
+        public async Task<Server.Models.Postgres.AccountGroup> CancelAccountGroupChanges(Server.Models.Postgres.AccountGroup item)
         {
             var entityToCancel = Context.Entry(item);
             if (entityToCancel.State == EntityState.Modified)
@@ -170,10 +169,10 @@ namespace TripBUK.Server
             return item;
         }
 
-        partial void OnAccountGroupUpdated(TripBUK.Server.Models.Postgres.AccountGroup item);
-        partial void OnAfterAccountGroupUpdated(TripBUK.Server.Models.Postgres.AccountGroup item);
+        partial void OnAccountGroupUpdated(Server.Models.Postgres.AccountGroup item);
+        partial void OnAfterAccountGroupUpdated(Server.Models.Postgres.AccountGroup item);
 
-        public async Task<TripBUK.Server.Models.Postgres.AccountGroup> UpdateAccountGroup(int id, TripBUK.Server.Models.Postgres.AccountGroup accountgroup)
+        public async Task<Server.Models.Postgres.AccountGroup> UpdateAccountGroup(int id, Server.Models.Postgres.AccountGroup accountgroup)
         {
             OnAccountGroupUpdated(accountgroup);
 
@@ -197,10 +196,10 @@ namespace TripBUK.Server
             return accountgroup;
         }
 
-        partial void OnAccountGroupDeleted(TripBUK.Server.Models.Postgres.AccountGroup item);
-        partial void OnAfterAccountGroupDeleted(TripBUK.Server.Models.Postgres.AccountGroup item);
+        partial void OnAccountGroupDeleted(Server.Models.Postgres.AccountGroup item);
+        partial void OnAfterAccountGroupDeleted(Server.Models.Postgres.AccountGroup item);
 
-        public async Task<TripBUK.Server.Models.Postgres.AccountGroup> DeleteAccountGroup(int id)
+        public async Task<Server.Models.Postgres.AccountGroup> DeleteAccountGroup(int id)
         {
             var itemToDelete = Context.AccountGroups
                               .Where(i => i.Id == id)
@@ -243,9 +242,9 @@ namespace TripBUK.Server
             navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accounts/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accounts/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnAccountsRead(ref IQueryable<TripBUK.Server.Models.Postgres.Account> items);
+        partial void OnAccountsRead(ref IQueryable<Server.Models.Postgres.Account> items);
 
-        public async Task<IQueryable<TripBUK.Server.Models.Postgres.Account>> GetAccounts(Query query = null)
+        public async Task<IQueryable<Server.Models.Postgres.Account>> GetAccounts(Query query = null)
         {
             var items = Context.Accounts.AsQueryable();
 
@@ -270,11 +269,11 @@ namespace TripBUK.Server
             return await Task.FromResult(items);
         }
 
-        partial void OnAccountGet(TripBUK.Server.Models.Postgres.Account item);
-        partial void OnGetAccountById(ref IQueryable<TripBUK.Server.Models.Postgres.Account> items);
+        partial void OnAccountGet(Server.Models.Postgres.Account item);
+        partial void OnGetAccountById(ref IQueryable<Server.Models.Postgres.Account> items);
 
 
-        public async Task<TripBUK.Server.Models.Postgres.Account> GetAccountById(int id)
+        public async Task<Server.Models.Postgres.Account> GetAccountById(int id)
         {
             var items = Context.Accounts
                               .AsNoTracking()
@@ -291,10 +290,10 @@ namespace TripBUK.Server
             return await Task.FromResult(itemToReturn);
         }
 
-        partial void OnAccountCreated(TripBUK.Server.Models.Postgres.Account item);
-        partial void OnAfterAccountCreated(TripBUK.Server.Models.Postgres.Account item);
+        partial void OnAccountCreated(Server.Models.Postgres.Account item);
+        partial void OnAfterAccountCreated(Server.Models.Postgres.Account item);
 
-        public async Task<TripBUK.Server.Models.Postgres.Account> CreateAccount(TripBUK.Server.Models.Postgres.Account account)
+        public async Task<Server.Models.Postgres.Account> CreateAccount(Server.Models.Postgres.Account account)
         {
             OnAccountCreated(account);
 
@@ -323,7 +322,7 @@ namespace TripBUK.Server
             return account;
         }
 
-        public async Task<TripBUK.Server.Models.Postgres.Account> CancelAccountChanges(TripBUK.Server.Models.Postgres.Account item)
+        public async Task<Server.Models.Postgres.Account> CancelAccountChanges(Server.Models.Postgres.Account item)
         {
             var entityToCancel = Context.Entry(item);
             if (entityToCancel.State == EntityState.Modified)
@@ -335,10 +334,10 @@ namespace TripBUK.Server
             return item;
         }
 
-        partial void OnAccountUpdated(TripBUK.Server.Models.Postgres.Account item);
-        partial void OnAfterAccountUpdated(TripBUK.Server.Models.Postgres.Account item);
+        partial void OnAccountUpdated(Server.Models.Postgres.Account item);
+        partial void OnAfterAccountUpdated(Server.Models.Postgres.Account item);
 
-        public async Task<TripBUK.Server.Models.Postgres.Account> UpdateAccount(int id, TripBUK.Server.Models.Postgres.Account account)
+        public async Task<Server.Models.Postgres.Account> UpdateAccount(int id, Server.Models.Postgres.Account account)
         {
             OnAccountUpdated(account);
 
@@ -362,10 +361,10 @@ namespace TripBUK.Server
             return account;
         }
 
-        partial void OnAccountDeleted(TripBUK.Server.Models.Postgres.Account item);
-        partial void OnAfterAccountDeleted(TripBUK.Server.Models.Postgres.Account item);
+        partial void OnAccountDeleted(Server.Models.Postgres.Account item);
+        partial void OnAfterAccountDeleted(Server.Models.Postgres.Account item);
 
-        public async Task<TripBUK.Server.Models.Postgres.Account> DeleteAccount(int id)
+        public async Task<Server.Models.Postgres.Account> DeleteAccount(int id)
         {
             var itemToDelete = Context.Accounts
                               .Where(i => i.Id == id)
@@ -406,9 +405,9 @@ namespace TripBUK.Server
             navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnItemGroupsRead(ref IQueryable<TripBUK.Server.Models.Postgres.ItemGroup> items);
+        partial void OnItemGroupsRead(ref IQueryable<Server.Models.Postgres.ItemGroup> items);
 
-        public async Task<IQueryable<TripBUK.Server.Models.Postgres.ItemGroup>> GetItemGroups(Query query = null)
+        public async Task<IQueryable<Server.Models.Postgres.ItemGroup>> GetItemGroups(Query query = null)
         {
             var items = Context.ItemGroups.AsQueryable();
 
@@ -433,11 +432,11 @@ namespace TripBUK.Server
             return await Task.FromResult(items);
         }
 
-        partial void OnItemGroupGet(TripBUK.Server.Models.Postgres.ItemGroup item);
-        partial void OnGetItemGroupById(ref IQueryable<TripBUK.Server.Models.Postgres.ItemGroup> items);
+        partial void OnItemGroupGet(Server.Models.Postgres.ItemGroup item);
+        partial void OnGetItemGroupById(ref IQueryable<Server.Models.Postgres.ItemGroup> items);
 
 
-        public async Task<TripBUK.Server.Models.Postgres.ItemGroup> GetItemGroupById(int id)
+        public async Task<Server.Models.Postgres.ItemGroup> GetItemGroupById(int id)
         {
             var items = Context.ItemGroups
                               .AsNoTracking()
@@ -454,10 +453,10 @@ namespace TripBUK.Server
             return await Task.FromResult(itemToReturn);
         }
 
-        partial void OnItemGroupCreated(TripBUK.Server.Models.Postgres.ItemGroup item);
-        partial void OnAfterItemGroupCreated(TripBUK.Server.Models.Postgres.ItemGroup item);
+        partial void OnItemGroupCreated(Server.Models.Postgres.ItemGroup item);
+        partial void OnAfterItemGroupCreated(Server.Models.Postgres.ItemGroup item);
 
-        public async Task<TripBUK.Server.Models.Postgres.ItemGroup> CreateItemGroup(TripBUK.Server.Models.Postgres.ItemGroup itemgroup)
+        public async Task<Server.Models.Postgres.ItemGroup> CreateItemGroup(Server.Models.Postgres.ItemGroup itemgroup)
         {
             OnItemGroupCreated(itemgroup);
 
@@ -486,7 +485,7 @@ namespace TripBUK.Server
             return itemgroup;
         }
 
-        public async Task<TripBUK.Server.Models.Postgres.ItemGroup> CancelItemGroupChanges(TripBUK.Server.Models.Postgres.ItemGroup item)
+        public async Task<Server.Models.Postgres.ItemGroup> CancelItemGroupChanges(Server.Models.Postgres.ItemGroup item)
         {
             var entityToCancel = Context.Entry(item);
             if (entityToCancel.State == EntityState.Modified)
@@ -498,10 +497,10 @@ namespace TripBUK.Server
             return item;
         }
 
-        partial void OnItemGroupUpdated(TripBUK.Server.Models.Postgres.ItemGroup item);
-        partial void OnAfterItemGroupUpdated(TripBUK.Server.Models.Postgres.ItemGroup item);
+        partial void OnItemGroupUpdated(Server.Models.Postgres.ItemGroup item);
+        partial void OnAfterItemGroupUpdated(Server.Models.Postgres.ItemGroup item);
 
-        public async Task<TripBUK.Server.Models.Postgres.ItemGroup> UpdateItemGroup(int id, TripBUK.Server.Models.Postgres.ItemGroup itemgroup)
+        public async Task<Server.Models.Postgres.ItemGroup> UpdateItemGroup(int id, Server.Models.Postgres.ItemGroup itemgroup)
         {
             OnItemGroupUpdated(itemgroup);
 
@@ -525,10 +524,10 @@ namespace TripBUK.Server
             return itemgroup;
         }
 
-        partial void OnItemGroupDeleted(TripBUK.Server.Models.Postgres.ItemGroup item);
-        partial void OnAfterItemGroupDeleted(TripBUK.Server.Models.Postgres.ItemGroup item);
+        partial void OnItemGroupDeleted(Server.Models.Postgres.ItemGroup item);
+        partial void OnAfterItemGroupDeleted(Server.Models.Postgres.ItemGroup item);
 
-        public async Task<TripBUK.Server.Models.Postgres.ItemGroup> DeleteItemGroup(int id)
+        public async Task<Server.Models.Postgres.ItemGroup> DeleteItemGroup(int id)
         {
             var itemToDelete = Context.ItemGroups
                               .Where(i => i.Id == id)
@@ -571,9 +570,9 @@ namespace TripBUK.Server
             navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/items/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/items/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnItemsRead(ref IQueryable<TripBUK.Server.Models.Postgres.Item> items);
+        partial void OnItemsRead(ref IQueryable<Server.Models.Postgres.Item> items);
 
-        public async Task<IQueryable<TripBUK.Server.Models.Postgres.Item>> GetItems(Query query = null)
+        public async Task<IQueryable<Server.Models.Postgres.Item>> GetItems(Query query = null)
         {
             var items = Context.Items.AsQueryable();
 
@@ -598,11 +597,11 @@ namespace TripBUK.Server
             return await Task.FromResult(items);
         }
 
-        partial void OnItemGet(TripBUK.Server.Models.Postgres.Item item);
-        partial void OnGetItemById(ref IQueryable<TripBUK.Server.Models.Postgres.Item> items);
+        partial void OnItemGet(Server.Models.Postgres.Item item);
+        partial void OnGetItemById(ref IQueryable<Server.Models.Postgres.Item> items);
 
 
-        public async Task<TripBUK.Server.Models.Postgres.Item> GetItemById(int id)
+        public async Task<Server.Models.Postgres.Item> GetItemById(int id)
         {
             var items = Context.Items
                               .AsNoTracking()
@@ -619,10 +618,10 @@ namespace TripBUK.Server
             return await Task.FromResult(itemToReturn);
         }
 
-        partial void OnItemCreated(TripBUK.Server.Models.Postgres.Item item);
-        partial void OnAfterItemCreated(TripBUK.Server.Models.Postgres.Item item);
+        partial void OnItemCreated(Server.Models.Postgres.Item item);
+        partial void OnAfterItemCreated(Server.Models.Postgres.Item item);
 
-        public async Task<TripBUK.Server.Models.Postgres.Item> CreateItem(TripBUK.Server.Models.Postgres.Item item)
+        public async Task<Server.Models.Postgres.Item> CreateItem(Server.Models.Postgres.Item item)
         {
             OnItemCreated(item);
 
@@ -651,7 +650,7 @@ namespace TripBUK.Server
             return item;
         }
 
-        public async Task<TripBUK.Server.Models.Postgres.Item> CancelItemChanges(TripBUK.Server.Models.Postgres.Item item)
+        public async Task<Server.Models.Postgres.Item> CancelItemChanges(Server.Models.Postgres.Item item)
         {
             var entityToCancel = Context.Entry(item);
             if (entityToCancel.State == EntityState.Modified)
@@ -663,10 +662,10 @@ namespace TripBUK.Server
             return item;
         }
 
-        partial void OnItemUpdated(TripBUK.Server.Models.Postgres.Item item);
-        partial void OnAfterItemUpdated(TripBUK.Server.Models.Postgres.Item item);
+        partial void OnItemUpdated(Server.Models.Postgres.Item item);
+        partial void OnAfterItemUpdated(Server.Models.Postgres.Item item);
 
-        public async Task<TripBUK.Server.Models.Postgres.Item> UpdateItem(int id, TripBUK.Server.Models.Postgres.Item item)
+        public async Task<Server.Models.Postgres.Item> UpdateItem(int id, Server.Models.Postgres.Item item)
         {
             OnItemUpdated(item);
 
@@ -690,10 +689,10 @@ namespace TripBUK.Server
             return item;
         }
 
-        partial void OnItemDeleted(TripBUK.Server.Models.Postgres.Item item);
-        partial void OnAfterItemDeleted(TripBUK.Server.Models.Postgres.Item item);
+        partial void OnItemDeleted(Server.Models.Postgres.Item item);
+        partial void OnAfterItemDeleted(Server.Models.Postgres.Item item);
 
-        public async Task<TripBUK.Server.Models.Postgres.Item> DeleteItem(int id)
+        public async Task<Server.Models.Postgres.Item> DeleteItem(int id)
         {
             var itemToDelete = Context.Items
                               .Where(i => i.Id == id)
@@ -734,9 +733,9 @@ namespace TripBUK.Server
             navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/standardnarrations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/standardnarrations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnStandardNarrationsRead(ref IQueryable<TripBUK.Server.Models.Postgres.StandardNarration> items);
+        partial void OnStandardNarrationsRead(ref IQueryable<Server.Models.Postgres.StandardNarration> items);
 
-        public async Task<IQueryable<TripBUK.Server.Models.Postgres.StandardNarration>> GetStandardNarrations(Query query = null)
+        public async Task<IQueryable<Server.Models.Postgres.StandardNarration>> GetStandardNarrations(Query query = null)
         {
             var items = Context.StandardNarrations.AsQueryable();
 
@@ -760,11 +759,11 @@ namespace TripBUK.Server
             return await Task.FromResult(items);
         }
 
-        partial void OnStandardNarrationGet(TripBUK.Server.Models.Postgres.StandardNarration item);
-        partial void OnGetStandardNarrationById(ref IQueryable<TripBUK.Server.Models.Postgres.StandardNarration> items);
+        partial void OnStandardNarrationGet(Server.Models.Postgres.StandardNarration item);
+        partial void OnGetStandardNarrationById(ref IQueryable<Server.Models.Postgres.StandardNarration> items);
 
 
-        public async Task<TripBUK.Server.Models.Postgres.StandardNarration> GetStandardNarrationById(int id)
+        public async Task<Server.Models.Postgres.StandardNarration> GetStandardNarrationById(int id)
         {
             var items = Context.StandardNarrations
                               .AsNoTracking()
@@ -780,10 +779,10 @@ namespace TripBUK.Server
             return await Task.FromResult(itemToReturn);
         }
 
-        partial void OnStandardNarrationCreated(TripBUK.Server.Models.Postgres.StandardNarration item);
-        partial void OnAfterStandardNarrationCreated(TripBUK.Server.Models.Postgres.StandardNarration item);
+        partial void OnStandardNarrationCreated(Server.Models.Postgres.StandardNarration item);
+        partial void OnAfterStandardNarrationCreated(Server.Models.Postgres.StandardNarration item);
 
-        public async Task<TripBUK.Server.Models.Postgres.StandardNarration> CreateStandardNarration(TripBUK.Server.Models.Postgres.StandardNarration standardnarration)
+        public async Task<Server.Models.Postgres.StandardNarration> CreateStandardNarration(Server.Models.Postgres.StandardNarration standardnarration)
         {
             OnStandardNarrationCreated(standardnarration);
 
@@ -812,7 +811,7 @@ namespace TripBUK.Server
             return standardnarration;
         }
 
-        public async Task<TripBUK.Server.Models.Postgres.StandardNarration> CancelStandardNarrationChanges(TripBUK.Server.Models.Postgres.StandardNarration item)
+        public async Task<Server.Models.Postgres.StandardNarration> CancelStandardNarrationChanges(Server.Models.Postgres.StandardNarration item)
         {
             var entityToCancel = Context.Entry(item);
             if (entityToCancel.State == EntityState.Modified)
@@ -824,10 +823,10 @@ namespace TripBUK.Server
             return item;
         }
 
-        partial void OnStandardNarrationUpdated(TripBUK.Server.Models.Postgres.StandardNarration item);
-        partial void OnAfterStandardNarrationUpdated(TripBUK.Server.Models.Postgres.StandardNarration item);
+        partial void OnStandardNarrationUpdated(Server.Models.Postgres.StandardNarration item);
+        partial void OnAfterStandardNarrationUpdated(Server.Models.Postgres.StandardNarration item);
 
-        public async Task<TripBUK.Server.Models.Postgres.StandardNarration> UpdateStandardNarration(int id, TripBUK.Server.Models.Postgres.StandardNarration standardnarration)
+        public async Task<Server.Models.Postgres.StandardNarration> UpdateStandardNarration(int id, Server.Models.Postgres.StandardNarration standardnarration)
         {
             OnStandardNarrationUpdated(standardnarration);
 
@@ -851,10 +850,10 @@ namespace TripBUK.Server
             return standardnarration;
         }
 
-        partial void OnStandardNarrationDeleted(TripBUK.Server.Models.Postgres.StandardNarration item);
-        partial void OnAfterStandardNarrationDeleted(TripBUK.Server.Models.Postgres.StandardNarration item);
+        partial void OnStandardNarrationDeleted(Server.Models.Postgres.StandardNarration item);
+        partial void OnAfterStandardNarrationDeleted(Server.Models.Postgres.StandardNarration item);
 
-        public async Task<TripBUK.Server.Models.Postgres.StandardNarration> DeleteStandardNarration(int id)
+        public async Task<Server.Models.Postgres.StandardNarration> DeleteStandardNarration(int id)
         {
             var itemToDelete = Context.StandardNarrations
                               .Where(i => i.Id == id)
@@ -895,9 +894,9 @@ namespace TripBUK.Server
             navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/unitconversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/unitconversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnUnitConversionsRead(ref IQueryable<TripBUK.Server.Models.Postgres.UnitConversion> items);
+        partial void OnUnitConversionsRead(ref IQueryable<Server.Models.Postgres.UnitConversion> items);
 
-        public async Task<IQueryable<TripBUK.Server.Models.Postgres.UnitConversion>> GetUnitConversions(Query query = null)
+        public async Task<IQueryable<Server.Models.Postgres.UnitConversion>> GetUnitConversions(Query query = null)
         {
             var items = Context.UnitConversions.AsQueryable();
 
@@ -923,11 +922,11 @@ namespace TripBUK.Server
             return await Task.FromResult(items);
         }
 
-        partial void OnUnitConversionGet(TripBUK.Server.Models.Postgres.UnitConversion item);
-        partial void OnGetUnitConversionById(ref IQueryable<TripBUK.Server.Models.Postgres.UnitConversion> items);
+        partial void OnUnitConversionGet(Server.Models.Postgres.UnitConversion item);
+        partial void OnGetUnitConversionById(ref IQueryable<Server.Models.Postgres.UnitConversion> items);
 
 
-        public async Task<TripBUK.Server.Models.Postgres.UnitConversion> GetUnitConversionById(int id)
+        public async Task<Server.Models.Postgres.UnitConversion> GetUnitConversionById(int id)
         {
             var items = Context.UnitConversions
                               .AsNoTracking()
@@ -945,10 +944,10 @@ namespace TripBUK.Server
             return await Task.FromResult(itemToReturn);
         }
 
-        partial void OnUnitConversionCreated(TripBUK.Server.Models.Postgres.UnitConversion item);
-        partial void OnAfterUnitConversionCreated(TripBUK.Server.Models.Postgres.UnitConversion item);
+        partial void OnUnitConversionCreated(Server.Models.Postgres.UnitConversion item);
+        partial void OnAfterUnitConversionCreated(Server.Models.Postgres.UnitConversion item);
 
-        public async Task<TripBUK.Server.Models.Postgres.UnitConversion> CreateUnitConversion(TripBUK.Server.Models.Postgres.UnitConversion unitconversion)
+        public async Task<Server.Models.Postgres.UnitConversion> CreateUnitConversion(Server.Models.Postgres.UnitConversion unitconversion)
         {
             OnUnitConversionCreated(unitconversion);
 
@@ -977,7 +976,7 @@ namespace TripBUK.Server
             return unitconversion;
         }
 
-        public async Task<TripBUK.Server.Models.Postgres.UnitConversion> CancelUnitConversionChanges(TripBUK.Server.Models.Postgres.UnitConversion item)
+        public async Task<Server.Models.Postgres.UnitConversion> CancelUnitConversionChanges(Server.Models.Postgres.UnitConversion item)
         {
             var entityToCancel = Context.Entry(item);
             if (entityToCancel.State == EntityState.Modified)
@@ -989,10 +988,10 @@ namespace TripBUK.Server
             return item;
         }
 
-        partial void OnUnitConversionUpdated(TripBUK.Server.Models.Postgres.UnitConversion item);
-        partial void OnAfterUnitConversionUpdated(TripBUK.Server.Models.Postgres.UnitConversion item);
+        partial void OnUnitConversionUpdated(Server.Models.Postgres.UnitConversion item);
+        partial void OnAfterUnitConversionUpdated(Server.Models.Postgres.UnitConversion item);
 
-        public async Task<TripBUK.Server.Models.Postgres.UnitConversion> UpdateUnitConversion(int id, TripBUK.Server.Models.Postgres.UnitConversion unitconversion)
+        public async Task<Server.Models.Postgres.UnitConversion> UpdateUnitConversion(int id, Server.Models.Postgres.UnitConversion unitconversion)
         {
             OnUnitConversionUpdated(unitconversion);
 
@@ -1016,10 +1015,10 @@ namespace TripBUK.Server
             return unitconversion;
         }
 
-        partial void OnUnitConversionDeleted(TripBUK.Server.Models.Postgres.UnitConversion item);
-        partial void OnAfterUnitConversionDeleted(TripBUK.Server.Models.Postgres.UnitConversion item);
+        partial void OnUnitConversionDeleted(Server.Models.Postgres.UnitConversion item);
+        partial void OnAfterUnitConversionDeleted(Server.Models.Postgres.UnitConversion item);
 
-        public async Task<TripBUK.Server.Models.Postgres.UnitConversion> DeleteUnitConversion(int id)
+        public async Task<Server.Models.Postgres.UnitConversion> DeleteUnitConversion(int id)
         {
             var itemToDelete = Context.UnitConversions
                               .Where(i => i.Id == id)
@@ -1060,9 +1059,9 @@ namespace TripBUK.Server
             navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/units/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/units/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnUnitsRead(ref IQueryable<TripBUK.Server.Models.Postgres.Unit> items);
+        partial void OnUnitsRead(ref IQueryable<Server.Models.Postgres.Unit> items);
 
-        public async Task<IQueryable<TripBUK.Server.Models.Postgres.Unit>> GetUnits(Query query = null)
+        public async Task<IQueryable<Server.Models.Postgres.Unit>> GetUnits(Query query = null)
         {
             var items = Context.Units.AsQueryable();
 
@@ -1086,11 +1085,11 @@ namespace TripBUK.Server
             return await Task.FromResult(items);
         }
 
-        partial void OnUnitGet(TripBUK.Server.Models.Postgres.Unit item);
-        partial void OnGetUnitById(ref IQueryable<TripBUK.Server.Models.Postgres.Unit> items);
+        partial void OnUnitGet(Server.Models.Postgres.Unit item);
+        partial void OnGetUnitById(ref IQueryable<Server.Models.Postgres.Unit> items);
 
 
-        public async Task<TripBUK.Server.Models.Postgres.Unit> GetUnitById(int id)
+        public async Task<Server.Models.Postgres.Unit> GetUnitById(int id)
         {
             var items = Context.Units
                               .AsNoTracking()
@@ -1106,10 +1105,10 @@ namespace TripBUK.Server
             return await Task.FromResult(itemToReturn);
         }
 
-        partial void OnUnitCreated(TripBUK.Server.Models.Postgres.Unit item);
-        partial void OnAfterUnitCreated(TripBUK.Server.Models.Postgres.Unit item);
+        partial void OnUnitCreated(Server.Models.Postgres.Unit item);
+        partial void OnAfterUnitCreated(Server.Models.Postgres.Unit item);
 
-        public async Task<TripBUK.Server.Models.Postgres.Unit> CreateUnit(TripBUK.Server.Models.Postgres.Unit _unit)
+        public async Task<Server.Models.Postgres.Unit> CreateUnit(Server.Models.Postgres.Unit _unit)
         {
             OnUnitCreated(_unit);
 
@@ -1138,7 +1137,7 @@ namespace TripBUK.Server
             return _unit;
         }
 
-        public async Task<TripBUK.Server.Models.Postgres.Unit> CancelUnitChanges(TripBUK.Server.Models.Postgres.Unit item)
+        public async Task<Server.Models.Postgres.Unit> CancelUnitChanges(Server.Models.Postgres.Unit item)
         {
             var entityToCancel = Context.Entry(item);
             if (entityToCancel.State == EntityState.Modified)
@@ -1150,10 +1149,10 @@ namespace TripBUK.Server
             return item;
         }
 
-        partial void OnUnitUpdated(TripBUK.Server.Models.Postgres.Unit item);
-        partial void OnAfterUnitUpdated(TripBUK.Server.Models.Postgres.Unit item);
+        partial void OnUnitUpdated(Server.Models.Postgres.Unit item);
+        partial void OnAfterUnitUpdated(Server.Models.Postgres.Unit item);
 
-        public async Task<TripBUK.Server.Models.Postgres.Unit> UpdateUnit(int id, TripBUK.Server.Models.Postgres.Unit _unit)
+        public async Task<Server.Models.Postgres.Unit> UpdateUnit(int id, Server.Models.Postgres.Unit _unit)
         {
             OnUnitUpdated(_unit);
 
@@ -1177,10 +1176,10 @@ namespace TripBUK.Server
             return _unit;
         }
 
-        partial void OnUnitDeleted(TripBUK.Server.Models.Postgres.Unit item);
-        partial void OnAfterUnitDeleted(TripBUK.Server.Models.Postgres.Unit item);
+        partial void OnUnitDeleted(Server.Models.Postgres.Unit item);
+        partial void OnAfterUnitDeleted(Server.Models.Postgres.Unit item);
 
-        public async Task<TripBUK.Server.Models.Postgres.Unit> DeleteUnit(int id)
+        public async Task<Server.Models.Postgres.Unit> DeleteUnit(int id)
         {
             var itemToDelete = Context.Units
                               .Where(i => i.Id == id)
@@ -1223,9 +1222,9 @@ namespace TripBUK.Server
             navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/smtpconfigs/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/smtpconfigs/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnSmtpConfigsRead(ref IQueryable<TripBUK.Server.Models.Postgres.SmtpConfig> items);
+        partial void OnSmtpConfigsRead(ref IQueryable<Server.Models.Postgres.SmtpConfig> items);
 
-        public async Task<IQueryable<TripBUK.Server.Models.Postgres.SmtpConfig>> GetSmtpConfigs(Query query = null)
+        public async Task<IQueryable<Server.Models.Postgres.SmtpConfig>> GetSmtpConfigs(Query query = null)
         {
             var items = Context.SmtpConfigs.AsQueryable();
 
@@ -1249,11 +1248,11 @@ namespace TripBUK.Server
             return await Task.FromResult(items);
         }
 
-        partial void OnSmtpConfigGet(TripBUK.Server.Models.Postgres.SmtpConfig item);
-        partial void OnGetSmtpConfigById(ref IQueryable<TripBUK.Server.Models.Postgres.SmtpConfig> items);
+        partial void OnSmtpConfigGet(Server.Models.Postgres.SmtpConfig item);
+        partial void OnGetSmtpConfigById(ref IQueryable<Server.Models.Postgres.SmtpConfig> items);
 
 
-        public async Task<TripBUK.Server.Models.Postgres.SmtpConfig> GetSmtpConfigById(Guid id)
+        public async Task<Server.Models.Postgres.SmtpConfig> GetSmtpConfigById(Guid id)
         {
             var items = Context.SmtpConfigs
                               .AsNoTracking()
@@ -1269,10 +1268,10 @@ namespace TripBUK.Server
             return await Task.FromResult(itemToReturn);
         }
 
-        partial void OnSmtpConfigCreated(TripBUK.Server.Models.Postgres.SmtpConfig item);
-        partial void OnAfterSmtpConfigCreated(TripBUK.Server.Models.Postgres.SmtpConfig item);
+        partial void OnSmtpConfigCreated(Server.Models.Postgres.SmtpConfig item);
+        partial void OnAfterSmtpConfigCreated(Server.Models.Postgres.SmtpConfig item);
 
-        public async Task<TripBUK.Server.Models.Postgres.SmtpConfig> CreateSmtpConfig(TripBUK.Server.Models.Postgres.SmtpConfig smtpconfig)
+        public async Task<Server.Models.Postgres.SmtpConfig> CreateSmtpConfig(Server.Models.Postgres.SmtpConfig smtpconfig)
         {
             OnSmtpConfigCreated(smtpconfig);
 
@@ -1301,7 +1300,7 @@ namespace TripBUK.Server
             return smtpconfig;
         }
 
-        public async Task<TripBUK.Server.Models.Postgres.SmtpConfig> CancelSmtpConfigChanges(TripBUK.Server.Models.Postgres.SmtpConfig item)
+        public async Task<Server.Models.Postgres.SmtpConfig> CancelSmtpConfigChanges(Server.Models.Postgres.SmtpConfig item)
         {
             var entityToCancel = Context.Entry(item);
             if (entityToCancel.State == EntityState.Modified)
@@ -1313,10 +1312,10 @@ namespace TripBUK.Server
             return item;
         }
 
-        partial void OnSmtpConfigUpdated(TripBUK.Server.Models.Postgres.SmtpConfig item);
-        partial void OnAfterSmtpConfigUpdated(TripBUK.Server.Models.Postgres.SmtpConfig item);
+        partial void OnSmtpConfigUpdated(Server.Models.Postgres.SmtpConfig item);
+        partial void OnAfterSmtpConfigUpdated(Server.Models.Postgres.SmtpConfig item);
 
-        public async Task<TripBUK.Server.Models.Postgres.SmtpConfig> UpdateSmtpConfig(Guid id, TripBUK.Server.Models.Postgres.SmtpConfig smtpconfig)
+        public async Task<Server.Models.Postgres.SmtpConfig> UpdateSmtpConfig(Guid id, Server.Models.Postgres.SmtpConfig smtpconfig)
         {
             OnSmtpConfigUpdated(smtpconfig);
 
@@ -1340,10 +1339,10 @@ namespace TripBUK.Server
             return smtpconfig;
         }
 
-        partial void OnSmtpConfigDeleted(TripBUK.Server.Models.Postgres.SmtpConfig item);
-        partial void OnAfterSmtpConfigDeleted(TripBUK.Server.Models.Postgres.SmtpConfig item);
+        partial void OnSmtpConfigDeleted(Server.Models.Postgres.SmtpConfig item);
+        partial void OnAfterSmtpConfigDeleted(Server.Models.Postgres.SmtpConfig item);
 
-        public async Task<TripBUK.Server.Models.Postgres.SmtpConfig> DeleteSmtpConfig(Guid id)
+        public async Task<Server.Models.Postgres.SmtpConfig> DeleteSmtpConfig(Guid id)
         {
             var itemToDelete = Context.SmtpConfigs
                               .Where(i => i.Id == id)

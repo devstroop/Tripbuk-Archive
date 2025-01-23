@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 
-namespace TripBUK.Server.Controllers
+namespace Tripbuk.Server.Controllers
 {
     public partial class UploadController : Controller
     {

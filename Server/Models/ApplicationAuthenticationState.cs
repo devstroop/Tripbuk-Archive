@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TripBUK.Server.Models
+namespace Tripbuk.Server.Models
 {
     public class ApplicationClaim
     {

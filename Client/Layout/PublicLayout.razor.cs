@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TripBUK.Client.Components;
+using Tripbuk.Client.Components;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Layout
+namespace Tripbuk.Client.Layout
 {
     public partial class PublicLayout
     {
@@ -83,7 +83,8 @@ namespace TripBUK.Client.Layout
 
             builder.CloseComponent();
         };
-        
+
+        private string Search { get; set; }
         
         private readonly List<MenuItem> _menuItems =
         [
@@ -91,42 +92,17 @@ namespace TripBUK.Client.Layout
             {
                 Text = "Discover", 
                 // Icon = "print",
-                Items = [
-                    new ()
-                    {
-                        Text = "Places",
-                        // Icon = "help", 
-                        // Path = "#"
-                    },
-                    new ()
-                    {
-                        Text = "Destinations",
-                        // Icon = "help", 
-                        // Path = "#"
-                    },
-                    new ()
-                    {
-                        Text = "Attractions",
-                        // Icon = "help", 
-                        // Path = "#"
-                    },
-                    new ()
-                    {
-                        Text = "Products",
-                        // Icon = "help", 
-                        // Path = "#"
-                    },
-                ]
+                Items = []
             },
             new ()
             {
-                Text = "My Buckets",
+                Text = "Buckets",
                 // Icon = "help", 
                 // Path = "#"
             },
             new ()
             {
-                Text = "My Trips",
+                Text = "Trips",
                 // Icon = "help", 
                 // Path = "#"
             }

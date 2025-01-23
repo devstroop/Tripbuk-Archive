@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Pages.Admin.Masters.Units.Conversions
+namespace Tripbuk.Client.Pages.Admin.Masters.Units.Conversions
 {
     public partial class UnitConversions
     {
@@ -29,9 +29,9 @@ namespace TripBUK.Client.Pages.Admin.Masters.Units.Conversions
         [Inject]
         public PostgresService PostgresService { get; set; }
 
-        private IEnumerable<TripBUK.Server.Models.Postgres.UnitConversion> _unitConversions;
+        private IEnumerable<Tripbuk.Server.Models.Postgres.UnitConversion> _unitConversions;
 
-        private RadzenDataGrid<TripBUK.Server.Models.Postgres.UnitConversion> _grid0;
+        private RadzenDataGrid<Tripbuk.Server.Models.Postgres.UnitConversion> _grid0;
         private int _count;
 
         protected string search = "";
@@ -68,13 +68,13 @@ namespace TripBUK.Client.Pages.Admin.Masters.Units.Conversions
             await _grid0.Reload();
         }
 
-        private async Task EditRow(TripBUK.Server.Models.Postgres.UnitConversion args)
+        private async Task EditRow(Tripbuk.Server.Models.Postgres.UnitConversion args)
         {
             await DialogService.OpenAsync<EditUnitConversion>("Edit Unit Conversion", new Dictionary<string, object> { {"Id", args.Id} });
             await _grid0.Reload();
         }
 
-        private async Task GridDeleteButtonClick(MouseEventArgs args, TripBUK.Server.Models.Postgres.UnitConversion unitConversion)
+        private async Task GridDeleteButtonClick(MouseEventArgs args, Tripbuk.Server.Models.Postgres.UnitConversion unitConversion)
         {
             try
             {

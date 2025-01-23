@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 
-namespace TripBUK.Server.Models
+namespace Tripbuk.Server.Models
 {
     public partial class ApplicationUser : IdentityUser
     {

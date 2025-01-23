@@ -13,15 +13,16 @@ using Microsoft.AspNetCore.OData.Formatter;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Tripbuk.Server.Data;
 
-namespace TripBUK.Server.Controllers.Postgres
+namespace Tripbuk.Server.Controllers.Postgres
 {
     [Route("odata/Postgres/StandardNarrations")]
     public partial class StandardNarrationsController : ODataController
     {
-        private TripBUK.Server.Data.PostgresContext context;
+        private PostgresContext context;
 
-        public StandardNarrationsController(TripBUK.Server.Data.PostgresContext context)
+        public StandardNarrationsController(PostgresContext context)
         {
             this.context = context;
         }
@@ -29,21 +30,21 @@ namespace TripBUK.Server.Controllers.Postgres
     
         [HttpGet]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IEnumerable<TripBUK.Server.Models.Postgres.StandardNarration> GetStandardNarrations()
+        public IEnumerable<Server.Models.Postgres.StandardNarration> GetStandardNarrations()
         {
-            var items = this.context.StandardNarrations.AsQueryable<TripBUK.Server.Models.Postgres.StandardNarration>();
+            var items = this.context.StandardNarrations.AsQueryable<Server.Models.Postgres.StandardNarration>();
             this.OnStandardNarrationsRead(ref items);
 
             return items;
         }
 
-        partial void OnStandardNarrationsRead(ref IQueryable<TripBUK.Server.Models.Postgres.StandardNarration> items);
+        partial void OnStandardNarrationsRead(ref IQueryable<Server.Models.Postgres.StandardNarration> items);
 
-        partial void OnStandardNarrationGet(ref SingleResult<TripBUK.Server.Models.Postgres.StandardNarration> item);
+        partial void OnStandardNarrationGet(ref SingleResult<Server.Models.Postgres.StandardNarration> item);
 
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
         [HttpGet("/odata/Postgres/StandardNarrations(Id={Id})")]
-        public SingleResult<TripBUK.Server.Models.Postgres.StandardNarration> GetStandardNarration(int key)
+        public SingleResult<Server.Models.Postgres.StandardNarration> GetStandardNarration(int key)
         {
             var items = this.context.StandardNarrations.Where(i => i.Id == key);
             var result = SingleResult.Create(items);
@@ -52,8 +53,8 @@ namespace TripBUK.Server.Controllers.Postgres
 
             return result;
         }
-        partial void OnStandardNarrationDeleted(TripBUK.Server.Models.Postgres.StandardNarration item);
-        partial void OnAfterStandardNarrationDeleted(TripBUK.Server.Models.Postgres.StandardNarration item);
+        partial void OnStandardNarrationDeleted(Server.Models.Postgres.StandardNarration item);
+        partial void OnAfterStandardNarrationDeleted(Server.Models.Postgres.StandardNarration item);
 
         [HttpDelete("/odata/Postgres/StandardNarrations(Id={Id})")]
         public IActionResult DeleteStandardNarration(int key)
@@ -70,7 +71,7 @@ namespace TripBUK.Server.Controllers.Postgres
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.StandardNarration>(Request, items);
+                items = Data.EntityPatch.ApplyTo<Server.Models.Postgres.StandardNarration>(Request, items);
 
                 var item = items.FirstOrDefault();
 
@@ -93,12 +94,12 @@ namespace TripBUK.Server.Controllers.Postgres
             }
         }
 
-        partial void OnStandardNarrationUpdated(TripBUK.Server.Models.Postgres.StandardNarration item);
-        partial void OnAfterStandardNarrationUpdated(TripBUK.Server.Models.Postgres.StandardNarration item);
+        partial void OnStandardNarrationUpdated(Server.Models.Postgres.StandardNarration item);
+        partial void OnAfterStandardNarrationUpdated(Server.Models.Postgres.StandardNarration item);
 
         [HttpPut("/odata/Postgres/StandardNarrations(Id={Id})")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PutStandardNarration(int key, [FromBody]TripBUK.Server.Models.Postgres.StandardNarration item)
+        public IActionResult PutStandardNarration(int key, [FromBody]Server.Models.Postgres.StandardNarration item)
         {
             try
             {
@@ -111,7 +112,7 @@ namespace TripBUK.Server.Controllers.Postgres
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.StandardNarration>(Request, items);
+                items = Data.EntityPatch.ApplyTo<Server.Models.Postgres.StandardNarration>(Request, items);
 
                 var firstItem = items.FirstOrDefault();
 
@@ -137,7 +138,7 @@ namespace TripBUK.Server.Controllers.Postgres
 
         [HttpPatch("/odata/Postgres/StandardNarrations(Id={Id})")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PatchStandardNarration(int key, [FromBody]Delta<TripBUK.Server.Models.Postgres.StandardNarration> patch)
+        public IActionResult PatchStandardNarration(int key, [FromBody]Delta<Server.Models.Postgres.StandardNarration> patch)
         {
             try
             {
@@ -150,7 +151,7 @@ namespace TripBUK.Server.Controllers.Postgres
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.StandardNarration>(Request, items);
+                items = Data.EntityPatch.ApplyTo<Server.Models.Postgres.StandardNarration>(Request, items);
 
                 var item = items.FirstOrDefault();
 
@@ -176,12 +177,12 @@ namespace TripBUK.Server.Controllers.Postgres
             }
         }
 
-        partial void OnStandardNarrationCreated(TripBUK.Server.Models.Postgres.StandardNarration item);
-        partial void OnAfterStandardNarrationCreated(TripBUK.Server.Models.Postgres.StandardNarration item);
+        partial void OnStandardNarrationCreated(Server.Models.Postgres.StandardNarration item);
+        partial void OnAfterStandardNarrationCreated(Server.Models.Postgres.StandardNarration item);
 
         [HttpPost]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult Post([FromBody] TripBUK.Server.Models.Postgres.StandardNarration item)
+        public IActionResult Post([FromBody] Server.Models.Postgres.StandardNarration item)
         {
             try
             {

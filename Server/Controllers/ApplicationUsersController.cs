@@ -11,11 +11,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Deltas;
 using System.ComponentModel.DataAnnotations.Schema;
+using Tripbuk.Server.Data;
+using Tripbuk.Server.Models;
 
-using TripBUK.Server.Data;
-using TripBUK.Server.Models;
-
-namespace TripBUK.Server.Controllers
+namespace Tripbuk.Server.Controllers
 {
     [Authorize]
     [Route("odata/Identity/ApplicationUsers")]

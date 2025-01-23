@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Pages.Admin.Application.Roles
+namespace Tripbuk.Client.Pages.Admin.Application.Roles
 {
     public partial class ApplicationRoles
     {
@@ -30,8 +30,8 @@ namespace TripBUK.Client.Pages.Admin.Application.Roles
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        protected IEnumerable<TripBUK.Server.Models.ApplicationRole> roles;
-        protected RadzenDataGrid<TripBUK.Server.Models.ApplicationRole> grid0;
+        protected IEnumerable<Tripbuk.Server.Models.ApplicationRole> roles;
+        protected RadzenDataGrid<Tripbuk.Server.Models.ApplicationRole> grid0;
         protected string error;
         protected bool errorVisible;
 
@@ -50,7 +50,7 @@ namespace TripBUK.Client.Pages.Admin.Application.Roles
             roles = await Security.GetRoles();
         }
 
-        protected async Task DeleteClick(TripBUK.Server.Models.ApplicationRole role)
+        protected async Task DeleteClick(Tripbuk.Server.Models.ApplicationRole role)
         {
             try
             {

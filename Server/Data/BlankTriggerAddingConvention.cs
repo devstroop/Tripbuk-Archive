@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace TripBUK.Server.Data
+namespace Tripbuk.Server.Data
 {
     public class BlankTriggerAddingConvention : Microsoft.EntityFrameworkCore.Metadata.Conventions.IModelFinalizingConvention
     {

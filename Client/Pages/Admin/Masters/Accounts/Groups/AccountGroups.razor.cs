@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Pages.Admin.Masters.Accounts.Groups
+namespace Tripbuk.Client.Pages.Admin.Masters.Accounts.Groups
 {
     public partial class AccountGroups
     {
@@ -33,9 +33,9 @@ namespace TripBUK.Client.Pages.Admin.Masters.Accounts.Groups
         [Inject]
         public PostgresService PostgresService { get; set; }
 
-        private IEnumerable<TripBUK.Server.Models.Postgres.AccountGroup> _accountGroups;
+        private IEnumerable<Tripbuk.Server.Models.Postgres.AccountGroup> _accountGroups;
 
-        private RadzenDataGrid<TripBUK.Server.Models.Postgres.AccountGroup> _grid0;
+        private RadzenDataGrid<Tripbuk.Server.Models.Postgres.AccountGroup> _grid0;
         private int _count;
 
         private string _search = "";
@@ -73,7 +73,7 @@ namespace TripBUK.Client.Pages.Admin.Masters.Accounts.Groups
         }
 
 
-        private async Task RowSplitButtonClick(string value, TripBUK.Server.Models.Postgres.AccountGroup accountGroup)
+        private async Task RowSplitButtonClick(string value, Tripbuk.Server.Models.Postgres.AccountGroup accountGroup)
         {
             if (value == null)
             {

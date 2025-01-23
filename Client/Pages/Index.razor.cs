@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace TripBUK.Client.Pages;
+namespace Tripbuk.Client.Pages;
 
 public partial class Index
 {

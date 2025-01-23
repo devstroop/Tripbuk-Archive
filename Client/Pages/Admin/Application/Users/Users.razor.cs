@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Pages.Admin.Application.Users
+namespace Tripbuk.Client.Pages.Admin.Application.Users
 {
     public partial class Users
     {
@@ -25,8 +25,8 @@ namespace TripBUK.Client.Pages.Admin.Application.Users
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        private IEnumerable<TripBUK.Server.Models.ApplicationUser> _users;
-        protected RadzenDataGrid<TripBUK.Server.Models.ApplicationUser> Grid0;
+        private IEnumerable<Tripbuk.Server.Models.ApplicationUser> _users;
+        protected RadzenDataGrid<Tripbuk.Server.Models.ApplicationUser> Grid0;
         private string _error;
         private bool _errorVisible;
 
@@ -45,14 +45,14 @@ namespace TripBUK.Client.Pages.Admin.Application.Users
             _users = await Security.GetUsers();
         }
 
-        private async Task RowSelect(TripBUK.Server.Models.ApplicationUser user)
+        private async Task RowSelect(Tripbuk.Server.Models.ApplicationUser user)
         {
             await DialogService.OpenAsync<EditUser>("Edit User", new Dictionary<string, object>{ {"Id", user.Id} });
 
             _users = await Security.GetUsers();
         }
 
-        private async Task DeleteClick(TripBUK.Server.Models.ApplicationUser user)
+        private async Task DeleteClick(Tripbuk.Server.Models.ApplicationUser user)
         {
             try
             {

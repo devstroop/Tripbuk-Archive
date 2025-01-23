@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Pages.Auth
+namespace Tripbuk.Client.Pages.Auth
 {
     public partial class ResetPassword
     {
@@ -30,7 +30,7 @@ namespace TripBUK.Client.Pages.Auth
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        protected TripBUK.Server.Models.ApplicationUser user;
+        protected Tripbuk.Server.Models.ApplicationUser user;
         protected bool isBusy;
         protected bool errorVisible;
         protected string error;
@@ -40,7 +40,7 @@ namespace TripBUK.Client.Pages.Auth
 
         protected override async Task OnInitializedAsync()
         {
-            user = new TripBUK.Server.Models.ApplicationUser();
+            user = new Tripbuk.Server.Models.ApplicationUser();
         }
 
         protected async Task FormSubmit()

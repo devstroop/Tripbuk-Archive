@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 
-namespace TripBUK.Client.Pages.Admin.Masters.Units.Conversions
+namespace Tripbuk.Client.Pages.Admin.Masters.Units.Conversions
 {
     public partial class CreateUnitConversion
     {
@@ -29,15 +29,15 @@ namespace TripBUK.Client.Pages.Admin.Masters.Units.Conversions
 
         protected override async Task OnInitializedAsync()
         {
-            _unitConversion = new TripBUK.Server.Models.Postgres.UnitConversion();
+            _unitConversion = new Tripbuk.Server.Models.Postgres.UnitConversion();
         }
 
         private bool _errorVisible;
-        private TripBUK.Server.Models.Postgres.UnitConversion _unitConversion;
+        private Tripbuk.Server.Models.Postgres.UnitConversion _unitConversion;
 
-        private IEnumerable<TripBUK.Server.Models.Postgres.Unit> _unitsForMainUnit;
+        private IEnumerable<Tripbuk.Server.Models.Postgres.Unit> _unitsForMainUnit;
         private int _unitsForMainUnitCount;
-        private TripBUK.Server.Models.Postgres.Unit _unitsForMainUnitValue;
+        private Tripbuk.Server.Models.Postgres.Unit _unitsForMainUnitValue;
 
         private async Task UnitsForMainUnitLoadData(LoadDataArgs args)
         {
@@ -65,9 +65,9 @@ namespace TripBUK.Client.Pages.Admin.Masters.Units.Conversions
         }
 
 
-        private IEnumerable<TripBUK.Server.Models.Postgres.Unit> _unitsForSubUnit;
+        private IEnumerable<Tripbuk.Server.Models.Postgres.Unit> _unitsForSubUnit;
         private int _unitsForSubUnitCount;
-        private TripBUK.Server.Models.Postgres.Unit _unitsForSubUnitValue;
+        private Tripbuk.Server.Models.Postgres.Unit _unitsForSubUnitValue;
 
         private async Task UnitsForSubUnitLoadData(LoadDataArgs args)
         {

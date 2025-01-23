@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Pages.Admin.Masters.StandardNarrations
+namespace Tripbuk.Client.Pages.Admin.Masters.StandardNarrations
 {
     public partial class EditStandardNarration
     {
@@ -36,7 +36,7 @@ namespace TripBUK.Client.Pages.Admin.Masters.StandardNarrations
             StandardNarration = await PostgresService.GetStandardNarrationById(id:Id);
         }
         protected bool ErrorVisible;
-        protected TripBUK.Server.Models.Postgres.StandardNarration StandardNarration;
+        protected Tripbuk.Server.Models.Postgres.StandardNarration StandardNarration;
 
         protected async Task FormSubmit()
         {

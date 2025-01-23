@@ -3,10 +3,9 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using Tripbuk.Server.Data;
 
-using TripBUK.Server.Data;
-
-namespace TripBUK.Server.Controllers
+namespace Tripbuk.Server.Controllers
 {
     public partial class ExportPostgresController : ExportController
     {

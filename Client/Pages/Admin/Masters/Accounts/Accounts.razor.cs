@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Pages.Admin.Masters.Accounts
+namespace Tripbuk.Client.Pages.Admin.Masters.Accounts
 {
     public partial class Accounts
     {
@@ -33,9 +33,9 @@ namespace TripBUK.Client.Pages.Admin.Masters.Accounts
         [Inject]
         public PostgresService PostgresService { get; set; }
 
-        private IEnumerable<TripBUK.Server.Models.Postgres.Account> _accounts;
+        private IEnumerable<Tripbuk.Server.Models.Postgres.Account> _accounts;
 
-        private RadzenDataGrid<TripBUK.Server.Models.Postgres.Account> _grid0;
+        private RadzenDataGrid<Tripbuk.Server.Models.Postgres.Account> _grid0;
         private int _count;
 
         private string search = "";
@@ -66,7 +66,7 @@ namespace TripBUK.Client.Pages.Admin.Masters.Accounts
             }
         }
 
-        private async Task ShowAccountDetails(TripBUK.Server.Models.Postgres.Account args)
+        private async Task ShowAccountDetails(Tripbuk.Server.Models.Postgres.Account args)
         {
             await DialogService.OpenAsync<AccountDetails>("Account Details", new Dictionary<string, object> { {"Id", args.Id} }, new DialogOptions()
             {
@@ -74,7 +74,7 @@ namespace TripBUK.Client.Pages.Admin.Masters.Accounts
             });
         }
 
-        private async Task GridDeleteButtonClick(MouseEventArgs args, TripBUK.Server.Models.Postgres.Account account)
+        private async Task GridDeleteButtonClick(MouseEventArgs args, Tripbuk.Server.Models.Postgres.Account account)
         {
             try
             {

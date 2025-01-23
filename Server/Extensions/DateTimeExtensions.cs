@@ -1,4 +1,4 @@
-namespace TripBUK.Server.Extensions;
+namespace Tripbuk.Server.Extensions;
 
 public static class DateTimeExtensions
 {

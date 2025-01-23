@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "TripBUK.Server": {
+    "Tripbuk.Server": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Layout
+namespace Tripbuk.Client.Layout
 {
     public partial class UserLayout
     {

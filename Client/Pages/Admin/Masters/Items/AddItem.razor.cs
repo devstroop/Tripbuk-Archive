@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Pages.Admin.Masters.Items
+namespace Tripbuk.Client.Pages.Admin.Masters.Items
 {
     public partial class AddItem
     {
@@ -34,16 +34,16 @@ namespace TripBUK.Client.Pages.Admin.Masters.Items
 
         protected override async Task OnInitializedAsync()
         {
-            Item = new TripBUK.Server.Models.Postgres.Item();
+            Item = new Tripbuk.Server.Models.Postgres.Item();
         }
         protected bool ErrorVisible;
-        protected TripBUK.Server.Models.Postgres.Item Item;
+        protected Tripbuk.Server.Models.Postgres.Item Item;
 
-        protected IEnumerable<TripBUK.Server.Models.Postgres.ItemGroup> ItemGroupsForGroup;
+        protected IEnumerable<Tripbuk.Server.Models.Postgres.ItemGroup> ItemGroupsForGroup;
 
 
         protected int ItemGroupsForGroupCount;
-        protected TripBUK.Server.Models.Postgres.ItemGroup ItemGroupsForGroupValue;
+        protected Tripbuk.Server.Models.Postgres.ItemGroup ItemGroupsForGroupValue;
         protected async Task ItemGroupsForGroupLoadData(LoadDataArgs args)
         {
             try

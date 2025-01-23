@@ -1,4 +1,4 @@
-﻿namespace TripBUK.Server.Enums;
+﻿namespace Tripbuk.Server.Enums;
 
 /// <summary>
 /// Master type

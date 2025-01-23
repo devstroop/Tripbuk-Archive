@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Pages.Admin.Application.Tenants
+namespace Tripbuk.Client.Pages.Admin.Application.Tenants
 {
     public partial class ApplicationTenants
     {
@@ -30,8 +30,8 @@ namespace TripBUK.Client.Pages.Admin.Application.Tenants
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        protected IEnumerable<TripBUK.Server.Models.ApplicationTenant> tenants;
-        protected RadzenDataGrid<TripBUK.Server.Models.ApplicationTenant> grid0;
+        protected IEnumerable<Tripbuk.Server.Models.ApplicationTenant> tenants;
+        protected RadzenDataGrid<Tripbuk.Server.Models.ApplicationTenant> grid0;
         protected string error;
         protected bool errorVisible;
 
@@ -59,24 +59,24 @@ namespace TripBUK.Client.Pages.Admin.Application.Tenants
             await Load();
         }
 
-        protected async Task SetDefaultTenant(MouseEventArgs args, TripBUK.Server.Models.ApplicationTenant tenant)
+        protected async Task SetDefaultTenant(MouseEventArgs args, Tripbuk.Server.Models.ApplicationTenant tenant)
         {
             Security.Tenant = tenant;
         }
 
-        protected async Task RowSelect(TripBUK.Server.Models.ApplicationTenant tenant)
+        protected async Task RowSelect(Tripbuk.Server.Models.ApplicationTenant tenant)
         {
             await DialogService.OpenAsync<EditApplicationTenant>("Edit Application Tenant", new Dictionary<string, object>{ {"Id", tenant.Id} });
 
             await Load();
         }
 
-        protected async void RowRender(RowRenderEventArgs<TripBUK.Server.Models.ApplicationTenant> args)
+        protected async void RowRender(RowRenderEventArgs<Tripbuk.Server.Models.ApplicationTenant> args)
         {
             args.Attributes.Add("style", $"font-weight: {(args.Data.Id == Security.Tenant?.Id ? "bold" : "normal")};");
         }
 
-        protected async Task DeleteClick(TripBUK.Server.Models.ApplicationTenant tenant)
+        protected async Task DeleteClick(Tripbuk.Server.Models.ApplicationTenant tenant)
         {
             try
             {

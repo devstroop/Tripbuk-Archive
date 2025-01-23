@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Pages
+namespace Tripbuk.Client.Pages
 {
     public partial class Unauthorized
     {

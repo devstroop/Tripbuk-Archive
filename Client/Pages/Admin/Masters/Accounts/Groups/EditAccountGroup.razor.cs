@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Pages.Admin.Masters.Accounts.Groups
+namespace Tripbuk.Client.Pages.Admin.Masters.Accounts.Groups
 {
     public partial class EditAccountGroup
     {
@@ -40,13 +40,13 @@ namespace TripBUK.Client.Pages.Admin.Masters.Accounts.Groups
             AccountGroup = await PostgresService.GetAccountGroupById(id:Id);
         }
         protected bool ErrorVisible;
-        protected TripBUK.Server.Models.Postgres.AccountGroup AccountGroup;
+        protected Tripbuk.Server.Models.Postgres.AccountGroup AccountGroup;
 
-        protected IEnumerable<TripBUK.Server.Models.Postgres.AccountGroup> AccountGroupsForParent;
+        protected IEnumerable<Tripbuk.Server.Models.Postgres.AccountGroup> AccountGroupsForParent;
 
 
         protected int AccountGroupsForParentCount;
-        protected TripBUK.Server.Models.Postgres.AccountGroup AccountGroupsForParentValue;
+        protected Tripbuk.Server.Models.Postgres.AccountGroup AccountGroupsForParentValue;
         protected async Task AccountGroupsForParentLoadData(LoadDataArgs args)
         {
             try

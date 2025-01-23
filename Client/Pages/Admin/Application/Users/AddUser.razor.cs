@@ -2,7 +2,7 @@ using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using Radzen;
 
-namespace TripBUK.Client.Pages.Admin.Application.Users
+namespace Tripbuk.Client.Pages.Admin.Application.Users
 {
     public partial class AddUser
     {
@@ -24,8 +24,8 @@ namespace TripBUK.Client.Pages.Admin.Application.Users
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        private IEnumerable<TripBUK.Server.Models.ApplicationRole> _roles;
-        private TripBUK.Server.Models.ApplicationUser _user;
+        private IEnumerable<Tripbuk.Server.Models.ApplicationRole> _roles;
+        private Tripbuk.Server.Models.ApplicationUser _user;
         private IEnumerable<string> _userRoles = [];
         private string _error;
         private bool _errorVisible;
@@ -35,12 +35,12 @@ namespace TripBUK.Client.Pages.Admin.Application.Users
 
         protected override async Task OnInitializedAsync()
         {
-            _user = new TripBUK.Server.Models.ApplicationUser();
+            _user = new Tripbuk.Server.Models.ApplicationUser();
 
             _roles = await Security.GetRoles();
         }
 
-        private async Task FormSubmit(TripBUK.Server.Models.ApplicationUser user)
+        private async Task FormSubmit(Tripbuk.Server.Models.ApplicationUser user)
         {
             try
             {

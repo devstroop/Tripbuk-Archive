@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Pages.Admin.Masters.Units
+namespace Tripbuk.Client.Pages.Admin.Masters.Units
 {
     public partial class Units
     {
@@ -29,9 +29,9 @@ namespace TripBUK.Client.Pages.Admin.Masters.Units
         [Inject]
         public PostgresService PostgresService { get; set; }
 
-        private IEnumerable<TripBUK.Server.Models.Postgres.Unit> _units;
+        private IEnumerable<Tripbuk.Server.Models.Postgres.Unit> _units;
 
-        private RadzenDataGrid<TripBUK.Server.Models.Postgres.Unit> _grid0;
+        private RadzenDataGrid<Tripbuk.Server.Models.Postgres.Unit> _grid0;
         private int _count;
 
         private string _search = "";
@@ -68,13 +68,13 @@ namespace TripBUK.Client.Pages.Admin.Masters.Units
             await _grid0.Reload();
         }
 
-        private async Task EditRow(TripBUK.Server.Models.Postgres.Unit args)
+        private async Task EditRow(Tripbuk.Server.Models.Postgres.Unit args)
         {
             await DialogService.OpenAsync<EditUnit>("Edit Unit", new Dictionary<string, object> { {"Id", args.Id} });
             await _grid0.Reload();
         }
 
-        private async Task GridDeleteButtonClick(MouseEventArgs args, TripBUK.Server.Models.Postgres.Unit unit)
+        private async Task GridDeleteButtonClick(MouseEventArgs args, Tripbuk.Server.Models.Postgres.Unit unit)
         {
             try
             {

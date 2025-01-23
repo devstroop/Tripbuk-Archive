@@ -15,17 +15,17 @@
     <RadzenRow>
         <RadzenColumn SizeMD="12">
             <RadzenAlert Size="AlertSize.Large" Shade="Shade.Light" AlertStyle="AlertStyle.Danger" Variant="Variant.Flat" Title="Cannot delete tenant" Visible="@errorVisible">@error</RadzenAlert>
-            <RadzenDataGrid @ref="grid0" AllowFiltering="true" AllowPaging="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30}) AllowSorting="true" Data="@tenants" TItem="TripBUK.Server.Models.ApplicationTenant" RowSelect="@RowSelect" RowRender="@RowRender">
+            <RadzenDataGrid @ref="grid0" AllowFiltering="true" AllowPaging="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30}) AllowSorting="true" Data="@tenants" TItem="Tripbuk.Server.Models.ApplicationTenant" RowSelect="@RowSelect" RowRender="@RowRender">
                 <Columns>
-                    <RadzenDataGridColumn TItem="TripBUK.Server.Models.ApplicationTenant" Property="Name" Title="Name" />
-                    <RadzenDataGridColumn TItem="TripBUK.Server.Models.ApplicationTenant" Property="Hosts" Title="Hosts" />
-                    <RadzenDataGridColumn TItem="TripBUK.Server.Models.ApplicationTenant" Filterable="false" Sortable="false" Width="60px">
+                    <RadzenDataGridColumn TItem="Tripbuk.Server.Models.ApplicationTenant" Property="Name" Title="Name" />
+                    <RadzenDataGridColumn TItem="Tripbuk.Server.Models.ApplicationTenant" Property="Hosts" Title="Hosts" />
+                    <RadzenDataGridColumn TItem="Tripbuk.Server.Models.ApplicationTenant" Filterable="false" Sortable="false" Width="60px">
                         <Template Context="tenant">
                             <RadzenButton Disabled="@(tenant.Id == Security.Tenant?.Id)" Icon="account_balance_wallet" Click="@((args) => SetDefaultTenant(args, tenant))" title="Switch application to this tenant" @onclick:stopPropagation="true">
                             </RadzenButton>
                         </Template>
                     </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="TripBUK.Server.Models.ApplicationTenant" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
+                    <RadzenDataGridColumn TItem="Tripbuk.Server.Models.ApplicationTenant" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
                         <Template Context="tenant">
                             <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small"
                                 Variant="Variant.Flat" Shade="Shade.Lighter" Click="@(() => DeleteClick(tenant))" @onclick:stopPropagation="true" />

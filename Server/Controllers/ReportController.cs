@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TripBUK.Server.Controllers
+namespace Tripbuk.Server.Controllers
 {
     public partial class ReportController : Controller
     {

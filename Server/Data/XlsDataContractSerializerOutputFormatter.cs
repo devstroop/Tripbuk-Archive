@@ -17,7 +17,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Spreadsheet;
 
-namespace TripBUK.Server.Data
+namespace Tripbuk.Server.Data
 {
     public class XlsDataContractSerializerOutputFormatter : TextOutputFormatter
     {

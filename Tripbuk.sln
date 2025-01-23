@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.0.0
 MinimumVisualStudioVersion = 17.0.0.0
 
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TripBUK.Server", "Server\TripBUK.Server.csproj", "{1BA6B657-1C46-41AA-9570-3271C3CF369E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tripbuk.Server", "Server\Tripbuk.Server.csproj", "{1BA6B657-1C46-41AA-9570-3271C3CF369E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TripBUK.Client", "Client\TripBUK.Client.csproj", "{FE7D8007-3F91-43FF-92C1-5DF5A7E39B30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tripbuk.Client", "Client\Tripbuk.Client.csproj", "{FE7D8007-3F91-43FF-92C1-5DF5A7E39B30}"
 EndProject
 EndProject
 Global

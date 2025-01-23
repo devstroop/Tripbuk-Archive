@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TripBUK.Client.Components;
+using Tripbuk.Client.Components;
 using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Layout
+namespace Tripbuk.Client.Layout
 {
     public partial class CompanyLayout
     {

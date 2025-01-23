@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Pages.Admin.Application.Tenants
+namespace Tripbuk.Client.Pages.Admin.Application.Tenants
 {
     public partial class EditApplicationTenant
     {
@@ -30,8 +30,8 @@ namespace TripBUK.Client.Pages.Admin.Application.Tenants
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        protected IEnumerable<TripBUK.Server.Models.ApplicationRole> roles;
-        protected TripBUK.Server.Models.ApplicationTenant tenant;
+        protected IEnumerable<Tripbuk.Server.Models.ApplicationRole> roles;
+        protected Tripbuk.Server.Models.ApplicationTenant tenant;
         protected string error;
         protected bool errorVisible;
 
@@ -46,7 +46,7 @@ namespace TripBUK.Client.Pages.Admin.Application.Tenants
             tenant = await Security.GetTenantById(Id);
         }
 
-        protected async Task FormSubmit(TripBUK.Server.Models.ApplicationTenant tenant)
+        protected async Task FormSubmit(Tripbuk.Server.Models.ApplicationTenant tenant)
         {
             try
             {

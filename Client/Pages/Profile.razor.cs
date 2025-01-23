@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace TripBUK.Client.Pages
+namespace Tripbuk.Client.Pages
 {
     public partial class Profile
     {
@@ -33,7 +33,7 @@ namespace TripBUK.Client.Pages
         protected string oldPassword = "";
         protected string newPassword = "";
         protected string confirmPassword = "";
-        protected TripBUK.Server.Models.ApplicationUser user;
+        protected Tripbuk.Server.Models.ApplicationUser user;
         protected string error;
         protected bool errorVisible;
         protected bool successVisible;
