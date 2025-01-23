@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Admin.SmtpConfigs
+namespace TripBUK.Client.Pages.Admin.SmtpConfigs
 {
     public partial class SmtpConfigs
     {
@@ -33,9 +33,9 @@ namespace ERP.Client.Pages.Admin.SmtpConfigs
         [Inject]
         public PostgresService PostgresService { get; set; }
 
-        protected IEnumerable<ERP.Server.Models.Postgres.SmtpConfig> smtpConfigs;
+        protected IEnumerable<TripBUK.Server.Models.Postgres.SmtpConfig> smtpConfigs;
 
-        protected RadzenDataGrid<ERP.Server.Models.Postgres.SmtpConfig> grid0;
+        protected RadzenDataGrid<TripBUK.Server.Models.Postgres.SmtpConfig> grid0;
         protected int count;
 
         protected string search = "";
@@ -72,13 +72,13 @@ namespace ERP.Client.Pages.Admin.SmtpConfigs
             await grid0.Reload();
         }
 
-        protected async Task EditRow(ERP.Server.Models.Postgres.SmtpConfig args)
+        protected async Task EditRow(TripBUK.Server.Models.Postgres.SmtpConfig args)
         {
             await DialogService.OpenAsync<EditSmtpConfig>("Edit Smtp Config", new Dictionary<string, object> { {"Id", args.Id} });
             await grid0.Reload();
         }
 
-        protected async Task GridDeleteButtonClick(MouseEventArgs args, ERP.Server.Models.Postgres.SmtpConfig smtpConfig)
+        protected async Task GridDeleteButtonClick(MouseEventArgs args, TripBUK.Server.Models.Postgres.SmtpConfig smtpConfig)
         {
             try
             {

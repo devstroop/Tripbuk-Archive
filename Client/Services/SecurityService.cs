@@ -13,9 +13,9 @@ using Microsoft.AspNetCore.Components.Authorization;
 
 using Radzen;
 
-using ERP.Server.Models;
+using TripBUK.Server.Models;
 
-namespace ERP.Client
+namespace TripBUK.Client
 {
     public partial class SecurityService
     {
@@ -42,7 +42,7 @@ namespace ERP.Client
         public SecurityService(NavigationManager navigationManager, IHttpClientFactory factory)
         {
             this.baseUri = new Uri($"{navigationManager.BaseUri}odata/Identity/");
-            this.httpClient = factory.CreateClient("ERP.Server");
+            this.httpClient = factory.CreateClient("TripBUK.Server");
             this.navigationManager = navigationManager;
         }
 

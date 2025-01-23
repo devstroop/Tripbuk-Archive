@@ -3,7 +3,7 @@ using Microsoft.JSInterop;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Layout
+namespace TripBUK.Client.Layout
 {
     public partial class MainLayout
     {

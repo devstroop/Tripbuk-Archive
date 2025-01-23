@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 
-namespace ERP.Client.Pages.Admin.Masters.Units.Conversions
+namespace TripBUK.Client.Pages.Admin.Masters.Units.Conversions
 {
     public partial class EditUnitConversion
     {

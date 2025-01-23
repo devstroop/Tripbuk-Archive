@@ -28,7 +28,7 @@
     <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger"
                  Visible="@_errorVisible">Cannot save UnitConversion
     </RadzenAlert>
-    <RadzenTemplateForm TItem="ERP.Server.Models.Postgres.UnitConversion" Data="@_unitConversion"
+    <RadzenTemplateForm TItem="TripBUK.Server.Models.Postgres.UnitConversion" Data="@_unitConversion"
                         Visible="@(_unitConversion != null && _canEdit)" Submit="@FormSubmit">
         <RadzenRow style="margin-bottom: 1rem">
             <RadzenColumn SizeMD="3">

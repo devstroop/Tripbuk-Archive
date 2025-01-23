@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace ERP.Server.Data.Migrations
+namespace TripBUK.Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationIdentityDbContext))]
     [Migration("00000000000000_CreateIdentitySchema")]

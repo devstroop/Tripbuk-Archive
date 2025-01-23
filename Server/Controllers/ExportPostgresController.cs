@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
-using ERP.Server.Data;
+using TripBUK.Server.Data;
 
-namespace ERP.Server.Controllers
+namespace TripBUK.Server.Controllers
 {
     public partial class ExportPostgresController : ExportController
     {

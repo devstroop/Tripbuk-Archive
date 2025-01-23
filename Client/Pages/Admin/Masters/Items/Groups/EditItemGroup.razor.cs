@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Admin.Masters.Items.Groups
+namespace TripBUK.Client.Pages.Admin.Masters.Items.Groups
 {
     public partial class EditItemGroup
     {
@@ -40,13 +40,13 @@ namespace ERP.Client.Pages.Admin.Masters.Items.Groups
             ItemGroup = await PostgresService.GetItemGroupById(id:Id);
         }
         protected bool ErrorVisible;
-        protected ERP.Server.Models.Postgres.ItemGroup ItemGroup;
+        protected TripBUK.Server.Models.Postgres.ItemGroup ItemGroup;
 
-        protected IEnumerable<ERP.Server.Models.Postgres.ItemGroup> ItemGroupsForParent;
+        protected IEnumerable<TripBUK.Server.Models.Postgres.ItemGroup> ItemGroupsForParent;
 
 
         protected int ItemGroupsForParentCount;
-        protected ERP.Server.Models.Postgres.ItemGroup ItemGroupsForParentValue;
+        protected TripBUK.Server.Models.Postgres.ItemGroup ItemGroupsForParentValue;
         protected async Task ItemGroupsForParentLoadData(LoadDataArgs args)
         {
             try

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ERP.Server.Data.Migrations
+namespace TripBUK.Server.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Admin.Masters.Items.Groups
+namespace TripBUK.Client.Pages.Admin.Masters.Items.Groups
 {
     public partial class ItemGroups
     {
@@ -29,9 +29,9 @@ namespace ERP.Client.Pages.Admin.Masters.Items.Groups
         [Inject]
         public PostgresService PostgresService { get; set; }
 
-        private IEnumerable<ERP.Server.Models.Postgres.ItemGroup> _itemGroups;
+        private IEnumerable<TripBUK.Server.Models.Postgres.ItemGroup> _itemGroups;
 
-        private RadzenDataGrid<ERP.Server.Models.Postgres.ItemGroup> _grid0;
+        private RadzenDataGrid<TripBUK.Server.Models.Postgres.ItemGroup> _grid0;
         private int _count;
 
         private string _search = "";
@@ -68,13 +68,13 @@ namespace ERP.Client.Pages.Admin.Masters.Items.Groups
             await _grid0.Reload();
         }
 
-        private async Task EditRow(ERP.Server.Models.Postgres.ItemGroup args)
+        private async Task EditRow(TripBUK.Server.Models.Postgres.ItemGroup args)
         {
             await DialogService.OpenAsync<EditItemGroup>("Edit ItemGroup", new Dictionary<string, object> { {"Id", args.Id} });
             await _grid0.Reload();
         }
 
-        private async Task RowSplitButtonClick(string value, ERP.Server.Models.Postgres.ItemGroup itemGroup)
+        private async Task RowSplitButtonClick(string value, TripBUK.Server.Models.Postgres.ItemGroup itemGroup)
         {
             if (value == null)
             {

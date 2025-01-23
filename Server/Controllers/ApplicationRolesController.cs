@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
-using ERP.Server.Models;
+using TripBUK.Server.Models;
 
-namespace ERP.Server.Controllers
+namespace TripBUK.Server.Controllers
 {
 
     public class MultiTenancyRoleValidator : RoleValidator<ApplicationRole>

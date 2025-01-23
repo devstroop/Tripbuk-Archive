@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 
-namespace ERP.Server.Models
+namespace TripBUK.Server.Models
 {
     public partial class ApplicationRole : IdentityRole
     {

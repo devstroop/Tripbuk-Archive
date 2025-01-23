@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Http;
 
-namespace ERP.Server.Data
+namespace TripBUK.Server.Data
 {
     public class CsvDataContractSerializerOutputFormatter : TextOutputFormatter
     {

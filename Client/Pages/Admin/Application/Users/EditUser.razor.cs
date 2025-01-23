@@ -2,7 +2,7 @@ using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using Radzen;
 
-namespace ERP.Client.Pages.Admin.Application.Users
+namespace TripBUK.Client.Pages.Admin.Application.Users
 {
     public partial class EditUser
     {
@@ -24,8 +24,8 @@ namespace ERP.Client.Pages.Admin.Application.Users
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        private IEnumerable<ERP.Server.Models.ApplicationRole> _roles;
-        private ERP.Server.Models.ApplicationUser _user;
+        private IEnumerable<TripBUK.Server.Models.ApplicationRole> _roles;
+        private TripBUK.Server.Models.ApplicationUser _user;
         private IEnumerable<string> _userRoles;
         private string _error;
         private bool _errorVisible;
@@ -45,7 +45,7 @@ namespace ERP.Client.Pages.Admin.Application.Users
             _roles = await Security.GetRoles();
         }
 
-        private async Task FormSubmit(ERP.Server.Models.ApplicationUser user)
+        private async Task FormSubmit(TripBUK.Server.Models.ApplicationUser user)
         {
             try
             {

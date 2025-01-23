@@ -6,9 +6,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Authorization;
 
-using ERP.Server.Models;
+using TripBUK.Server.Models;
 
-namespace ERP.Client
+namespace TripBUK.Client
 {
     public class ApplicationAuthenticationStateProvider : AuthenticationStateProvider
     {
@@ -30,7 +30,7 @@ namespace ERP.Client
 
                 if (state.IsAuthenticated)
                 {
-                    identity = new ClaimsIdentity(state.Claims.Select(c => new Claim(c.Type, c.Value)), "ERP.Server");
+                    identity = new ClaimsIdentity(state.Claims.Select(c => new Claim(c.Type, c.Value)), "TripBUK.Server");
                 }
             }
             catch (HttpRequestException ex)

@@ -1,6 +1,6 @@
 {
-  "name": "ERP",
-  "short_name": "ERP",
+  "name": "TripBUK",
+  "short_name": "TripBUK",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",

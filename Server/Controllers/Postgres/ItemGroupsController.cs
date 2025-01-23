@@ -14,14 +14,14 @@ using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace ERP.Server.Controllers.Postgres
+namespace TripBUK.Server.Controllers.Postgres
 {
     [Route("odata/Postgres/ItemGroups")]
     public partial class ItemGroupsController : ODataController
     {
-        private ERP.Server.Data.PostgresContext context;
+        private TripBUK.Server.Data.PostgresContext context;
 
-        public ItemGroupsController(ERP.Server.Data.PostgresContext context)
+        public ItemGroupsController(TripBUK.Server.Data.PostgresContext context)
         {
             this.context = context;
         }
@@ -29,21 +29,21 @@ namespace ERP.Server.Controllers.Postgres
     
         [HttpGet]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IEnumerable<ERP.Server.Models.Postgres.ItemGroup> GetItemGroups()
+        public IEnumerable<TripBUK.Server.Models.Postgres.ItemGroup> GetItemGroups()
         {
-            var items = this.context.ItemGroups.AsQueryable<ERP.Server.Models.Postgres.ItemGroup>();
+            var items = this.context.ItemGroups.AsQueryable<TripBUK.Server.Models.Postgres.ItemGroup>();
             this.OnItemGroupsRead(ref items);
 
             return items;
         }
 
-        partial void OnItemGroupsRead(ref IQueryable<ERP.Server.Models.Postgres.ItemGroup> items);
+        partial void OnItemGroupsRead(ref IQueryable<TripBUK.Server.Models.Postgres.ItemGroup> items);
 
-        partial void OnItemGroupGet(ref SingleResult<ERP.Server.Models.Postgres.ItemGroup> item);
+        partial void OnItemGroupGet(ref SingleResult<TripBUK.Server.Models.Postgres.ItemGroup> item);
 
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
         [HttpGet("/odata/Postgres/ItemGroups(Id={Id})")]
-        public SingleResult<ERP.Server.Models.Postgres.ItemGroup> GetItemGroup(int key)
+        public SingleResult<TripBUK.Server.Models.Postgres.ItemGroup> GetItemGroup(int key)
         {
             var items = this.context.ItemGroups.Where(i => i.Id == key);
             var result = SingleResult.Create(items);
@@ -52,8 +52,8 @@ namespace ERP.Server.Controllers.Postgres
 
             return result;
         }
-        partial void OnItemGroupDeleted(ERP.Server.Models.Postgres.ItemGroup item);
-        partial void OnAfterItemGroupDeleted(ERP.Server.Models.Postgres.ItemGroup item);
+        partial void OnItemGroupDeleted(TripBUK.Server.Models.Postgres.ItemGroup item);
+        partial void OnAfterItemGroupDeleted(TripBUK.Server.Models.Postgres.ItemGroup item);
 
         [HttpDelete("/odata/Postgres/ItemGroups(Id={Id})")]
         public IActionResult DeleteItemGroup(int key)
@@ -72,7 +72,7 @@ namespace ERP.Server.Controllers.Postgres
                     .Include(i => i.Items)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.ItemGroup>(Request, items);
+                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.ItemGroup>(Request, items);
 
                 var item = items.FirstOrDefault();
 
@@ -95,12 +95,12 @@ namespace ERP.Server.Controllers.Postgres
             }
         }
 
-        partial void OnItemGroupUpdated(ERP.Server.Models.Postgres.ItemGroup item);
-        partial void OnAfterItemGroupUpdated(ERP.Server.Models.Postgres.ItemGroup item);
+        partial void OnItemGroupUpdated(TripBUK.Server.Models.Postgres.ItemGroup item);
+        partial void OnAfterItemGroupUpdated(TripBUK.Server.Models.Postgres.ItemGroup item);
 
         [HttpPut("/odata/Postgres/ItemGroups(Id={Id})")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PutItemGroup(int key, [FromBody]ERP.Server.Models.Postgres.ItemGroup item)
+        public IActionResult PutItemGroup(int key, [FromBody]TripBUK.Server.Models.Postgres.ItemGroup item)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace ERP.Server.Controllers.Postgres
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.ItemGroup>(Request, items);
+                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.ItemGroup>(Request, items);
 
                 var firstItem = items.FirstOrDefault();
 
@@ -139,7 +139,7 @@ namespace ERP.Server.Controllers.Postgres
 
         [HttpPatch("/odata/Postgres/ItemGroups(Id={Id})")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PatchItemGroup(int key, [FromBody]Delta<ERP.Server.Models.Postgres.ItemGroup> patch)
+        public IActionResult PatchItemGroup(int key, [FromBody]Delta<TripBUK.Server.Models.Postgres.ItemGroup> patch)
         {
             try
             {
@@ -152,7 +152,7 @@ namespace ERP.Server.Controllers.Postgres
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.ItemGroup>(Request, items);
+                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.ItemGroup>(Request, items);
 
                 var item = items.FirstOrDefault();
 
@@ -178,12 +178,12 @@ namespace ERP.Server.Controllers.Postgres
             }
         }
 
-        partial void OnItemGroupCreated(ERP.Server.Models.Postgres.ItemGroup item);
-        partial void OnAfterItemGroupCreated(ERP.Server.Models.Postgres.ItemGroup item);
+        partial void OnItemGroupCreated(TripBUK.Server.Models.Postgres.ItemGroup item);
+        partial void OnAfterItemGroupCreated(TripBUK.Server.Models.Postgres.ItemGroup item);
 
         [HttpPost]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult Post([FromBody] ERP.Server.Models.Postgres.ItemGroup item)
+        public IActionResult Post([FromBody] TripBUK.Server.Models.Postgres.ItemGroup item)
         {
             try
             {

@@ -3,7 +3,7 @@ using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
 using Radzen;
 
-namespace ERP.Client.Components
+namespace TripBUK.Client.Components
 {
     public partial class CulturePicker
     {

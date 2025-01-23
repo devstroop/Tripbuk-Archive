@@ -1,4 +1,4 @@
-namespace ERP.Server.Extensions;
+namespace TripBUK.Server.Extensions;
 
 public static class StringExtensions
 {

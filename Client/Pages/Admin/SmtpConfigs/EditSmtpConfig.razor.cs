@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Admin.SmtpConfigs
+namespace TripBUK.Client.Pages.Admin.SmtpConfigs
 {
     public partial class EditSmtpConfig
     {
@@ -45,7 +45,7 @@ namespace ERP.Client.Pages.Admin.SmtpConfigs
             smtpConfig = await PostgresService.GetSmtpConfigById(id:Id);
         }
         protected bool errorVisible;
-        protected ERP.Server.Models.Postgres.SmtpConfig smtpConfig;
+        protected TripBUK.Server.Models.Postgres.SmtpConfig smtpConfig;
 
         protected async Task FormSubmit()
         {

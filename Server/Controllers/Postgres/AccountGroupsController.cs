@@ -14,14 +14,14 @@ using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace ERP.Server.Controllers.Postgres
+namespace TripBUK.Server.Controllers.Postgres
 {
     [Route("odata/Postgres/AccountGroups")]
     public partial class AccountGroupsController : ODataController
     {
-        private ERP.Server.Data.PostgresContext context;
+        private TripBUK.Server.Data.PostgresContext context;
 
-        public AccountGroupsController(ERP.Server.Data.PostgresContext context)
+        public AccountGroupsController(TripBUK.Server.Data.PostgresContext context)
         {
             this.context = context;
         }
@@ -29,21 +29,21 @@ namespace ERP.Server.Controllers.Postgres
     
         [HttpGet]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IEnumerable<ERP.Server.Models.Postgres.AccountGroup> GetAccountGroups()
+        public IEnumerable<TripBUK.Server.Models.Postgres.AccountGroup> GetAccountGroups()
         {
-            var items = this.context.AccountGroups.AsQueryable<ERP.Server.Models.Postgres.AccountGroup>();
+            var items = this.context.AccountGroups.AsQueryable<TripBUK.Server.Models.Postgres.AccountGroup>();
             this.OnAccountGroupsRead(ref items);
 
             return items;
         }
 
-        partial void OnAccountGroupsRead(ref IQueryable<ERP.Server.Models.Postgres.AccountGroup> items);
+        partial void OnAccountGroupsRead(ref IQueryable<TripBUK.Server.Models.Postgres.AccountGroup> items);
 
-        partial void OnAccountGroupGet(ref SingleResult<ERP.Server.Models.Postgres.AccountGroup> item);
+        partial void OnAccountGroupGet(ref SingleResult<TripBUK.Server.Models.Postgres.AccountGroup> item);
 
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
         [HttpGet("/odata/Postgres/AccountGroups(Id={Id})")]
-        public SingleResult<ERP.Server.Models.Postgres.AccountGroup> GetAccountGroup(int key)
+        public SingleResult<TripBUK.Server.Models.Postgres.AccountGroup> GetAccountGroup(int key)
         {
             var items = this.context.AccountGroups.Where(i => i.Id == key);
             var result = SingleResult.Create(items);
@@ -52,8 +52,8 @@ namespace ERP.Server.Controllers.Postgres
 
             return result;
         }
-        partial void OnAccountGroupDeleted(ERP.Server.Models.Postgres.AccountGroup item);
-        partial void OnAfterAccountGroupDeleted(ERP.Server.Models.Postgres.AccountGroup item);
+        partial void OnAccountGroupDeleted(TripBUK.Server.Models.Postgres.AccountGroup item);
+        partial void OnAfterAccountGroupDeleted(TripBUK.Server.Models.Postgres.AccountGroup item);
 
         [HttpDelete("/odata/Postgres/AccountGroups(Id={Id})")]
         public IActionResult DeleteAccountGroup(int key)
@@ -72,7 +72,7 @@ namespace ERP.Server.Controllers.Postgres
                     .Include(i => i.Accounts)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.AccountGroup>(Request, items);
+                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.AccountGroup>(Request, items);
 
                 var item = items.FirstOrDefault();
 
@@ -95,12 +95,12 @@ namespace ERP.Server.Controllers.Postgres
             }
         }
 
-        partial void OnAccountGroupUpdated(ERP.Server.Models.Postgres.AccountGroup item);
-        partial void OnAfterAccountGroupUpdated(ERP.Server.Models.Postgres.AccountGroup item);
+        partial void OnAccountGroupUpdated(TripBUK.Server.Models.Postgres.AccountGroup item);
+        partial void OnAfterAccountGroupUpdated(TripBUK.Server.Models.Postgres.AccountGroup item);
 
         [HttpPut("/odata/Postgres/AccountGroups(Id={Id})")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PutAccountGroup(int key, [FromBody]ERP.Server.Models.Postgres.AccountGroup item)
+        public IActionResult PutAccountGroup(int key, [FromBody]TripBUK.Server.Models.Postgres.AccountGroup item)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace ERP.Server.Controllers.Postgres
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.AccountGroup>(Request, items);
+                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.AccountGroup>(Request, items);
 
                 var firstItem = items.FirstOrDefault();
 
@@ -139,7 +139,7 @@ namespace ERP.Server.Controllers.Postgres
 
         [HttpPatch("/odata/Postgres/AccountGroups(Id={Id})")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PatchAccountGroup(int key, [FromBody]Delta<ERP.Server.Models.Postgres.AccountGroup> patch)
+        public IActionResult PatchAccountGroup(int key, [FromBody]Delta<TripBUK.Server.Models.Postgres.AccountGroup> patch)
         {
             try
             {
@@ -152,7 +152,7 @@ namespace ERP.Server.Controllers.Postgres
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.AccountGroup>(Request, items);
+                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.AccountGroup>(Request, items);
 
                 var item = items.FirstOrDefault();
 
@@ -178,12 +178,12 @@ namespace ERP.Server.Controllers.Postgres
             }
         }
 
-        partial void OnAccountGroupCreated(ERP.Server.Models.Postgres.AccountGroup item);
-        partial void OnAfterAccountGroupCreated(ERP.Server.Models.Postgres.AccountGroup item);
+        partial void OnAccountGroupCreated(TripBUK.Server.Models.Postgres.AccountGroup item);
+        partial void OnAfterAccountGroupCreated(TripBUK.Server.Models.Postgres.AccountGroup item);
 
         [HttpPost]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult Post([FromBody] ERP.Server.Models.Postgres.AccountGroup item)
+        public IActionResult Post([FromBody] TripBUK.Server.Models.Postgres.AccountGroup item)
         {
             try
             {

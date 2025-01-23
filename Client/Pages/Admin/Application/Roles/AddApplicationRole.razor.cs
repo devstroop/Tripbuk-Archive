@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Admin.Application.Roles
+namespace TripBUK.Client.Pages.Admin.Application.Roles
 {
     public partial class AddApplicationRole
     {
@@ -30,7 +30,7 @@ namespace ERP.Client.Pages.Admin.Application.Roles
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        protected ERP.Server.Models.ApplicationRole role;
+        protected TripBUK.Server.Models.ApplicationRole role;
         protected string error;
         protected bool errorVisible;
 
@@ -39,10 +39,10 @@ namespace ERP.Client.Pages.Admin.Application.Roles
 
         protected override async Task OnInitializedAsync()
         {
-            role = new ERP.Server.Models.ApplicationRole();
+            role = new TripBUK.Server.Models.ApplicationRole();
         }
 
-        protected async Task FormSubmit(ERP.Server.Models.ApplicationRole role)
+        protected async Task FormSubmit(TripBUK.Server.Models.ApplicationRole role)
         {
             try
             {

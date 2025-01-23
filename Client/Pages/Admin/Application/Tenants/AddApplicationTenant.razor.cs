@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Admin.Application.Tenants
+namespace TripBUK.Client.Pages.Admin.Application.Tenants
 {
     public partial class AddApplicationTenant
     {
@@ -30,7 +30,7 @@ namespace ERP.Client.Pages.Admin.Application.Tenants
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        protected ERP.Server.Models.ApplicationTenant tenant;
+        protected TripBUK.Server.Models.ApplicationTenant tenant;
         protected string error;
         protected bool errorVisible;
 
@@ -39,10 +39,10 @@ namespace ERP.Client.Pages.Admin.Application.Tenants
 
         protected override async Task OnInitializedAsync()
         {
-            tenant = new ERP.Server.Models.ApplicationTenant();
+            tenant = new TripBUK.Server.Models.ApplicationTenant();
         }
 
-        protected async Task FormSubmit(ERP.Server.Models.ApplicationTenant tenant)
+        protected async Task FormSubmit(TripBUK.Server.Models.ApplicationTenant tenant)
         {
             try
             {

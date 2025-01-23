@@ -11,7 +11,7 @@ using Microsoft.JSInterop;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Company
+namespace TripBUK.Client.Pages.Company
 {
     public partial class Dashboard
     {

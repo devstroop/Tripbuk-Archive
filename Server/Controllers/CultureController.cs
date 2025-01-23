@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ERP.Server.Controllers
+namespace TripBUK.Server.Controllers
 {
     [Route("Culture/[action]")]
     public partial class CultureController : Controller

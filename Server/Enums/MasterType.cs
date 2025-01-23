@@ -1,4 +1,4 @@
-﻿namespace ERP.Server.Enums;
+﻿namespace TripBUK.Server.Enums;
 
 /// <summary>
 /// Master type

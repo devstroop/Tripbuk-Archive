@@ -10,9 +10,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using ERP.Server.Models;
+using TripBUK.Server.Models;
 
-namespace ERP.Server.Controllers
+namespace TripBUK.Server.Controllers
 {
     [Route("Account/[action]")]
     public partial class AccountController : Controller
@@ -109,7 +109,7 @@ namespace ERP.Server.Controllers
                     var code = await _userManager.GenerateTwoFactorTokenAsync(user, "Email");
 
                     var text = $@"Hi, <br /> <br />
-We received your request for a single-use code to use with your ERP account. <br /> <br />
+We received your request for a single-use code to use with your TripBUK account. <br /> <br />
 Your single-use code is: {code} <br /> <br />
 If you didn't request this code, you can safely ignore this email. Someone else might have typed your email address by mistake.";
 
@@ -223,7 +223,7 @@ If you didn't request this code, you can safely ignore this email. Someone else 
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code }, protocol: Request.Scheme);
 
                     var text = $@"Hi, <br /> <br />
-We received your registration request for ERP. <br /> <br />
+We received your registration request for TripBUK. <br /> <br />
 To confirm your registration please click the following link: <a href=""{callbackUrl}"">confirm your registration</a> <br /> <br />
 If you didn't request this registration, you can safely ignore this email. Someone else might have typed your email address by mistake.";                    
 

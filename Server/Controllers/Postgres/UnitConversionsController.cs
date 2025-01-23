@@ -14,14 +14,14 @@ using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace ERP.Server.Controllers.Postgres
+namespace TripBUK.Server.Controllers.Postgres
 {
     [Route("odata/Postgres/UnitConversions")]
     public partial class UnitConversionsController : ODataController
     {
-        private ERP.Server.Data.PostgresContext context;
+        private TripBUK.Server.Data.PostgresContext context;
 
-        public UnitConversionsController(ERP.Server.Data.PostgresContext context)
+        public UnitConversionsController(TripBUK.Server.Data.PostgresContext context)
         {
             this.context = context;
         }
@@ -29,21 +29,21 @@ namespace ERP.Server.Controllers.Postgres
     
         [HttpGet]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IEnumerable<ERP.Server.Models.Postgres.UnitConversion> GetUnitConversions()
+        public IEnumerable<TripBUK.Server.Models.Postgres.UnitConversion> GetUnitConversions()
         {
-            var items = this.context.UnitConversions.AsQueryable<ERP.Server.Models.Postgres.UnitConversion>();
+            var items = this.context.UnitConversions.AsQueryable<TripBUK.Server.Models.Postgres.UnitConversion>();
             this.OnUnitConversionsRead(ref items);
 
             return items;
         }
 
-        partial void OnUnitConversionsRead(ref IQueryable<ERP.Server.Models.Postgres.UnitConversion> items);
+        partial void OnUnitConversionsRead(ref IQueryable<TripBUK.Server.Models.Postgres.UnitConversion> items);
 
-        partial void OnUnitConversionGet(ref SingleResult<ERP.Server.Models.Postgres.UnitConversion> item);
+        partial void OnUnitConversionGet(ref SingleResult<TripBUK.Server.Models.Postgres.UnitConversion> item);
 
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
         [HttpGet("/odata/Postgres/UnitConversions(Id={Id})")]
-        public SingleResult<ERP.Server.Models.Postgres.UnitConversion> GetUnitConversion(int key)
+        public SingleResult<TripBUK.Server.Models.Postgres.UnitConversion> GetUnitConversion(int key)
         {
             var items = this.context.UnitConversions.Where(i => i.Id == key);
             var result = SingleResult.Create(items);
@@ -52,8 +52,8 @@ namespace ERP.Server.Controllers.Postgres
 
             return result;
         }
-        partial void OnUnitConversionDeleted(ERP.Server.Models.Postgres.UnitConversion item);
-        partial void OnAfterUnitConversionDeleted(ERP.Server.Models.Postgres.UnitConversion item);
+        partial void OnUnitConversionDeleted(TripBUK.Server.Models.Postgres.UnitConversion item);
+        partial void OnAfterUnitConversionDeleted(TripBUK.Server.Models.Postgres.UnitConversion item);
 
         [HttpDelete("/odata/Postgres/UnitConversions(Id={Id})")]
         public IActionResult DeleteUnitConversion(int key)
@@ -70,7 +70,7 @@ namespace ERP.Server.Controllers.Postgres
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.UnitConversion>(Request, items);
+                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.UnitConversion>(Request, items);
 
                 var item = items.FirstOrDefault();
 
@@ -93,12 +93,12 @@ namespace ERP.Server.Controllers.Postgres
             }
         }
 
-        partial void OnUnitConversionUpdated(ERP.Server.Models.Postgres.UnitConversion item);
-        partial void OnAfterUnitConversionUpdated(ERP.Server.Models.Postgres.UnitConversion item);
+        partial void OnUnitConversionUpdated(TripBUK.Server.Models.Postgres.UnitConversion item);
+        partial void OnAfterUnitConversionUpdated(TripBUK.Server.Models.Postgres.UnitConversion item);
 
         [HttpPut("/odata/Postgres/UnitConversions(Id={Id})")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PutUnitConversion(int key, [FromBody]ERP.Server.Models.Postgres.UnitConversion item)
+        public IActionResult PutUnitConversion(int key, [FromBody]TripBUK.Server.Models.Postgres.UnitConversion item)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace ERP.Server.Controllers.Postgres
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.UnitConversion>(Request, items);
+                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.UnitConversion>(Request, items);
 
                 var firstItem = items.FirstOrDefault();
 
@@ -137,7 +137,7 @@ namespace ERP.Server.Controllers.Postgres
 
         [HttpPatch("/odata/Postgres/UnitConversions(Id={Id})")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PatchUnitConversion(int key, [FromBody]Delta<ERP.Server.Models.Postgres.UnitConversion> patch)
+        public IActionResult PatchUnitConversion(int key, [FromBody]Delta<TripBUK.Server.Models.Postgres.UnitConversion> patch)
         {
             try
             {
@@ -150,7 +150,7 @@ namespace ERP.Server.Controllers.Postgres
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.UnitConversion>(Request, items);
+                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.UnitConversion>(Request, items);
 
                 var item = items.FirstOrDefault();
 
@@ -176,12 +176,12 @@ namespace ERP.Server.Controllers.Postgres
             }
         }
 
-        partial void OnUnitConversionCreated(ERP.Server.Models.Postgres.UnitConversion item);
-        partial void OnAfterUnitConversionCreated(ERP.Server.Models.Postgres.UnitConversion item);
+        partial void OnUnitConversionCreated(TripBUK.Server.Models.Postgres.UnitConversion item);
+        partial void OnAfterUnitConversionCreated(TripBUK.Server.Models.Postgres.UnitConversion item);
 
         [HttpPost]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult Post([FromBody] ERP.Server.Models.Postgres.UnitConversion item)
+        public IActionResult Post([FromBody] TripBUK.Server.Models.Postgres.UnitConversion item)
         {
             try
             {

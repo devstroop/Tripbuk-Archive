@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace ERP.Client.Pages;
+namespace TripBUK.Client.Pages;
 
 public partial class Index
 {

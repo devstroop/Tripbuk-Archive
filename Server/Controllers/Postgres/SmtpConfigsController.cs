@@ -14,14 +14,14 @@ using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace ERP.Server.Controllers.Postgres
+namespace TripBUK.Server.Controllers.Postgres
 {
     [Route("odata/Postgres/SmtpConfigs")]
     public partial class SmtpConfigsController : ODataController
     {
-        private ERP.Server.Data.PostgresContext context;
+        private TripBUK.Server.Data.PostgresContext context;
 
-        public SmtpConfigsController(ERP.Server.Data.PostgresContext context)
+        public SmtpConfigsController(TripBUK.Server.Data.PostgresContext context)
         {
             this.context = context;
         }
@@ -29,21 +29,21 @@ namespace ERP.Server.Controllers.Postgres
     
         [HttpGet]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IEnumerable<ERP.Server.Models.Postgres.SmtpConfig> GetSmtpConfigs()
+        public IEnumerable<TripBUK.Server.Models.Postgres.SmtpConfig> GetSmtpConfigs()
         {
-            var items = this.context.SmtpConfigs.AsQueryable<ERP.Server.Models.Postgres.SmtpConfig>();
+            var items = this.context.SmtpConfigs.AsQueryable<TripBUK.Server.Models.Postgres.SmtpConfig>();
             this.OnSmtpConfigsRead(ref items);
 
             return items;
         }
 
-        partial void OnSmtpConfigsRead(ref IQueryable<ERP.Server.Models.Postgres.SmtpConfig> items);
+        partial void OnSmtpConfigsRead(ref IQueryable<TripBUK.Server.Models.Postgres.SmtpConfig> items);
 
-        partial void OnSmtpConfigGet(ref SingleResult<ERP.Server.Models.Postgres.SmtpConfig> item);
+        partial void OnSmtpConfigGet(ref SingleResult<TripBUK.Server.Models.Postgres.SmtpConfig> item);
 
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
         [HttpGet("/odata/Postgres/SmtpConfigs(Id={Id})")]
-        public SingleResult<ERP.Server.Models.Postgres.SmtpConfig> GetSmtpConfig(Guid key)
+        public SingleResult<TripBUK.Server.Models.Postgres.SmtpConfig> GetSmtpConfig(Guid key)
         {
             var items = this.context.SmtpConfigs.Where(i => i.Id == key);
             var result = SingleResult.Create(items);
@@ -52,8 +52,8 @@ namespace ERP.Server.Controllers.Postgres
 
             return result;
         }
-        partial void OnSmtpConfigDeleted(ERP.Server.Models.Postgres.SmtpConfig item);
-        partial void OnAfterSmtpConfigDeleted(ERP.Server.Models.Postgres.SmtpConfig item);
+        partial void OnSmtpConfigDeleted(TripBUK.Server.Models.Postgres.SmtpConfig item);
+        partial void OnAfterSmtpConfigDeleted(TripBUK.Server.Models.Postgres.SmtpConfig item);
 
         [HttpDelete("/odata/Postgres/SmtpConfigs(Id={Id})")]
         public IActionResult DeleteSmtpConfig(Guid key)
@@ -70,7 +70,7 @@ namespace ERP.Server.Controllers.Postgres
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.SmtpConfig>(Request, items);
+                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.SmtpConfig>(Request, items);
 
                 var item = items.FirstOrDefault();
 
@@ -93,12 +93,12 @@ namespace ERP.Server.Controllers.Postgres
             }
         }
 
-        partial void OnSmtpConfigUpdated(ERP.Server.Models.Postgres.SmtpConfig item);
-        partial void OnAfterSmtpConfigUpdated(ERP.Server.Models.Postgres.SmtpConfig item);
+        partial void OnSmtpConfigUpdated(TripBUK.Server.Models.Postgres.SmtpConfig item);
+        partial void OnAfterSmtpConfigUpdated(TripBUK.Server.Models.Postgres.SmtpConfig item);
 
         [HttpPut("/odata/Postgres/SmtpConfigs(Id={Id})")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PutSmtpConfig(Guid key, [FromBody]ERP.Server.Models.Postgres.SmtpConfig item)
+        public IActionResult PutSmtpConfig(Guid key, [FromBody]TripBUK.Server.Models.Postgres.SmtpConfig item)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace ERP.Server.Controllers.Postgres
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.SmtpConfig>(Request, items);
+                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.SmtpConfig>(Request, items);
 
                 var firstItem = items.FirstOrDefault();
 
@@ -137,7 +137,7 @@ namespace ERP.Server.Controllers.Postgres
 
         [HttpPatch("/odata/Postgres/SmtpConfigs(Id={Id})")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PatchSmtpConfig(Guid key, [FromBody]Delta<ERP.Server.Models.Postgres.SmtpConfig> patch)
+        public IActionResult PatchSmtpConfig(Guid key, [FromBody]Delta<TripBUK.Server.Models.Postgres.SmtpConfig> patch)
         {
             try
             {
@@ -150,7 +150,7 @@ namespace ERP.Server.Controllers.Postgres
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.SmtpConfig>(Request, items);
+                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.SmtpConfig>(Request, items);
 
                 var item = items.FirstOrDefault();
 
@@ -176,12 +176,12 @@ namespace ERP.Server.Controllers.Postgres
             }
         }
 
-        partial void OnSmtpConfigCreated(ERP.Server.Models.Postgres.SmtpConfig item);
-        partial void OnAfterSmtpConfigCreated(ERP.Server.Models.Postgres.SmtpConfig item);
+        partial void OnSmtpConfigCreated(TripBUK.Server.Models.Postgres.SmtpConfig item);
+        partial void OnAfterSmtpConfigCreated(TripBUK.Server.Models.Postgres.SmtpConfig item);
 
         [HttpPost]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult Post([FromBody] ERP.Server.Models.Postgres.SmtpConfig item)
+        public IActionResult Post([FromBody] TripBUK.Server.Models.Postgres.SmtpConfig item)
         {
             try
             {

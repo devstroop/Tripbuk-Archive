@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace ERP.Server.Models.Postgres
+namespace TripBUK.Server.Models.Postgres
 {
     [Table("Accounts", Schema = "public")]
     public partial class Account

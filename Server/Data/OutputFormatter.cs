@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OData.Query.Wrapper;
 
 
-namespace ERP.Server.Data
+namespace TripBUK.Server.Data
 {
     public static class OutputFormatter
     {

@@ -19,7 +19,7 @@ using Microsoft.AspNetCore.OData.Abstracts;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.OData.Extensions;
 
-namespace ERP.Server.Data
+namespace TripBUK.Server.Data
 {
     public static class EntityPatch
     {

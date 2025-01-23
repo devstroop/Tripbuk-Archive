@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Auth
+namespace TripBUK.Client.Pages.Auth
 {
     public partial class Register
     {
@@ -30,7 +30,7 @@ namespace ERP.Client.Pages.Auth
         [Inject]
         protected NotificationService NotificationService { get; set; }
 
-        protected ERP.Server.Models.ApplicationUser user;
+        protected TripBUK.Server.Models.ApplicationUser user;
         protected bool isBusy;
         protected bool errorVisible;
         protected string error;
@@ -40,7 +40,7 @@ namespace ERP.Client.Pages.Auth
 
         protected override async Task OnInitializedAsync()
         {
-            user = new ERP.Server.Models.ApplicationUser();
+            user = new TripBUK.Server.Models.ApplicationUser();
         }
 
         protected async Task FormSubmit()

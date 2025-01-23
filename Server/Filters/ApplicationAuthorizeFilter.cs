@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace ERP.Server.Filters
+namespace TripBUK.Server.Filters
 {
     public class ApplicationAuthorizeFilter : AuthorizeFilter
     {

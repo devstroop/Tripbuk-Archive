@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Auth
+namespace TripBUK.Client.Pages.Auth
 {
     public partial class SecurityCode
     {

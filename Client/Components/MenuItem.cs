@@ -1,4 +1,4 @@
-namespace ERP.Client.Components;
+namespace TripBUK.Client.Components;
 
 public class MenuItem
 {

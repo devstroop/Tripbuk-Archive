@@ -21,7 +21,7 @@
 
     <RadzenColumn SizeMD=12>
         <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger" Visible="@errorVisible">Cannot save SmtpConfig</RadzenAlert>
-        <RadzenTemplateForm TItem="ERP.Server.Models.Postgres.SmtpConfig" Data="@smtpConfig" Visible="@(smtpConfig != null && canEdit)" Submit="@FormSubmit">
+        <RadzenTemplateForm TItem="TripBUK.Server.Models.Postgres.SmtpConfig" Data="@smtpConfig" Visible="@(smtpConfig != null && canEdit)" Submit="@FormSubmit">
             <RadzenRow style="margin-bottom: 1rem">
                 <RadzenColumn SizeMD="3">
                     <RadzenLabel Text="Host" Component="Host" style="width: 100%" />

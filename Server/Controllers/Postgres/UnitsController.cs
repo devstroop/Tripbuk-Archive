@@ -14,14 +14,14 @@ using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace ERP.Server.Controllers.Postgres
+namespace TripBUK.Server.Controllers.Postgres
 {
     [Route("odata/Postgres/Units")]
     public partial class UnitsController : ODataController
     {
-        private ERP.Server.Data.PostgresContext context;
+        private TripBUK.Server.Data.PostgresContext context;
 
-        public UnitsController(ERP.Server.Data.PostgresContext context)
+        public UnitsController(TripBUK.Server.Data.PostgresContext context)
         {
             this.context = context;
         }
@@ -29,21 +29,21 @@ namespace ERP.Server.Controllers.Postgres
     
         [HttpGet]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IEnumerable<ERP.Server.Models.Postgres.Unit> GetUnits()
+        public IEnumerable<TripBUK.Server.Models.Postgres.Unit> GetUnits()
         {
-            var items = this.context.Units.AsQueryable<ERP.Server.Models.Postgres.Unit>();
+            var items = this.context.Units.AsQueryable<TripBUK.Server.Models.Postgres.Unit>();
             this.OnUnitsRead(ref items);
 
             return items;
         }
 
-        partial void OnUnitsRead(ref IQueryable<ERP.Server.Models.Postgres.Unit> items);
+        partial void OnUnitsRead(ref IQueryable<TripBUK.Server.Models.Postgres.Unit> items);
 
-        partial void OnUnitGet(ref SingleResult<ERP.Server.Models.Postgres.Unit> item);
+        partial void OnUnitGet(ref SingleResult<TripBUK.Server.Models.Postgres.Unit> item);
 
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
         [HttpGet("/odata/Postgres/Units(Id={Id})")]
-        public SingleResult<ERP.Server.Models.Postgres.Unit> GetUnit(int key)
+        public SingleResult<TripBUK.Server.Models.Postgres.Unit> GetUnit(int key)
         {
             var items = this.context.Units.Where(i => i.Id == key);
             var result = SingleResult.Create(items);
@@ -52,8 +52,8 @@ namespace ERP.Server.Controllers.Postgres
 
             return result;
         }
-        partial void OnUnitDeleted(ERP.Server.Models.Postgres.Unit item);
-        partial void OnAfterUnitDeleted(ERP.Server.Models.Postgres.Unit item);
+        partial void OnUnitDeleted(TripBUK.Server.Models.Postgres.Unit item);
+        partial void OnAfterUnitDeleted(TripBUK.Server.Models.Postgres.Unit item);
 
         [HttpDelete("/odata/Postgres/Units(Id={Id})")]
         public IActionResult DeleteUnit(int key)
@@ -72,7 +72,7 @@ namespace ERP.Server.Controllers.Postgres
                     .Include(i => i.UnitConversions1)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.Unit>(Request, items);
+                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.Unit>(Request, items);
 
                 var item = items.FirstOrDefault();
 
@@ -95,12 +95,12 @@ namespace ERP.Server.Controllers.Postgres
             }
         }
 
-        partial void OnUnitUpdated(ERP.Server.Models.Postgres.Unit item);
-        partial void OnAfterUnitUpdated(ERP.Server.Models.Postgres.Unit item);
+        partial void OnUnitUpdated(TripBUK.Server.Models.Postgres.Unit item);
+        partial void OnAfterUnitUpdated(TripBUK.Server.Models.Postgres.Unit item);
 
         [HttpPut("/odata/Postgres/Units(Id={Id})")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PutUnit(int key, [FromBody]ERP.Server.Models.Postgres.Unit item)
+        public IActionResult PutUnit(int key, [FromBody]TripBUK.Server.Models.Postgres.Unit item)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace ERP.Server.Controllers.Postgres
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.Unit>(Request, items);
+                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.Unit>(Request, items);
 
                 var firstItem = items.FirstOrDefault();
 
@@ -139,7 +139,7 @@ namespace ERP.Server.Controllers.Postgres
 
         [HttpPatch("/odata/Postgres/Units(Id={Id})")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PatchUnit(int key, [FromBody]Delta<ERP.Server.Models.Postgres.Unit> patch)
+        public IActionResult PatchUnit(int key, [FromBody]Delta<TripBUK.Server.Models.Postgres.Unit> patch)
         {
             try
             {
@@ -152,7 +152,7 @@ namespace ERP.Server.Controllers.Postgres
                     .Where(i => i.Id == key)
                     .AsQueryable();
 
-                items = Data.EntityPatch.ApplyTo<ERP.Server.Models.Postgres.Unit>(Request, items);
+                items = Data.EntityPatch.ApplyTo<TripBUK.Server.Models.Postgres.Unit>(Request, items);
 
                 var item = items.FirstOrDefault();
 
@@ -178,12 +178,12 @@ namespace ERP.Server.Controllers.Postgres
             }
         }
 
-        partial void OnUnitCreated(ERP.Server.Models.Postgres.Unit item);
-        partial void OnAfterUnitCreated(ERP.Server.Models.Postgres.Unit item);
+        partial void OnUnitCreated(TripBUK.Server.Models.Postgres.Unit item);
+        partial void OnAfterUnitCreated(TripBUK.Server.Models.Postgres.Unit item);
 
         [HttpPost]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult Post([FromBody] ERP.Server.Models.Postgres.Unit item)
+        public IActionResult Post([FromBody] TripBUK.Server.Models.Postgres.Unit item)
         {
             try
             {

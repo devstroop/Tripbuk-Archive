@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 
-namespace ERP.Client.Pages.Admin.Masters.Units
+namespace TripBUK.Client.Pages.Admin.Masters.Units
 {
     public partial class EditUnit
     {
@@ -40,7 +40,7 @@ namespace ERP.Client.Pages.Admin.Masters.Units
             Unit = await PostgresService.GetUnitById(id:Id);
         }
         protected bool ErrorVisible;
-        protected ERP.Server.Models.Postgres.Unit Unit;
+        protected TripBUK.Server.Models.Postgres.Unit Unit;
 
         protected async Task FormSubmit()
         {

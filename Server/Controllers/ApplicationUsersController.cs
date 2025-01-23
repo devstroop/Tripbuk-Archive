@@ -12,10 +12,10 @@ using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Deltas;
 using System.ComponentModel.DataAnnotations.Schema;
 
-using ERP.Server.Data;
-using ERP.Server.Models;
+using TripBUK.Server.Data;
+using TripBUK.Server.Models;
 
-namespace ERP.Server.Controllers
+namespace TripBUK.Server.Controllers
 {
     [Authorize]
     [Route("odata/Identity/ApplicationUsers")]
