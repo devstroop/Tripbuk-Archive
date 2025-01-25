@@ -4,6 +4,10 @@
 
 <PageTitle>Destinations</PageTitle>
 <RadzenStack>
+    <RadzenBreadCrumb>
+        <RadzenBreadCrumbItem Text="Administration" />
+        <RadzenBreadCrumbItem Text="Destinations" Path="/administration/destinations" />
+    </RadzenBreadCrumb>
     <RadzenRow AlignItems="AlignItems.Center">
         <RadzenColumn Size="12" SizeMD="6">
             <RadzenText Text="Destinations" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
@@ -27,30 +31,30 @@
                   <NoRecordsFound Text="No destinations found!"></NoRecordsFound>
               </EmptyTemplate>
               <Columns>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Id" Title="Id">
+                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Id" Title="Id"> *@
+                  @* </RadzenDataGridColumn> *@
+                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Name" Title="Name" Frozen="true">
                   </RadzenDataGridColumn>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Name" Title="Name">
+                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Type" Title="Type" Frozen="true">
                   </RadzenDataGridColumn>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Type" Title="Type">
-                  </RadzenDataGridColumn>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Destination1.Name" Title="Destination1">
-                  </RadzenDataGridColumn>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="LookupId" Title="Lookup Id">
-                  </RadzenDataGridColumn>
+                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Destination1.Name" Title="Destination1"> *@
+                  @* </RadzenDataGridColumn> *@
+                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="LookupId" Title="Lookup Id"> *@
+                  @* </RadzenDataGridColumn> *@
                   <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="DestinationUrl" Title="Destination Url">
                   </RadzenDataGridColumn>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="DefaultCurrencyCode" Title="Default Currency Code">
+                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="DefaultCurrencyCode" Title="Currency Code (Default)">
                   </RadzenDataGridColumn>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="TimeZone" Title="Time Zone">
-                  </RadzenDataGridColumn>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Iatacodes" Title="Iatacodes">
-                  </RadzenDataGridColumn>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="CountryCallingCode" Title="Country Calling Code">
-                  </RadzenDataGridColumn>
+                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="TimeZone" Title="Time Zone"> *@
+                  @* </RadzenDataGridColumn> *@
+                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Iatacodes" Title="IATA Codes"> *@
+                  @* </RadzenDataGridColumn> *@
+                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="CountryCallingCode" Title="Country Calling Code"> *@
+                  @* </RadzenDataGridColumn> *@
                   <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Languages" Title="Languages">
                   </RadzenDataGridColumn>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Center" Title="Center">
-                  </RadzenDataGridColumn>
+                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Center" Title="Center"> *@
+                  @* </RadzenDataGridColumn> *@
                   <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
                       <Template Context="destination">
                           <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"

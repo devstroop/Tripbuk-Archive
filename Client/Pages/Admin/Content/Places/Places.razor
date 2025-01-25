@@ -4,6 +4,10 @@
 
 <PageTitle>Places</PageTitle>
 <RadzenStack>
+    <RadzenBreadCrumb>
+        <RadzenBreadCrumbItem Text="Administration" />
+        <RadzenBreadCrumbItem Text="Places" Path="/administration/places" />
+    </RadzenBreadCrumb>
     <RadzenRow AlignItems="AlignItems.Center">
         <RadzenColumn Size="12" SizeMD="6">
             <RadzenText Text="Places" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
@@ -27,28 +31,28 @@
                   <NoRecordsFound Text="No places found!"></NoRecordsFound>
               </EmptyTemplate>
               <Columns>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="Id" Title="Id">
+                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="Id" Title="Id"> *@
+                  @* </RadzenDataGridColumn> *@
+                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="Images" Title="Images">
                   </RadzenDataGridColumn>
                   <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="Name" Title="Name">
                   </RadzenDataGridColumn>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="Summary" Title="Summary">
-                  </RadzenDataGridColumn>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="Description" Title="Description">
-                  </RadzenDataGridColumn>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="Email" Title="Email">
-                  </RadzenDataGridColumn>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="Phone" Title="Phone">
-                  </RadzenDataGridColumn>
+                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="Summary" Title="Summary"> *@
+                  @* </RadzenDataGridColumn> *@
+                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="Description" Title="Description"> *@
+                  @* </RadzenDataGridColumn> *@
+                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="Email" Title="Email"> *@
+                  @* </RadzenDataGridColumn> *@
+                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="Phone" Title="Phone"> *@
+                  @* </RadzenDataGridColumn> *@
                   <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="Location" Title="Location">
                   </RadzenDataGridColumn>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="CreatedAt" Title="Created At">
-                  </RadzenDataGridColumn>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="UpdatedAt" Title="Updated At">
-                  </RadzenDataGridColumn>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="Center" Title="Center">
-                  </RadzenDataGridColumn>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="Images" Title="Images">
-                  </RadzenDataGridColumn>
+                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="CreatedAt" Title="Created At"> *@
+                  @* </RadzenDataGridColumn> *@
+                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="UpdatedAt" Title="Updated At"> *@
+                  @* </RadzenDataGridColumn> *@
+                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="Center" Title="Center"> *@
+                  @* </RadzenDataGridColumn> *@
                   <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Property="Destination.Name" Title="Destination">
                   </RadzenDataGridColumn>
                   <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Place" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
