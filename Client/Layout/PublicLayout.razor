@@ -59,7 +59,12 @@
                             </span>
                         </Template>
                     </RadzenProfileMenu>
-                    <RadzenButton Text="Login" Size="ButtonSize.Medium" Variant="Radzen.Variant.Flat" Style="background-color: var(--rz-on-base)"></RadzenButton>
+                    <RadzenButton Text="Login"
+                                  Click="@(() => NavigationManager.NavigateTo("/auth/login"))"
+                                  Size="ButtonSize.Medium" 
+                                  Variant="Radzen.Variant.Flat" 
+                                  Style="background-color: var(--rz-on-base)"
+                                  Visible="!Security.IsAuthenticated()"></RadzenButton>
                 </RadzenStack>
             </RadzenRow>
             <RadzenRow class="subheader">

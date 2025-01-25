@@ -21,7 +21,11 @@ namespace Tripbuk.Server.Models.Postgres
 
         public string Description { get; set; }
 
-        public string Contact { get; set; }
+        public List<string>? Images { get; set; }
+
+        public string Phone { get; set; }
+
+        public string Email { get; set; }
 
         public string Location { get; set; }
 
@@ -31,8 +35,8 @@ namespace Tripbuk.Server.Models.Postgres
 
         public string Center { get; set; }
 
-        public List<string>? Images { get; set; }
+        public int? DestinationId { get; set; }
 
-        public ICollection<PlaceTag> PlaceTags { get; set; }
+        public Destination Destination { get; set; }
     }
 }

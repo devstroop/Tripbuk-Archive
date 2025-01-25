@@ -31,192 +31,129 @@ namespace Tripbuk.Client
         }
 
 
-        public async System.Threading.Tasks.Task ExportTagsToExcel(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportDestinationsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/tags/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/tags/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/destinations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/destinations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async System.Threading.Tasks.Task ExportTagsToCSV(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportDestinationsToCSV(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/tags/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/tags/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/destinations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/destinations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnGetTags(HttpRequestMessage requestMessage);
+        partial void OnGetDestinations(HttpRequestMessage requestMessage);
 
-        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Tag>> GetTags(Query query)
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Destination>> GetDestinations(Query query)
         {
-            return await GetTags(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
+            return await GetDestinations(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
         }
 
-        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Tag>> GetTags(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Destination>> GetDestinations(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
-            var uri = new Uri(baseUri, $"Tags");
+            var uri = new Uri(baseUri, $"Destinations");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-            OnGetTags(httpRequestMessage);
+            OnGetDestinations(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Tag>>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Destination>>(response);
         }
 
-        partial void OnCreateTag(HttpRequestMessage requestMessage);
+        partial void OnCreateDestination(HttpRequestMessage requestMessage);
 
-        public async Task<Tripbuk.Server.Models.Postgres.Tag> CreateTag(Tripbuk.Server.Models.Postgres.Tag tag = default(Tripbuk.Server.Models.Postgres.Tag))
+        public async Task<Tripbuk.Server.Models.Postgres.Destination> CreateDestination(Tripbuk.Server.Models.Postgres.Destination destination = default(Tripbuk.Server.Models.Postgres.Destination))
         {
-            var uri = new Uri(baseUri, $"Tags");
+            var uri = new Uri(baseUri, $"Destinations");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
 
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(tag), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(destination), Encoding.UTF8, "application/json");
 
-            OnCreateTag(httpRequestMessage);
+            OnCreateDestination(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.Tag>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.Destination>(response);
         }
 
-        partial void OnDeleteTag(HttpRequestMessage requestMessage);
+        partial void OnDeleteDestination(HttpRequestMessage requestMessage);
 
-        public async Task<HttpResponseMessage> DeleteTag(int id = default(int))
+        public async Task<HttpResponseMessage> DeleteDestination(int id = default(int))
         {
-            var uri = new Uri(baseUri, $"Tags({id})");
+            var uri = new Uri(baseUri, $"Destinations({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
 
-            OnDeleteTag(httpRequestMessage);
+            OnDeleteDestination(httpRequestMessage);
 
             return await httpClient.SendAsync(httpRequestMessage);
         }
 
-        partial void OnGetTagById(HttpRequestMessage requestMessage);
+        partial void OnGetDestinationById(HttpRequestMessage requestMessage);
 
-        public async Task<Tripbuk.Server.Models.Postgres.Tag> GetTagById(string expand = default(string), int id = default(int))
+        public async Task<Tripbuk.Server.Models.Postgres.Destination> GetDestinationById(string expand = default(string), int id = default(int))
         {
-            var uri = new Uri(baseUri, $"Tags({id})");
+            var uri = new Uri(baseUri, $"Destinations({id})");
 
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-            OnGetTagById(httpRequestMessage);
+            OnGetDestinationById(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.Tag>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.Destination>(response);
         }
 
-        partial void OnUpdateTag(HttpRequestMessage requestMessage);
+        partial void OnUpdateDestination(HttpRequestMessage requestMessage);
         
-        public async Task<HttpResponseMessage> UpdateTag(int id = default(int), Tripbuk.Server.Models.Postgres.Tag tag = default(Tripbuk.Server.Models.Postgres.Tag))
+        public async Task<HttpResponseMessage> UpdateDestination(int id = default(int), Tripbuk.Server.Models.Postgres.Destination destination = default(Tripbuk.Server.Models.Postgres.Destination))
         {
-            var uri = new Uri(baseUri, $"Tags({id})");
+            var uri = new Uri(baseUri, $"Destinations({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
 
 
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(tag), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(destination), Encoding.UTF8, "application/json");
 
-            OnUpdateTag(httpRequestMessage);
+            OnUpdateDestination(httpRequestMessage);
 
             return await httpClient.SendAsync(httpRequestMessage);
         }
 
-        public async System.Threading.Tasks.Task ExportPlaceTagsToExcel(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportParentTagsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/placetags/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/placetags/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/parenttags/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/parenttags/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async System.Threading.Tasks.Task ExportPlaceTagsToCSV(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportParentTagsToCSV(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/placetags/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/placetags/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/parenttags/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/parenttags/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnGetPlaceTags(HttpRequestMessage requestMessage);
+        partial void OnGetParentTags(HttpRequestMessage requestMessage);
 
-        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.PlaceTag>> GetPlaceTags(Query query)
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.ParentTag>> GetParentTags(Query query)
         {
-            return await GetPlaceTags(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
+            return await GetParentTags(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
         }
 
-        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.PlaceTag>> GetPlaceTags(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.ParentTag>> GetParentTags(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
-            var uri = new Uri(baseUri, $"PlaceTags");
+            var uri = new Uri(baseUri, $"ParentTags");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-            OnGetPlaceTags(httpRequestMessage);
+            OnGetParentTags(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.PlaceTag>>(response);
-        }
-
-        partial void OnCreatePlaceTag(HttpRequestMessage requestMessage);
-
-        public async Task<Tripbuk.Server.Models.Postgres.PlaceTag> CreatePlaceTag(Tripbuk.Server.Models.Postgres.PlaceTag placeTag = default(Tripbuk.Server.Models.Postgres.PlaceTag))
-        {
-            var uri = new Uri(baseUri, $"PlaceTags");
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
-
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(placeTag), Encoding.UTF8, "application/json");
-
-            OnCreatePlaceTag(httpRequestMessage);
-
-            var response = await httpClient.SendAsync(httpRequestMessage);
-
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.PlaceTag>(response);
-        }
-
-        partial void OnDeletePlaceTag(HttpRequestMessage requestMessage);
-
-        public async Task<HttpResponseMessage> DeletePlaceTag(Guid placeId = default(Guid), int tagId = default(int))
-        {
-            var uri = new Uri(baseUri, $"PlaceTags(PlaceId={placeId},TagId={tagId})");
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
-
-            OnDeletePlaceTag(httpRequestMessage);
-
-            return await httpClient.SendAsync(httpRequestMessage);
-        }
-
-        partial void OnGetPlaceTagByPlaceIdAndTagId(HttpRequestMessage requestMessage);
-
-        public async Task<Tripbuk.Server.Models.Postgres.PlaceTag> GetPlaceTagByPlaceIdAndTagId(string expand = default(string), Guid placeId = default(Guid), int tagId = default(int))
-        {
-            var uri = new Uri(baseUri, $"PlaceTags(PlaceId={placeId},TagId={tagId})");
-
-            uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
-
-            OnGetPlaceTagByPlaceIdAndTagId(httpRequestMessage);
-
-            var response = await httpClient.SendAsync(httpRequestMessage);
-
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.PlaceTag>(response);
-        }
-
-        partial void OnUpdatePlaceTag(HttpRequestMessage requestMessage);
-        
-        public async Task<HttpResponseMessage> UpdatePlaceTag(Guid placeId = default(Guid), int tagId = default(int), Tripbuk.Server.Models.Postgres.PlaceTag placeTag = default(Tripbuk.Server.Models.Postgres.PlaceTag))
-        {
-            var uri = new Uri(baseUri, $"PlaceTags(PlaceId={placeId},TagId={tagId})");
-
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
-
-
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(placeTag), Encoding.UTF8, "application/json");
-
-            OnUpdatePlaceTag(httpRequestMessage);
-
-            return await httpClient.SendAsync(httpRequestMessage);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.ParentTag>>(response);
         }
 
         public async System.Threading.Tasks.Task ExportPlacesToExcel(Query query = null, string fileName = null)
@@ -313,96 +250,127 @@ namespace Tripbuk.Client
             return await httpClient.SendAsync(httpRequestMessage);
         }
 
-        public async System.Threading.Tasks.Task ExportDestinationsToExcel(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportPlaceTagsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/destinations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/destinations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/placetags/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/placetags/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async System.Threading.Tasks.Task ExportDestinationsToCSV(Query query = null, string fileName = null)
+        public async System.Threading.Tasks.Task ExportPlaceTagsToCSV(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/destinations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/destinations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/placetags/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/placetags/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnGetDestinations(HttpRequestMessage requestMessage);
+        partial void OnGetPlaceTags(HttpRequestMessage requestMessage);
 
-        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Destination>> GetDestinations(Query query)
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.PlaceTag>> GetPlaceTags(Query query)
         {
-            return await GetDestinations(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
+            return await GetPlaceTags(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
         }
 
-        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Destination>> GetDestinations(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.PlaceTag>> GetPlaceTags(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
         {
-            var uri = new Uri(baseUri, $"Destinations");
+            var uri = new Uri(baseUri, $"PlaceTags");
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-            OnGetDestinations(httpRequestMessage);
+            OnGetPlaceTags(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Destination>>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.PlaceTag>>(response);
         }
 
-        partial void OnCreateDestination(HttpRequestMessage requestMessage);
-
-        public async Task<Tripbuk.Server.Models.Postgres.Destination> CreateDestination(Tripbuk.Server.Models.Postgres.Destination destination = default(Tripbuk.Server.Models.Postgres.Destination))
+        public async System.Threading.Tasks.Task ExportTagsToExcel(Query query = null, string fileName = null)
         {
-            var uri = new Uri(baseUri, $"Destinations");
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/tags/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/tags/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        public async System.Threading.Tasks.Task ExportTagsToCSV(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/tags/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/tags/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        partial void OnGetTags(HttpRequestMessage requestMessage);
+
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Tag>> GetTags(Query query)
+        {
+            return await GetTags(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
+        }
+
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Tag>> GetTags(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        {
+            var uri = new Uri(baseUri, $"Tags");
+            uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+
+            OnGetTags(httpRequestMessage);
+
+            var response = await httpClient.SendAsync(httpRequestMessage);
+
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.Tag>>(response);
+        }
+
+        partial void OnCreateTag(HttpRequestMessage requestMessage);
+
+        public async Task<Tripbuk.Server.Models.Postgres.Tag> CreateTag(Tripbuk.Server.Models.Postgres.Tag tag = default(Tripbuk.Server.Models.Postgres.Tag))
+        {
+            var uri = new Uri(baseUri, $"Tags");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
 
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(destination), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(tag), Encoding.UTF8, "application/json");
 
-            OnCreateDestination(httpRequestMessage);
+            OnCreateTag(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.Destination>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.Tag>(response);
         }
 
-        partial void OnDeleteDestination(HttpRequestMessage requestMessage);
+        partial void OnDeleteTag(HttpRequestMessage requestMessage);
 
-        public async Task<HttpResponseMessage> DeleteDestination(int id = default(int))
+        public async Task<HttpResponseMessage> DeleteTag(int id = default(int))
         {
-            var uri = new Uri(baseUri, $"Destinations({id})");
+            var uri = new Uri(baseUri, $"Tags({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
 
-            OnDeleteDestination(httpRequestMessage);
+            OnDeleteTag(httpRequestMessage);
 
             return await httpClient.SendAsync(httpRequestMessage);
         }
 
-        partial void OnGetDestinationById(HttpRequestMessage requestMessage);
+        partial void OnGetTagById(HttpRequestMessage requestMessage);
 
-        public async Task<Tripbuk.Server.Models.Postgres.Destination> GetDestinationById(string expand = default(string), int id = default(int))
+        public async Task<Tripbuk.Server.Models.Postgres.Tag> GetTagById(string expand = default(string), int id = default(int))
         {
-            var uri = new Uri(baseUri, $"Destinations({id})");
+            var uri = new Uri(baseUri, $"Tags({id})");
 
             uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-            OnGetDestinationById(httpRequestMessage);
+            OnGetTagById(httpRequestMessage);
 
             var response = await httpClient.SendAsync(httpRequestMessage);
 
-            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.Destination>(response);
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.Tag>(response);
         }
 
-        partial void OnUpdateDestination(HttpRequestMessage requestMessage);
+        partial void OnUpdateTag(HttpRequestMessage requestMessage);
         
-        public async Task<HttpResponseMessage> UpdateDestination(int id = default(int), Tripbuk.Server.Models.Postgres.Destination destination = default(Tripbuk.Server.Models.Postgres.Destination))
+        public async Task<HttpResponseMessage> UpdateTag(int id = default(int), Tripbuk.Server.Models.Postgres.Tag tag = default(Tripbuk.Server.Models.Postgres.Tag))
         {
-            var uri = new Uri(baseUri, $"Destinations({id})");
+            var uri = new Uri(baseUri, $"Tags({id})");
 
             var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
 
 
-            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(destination), Encoding.UTF8, "application/json");
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(tag), Encoding.UTF8, "application/json");
 
-            OnUpdateDestination(httpRequestMessage);
+            OnUpdateTag(httpRequestMessage);
 
             return await httpClient.SendAsync(httpRequestMessage);
         }

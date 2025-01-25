@@ -112,7 +112,7 @@ namespace Tripbuk.Server.Controllers.Postgres
                 this.context.SaveChanges();
 
                 var itemToReturn = this.context.Places.Where(i => i.Id == key);
-                
+                Request.QueryString = Request.QueryString.Add("$expand", "Destination");
                 this.OnAfterPlaceUpdated(item);
                 return new ObjectResult(SingleResult.Create(itemToReturn));
             }
@@ -147,7 +147,7 @@ namespace Tripbuk.Server.Controllers.Postgres
                 this.context.SaveChanges();
 
                 var itemToReturn = this.context.Places.Where(i => i.Id == key);
-                
+                Request.QueryString = Request.QueryString.Add("$expand", "Destination");
                 this.OnAfterPlaceUpdated(item);
                 return new ObjectResult(SingleResult.Create(itemToReturn));
             }
@@ -183,7 +183,7 @@ namespace Tripbuk.Server.Controllers.Postgres
 
                 var itemToReturn = this.context.Places.Where(i => i.Id == item.Id);
 
-                
+                Request.QueryString = Request.QueryString.Add("$expand", "Destination");
 
                 this.OnAfterPlaceCreated(item);
 

@@ -22,21 +22,9 @@ namespace Tripbuk.Server.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Tripbuk.Server.Models.Postgres.PlaceTag>().HasKey(table => new {
-                table.PlaceId, table.TagId
-            });
+            builder.Entity<Tripbuk.Server.Models.Postgres.ParentTag>().HasNoKey();
 
-            builder.Entity<Tripbuk.Server.Models.Postgres.PlaceTag>()
-              .HasOne(i => i.Place)
-              .WithMany(i => i.PlaceTags)
-              .HasForeignKey(i => i.PlaceId)
-              .HasPrincipalKey(i => i.Id);
-
-            builder.Entity<Tripbuk.Server.Models.Postgres.PlaceTag>()
-              .HasOne(i => i.Tag)
-              .WithMany(i => i.PlaceTags)
-              .HasForeignKey(i => i.TagId)
-              .HasPrincipalKey(i => i.Id);
+            builder.Entity<Tripbuk.Server.Models.Postgres.PlaceTag>().HasNoKey();
 
             builder.Entity<Tripbuk.Server.Models.Postgres.Destination>()
               .HasOne(i => i.Destination1)
@@ -45,18 +33,26 @@ namespace Tripbuk.Server.Data
               .HasPrincipalKey(i => i.Id);
 
             builder.Entity<Tripbuk.Server.Models.Postgres.Place>()
+              .HasOne(i => i.Destination)
+              .WithMany(i => i.Places)
+              .HasForeignKey(i => i.DestinationId)
+              .HasPrincipalKey(i => i.Id);
+
+            builder.Entity<Tripbuk.Server.Models.Postgres.Place>()
               .Property(p => p.CreatedAt)
               .HasDefaultValueSql(@"CURRENT_TIMESTAMP");
             this.OnModelBuilding(builder);
         }
 
-        public DbSet<Tripbuk.Server.Models.Postgres.Tag> Tags { get; set; }
+        public DbSet<Tripbuk.Server.Models.Postgres.Destination> Destinations { get; set; }
 
-        public DbSet<Tripbuk.Server.Models.Postgres.PlaceTag> PlaceTags { get; set; }
+        public DbSet<Tripbuk.Server.Models.Postgres.ParentTag> ParentTags { get; set; }
 
         public DbSet<Tripbuk.Server.Models.Postgres.Place> Places { get; set; }
 
-        public DbSet<Tripbuk.Server.Models.Postgres.Destination> Destinations { get; set; }
+        public DbSet<Tripbuk.Server.Models.Postgres.PlaceTag> PlaceTags { get; set; }
+
+        public DbSet<Tripbuk.Server.Models.Postgres.Tag> Tags { get; set; }
 
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {

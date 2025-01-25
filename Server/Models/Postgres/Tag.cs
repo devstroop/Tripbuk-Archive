@@ -15,10 +15,8 @@ namespace Tripbuk.Server.Models.Postgres
         public int Id { get; set; }
 
         [Required]
+        public string TagName { get; set; }
+
         public string AllNamesByLocale { get; set; }
-
-        public List<int>? ParentTagIds { get; set; }
-
-        public ICollection<PlaceTag> PlaceTags { get; set; }
     }
 }
