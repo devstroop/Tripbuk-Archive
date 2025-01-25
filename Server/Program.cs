@@ -61,7 +61,7 @@ builder.Services.AddControllers().AddOData(o =>
 builder.Services.AddScoped<AuthenticationStateProvider, Tripbuk.Client.ApplicationAuthenticationStateProvider>();
 builder.Services.AddHttpClient("Tripbuk.Server").AddHeaderPropagation(o => o.Headers.Add("Cookie"));
 builder.Services.AddHttpClient("Viator", client => client.BaseAddress = new Uri("https://api.sandbox.viator.com/partner/"));
-builder.Services.AddScoped<Tripbuk.Client.ViatorService>();
+builder.Services.AddScoped<Tripbuk.Client.Services.ViatorService>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {

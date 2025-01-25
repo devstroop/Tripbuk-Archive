@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Tripbuk.Server.Models.Viator
 {
-    public partial class SearchFreeText
+    public partial class SearchFreeTextResponse
     {
         [JsonPropertyName("destinations")]
         public Destination Destinations { get; set; }
