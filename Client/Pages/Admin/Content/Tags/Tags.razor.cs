@@ -56,7 +56,7 @@ namespace Tripbuk.Client.Pages.Admin.Content.Tags
         {
             try
             {
-                var result = await PostgresService.GetTags(filter: $@"(contains(TagName,""{search}"") or contains(AllNamesByLocale,""{search}"")) and {(string.IsNullOrEmpty(args.Filter)? "true" : args.Filter)}", orderby: $"{args.OrderBy}", top: args.Top, skip: args.Skip, count:args.Top != null && args.Skip != null);
+                var result = await PostgresService.GetTags(filter: $@"(contains(TagName,""{search}"")) and {(string.IsNullOrEmpty(args.Filter)? "true" : args.Filter)}", orderby: $"{args.OrderBy}", top: args.Top, skip: args.Skip, count:args.Top != null && args.Skip != null);
                 tags = result.Value.AsODataEnumerable();
                 count = result.Count;
             }

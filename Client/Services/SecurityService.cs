@@ -142,7 +142,7 @@ namespace Tripbuk.Client
         {
             var uri = new Uri(baseUri, $"ApplicationRoles");
 
-            uri = uri.GetODataUri(filter: $"TenantId eq {Tenant.Id}");
+            if (Tenant != null) uri = uri.GetODataUri(filter: $"TenantId eq {Tenant.Id}");
 
             var response = await httpClient.GetAsync(uri);
 
@@ -177,9 +177,8 @@ namespace Tripbuk.Client
         public async Task<IEnumerable<ApplicationUser>> GetUsers()
         {
             var uri = new Uri(baseUri, $"ApplicationUsers");
-
-
-            uri = uri.GetODataUri(filter: $"TenantId eq {Tenant.Id}");
+            
+            if(Tenant != null) uri = uri.GetODataUri(filter: $"TenantId eq {Tenant.Id}");
 
             var response = await httpClient.GetAsync(uri);
 

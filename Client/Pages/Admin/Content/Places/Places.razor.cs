@@ -56,7 +56,7 @@ namespace Tripbuk.Client.Pages.Admin.Content.Places
         {
             try
             {
-                var result = await PostgresService.GetPlaces(filter: $@"(contains(Name,""{search}"") or contains(Summary,""{search}"") or contains(Description,""{search}"") or contains(Phone,""{search}"") or contains(Email,""{search}"") or contains(Location,""{search}"") or contains(Center,""{search}"")) and {(string.IsNullOrEmpty(args.Filter)? "true" : args.Filter)}", expand: "Destination", orderby: $"{args.OrderBy}", top: args.Top, skip: args.Skip, count:args.Top != null && args.Skip != null);
+                var result = await PostgresService.GetPlaces(filter: $@"(contains(Name,""{search}"") or contains(Summary,""{search}"") or contains(Description,""{search}"") or contains(Phone,""{search}"") or contains(Email,""{search}"") or contains(Location,""{search}"")) and {(string.IsNullOrEmpty(args.Filter)? "true" : args.Filter)}", expand: "Destination", orderby: $"{args.OrderBy}", top: args.Top, skip: args.Skip, count:args.Top != null && args.Skip != null);
                 places = result.Value.AsODataEnumerable();
                 count = result.Count;
             }
