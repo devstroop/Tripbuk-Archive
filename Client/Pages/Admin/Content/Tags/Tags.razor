@@ -1,4 +1,5 @@
 @page "/admin/content/tags"
+@using Tripbuk.Client.Components
 @attribute [Authorize]
 
 <PageTitle>Tags</PageTitle>
@@ -20,26 +21,30 @@
     <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" aria-label="Search by all string columns" />
     <RadzenRow>
       <RadzenColumn SizeMD=12>
-        <RadzenDataGrid @ref="grid0" ColumnWidth="200px"   AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[]{5, 10, 20, 30})
-            Data="@tags" LoadData="@Grid0LoadData" Count="@count" TItem="Tripbuk.Server.Models.Postgres.Tag" RowSelect="@EditRow">
-            <Columns>
-                <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Tag" Property="Id" Title="Id">
-                </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Tag" Property="TagName" Title="Tag Name">
-                </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Tag" Property="AllNamesByLocale" Title="All Names By Locale">
-                </RadzenDataGridColumn>
-                <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Tag" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
-                    <Template Context="tag">
+          <RadzenDataGrid @ref="grid0" ColumnWidth="200px" AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[] { 5, 10, 20, 30 })
+                          Data="@tags" LoadData="@Grid0LoadData" Count="@count" TItem="Tripbuk.Server.Models.Postgres.Tag" RowSelect="@EditRow">
+              <EmptyTemplate>
+                  <NoRecordsFound Text="No places found!"></NoRecordsFound>
+              </EmptyTemplate>
+              <Columns>
+                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Tag" Property="Id" Title="Id">
+                  </RadzenDataGridColumn>
+                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Tag" Property="TagName" Title="Tag Name">
+                  </RadzenDataGridColumn>
+                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Tag" Property="AllNamesByLocale" Title="All Names By Locale">
+                  </RadzenDataGridColumn>
+                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Tag" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
+                      <Template Context="tag">
 
-                        <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
-                            Shade="Shade.Lighter" Variant="Variant.Flat"
-                            Click=@(args => GridDeleteButtonClick(args, tag)) @onclick:stopPropagation="true" />
-                    </Template>
-                </RadzenDataGridColumn>
-            </Columns>
+                          <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
+                                        Shade="Shade.Lighter" Variant="Variant.Flat"
+                                        Click="@(args => GridDeleteButtonClick(args, tag))"
+                                        @onclick:stopPropagation="true"/>
+                      </Template>
+                  </RadzenDataGridColumn>
+              </Columns>
 
-        </RadzenDataGrid>
+          </RadzenDataGrid>
 
     </RadzenColumn>
   </RadzenRow>

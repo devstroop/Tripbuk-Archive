@@ -44,6 +44,8 @@
                         <ChildContent>
                             <RadzenProfileMenuItem Path="profile" Icon="settings" Text="Profile"
                                                    Visible="@(Security.IsAuthenticated() || Security.User?.Name == "tenantsadmin")"/>
+                            <RadzenProfileMenuItem Path="admin" Icon="security" Text="Admin"
+                                                   Visible="@(Security.IsAuthenticated() || Security.IsInRole("Admin"))"/>
                             <RadzenProfileMenuItem Path="application-users" Icon="person" Text="Users"
                                                    Visible="@(Security.IsAuthenticated() && Security.Tenant != null)"/>
                             <RadzenProfileMenuItem Path="application-roles" Icon="security" Text="Roles"

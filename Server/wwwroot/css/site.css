@@ -22,6 +22,7 @@
     --rz-layout-body-border-radius: unset;
     --rz-header-border: 1px solid var(--rz-base-500);
     --rz-footer-border: 1px solid var(--rz-base-500);
+    --rz-sidebar-border-inline-end: 1px solid var(--rz-base-500);
     --rz-menu-top-item-padding-inline: unset;
 
 
@@ -241,11 +242,18 @@ a:focus {
 .rz-navigation-item-link {
     .rz-navigation-item-text {
         /*font-size: 14px;*/
-        font-weight: 600;
+        /*font-weight: 600;*/
     }
 }
 .subheader {
     .rz-navigation-item-link.active {
         border-bottom: 2px solid var(--rz-on-base);
+    }
+}
+
+.hero {
+    .rz-tabview.rz-tabview-top>.rz-tabview-panels {
+        border-top: unset;
+        display: none;
     }
 }
