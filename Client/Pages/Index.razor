@@ -1,7 +1,32 @@
 @page "/"
 @layout PublicLayout
-<h3>Home</h3>
-
-@code {
-    
-}
+<RadzenStack JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center" Style="z-index: -10; position: absolute; top: 0; left: 0; right: 0; height: 640px; background-image: url('/images/banner-nature-5.jpg'); background-size: cover; background-position: center">
+    <RadzenStack Style="max-width: 800px; opacity: 100%;" class="rz-py-6">
+        <RadzenStack AlignItems="Radzen.AlignItems.Center">
+            <RadzenText Text="What’s next?" TextStyle="Radzen.Blazor.TextStyle.DisplayH3" Style="font-weight: bolder; color: var(--rz-base);" class="rz-border-color-base-100" />
+        </RadzenStack>
+        <RadzenStack>
+            <RadzenTabs>
+                <Tabs>
+                    <RadzenTabsItem Text="Anything" Icon="shuffle" Style="color: var(--rz-base)"></RadzenTabsItem>
+                    <RadzenTabsItem Text="Places" Icon="distance" Style="color: var(--rz-base)"></RadzenTabsItem>
+                    <RadzenTabsItem Text="Activities" Icon="local_activity" Style="color: var(--rz-base)"></RadzenTabsItem>
+                    <RadzenTabsItem Text="Restaurants" Icon="restaurant_menu" Style="color: var(--rz-base)"></RadzenTabsItem>
+                    <RadzenTabsItem Text="Flights" Icon="flight_takeoff" Style="color: var(--rz-base)"></RadzenTabsItem>
+                    <RadzenTabsItem Text="Rentals" Icon="villa" Style="color: var(--rz-base)"></RadzenTabsItem>
+                </Tabs>
+            </RadzenTabs>
+            <RadzenFormField Text="Search" Variant="Variant.Outlined" Style="flex: 1;background-color: var(--rz-body-background-color);" class="hero-search rz-mx-4 rz-shadow-1 rz-border-radius-8" AllowFloatingLabel="true">
+                <Start>
+                    <RadzenIcon Icon="search" Style="font-size: 24px"/>
+                </Start>
+                <ChildContent>
+                    <RadzenTextBox @bind-Value="@Search" Style="font-size: 24px"/>
+                </ChildContent>
+                <End>
+                    <RadzenButton Text="Search" Style="font-size: 14px"/>
+                </End>
+            </RadzenFormField>
+        </RadzenStack>
+    </RadzenStack>
+</RadzenStack>

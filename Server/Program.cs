@@ -28,14 +28,10 @@ builder.Services.AddDbContext<Tripbuk.Server.Data.PostgresContext>(options =>
 builder.Services.AddControllers().AddOData(opt =>
 {
     var oDataBuilderPostgres = new ODataConventionModelBuilder();
-    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.AccountGroup>("AccountGroups");
-    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.Account>("Accounts");
-    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.ItemGroup>("ItemGroups");
-    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.Item>("Items");
-    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.StandardNarration>("StandardNarrations");
-    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.UnitConversion>("UnitConversions");
-    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.Unit>("Units");
-    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.SmtpConfig>("SmtpConfigs");
+    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.Tag>("Tags");
+    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.PlaceTag>("PlaceTags").EntityType.HasKey(entity => new { entity.PlaceId, entity.TagId });
+    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.Place>("Places");
+    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.Destination>("Destinations");
     opt.AddRouteComponents("odata/Postgres", oDataBuilderPostgres.GetEdmModel()).Count().Filter().OrderBy().Expand().Select().SetMaxTop(null).TimeZone = TimeZoneInfo.Utc;
 });
 builder.Services.AddScoped<Tripbuk.Client.PostgresService>();

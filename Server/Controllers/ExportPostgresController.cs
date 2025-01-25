@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+
 using Tripbuk.Server.Data;
 
 namespace Tripbuk.Server.Controllers
@@ -18,116 +19,60 @@ namespace Tripbuk.Server.Controllers
             this.context = context;
         }
 
-        [HttpGet("/export/Postgres/accountgroups/csv")]
-        [HttpGet("/export/Postgres/accountgroups/csv(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportAccountGroupsToCSV(string fileName = null)
+        [HttpGet("/export/Postgres/tags/csv")]
+        [HttpGet("/export/Postgres/tags/csv(fileName='{fileName}')")]
+        public async Task<FileStreamResult> ExportTagsToCSV(string fileName = null)
         {
-            return ToCSV(ApplyQuery(await service.GetAccountGroups(), Request.Query, false), fileName);
+            return ToCSV(ApplyQuery(await service.GetTags(), Request.Query, false), fileName);
         }
 
-        [HttpGet("/export/Postgres/accountgroups/excel")]
-        [HttpGet("/export/Postgres/accountgroups/excel(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportAccountGroupsToExcel(string fileName = null)
+        [HttpGet("/export/Postgres/tags/excel")]
+        [HttpGet("/export/Postgres/tags/excel(fileName='{fileName}')")]
+        public async Task<FileStreamResult> ExportTagsToExcel(string fileName = null)
         {
-            return ToExcel(ApplyQuery(await service.GetAccountGroups(), Request.Query, false), fileName);
+            return ToExcel(ApplyQuery(await service.GetTags(), Request.Query, false), fileName);
         }
 
-        [HttpGet("/export/Postgres/accounts/csv")]
-        [HttpGet("/export/Postgres/accounts/csv(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportAccountsToCSV(string fileName = null)
+        [HttpGet("/export/Postgres/placetags/csv")]
+        [HttpGet("/export/Postgres/placetags/csv(fileName='{fileName}')")]
+        public async Task<FileStreamResult> ExportPlaceTagsToCSV(string fileName = null)
         {
-            return ToCSV(ApplyQuery(await service.GetAccounts(), Request.Query, false), fileName);
+            return ToCSV(ApplyQuery(await service.GetPlaceTags(), Request.Query, false), fileName);
         }
 
-        [HttpGet("/export/Postgres/accounts/excel")]
-        [HttpGet("/export/Postgres/accounts/excel(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportAccountsToExcel(string fileName = null)
+        [HttpGet("/export/Postgres/placetags/excel")]
+        [HttpGet("/export/Postgres/placetags/excel(fileName='{fileName}')")]
+        public async Task<FileStreamResult> ExportPlaceTagsToExcel(string fileName = null)
         {
-            return ToExcel(ApplyQuery(await service.GetAccounts(), Request.Query, false), fileName);
+            return ToExcel(ApplyQuery(await service.GetPlaceTags(), Request.Query, false), fileName);
         }
 
-        [HttpGet("/export/Postgres/itemgroups/csv")]
-        [HttpGet("/export/Postgres/itemgroups/csv(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportItemGroupsToCSV(string fileName = null)
+        [HttpGet("/export/Postgres/places/csv")]
+        [HttpGet("/export/Postgres/places/csv(fileName='{fileName}')")]
+        public async Task<FileStreamResult> ExportPlacesToCSV(string fileName = null)
         {
-            return ToCSV(ApplyQuery(await service.GetItemGroups(), Request.Query, false), fileName);
+            return ToCSV(ApplyQuery(await service.GetPlaces(), Request.Query, false), fileName);
         }
 
-        [HttpGet("/export/Postgres/itemgroups/excel")]
-        [HttpGet("/export/Postgres/itemgroups/excel(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportItemGroupsToExcel(string fileName = null)
+        [HttpGet("/export/Postgres/places/excel")]
+        [HttpGet("/export/Postgres/places/excel(fileName='{fileName}')")]
+        public async Task<FileStreamResult> ExportPlacesToExcel(string fileName = null)
         {
-            return ToExcel(ApplyQuery(await service.GetItemGroups(), Request.Query, false), fileName);
+            return ToExcel(ApplyQuery(await service.GetPlaces(), Request.Query, false), fileName);
         }
 
-        [HttpGet("/export/Postgres/items/csv")]
-        [HttpGet("/export/Postgres/items/csv(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportItemsToCSV(string fileName = null)
+        [HttpGet("/export/Postgres/destinations/csv")]
+        [HttpGet("/export/Postgres/destinations/csv(fileName='{fileName}')")]
+        public async Task<FileStreamResult> ExportDestinationsToCSV(string fileName = null)
         {
-            return ToCSV(ApplyQuery(await service.GetItems(), Request.Query, false), fileName);
+            return ToCSV(ApplyQuery(await service.GetDestinations(), Request.Query, false), fileName);
         }
 
-        [HttpGet("/export/Postgres/items/excel")]
-        [HttpGet("/export/Postgres/items/excel(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportItemsToExcel(string fileName = null)
+        [HttpGet("/export/Postgres/destinations/excel")]
+        [HttpGet("/export/Postgres/destinations/excel(fileName='{fileName}')")]
+        public async Task<FileStreamResult> ExportDestinationsToExcel(string fileName = null)
         {
-            return ToExcel(ApplyQuery(await service.GetItems(), Request.Query, false), fileName);
-        }
-
-        [HttpGet("/export/Postgres/standardnarrations/csv")]
-        [HttpGet("/export/Postgres/standardnarrations/csv(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportStandardNarrationsToCSV(string fileName = null)
-        {
-            return ToCSV(ApplyQuery(await service.GetStandardNarrations(), Request.Query, false), fileName);
-        }
-
-        [HttpGet("/export/Postgres/standardnarrations/excel")]
-        [HttpGet("/export/Postgres/standardnarrations/excel(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportStandardNarrationsToExcel(string fileName = null)
-        {
-            return ToExcel(ApplyQuery(await service.GetStandardNarrations(), Request.Query, false), fileName);
-        }
-
-        [HttpGet("/export/Postgres/unitconversions/csv")]
-        [HttpGet("/export/Postgres/unitconversions/csv(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportUnitConversionsToCSV(string fileName = null)
-        {
-            return ToCSV(ApplyQuery(await service.GetUnitConversions(), Request.Query, false), fileName);
-        }
-
-        [HttpGet("/export/Postgres/unitconversions/excel")]
-        [HttpGet("/export/Postgres/unitconversions/excel(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportUnitConversionsToExcel(string fileName = null)
-        {
-            return ToExcel(ApplyQuery(await service.GetUnitConversions(), Request.Query, false), fileName);
-        }
-
-        [HttpGet("/export/Postgres/units/csv")]
-        [HttpGet("/export/Postgres/units/csv(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportUnitsToCSV(string fileName = null)
-        {
-            return ToCSV(ApplyQuery(await service.GetUnits(), Request.Query, false), fileName);
-        }
-
-        [HttpGet("/export/Postgres/units/excel")]
-        [HttpGet("/export/Postgres/units/excel(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportUnitsToExcel(string fileName = null)
-        {
-            return ToExcel(ApplyQuery(await service.GetUnits(), Request.Query, false), fileName);
-        }
-
-        [HttpGet("/export/Postgres/smtpconfigs/csv")]
-        [HttpGet("/export/Postgres/smtpconfigs/csv(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportSmtpConfigsToCSV(string fileName = null)
-        {
-            return ToCSV(ApplyQuery(await service.GetSmtpConfigs(), Request.Query, false), fileName);
-        }
-
-        [HttpGet("/export/Postgres/smtpconfigs/excel")]
-        [HttpGet("/export/Postgres/smtpconfigs/excel(fileName='{fileName}')")]
-        public async Task<FileStreamResult> ExportSmtpConfigsToExcel(string fileName = null)
-        {
-            return ToExcel(ApplyQuery(await service.GetSmtpConfigs(), Request.Query, false), fileName);
+            return ToExcel(ApplyQuery(await service.GetDestinations(), Request.Query, false), fileName);
         }
     }
 }

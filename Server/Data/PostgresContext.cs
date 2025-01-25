@@ -22,71 +22,41 @@ namespace Tripbuk.Server.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Server.Models.Postgres.AccountGroup>()
-              .HasOne(i => i.AccountGroup1)
-              .WithMany(i => i.AccountGroups1)
-              .HasForeignKey(i => i.Parent)
+            builder.Entity<Tripbuk.Server.Models.Postgres.PlaceTag>().HasKey(table => new {
+                table.PlaceId, table.TagId
+            });
+
+            builder.Entity<Tripbuk.Server.Models.Postgres.PlaceTag>()
+              .HasOne(i => i.Place)
+              .WithMany(i => i.PlaceTags)
+              .HasForeignKey(i => i.PlaceId)
               .HasPrincipalKey(i => i.Id);
 
-            builder.Entity<Server.Models.Postgres.Account>()
-              .HasOne(i => i.AccountGroup)
-              .WithMany(i => i.Accounts)
-              .HasForeignKey(i => i.Group)
+            builder.Entity<Tripbuk.Server.Models.Postgres.PlaceTag>()
+              .HasOne(i => i.Tag)
+              .WithMany(i => i.PlaceTags)
+              .HasForeignKey(i => i.TagId)
               .HasPrincipalKey(i => i.Id);
 
-            builder.Entity<Server.Models.Postgres.ItemGroup>()
-              .HasOne(i => i.ItemGroup1)
-              .WithMany(i => i.ItemGroups1)
-              .HasForeignKey(i => i.Parent)
+            builder.Entity<Tripbuk.Server.Models.Postgres.Destination>()
+              .HasOne(i => i.Destination1)
+              .WithMany(i => i.Destinations1)
+              .HasForeignKey(i => i.ParentDestinationId)
               .HasPrincipalKey(i => i.Id);
 
-            builder.Entity<Server.Models.Postgres.Item>()
-              .HasOne(i => i.ItemGroup)
-              .WithMany(i => i.Items)
-              .HasForeignKey(i => i.Group)
-              .HasPrincipalKey(i => i.Id);
-
-            builder.Entity<Server.Models.Postgres.UnitConversion>()
-              .HasOne(i => i.Unit)
-              .WithMany(i => i.UnitConversions)
-              .HasForeignKey(i => i.MainUnit)
-              .HasPrincipalKey(i => i.Id);
-
-            builder.Entity<Server.Models.Postgres.UnitConversion>()
-              .HasOne(i => i.Unit1)
-              .WithMany(i => i.UnitConversions1)
-              .HasForeignKey(i => i.SubUnit)
-              .HasPrincipalKey(i => i.Id);
-
-            builder.Entity<Server.Models.Postgres.UnitConversion>()
-              .Property(p => p.ConversionFactor)
-              .HasDefaultValueSql(@"1");
-
-            builder.Entity<Server.Models.Postgres.Account>()
-              .Property(p => p.CreditLimit)
-              .HasPrecision(18,2);
-
-            builder.Entity<Server.Models.Postgres.Account>()
-              .Property(p => p.OpeningBalance)
-              .HasPrecision(18,2);
+            builder.Entity<Tripbuk.Server.Models.Postgres.Place>()
+              .Property(p => p.CreatedAt)
+              .HasDefaultValueSql(@"CURRENT_TIMESTAMP");
             this.OnModelBuilding(builder);
         }
 
-        public DbSet<Server.Models.Postgres.AccountGroup> AccountGroups { get; set; }
+        public DbSet<Tripbuk.Server.Models.Postgres.Tag> Tags { get; set; }
 
-        public DbSet<Server.Models.Postgres.Account> Accounts { get; set; }
+        public DbSet<Tripbuk.Server.Models.Postgres.PlaceTag> PlaceTags { get; set; }
 
-        public DbSet<Server.Models.Postgres.ItemGroup> ItemGroups { get; set; }
+        public DbSet<Tripbuk.Server.Models.Postgres.Place> Places { get; set; }
 
-        public DbSet<Server.Models.Postgres.Item> Items { get; set; }
-
-        public DbSet<Server.Models.Postgres.StandardNarration> StandardNarrations { get; set; }
-
-        public DbSet<Server.Models.Postgres.UnitConversion> UnitConversions { get; set; }
-
-        public DbSet<Server.Models.Postgres.Unit> Units { get; set; }
-
-        public DbSet<Server.Models.Postgres.SmtpConfig> SmtpConfigs { get; set; }
+        public DbSet<Tripbuk.Server.Models.Postgres.Destination> Destinations { get; set; }
 
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {

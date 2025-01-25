@@ -16,8 +16,8 @@
                     <Logo Size="24px" Visible="!_sidebarExpanded"></Logo>
                 </RadzenStack>
                 <RadzenColumn>
-                    <RadzenRow JustifyContent="JustifyContent.End" AlignItems="AlignItems.Center" class="rz-px-4">
-                        <RadzenFormField Text="Search" Variant="Variant.Outlined" Style="flex: 1" class="header-search rz-mx-4" AllowFloatingLabel="true">
+                    <RadzenRow JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center" class="rz-px-4">
+                        <RadzenFormField Text="Search" Variant="Variant.Outlined" Style="flex: 1; max-width: 500px" class="header-search rz-mx-4" AllowFloatingLabel="true">
                             <Start>
                                 <RadzenIcon Icon="search" />
                             </Start>
@@ -62,8 +62,8 @@
                     <RadzenButton Text="Login" Size="ButtonSize.Medium" Variant="Radzen.Variant.Flat" Style="background-color: var(--rz-on-base)"></RadzenButton>
                 </RadzenStack>
             </RadzenRow>
-            <RadzenRow>
-                <RadzenMenu Style="gap: 1rem">
+            <RadzenRow class="subheader">
+                <RadzenMenu Style="gap: 1rem; font-size: 14px">
                     <RadzenMenuItem Text="Places" Path="/"></RadzenMenuItem>
                     <RadzenMenuItem Text="Hotels"></RadzenMenuItem>
                     <RadzenMenuItem Text="Activities"></RadzenMenuItem>

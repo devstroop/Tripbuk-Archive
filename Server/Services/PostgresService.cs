@@ -8,6 +8,7 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using Radzen;
+
 using Tripbuk.Server.Data;
 
 namespace Tripbuk.Server
@@ -67,23 +68,22 @@ namespace Tripbuk.Server
         }
 
 
-        public async Task ExportAccountGroupsToExcel(Query query = null, string fileName = null)
+        public async Task ExportTagsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/tags/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/tags/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async Task ExportAccountGroupsToCSV(Query query = null, string fileName = null)
+        public async Task ExportTagsToCSV(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accountgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accountgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/tags/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/tags/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnAccountGroupsRead(ref IQueryable<Server.Models.Postgres.AccountGroup> items);
+        partial void OnTagsRead(ref IQueryable<Tripbuk.Server.Models.Postgres.Tag> items);
 
-        public async Task<IQueryable<Server.Models.Postgres.AccountGroup>> GetAccountGroups(Query query = null)
+        public async Task<IQueryable<Tripbuk.Server.Models.Postgres.Tag>> GetTags(Query query = null)
         {
-            var items = Context.AccountGroups.AsQueryable();
+            var items = Context.Tags.AsQueryable();
 
-            items = items.Include(i => i.AccountGroup1);
 
             if (query != null)
             {
@@ -99,41 +99,40 @@ namespace Tripbuk.Server
                 ApplyQuery(ref items, query);
             }
 
-            OnAccountGroupsRead(ref items);
+            OnTagsRead(ref items);
 
             return await Task.FromResult(items);
         }
 
-        partial void OnAccountGroupGet(Server.Models.Postgres.AccountGroup item);
-        partial void OnGetAccountGroupById(ref IQueryable<Server.Models.Postgres.AccountGroup> items);
+        partial void OnTagGet(Tripbuk.Server.Models.Postgres.Tag item);
+        partial void OnGetTagById(ref IQueryable<Tripbuk.Server.Models.Postgres.Tag> items);
 
 
-        public async Task<Server.Models.Postgres.AccountGroup> GetAccountGroupById(int id)
+        public async Task<Tripbuk.Server.Models.Postgres.Tag> GetTagById(int id)
         {
-            var items = Context.AccountGroups
+            var items = Context.Tags
                               .AsNoTracking()
                               .Where(i => i.Id == id);
 
-            items = items.Include(i => i.AccountGroup1);
  
-            OnGetAccountGroupById(ref items);
+            OnGetTagById(ref items);
 
             var itemToReturn = items.FirstOrDefault();
 
-            OnAccountGroupGet(itemToReturn);
+            OnTagGet(itemToReturn);
 
             return await Task.FromResult(itemToReturn);
         }
 
-        partial void OnAccountGroupCreated(Server.Models.Postgres.AccountGroup item);
-        partial void OnAfterAccountGroupCreated(Server.Models.Postgres.AccountGroup item);
+        partial void OnTagCreated(Tripbuk.Server.Models.Postgres.Tag item);
+        partial void OnAfterTagCreated(Tripbuk.Server.Models.Postgres.Tag item);
 
-        public async Task<Server.Models.Postgres.AccountGroup> CreateAccountGroup(Server.Models.Postgres.AccountGroup accountgroup)
+        public async Task<Tripbuk.Server.Models.Postgres.Tag> CreateTag(Tripbuk.Server.Models.Postgres.Tag tag)
         {
-            OnAccountGroupCreated(accountgroup);
+            OnTagCreated(tag);
 
-            var existingItem = Context.AccountGroups
-                              .Where(i => i.Id == accountgroup.Id)
+            var existingItem = Context.Tags
+                              .Where(i => i.Id == tag.Id)
                               .FirstOrDefault();
 
             if (existingItem != null)
@@ -143,21 +142,21 @@ namespace Tripbuk.Server
 
             try
             {
-                Context.AccountGroups.Add(accountgroup);
+                Context.Tags.Add(tag);
                 Context.SaveChanges();
             }
             catch
             {
-                Context.Entry(accountgroup).State = EntityState.Detached;
+                Context.Entry(tag).State = EntityState.Detached;
                 throw;
             }
 
-            OnAfterAccountGroupCreated(accountgroup);
+            OnAfterTagCreated(tag);
 
-            return accountgroup;
+            return tag;
         }
 
-        public async Task<Server.Models.Postgres.AccountGroup> CancelAccountGroupChanges(Server.Models.Postgres.AccountGroup item)
+        public async Task<Tripbuk.Server.Models.Postgres.Tag> CancelTagChanges(Tripbuk.Server.Models.Postgres.Tag item)
         {
             var entityToCancel = Context.Entry(item);
             if (entityToCancel.State == EntityState.Modified)
@@ -169,15 +168,15 @@ namespace Tripbuk.Server
             return item;
         }
 
-        partial void OnAccountGroupUpdated(Server.Models.Postgres.AccountGroup item);
-        partial void OnAfterAccountGroupUpdated(Server.Models.Postgres.AccountGroup item);
+        partial void OnTagUpdated(Tripbuk.Server.Models.Postgres.Tag item);
+        partial void OnAfterTagUpdated(Tripbuk.Server.Models.Postgres.Tag item);
 
-        public async Task<Server.Models.Postgres.AccountGroup> UpdateAccountGroup(int id, Server.Models.Postgres.AccountGroup accountgroup)
+        public async Task<Tripbuk.Server.Models.Postgres.Tag> UpdateTag(int id, Tripbuk.Server.Models.Postgres.Tag tag)
         {
-            OnAccountGroupUpdated(accountgroup);
+            OnTagUpdated(tag);
 
-            var itemToUpdate = Context.AccountGroups
-                              .Where(i => i.Id == accountgroup.Id)
+            var itemToUpdate = Context.Tags
+                              .Where(i => i.Id == tag.Id)
                               .FirstOrDefault();
 
             if (itemToUpdate == null)
@@ -186,25 +185,24 @@ namespace Tripbuk.Server
             }
                 
             var entryToUpdate = Context.Entry(itemToUpdate);
-            entryToUpdate.CurrentValues.SetValues(accountgroup);
+            entryToUpdate.CurrentValues.SetValues(tag);
             entryToUpdate.State = EntityState.Modified;
 
             Context.SaveChanges();
 
-            OnAfterAccountGroupUpdated(accountgroup);
+            OnAfterTagUpdated(tag);
 
-            return accountgroup;
+            return tag;
         }
 
-        partial void OnAccountGroupDeleted(Server.Models.Postgres.AccountGroup item);
-        partial void OnAfterAccountGroupDeleted(Server.Models.Postgres.AccountGroup item);
+        partial void OnTagDeleted(Tripbuk.Server.Models.Postgres.Tag item);
+        partial void OnAfterTagDeleted(Tripbuk.Server.Models.Postgres.Tag item);
 
-        public async Task<Server.Models.Postgres.AccountGroup> DeleteAccountGroup(int id)
+        public async Task<Tripbuk.Server.Models.Postgres.Tag> DeleteTag(int id)
         {
-            var itemToDelete = Context.AccountGroups
+            var itemToDelete = Context.Tags
                               .Where(i => i.Id == id)
-                              .Include(i => i.AccountGroups1)
-                              .Include(i => i.Accounts)
+                              .Include(i => i.PlaceTags)
                               .FirstOrDefault();
 
             if (itemToDelete == null)
@@ -212,10 +210,10 @@ namespace Tripbuk.Server
                throw new Exception("Item no longer available");
             }
 
-            OnAccountGroupDeleted(itemToDelete);
+            OnTagDeleted(itemToDelete);
 
 
-            Context.AccountGroups.Remove(itemToDelete);
+            Context.Tags.Remove(itemToDelete);
 
             try
             {
@@ -227,28 +225,29 @@ namespace Tripbuk.Server
                 throw;
             }
 
-            OnAfterAccountGroupDeleted(itemToDelete);
+            OnAfterTagDeleted(itemToDelete);
 
             return itemToDelete;
         }
     
-        public async Task ExportAccountsToExcel(Query query = null, string fileName = null)
+        public async Task ExportPlaceTagsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accounts/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accounts/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/placetags/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/placetags/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async Task ExportAccountsToCSV(Query query = null, string fileName = null)
+        public async Task ExportPlaceTagsToCSV(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/accounts/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/accounts/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/placetags/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/placetags/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnAccountsRead(ref IQueryable<Server.Models.Postgres.Account> items);
+        partial void OnPlaceTagsRead(ref IQueryable<Tripbuk.Server.Models.Postgres.PlaceTag> items);
 
-        public async Task<IQueryable<Server.Models.Postgres.Account>> GetAccounts(Query query = null)
+        public async Task<IQueryable<Tripbuk.Server.Models.Postgres.PlaceTag>> GetPlaceTags(Query query = null)
         {
-            var items = Context.Accounts.AsQueryable();
+            var items = Context.PlaceTags.AsQueryable();
 
-            items = items.Include(i => i.AccountGroup);
+            items = items.Include(i => i.Place);
+            items = items.Include(i => i.Tag);
 
             if (query != null)
             {
@@ -264,41 +263,42 @@ namespace Tripbuk.Server
                 ApplyQuery(ref items, query);
             }
 
-            OnAccountsRead(ref items);
+            OnPlaceTagsRead(ref items);
 
             return await Task.FromResult(items);
         }
 
-        partial void OnAccountGet(Server.Models.Postgres.Account item);
-        partial void OnGetAccountById(ref IQueryable<Server.Models.Postgres.Account> items);
+        partial void OnPlaceTagGet(Tripbuk.Server.Models.Postgres.PlaceTag item);
+        partial void OnGetPlaceTagByPlaceIdAndTagId(ref IQueryable<Tripbuk.Server.Models.Postgres.PlaceTag> items);
 
 
-        public async Task<Server.Models.Postgres.Account> GetAccountById(int id)
+        public async Task<Tripbuk.Server.Models.Postgres.PlaceTag> GetPlaceTagByPlaceIdAndTagId(Guid placeid, int tagid)
         {
-            var items = Context.Accounts
+            var items = Context.PlaceTags
                               .AsNoTracking()
-                              .Where(i => i.Id == id);
+                              .Where(i => i.PlaceId == placeid && i.TagId == tagid);
 
-            items = items.Include(i => i.AccountGroup);
+            items = items.Include(i => i.Place);
+            items = items.Include(i => i.Tag);
  
-            OnGetAccountById(ref items);
+            OnGetPlaceTagByPlaceIdAndTagId(ref items);
 
             var itemToReturn = items.FirstOrDefault();
 
-            OnAccountGet(itemToReturn);
+            OnPlaceTagGet(itemToReturn);
 
             return await Task.FromResult(itemToReturn);
         }
 
-        partial void OnAccountCreated(Server.Models.Postgres.Account item);
-        partial void OnAfterAccountCreated(Server.Models.Postgres.Account item);
+        partial void OnPlaceTagCreated(Tripbuk.Server.Models.Postgres.PlaceTag item);
+        partial void OnAfterPlaceTagCreated(Tripbuk.Server.Models.Postgres.PlaceTag item);
 
-        public async Task<Server.Models.Postgres.Account> CreateAccount(Server.Models.Postgres.Account account)
+        public async Task<Tripbuk.Server.Models.Postgres.PlaceTag> CreatePlaceTag(Tripbuk.Server.Models.Postgres.PlaceTag placetag)
         {
-            OnAccountCreated(account);
+            OnPlaceTagCreated(placetag);
 
-            var existingItem = Context.Accounts
-                              .Where(i => i.Id == account.Id)
+            var existingItem = Context.PlaceTags
+                              .Where(i => i.PlaceId == placetag.PlaceId && i.TagId == placetag.TagId)
                               .FirstOrDefault();
 
             if (existingItem != null)
@@ -308,21 +308,21 @@ namespace Tripbuk.Server
 
             try
             {
-                Context.Accounts.Add(account);
+                Context.PlaceTags.Add(placetag);
                 Context.SaveChanges();
             }
             catch
             {
-                Context.Entry(account).State = EntityState.Detached;
+                Context.Entry(placetag).State = EntityState.Detached;
                 throw;
             }
 
-            OnAfterAccountCreated(account);
+            OnAfterPlaceTagCreated(placetag);
 
-            return account;
+            return placetag;
         }
 
-        public async Task<Server.Models.Postgres.Account> CancelAccountChanges(Server.Models.Postgres.Account item)
+        public async Task<Tripbuk.Server.Models.Postgres.PlaceTag> CancelPlaceTagChanges(Tripbuk.Server.Models.Postgres.PlaceTag item)
         {
             var entityToCancel = Context.Entry(item);
             if (entityToCancel.State == EntityState.Modified)
@@ -334,15 +334,15 @@ namespace Tripbuk.Server
             return item;
         }
 
-        partial void OnAccountUpdated(Server.Models.Postgres.Account item);
-        partial void OnAfterAccountUpdated(Server.Models.Postgres.Account item);
+        partial void OnPlaceTagUpdated(Tripbuk.Server.Models.Postgres.PlaceTag item);
+        partial void OnAfterPlaceTagUpdated(Tripbuk.Server.Models.Postgres.PlaceTag item);
 
-        public async Task<Server.Models.Postgres.Account> UpdateAccount(int id, Server.Models.Postgres.Account account)
+        public async Task<Tripbuk.Server.Models.Postgres.PlaceTag> UpdatePlaceTag(Guid placeid, int tagid, Tripbuk.Server.Models.Postgres.PlaceTag placetag)
         {
-            OnAccountUpdated(account);
+            OnPlaceTagUpdated(placetag);
 
-            var itemToUpdate = Context.Accounts
-                              .Where(i => i.Id == account.Id)
+            var itemToUpdate = Context.PlaceTags
+                              .Where(i => i.PlaceId == placetag.PlaceId && i.TagId == placetag.TagId)
                               .FirstOrDefault();
 
             if (itemToUpdate == null)
@@ -351,23 +351,23 @@ namespace Tripbuk.Server
             }
                 
             var entryToUpdate = Context.Entry(itemToUpdate);
-            entryToUpdate.CurrentValues.SetValues(account);
+            entryToUpdate.CurrentValues.SetValues(placetag);
             entryToUpdate.State = EntityState.Modified;
 
             Context.SaveChanges();
 
-            OnAfterAccountUpdated(account);
+            OnAfterPlaceTagUpdated(placetag);
 
-            return account;
+            return placetag;
         }
 
-        partial void OnAccountDeleted(Server.Models.Postgres.Account item);
-        partial void OnAfterAccountDeleted(Server.Models.Postgres.Account item);
+        partial void OnPlaceTagDeleted(Tripbuk.Server.Models.Postgres.PlaceTag item);
+        partial void OnAfterPlaceTagDeleted(Tripbuk.Server.Models.Postgres.PlaceTag item);
 
-        public async Task<Server.Models.Postgres.Account> DeleteAccount(int id)
+        public async Task<Tripbuk.Server.Models.Postgres.PlaceTag> DeletePlaceTag(Guid placeid, int tagid)
         {
-            var itemToDelete = Context.Accounts
-                              .Where(i => i.Id == id)
+            var itemToDelete = Context.PlaceTags
+                              .Where(i => i.PlaceId == placeid && i.TagId == tagid)
                               .FirstOrDefault();
 
             if (itemToDelete == null)
@@ -375,10 +375,10 @@ namespace Tripbuk.Server
                throw new Exception("Item no longer available");
             }
 
-            OnAccountDeleted(itemToDelete);
+            OnPlaceTagDeleted(itemToDelete);
 
 
-            Context.Accounts.Remove(itemToDelete);
+            Context.PlaceTags.Remove(itemToDelete);
 
             try
             {
@@ -390,28 +390,27 @@ namespace Tripbuk.Server
                 throw;
             }
 
-            OnAfterAccountDeleted(itemToDelete);
+            OnAfterPlaceTagDeleted(itemToDelete);
 
             return itemToDelete;
         }
     
-        public async Task ExportItemGroupsToExcel(Query query = null, string fileName = null)
+        public async Task ExportPlacesToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemgroups/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/places/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/places/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async Task ExportItemGroupsToCSV(Query query = null, string fileName = null)
+        public async Task ExportPlacesToCSV(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/itemgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/itemgroups/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/places/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/places/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnItemGroupsRead(ref IQueryable<Server.Models.Postgres.ItemGroup> items);
+        partial void OnPlacesRead(ref IQueryable<Tripbuk.Server.Models.Postgres.Place> items);
 
-        public async Task<IQueryable<Server.Models.Postgres.ItemGroup>> GetItemGroups(Query query = null)
+        public async Task<IQueryable<Tripbuk.Server.Models.Postgres.Place>> GetPlaces(Query query = null)
         {
-            var items = Context.ItemGroups.AsQueryable();
+            var items = Context.Places.AsQueryable();
 
-            items = items.Include(i => i.ItemGroup1);
 
             if (query != null)
             {
@@ -427,41 +426,40 @@ namespace Tripbuk.Server
                 ApplyQuery(ref items, query);
             }
 
-            OnItemGroupsRead(ref items);
+            OnPlacesRead(ref items);
 
             return await Task.FromResult(items);
         }
 
-        partial void OnItemGroupGet(Server.Models.Postgres.ItemGroup item);
-        partial void OnGetItemGroupById(ref IQueryable<Server.Models.Postgres.ItemGroup> items);
+        partial void OnPlaceGet(Tripbuk.Server.Models.Postgres.Place item);
+        partial void OnGetPlaceById(ref IQueryable<Tripbuk.Server.Models.Postgres.Place> items);
 
 
-        public async Task<Server.Models.Postgres.ItemGroup> GetItemGroupById(int id)
+        public async Task<Tripbuk.Server.Models.Postgres.Place> GetPlaceById(Guid id)
         {
-            var items = Context.ItemGroups
+            var items = Context.Places
                               .AsNoTracking()
                               .Where(i => i.Id == id);
 
-            items = items.Include(i => i.ItemGroup1);
  
-            OnGetItemGroupById(ref items);
+            OnGetPlaceById(ref items);
 
             var itemToReturn = items.FirstOrDefault();
 
-            OnItemGroupGet(itemToReturn);
+            OnPlaceGet(itemToReturn);
 
             return await Task.FromResult(itemToReturn);
         }
 
-        partial void OnItemGroupCreated(Server.Models.Postgres.ItemGroup item);
-        partial void OnAfterItemGroupCreated(Server.Models.Postgres.ItemGroup item);
+        partial void OnPlaceCreated(Tripbuk.Server.Models.Postgres.Place item);
+        partial void OnAfterPlaceCreated(Tripbuk.Server.Models.Postgres.Place item);
 
-        public async Task<Server.Models.Postgres.ItemGroup> CreateItemGroup(Server.Models.Postgres.ItemGroup itemgroup)
+        public async Task<Tripbuk.Server.Models.Postgres.Place> CreatePlace(Tripbuk.Server.Models.Postgres.Place place)
         {
-            OnItemGroupCreated(itemgroup);
+            OnPlaceCreated(place);
 
-            var existingItem = Context.ItemGroups
-                              .Where(i => i.Id == itemgroup.Id)
+            var existingItem = Context.Places
+                              .Where(i => i.Id == place.Id)
                               .FirstOrDefault();
 
             if (existingItem != null)
@@ -471,21 +469,21 @@ namespace Tripbuk.Server
 
             try
             {
-                Context.ItemGroups.Add(itemgroup);
+                Context.Places.Add(place);
                 Context.SaveChanges();
             }
             catch
             {
-                Context.Entry(itemgroup).State = EntityState.Detached;
+                Context.Entry(place).State = EntityState.Detached;
                 throw;
             }
 
-            OnAfterItemGroupCreated(itemgroup);
+            OnAfterPlaceCreated(place);
 
-            return itemgroup;
+            return place;
         }
 
-        public async Task<Server.Models.Postgres.ItemGroup> CancelItemGroupChanges(Server.Models.Postgres.ItemGroup item)
+        public async Task<Tripbuk.Server.Models.Postgres.Place> CancelPlaceChanges(Tripbuk.Server.Models.Postgres.Place item)
         {
             var entityToCancel = Context.Entry(item);
             if (entityToCancel.State == EntityState.Modified)
@@ -497,15 +495,15 @@ namespace Tripbuk.Server
             return item;
         }
 
-        partial void OnItemGroupUpdated(Server.Models.Postgres.ItemGroup item);
-        partial void OnAfterItemGroupUpdated(Server.Models.Postgres.ItemGroup item);
+        partial void OnPlaceUpdated(Tripbuk.Server.Models.Postgres.Place item);
+        partial void OnAfterPlaceUpdated(Tripbuk.Server.Models.Postgres.Place item);
 
-        public async Task<Server.Models.Postgres.ItemGroup> UpdateItemGroup(int id, Server.Models.Postgres.ItemGroup itemgroup)
+        public async Task<Tripbuk.Server.Models.Postgres.Place> UpdatePlace(Guid id, Tripbuk.Server.Models.Postgres.Place place)
         {
-            OnItemGroupUpdated(itemgroup);
+            OnPlaceUpdated(place);
 
-            var itemToUpdate = Context.ItemGroups
-                              .Where(i => i.Id == itemgroup.Id)
+            var itemToUpdate = Context.Places
+                              .Where(i => i.Id == place.Id)
                               .FirstOrDefault();
 
             if (itemToUpdate == null)
@@ -514,25 +512,24 @@ namespace Tripbuk.Server
             }
                 
             var entryToUpdate = Context.Entry(itemToUpdate);
-            entryToUpdate.CurrentValues.SetValues(itemgroup);
+            entryToUpdate.CurrentValues.SetValues(place);
             entryToUpdate.State = EntityState.Modified;
 
             Context.SaveChanges();
 
-            OnAfterItemGroupUpdated(itemgroup);
+            OnAfterPlaceUpdated(place);
 
-            return itemgroup;
+            return place;
         }
 
-        partial void OnItemGroupDeleted(Server.Models.Postgres.ItemGroup item);
-        partial void OnAfterItemGroupDeleted(Server.Models.Postgres.ItemGroup item);
+        partial void OnPlaceDeleted(Tripbuk.Server.Models.Postgres.Place item);
+        partial void OnAfterPlaceDeleted(Tripbuk.Server.Models.Postgres.Place item);
 
-        public async Task<Server.Models.Postgres.ItemGroup> DeleteItemGroup(int id)
+        public async Task<Tripbuk.Server.Models.Postgres.Place> DeletePlace(Guid id)
         {
-            var itemToDelete = Context.ItemGroups
+            var itemToDelete = Context.Places
                               .Where(i => i.Id == id)
-                              .Include(i => i.ItemGroups1)
-                              .Include(i => i.Items)
+                              .Include(i => i.PlaceTags)
                               .FirstOrDefault();
 
             if (itemToDelete == null)
@@ -540,10 +537,10 @@ namespace Tripbuk.Server
                throw new Exception("Item no longer available");
             }
 
-            OnItemGroupDeleted(itemToDelete);
+            OnPlaceDeleted(itemToDelete);
 
 
-            Context.ItemGroups.Remove(itemToDelete);
+            Context.Places.Remove(itemToDelete);
 
             try
             {
@@ -555,28 +552,28 @@ namespace Tripbuk.Server
                 throw;
             }
 
-            OnAfterItemGroupDeleted(itemToDelete);
+            OnAfterPlaceDeleted(itemToDelete);
 
             return itemToDelete;
         }
     
-        public async Task ExportItemsToExcel(Query query = null, string fileName = null)
+        public async Task ExportDestinationsToExcel(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/items/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/items/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/destinations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/destinations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        public async Task ExportItemsToCSV(Query query = null, string fileName = null)
+        public async Task ExportDestinationsToCSV(Query query = null, string fileName = null)
         {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/items/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/items/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/destinations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/destinations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
         }
 
-        partial void OnItemsRead(ref IQueryable<Server.Models.Postgres.Item> items);
+        partial void OnDestinationsRead(ref IQueryable<Tripbuk.Server.Models.Postgres.Destination> items);
 
-        public async Task<IQueryable<Server.Models.Postgres.Item>> GetItems(Query query = null)
+        public async Task<IQueryable<Tripbuk.Server.Models.Postgres.Destination>> GetDestinations(Query query = null)
         {
-            var items = Context.Items.AsQueryable();
+            var items = Context.Destinations.AsQueryable();
 
-            items = items.Include(i => i.ItemGroup);
+            items = items.Include(i => i.Destination1);
 
             if (query != null)
             {
@@ -592,41 +589,41 @@ namespace Tripbuk.Server
                 ApplyQuery(ref items, query);
             }
 
-            OnItemsRead(ref items);
+            OnDestinationsRead(ref items);
 
             return await Task.FromResult(items);
         }
 
-        partial void OnItemGet(Server.Models.Postgres.Item item);
-        partial void OnGetItemById(ref IQueryable<Server.Models.Postgres.Item> items);
+        partial void OnDestinationGet(Tripbuk.Server.Models.Postgres.Destination item);
+        partial void OnGetDestinationById(ref IQueryable<Tripbuk.Server.Models.Postgres.Destination> items);
 
 
-        public async Task<Server.Models.Postgres.Item> GetItemById(int id)
+        public async Task<Tripbuk.Server.Models.Postgres.Destination> GetDestinationById(int id)
         {
-            var items = Context.Items
+            var items = Context.Destinations
                               .AsNoTracking()
                               .Where(i => i.Id == id);
 
-            items = items.Include(i => i.ItemGroup);
+            items = items.Include(i => i.Destination1);
  
-            OnGetItemById(ref items);
+            OnGetDestinationById(ref items);
 
             var itemToReturn = items.FirstOrDefault();
 
-            OnItemGet(itemToReturn);
+            OnDestinationGet(itemToReturn);
 
             return await Task.FromResult(itemToReturn);
         }
 
-        partial void OnItemCreated(Server.Models.Postgres.Item item);
-        partial void OnAfterItemCreated(Server.Models.Postgres.Item item);
+        partial void OnDestinationCreated(Tripbuk.Server.Models.Postgres.Destination item);
+        partial void OnAfterDestinationCreated(Tripbuk.Server.Models.Postgres.Destination item);
 
-        public async Task<Server.Models.Postgres.Item> CreateItem(Server.Models.Postgres.Item item)
+        public async Task<Tripbuk.Server.Models.Postgres.Destination> CreateDestination(Tripbuk.Server.Models.Postgres.Destination destination)
         {
-            OnItemCreated(item);
+            OnDestinationCreated(destination);
 
-            var existingItem = Context.Items
-                              .Where(i => i.Id == item.Id)
+            var existingItem = Context.Destinations
+                              .Where(i => i.Id == destination.Id)
                               .FirstOrDefault();
 
             if (existingItem != null)
@@ -636,21 +633,21 @@ namespace Tripbuk.Server
 
             try
             {
-                Context.Items.Add(item);
+                Context.Destinations.Add(destination);
                 Context.SaveChanges();
             }
             catch
             {
-                Context.Entry(item).State = EntityState.Detached;
+                Context.Entry(destination).State = EntityState.Detached;
                 throw;
             }
 
-            OnAfterItemCreated(item);
+            OnAfterDestinationCreated(destination);
 
-            return item;
+            return destination;
         }
 
-        public async Task<Server.Models.Postgres.Item> CancelItemChanges(Server.Models.Postgres.Item item)
+        public async Task<Tripbuk.Server.Models.Postgres.Destination> CancelDestinationChanges(Tripbuk.Server.Models.Postgres.Destination item)
         {
             var entityToCancel = Context.Entry(item);
             if (entityToCancel.State == EntityState.Modified)
@@ -662,15 +659,15 @@ namespace Tripbuk.Server
             return item;
         }
 
-        partial void OnItemUpdated(Server.Models.Postgres.Item item);
-        partial void OnAfterItemUpdated(Server.Models.Postgres.Item item);
+        partial void OnDestinationUpdated(Tripbuk.Server.Models.Postgres.Destination item);
+        partial void OnAfterDestinationUpdated(Tripbuk.Server.Models.Postgres.Destination item);
 
-        public async Task<Server.Models.Postgres.Item> UpdateItem(int id, Server.Models.Postgres.Item item)
+        public async Task<Tripbuk.Server.Models.Postgres.Destination> UpdateDestination(int id, Tripbuk.Server.Models.Postgres.Destination destination)
         {
-            OnItemUpdated(item);
+            OnDestinationUpdated(destination);
 
-            var itemToUpdate = Context.Items
-                              .Where(i => i.Id == item.Id)
+            var itemToUpdate = Context.Destinations
+                              .Where(i => i.Id == destination.Id)
                               .FirstOrDefault();
 
             if (itemToUpdate == null)
@@ -679,23 +676,24 @@ namespace Tripbuk.Server
             }
                 
             var entryToUpdate = Context.Entry(itemToUpdate);
-            entryToUpdate.CurrentValues.SetValues(item);
+            entryToUpdate.CurrentValues.SetValues(destination);
             entryToUpdate.State = EntityState.Modified;
 
             Context.SaveChanges();
 
-            OnAfterItemUpdated(item);
+            OnAfterDestinationUpdated(destination);
 
-            return item;
+            return destination;
         }
 
-        partial void OnItemDeleted(Server.Models.Postgres.Item item);
-        partial void OnAfterItemDeleted(Server.Models.Postgres.Item item);
+        partial void OnDestinationDeleted(Tripbuk.Server.Models.Postgres.Destination item);
+        partial void OnAfterDestinationDeleted(Tripbuk.Server.Models.Postgres.Destination item);
 
-        public async Task<Server.Models.Postgres.Item> DeleteItem(int id)
+        public async Task<Tripbuk.Server.Models.Postgres.Destination> DeleteDestination(int id)
         {
-            var itemToDelete = Context.Items
+            var itemToDelete = Context.Destinations
                               .Where(i => i.Id == id)
+                              .Include(i => i.Destinations1)
                               .FirstOrDefault();
 
             if (itemToDelete == null)
@@ -703,10 +701,10 @@ namespace Tripbuk.Server
                throw new Exception("Item no longer available");
             }
 
-            OnItemDeleted(itemToDelete);
+            OnDestinationDeleted(itemToDelete);
 
 
-            Context.Items.Remove(itemToDelete);
+            Context.Destinations.Remove(itemToDelete);
 
             try
             {
@@ -718,657 +716,7 @@ namespace Tripbuk.Server
                 throw;
             }
 
-            OnAfterItemDeleted(itemToDelete);
-
-            return itemToDelete;
-        }
-    
-        public async Task ExportStandardNarrationsToExcel(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/standardnarrations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/standardnarrations/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        public async Task ExportStandardNarrationsToCSV(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/standardnarrations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/standardnarrations/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        partial void OnStandardNarrationsRead(ref IQueryable<Server.Models.Postgres.StandardNarration> items);
-
-        public async Task<IQueryable<Server.Models.Postgres.StandardNarration>> GetStandardNarrations(Query query = null)
-        {
-            var items = Context.StandardNarrations.AsQueryable();
-
-
-            if (query != null)
-            {
-                if (!string.IsNullOrEmpty(query.Expand))
-                {
-                    var propertiesToExpand = query.Expand.Split(',');
-                    foreach(var p in propertiesToExpand)
-                    {
-                        items = items.Include(p.Trim());
-                    }
-                }
-
-                ApplyQuery(ref items, query);
-            }
-
-            OnStandardNarrationsRead(ref items);
-
-            return await Task.FromResult(items);
-        }
-
-        partial void OnStandardNarrationGet(Server.Models.Postgres.StandardNarration item);
-        partial void OnGetStandardNarrationById(ref IQueryable<Server.Models.Postgres.StandardNarration> items);
-
-
-        public async Task<Server.Models.Postgres.StandardNarration> GetStandardNarrationById(int id)
-        {
-            var items = Context.StandardNarrations
-                              .AsNoTracking()
-                              .Where(i => i.Id == id);
-
- 
-            OnGetStandardNarrationById(ref items);
-
-            var itemToReturn = items.FirstOrDefault();
-
-            OnStandardNarrationGet(itemToReturn);
-
-            return await Task.FromResult(itemToReturn);
-        }
-
-        partial void OnStandardNarrationCreated(Server.Models.Postgres.StandardNarration item);
-        partial void OnAfterStandardNarrationCreated(Server.Models.Postgres.StandardNarration item);
-
-        public async Task<Server.Models.Postgres.StandardNarration> CreateStandardNarration(Server.Models.Postgres.StandardNarration standardnarration)
-        {
-            OnStandardNarrationCreated(standardnarration);
-
-            var existingItem = Context.StandardNarrations
-                              .Where(i => i.Id == standardnarration.Id)
-                              .FirstOrDefault();
-
-            if (existingItem != null)
-            {
-               throw new Exception("Item already available");
-            }            
-
-            try
-            {
-                Context.StandardNarrations.Add(standardnarration);
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(standardnarration).State = EntityState.Detached;
-                throw;
-            }
-
-            OnAfterStandardNarrationCreated(standardnarration);
-
-            return standardnarration;
-        }
-
-        public async Task<Server.Models.Postgres.StandardNarration> CancelStandardNarrationChanges(Server.Models.Postgres.StandardNarration item)
-        {
-            var entityToCancel = Context.Entry(item);
-            if (entityToCancel.State == EntityState.Modified)
-            {
-              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
-              entityToCancel.State = EntityState.Unchanged;
-            }
-
-            return item;
-        }
-
-        partial void OnStandardNarrationUpdated(Server.Models.Postgres.StandardNarration item);
-        partial void OnAfterStandardNarrationUpdated(Server.Models.Postgres.StandardNarration item);
-
-        public async Task<Server.Models.Postgres.StandardNarration> UpdateStandardNarration(int id, Server.Models.Postgres.StandardNarration standardnarration)
-        {
-            OnStandardNarrationUpdated(standardnarration);
-
-            var itemToUpdate = Context.StandardNarrations
-                              .Where(i => i.Id == standardnarration.Id)
-                              .FirstOrDefault();
-
-            if (itemToUpdate == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-                
-            var entryToUpdate = Context.Entry(itemToUpdate);
-            entryToUpdate.CurrentValues.SetValues(standardnarration);
-            entryToUpdate.State = EntityState.Modified;
-
-            Context.SaveChanges();
-
-            OnAfterStandardNarrationUpdated(standardnarration);
-
-            return standardnarration;
-        }
-
-        partial void OnStandardNarrationDeleted(Server.Models.Postgres.StandardNarration item);
-        partial void OnAfterStandardNarrationDeleted(Server.Models.Postgres.StandardNarration item);
-
-        public async Task<Server.Models.Postgres.StandardNarration> DeleteStandardNarration(int id)
-        {
-            var itemToDelete = Context.StandardNarrations
-                              .Where(i => i.Id == id)
-                              .FirstOrDefault();
-
-            if (itemToDelete == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-
-            OnStandardNarrationDeleted(itemToDelete);
-
-
-            Context.StandardNarrations.Remove(itemToDelete);
-
-            try
-            {
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(itemToDelete).State = EntityState.Unchanged;
-                throw;
-            }
-
-            OnAfterStandardNarrationDeleted(itemToDelete);
-
-            return itemToDelete;
-        }
-    
-        public async Task ExportUnitConversionsToExcel(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/unitconversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/unitconversions/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        public async Task ExportUnitConversionsToCSV(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/unitconversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/unitconversions/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        partial void OnUnitConversionsRead(ref IQueryable<Server.Models.Postgres.UnitConversion> items);
-
-        public async Task<IQueryable<Server.Models.Postgres.UnitConversion>> GetUnitConversions(Query query = null)
-        {
-            var items = Context.UnitConversions.AsQueryable();
-
-            items = items.Include(i => i.Unit);
-            items = items.Include(i => i.Unit1);
-
-            if (query != null)
-            {
-                if (!string.IsNullOrEmpty(query.Expand))
-                {
-                    var propertiesToExpand = query.Expand.Split(',');
-                    foreach(var p in propertiesToExpand)
-                    {
-                        items = items.Include(p.Trim());
-                    }
-                }
-
-                ApplyQuery(ref items, query);
-            }
-
-            OnUnitConversionsRead(ref items);
-
-            return await Task.FromResult(items);
-        }
-
-        partial void OnUnitConversionGet(Server.Models.Postgres.UnitConversion item);
-        partial void OnGetUnitConversionById(ref IQueryable<Server.Models.Postgres.UnitConversion> items);
-
-
-        public async Task<Server.Models.Postgres.UnitConversion> GetUnitConversionById(int id)
-        {
-            var items = Context.UnitConversions
-                              .AsNoTracking()
-                              .Where(i => i.Id == id);
-
-            items = items.Include(i => i.Unit);
-            items = items.Include(i => i.Unit1);
- 
-            OnGetUnitConversionById(ref items);
-
-            var itemToReturn = items.FirstOrDefault();
-
-            OnUnitConversionGet(itemToReturn);
-
-            return await Task.FromResult(itemToReturn);
-        }
-
-        partial void OnUnitConversionCreated(Server.Models.Postgres.UnitConversion item);
-        partial void OnAfterUnitConversionCreated(Server.Models.Postgres.UnitConversion item);
-
-        public async Task<Server.Models.Postgres.UnitConversion> CreateUnitConversion(Server.Models.Postgres.UnitConversion unitconversion)
-        {
-            OnUnitConversionCreated(unitconversion);
-
-            var existingItem = Context.UnitConversions
-                              .Where(i => i.Id == unitconversion.Id)
-                              .FirstOrDefault();
-
-            if (existingItem != null)
-            {
-               throw new Exception("Item already available");
-            }            
-
-            try
-            {
-                Context.UnitConversions.Add(unitconversion);
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(unitconversion).State = EntityState.Detached;
-                throw;
-            }
-
-            OnAfterUnitConversionCreated(unitconversion);
-
-            return unitconversion;
-        }
-
-        public async Task<Server.Models.Postgres.UnitConversion> CancelUnitConversionChanges(Server.Models.Postgres.UnitConversion item)
-        {
-            var entityToCancel = Context.Entry(item);
-            if (entityToCancel.State == EntityState.Modified)
-            {
-              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
-              entityToCancel.State = EntityState.Unchanged;
-            }
-
-            return item;
-        }
-
-        partial void OnUnitConversionUpdated(Server.Models.Postgres.UnitConversion item);
-        partial void OnAfterUnitConversionUpdated(Server.Models.Postgres.UnitConversion item);
-
-        public async Task<Server.Models.Postgres.UnitConversion> UpdateUnitConversion(int id, Server.Models.Postgres.UnitConversion unitconversion)
-        {
-            OnUnitConversionUpdated(unitconversion);
-
-            var itemToUpdate = Context.UnitConversions
-                              .Where(i => i.Id == unitconversion.Id)
-                              .FirstOrDefault();
-
-            if (itemToUpdate == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-                
-            var entryToUpdate = Context.Entry(itemToUpdate);
-            entryToUpdate.CurrentValues.SetValues(unitconversion);
-            entryToUpdate.State = EntityState.Modified;
-
-            Context.SaveChanges();
-
-            OnAfterUnitConversionUpdated(unitconversion);
-
-            return unitconversion;
-        }
-
-        partial void OnUnitConversionDeleted(Server.Models.Postgres.UnitConversion item);
-        partial void OnAfterUnitConversionDeleted(Server.Models.Postgres.UnitConversion item);
-
-        public async Task<Server.Models.Postgres.UnitConversion> DeleteUnitConversion(int id)
-        {
-            var itemToDelete = Context.UnitConversions
-                              .Where(i => i.Id == id)
-                              .FirstOrDefault();
-
-            if (itemToDelete == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-
-            OnUnitConversionDeleted(itemToDelete);
-
-
-            Context.UnitConversions.Remove(itemToDelete);
-
-            try
-            {
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(itemToDelete).State = EntityState.Unchanged;
-                throw;
-            }
-
-            OnAfterUnitConversionDeleted(itemToDelete);
-
-            return itemToDelete;
-        }
-    
-        public async Task ExportUnitsToExcel(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/units/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/units/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        public async Task ExportUnitsToCSV(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/units/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/units/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        partial void OnUnitsRead(ref IQueryable<Server.Models.Postgres.Unit> items);
-
-        public async Task<IQueryable<Server.Models.Postgres.Unit>> GetUnits(Query query = null)
-        {
-            var items = Context.Units.AsQueryable();
-
-
-            if (query != null)
-            {
-                if (!string.IsNullOrEmpty(query.Expand))
-                {
-                    var propertiesToExpand = query.Expand.Split(',');
-                    foreach(var p in propertiesToExpand)
-                    {
-                        items = items.Include(p.Trim());
-                    }
-                }
-
-                ApplyQuery(ref items, query);
-            }
-
-            OnUnitsRead(ref items);
-
-            return await Task.FromResult(items);
-        }
-
-        partial void OnUnitGet(Server.Models.Postgres.Unit item);
-        partial void OnGetUnitById(ref IQueryable<Server.Models.Postgres.Unit> items);
-
-
-        public async Task<Server.Models.Postgres.Unit> GetUnitById(int id)
-        {
-            var items = Context.Units
-                              .AsNoTracking()
-                              .Where(i => i.Id == id);
-
- 
-            OnGetUnitById(ref items);
-
-            var itemToReturn = items.FirstOrDefault();
-
-            OnUnitGet(itemToReturn);
-
-            return await Task.FromResult(itemToReturn);
-        }
-
-        partial void OnUnitCreated(Server.Models.Postgres.Unit item);
-        partial void OnAfterUnitCreated(Server.Models.Postgres.Unit item);
-
-        public async Task<Server.Models.Postgres.Unit> CreateUnit(Server.Models.Postgres.Unit _unit)
-        {
-            OnUnitCreated(_unit);
-
-            var existingItem = Context.Units
-                              .Where(i => i.Id == _unit.Id)
-                              .FirstOrDefault();
-
-            if (existingItem != null)
-            {
-               throw new Exception("Item already available");
-            }            
-
-            try
-            {
-                Context.Units.Add(_unit);
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(_unit).State = EntityState.Detached;
-                throw;
-            }
-
-            OnAfterUnitCreated(_unit);
-
-            return _unit;
-        }
-
-        public async Task<Server.Models.Postgres.Unit> CancelUnitChanges(Server.Models.Postgres.Unit item)
-        {
-            var entityToCancel = Context.Entry(item);
-            if (entityToCancel.State == EntityState.Modified)
-            {
-              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
-              entityToCancel.State = EntityState.Unchanged;
-            }
-
-            return item;
-        }
-
-        partial void OnUnitUpdated(Server.Models.Postgres.Unit item);
-        partial void OnAfterUnitUpdated(Server.Models.Postgres.Unit item);
-
-        public async Task<Server.Models.Postgres.Unit> UpdateUnit(int id, Server.Models.Postgres.Unit _unit)
-        {
-            OnUnitUpdated(_unit);
-
-            var itemToUpdate = Context.Units
-                              .Where(i => i.Id == _unit.Id)
-                              .FirstOrDefault();
-
-            if (itemToUpdate == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-                
-            var entryToUpdate = Context.Entry(itemToUpdate);
-            entryToUpdate.CurrentValues.SetValues(_unit);
-            entryToUpdate.State = EntityState.Modified;
-
-            Context.SaveChanges();
-
-            OnAfterUnitUpdated(_unit);
-
-            return _unit;
-        }
-
-        partial void OnUnitDeleted(Server.Models.Postgres.Unit item);
-        partial void OnAfterUnitDeleted(Server.Models.Postgres.Unit item);
-
-        public async Task<Server.Models.Postgres.Unit> DeleteUnit(int id)
-        {
-            var itemToDelete = Context.Units
-                              .Where(i => i.Id == id)
-                              .Include(i => i.UnitConversions)
-                              .Include(i => i.UnitConversions1)
-                              .FirstOrDefault();
-
-            if (itemToDelete == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-
-            OnUnitDeleted(itemToDelete);
-
-
-            Context.Units.Remove(itemToDelete);
-
-            try
-            {
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(itemToDelete).State = EntityState.Unchanged;
-                throw;
-            }
-
-            OnAfterUnitDeleted(itemToDelete);
-
-            return itemToDelete;
-        }
-    
-        public async Task ExportSmtpConfigsToExcel(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/smtpconfigs/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/smtpconfigs/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        public async Task ExportSmtpConfigsToCSV(Query query = null, string fileName = null)
-        {
-            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/smtpconfigs/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/smtpconfigs/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
-        }
-
-        partial void OnSmtpConfigsRead(ref IQueryable<Server.Models.Postgres.SmtpConfig> items);
-
-        public async Task<IQueryable<Server.Models.Postgres.SmtpConfig>> GetSmtpConfigs(Query query = null)
-        {
-            var items = Context.SmtpConfigs.AsQueryable();
-
-
-            if (query != null)
-            {
-                if (!string.IsNullOrEmpty(query.Expand))
-                {
-                    var propertiesToExpand = query.Expand.Split(',');
-                    foreach(var p in propertiesToExpand)
-                    {
-                        items = items.Include(p.Trim());
-                    }
-                }
-
-                ApplyQuery(ref items, query);
-            }
-
-            OnSmtpConfigsRead(ref items);
-
-            return await Task.FromResult(items);
-        }
-
-        partial void OnSmtpConfigGet(Server.Models.Postgres.SmtpConfig item);
-        partial void OnGetSmtpConfigById(ref IQueryable<Server.Models.Postgres.SmtpConfig> items);
-
-
-        public async Task<Server.Models.Postgres.SmtpConfig> GetSmtpConfigById(Guid id)
-        {
-            var items = Context.SmtpConfigs
-                              .AsNoTracking()
-                              .Where(i => i.Id == id);
-
- 
-            OnGetSmtpConfigById(ref items);
-
-            var itemToReturn = items.FirstOrDefault();
-
-            OnSmtpConfigGet(itemToReturn);
-
-            return await Task.FromResult(itemToReturn);
-        }
-
-        partial void OnSmtpConfigCreated(Server.Models.Postgres.SmtpConfig item);
-        partial void OnAfterSmtpConfigCreated(Server.Models.Postgres.SmtpConfig item);
-
-        public async Task<Server.Models.Postgres.SmtpConfig> CreateSmtpConfig(Server.Models.Postgres.SmtpConfig smtpconfig)
-        {
-            OnSmtpConfigCreated(smtpconfig);
-
-            var existingItem = Context.SmtpConfigs
-                              .Where(i => i.Id == smtpconfig.Id)
-                              .FirstOrDefault();
-
-            if (existingItem != null)
-            {
-               throw new Exception("Item already available");
-            }            
-
-            try
-            {
-                Context.SmtpConfigs.Add(smtpconfig);
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(smtpconfig).State = EntityState.Detached;
-                throw;
-            }
-
-            OnAfterSmtpConfigCreated(smtpconfig);
-
-            return smtpconfig;
-        }
-
-        public async Task<Server.Models.Postgres.SmtpConfig> CancelSmtpConfigChanges(Server.Models.Postgres.SmtpConfig item)
-        {
-            var entityToCancel = Context.Entry(item);
-            if (entityToCancel.State == EntityState.Modified)
-            {
-              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
-              entityToCancel.State = EntityState.Unchanged;
-            }
-
-            return item;
-        }
-
-        partial void OnSmtpConfigUpdated(Server.Models.Postgres.SmtpConfig item);
-        partial void OnAfterSmtpConfigUpdated(Server.Models.Postgres.SmtpConfig item);
-
-        public async Task<Server.Models.Postgres.SmtpConfig> UpdateSmtpConfig(Guid id, Server.Models.Postgres.SmtpConfig smtpconfig)
-        {
-            OnSmtpConfigUpdated(smtpconfig);
-
-            var itemToUpdate = Context.SmtpConfigs
-                              .Where(i => i.Id == smtpconfig.Id)
-                              .FirstOrDefault();
-
-            if (itemToUpdate == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-                
-            var entryToUpdate = Context.Entry(itemToUpdate);
-            entryToUpdate.CurrentValues.SetValues(smtpconfig);
-            entryToUpdate.State = EntityState.Modified;
-
-            Context.SaveChanges();
-
-            OnAfterSmtpConfigUpdated(smtpconfig);
-
-            return smtpconfig;
-        }
-
-        partial void OnSmtpConfigDeleted(Server.Models.Postgres.SmtpConfig item);
-        partial void OnAfterSmtpConfigDeleted(Server.Models.Postgres.SmtpConfig item);
-
-        public async Task<Server.Models.Postgres.SmtpConfig> DeleteSmtpConfig(Guid id)
-        {
-            var itemToDelete = Context.SmtpConfigs
-                              .Where(i => i.Id == id)
-                              .FirstOrDefault();
-
-            if (itemToDelete == null)
-            {
-               throw new Exception("Item no longer available");
-            }
-
-            OnSmtpConfigDeleted(itemToDelete);
-
-
-            Context.SmtpConfigs.Remove(itemToDelete);
-
-            try
-            {
-                Context.SaveChanges();
-            }
-            catch
-            {
-                Context.Entry(itemToDelete).State = EntityState.Unchanged;
-                throw;
-            }
-
-            OnAfterSmtpConfigDeleted(itemToDelete);
+            OnAfterDestinationDeleted(itemToDelete);
 
             return itemToDelete;
         }

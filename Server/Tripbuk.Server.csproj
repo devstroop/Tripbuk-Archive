@@ -18,4 +18,7 @@
     <PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="9.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.1" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Viator\" />
+  </ItemGroup>
 </Project>

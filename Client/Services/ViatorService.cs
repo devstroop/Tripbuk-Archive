@@ -35,12 +35,14 @@ namespace Tripbuk.Client
         partial void OnSearchFreeText(HttpRequestMessage request);
         partial void OnSearchFreeTextResponse(HttpResponseMessage response);
 
-        public async Task SearchFreeText(string language)
+        public async Task<Tripbuk.Server.Models.Viator.SearchFreeText> SearchFreeText(string language, SearchFreetextRequest data, string accept)
         {
             var uri = new Uri(httpClient.BaseAddress, $"search/freetext");
 
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
             request.Headers.TryAddWithoutValidation("Accept-Language", $"{language}");
+            request.Headers.TryAddWithoutValidation("Accept", $"{accept}");
+            request.Content = JsonContent.Create<SearchFreetextRequest>(data);
 
             OnSearchFreeText(request);
 
@@ -51,6 +53,8 @@ namespace Tripbuk.Client
             response.EnsureSuccessStatusCode();
 
             OnSearchFreeTextResponse(response);
+
+            return await response.Content.ReadFromJsonAsync<Tripbuk.Server.Models.Viator.SearchFreeText>();
         }
     }
 }
