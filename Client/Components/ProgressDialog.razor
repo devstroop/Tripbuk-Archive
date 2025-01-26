@@ -1,0 +1,23 @@
+@inject ProgressDialogState State
+@implements IDisposable
+
+<RadzenStack AlignItems="AlignItems.Center" Gap="2rem" class="rz-p-12">
+    <RadzenProgressBarCircular ShowValue="true" 
+                               Mode="ProgressBarMode.Indeterminate"
+                               Value="@State.Progress"
+                               Size="ProgressBarCircularSize.Medium">
+    </RadzenProgressBarCircular>
+    <RadzenText TextStyle="TextStyle.H6">@State.Message</RadzenText>
+</RadzenStack>
+
+@code {
+    protected override void OnInitialized()
+    {
+        State.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        State.OnChange -= StateHasChanged;
+    }
+}

@@ -39,7 +39,9 @@ namespace Tripbuk.Server.Models.Postgres
 
         public List<string>? Languages { get; set; }
 
-        public string Center { get; set; }
+        public int? LocationCenterId { get; set; }
+
+        public LocationCenter LocationCenter { get; set; }
 
         public ICollection<Destination> Destinations1 { get; set; }
 

@@ -84,6 +84,7 @@ namespace Tripbuk.Server
         {
             var items = Context.Destinations.AsQueryable();
 
+            items = items.Include(i => i.LocationCenter);
             items = items.Include(i => i.Destination1);
 
             if (query != null)
@@ -115,6 +116,7 @@ namespace Tripbuk.Server
                               .AsNoTracking()
                               .Where(i => i.Id == id);
 
+            items = items.Include(i => i.LocationCenter);
             items = items.Include(i => i.Destination1);
  
             OnGetDestinationById(ref items);
@@ -229,6 +231,168 @@ namespace Tripbuk.Server
             }
 
             OnAfterDestinationDeleted(itemToDelete);
+
+            return itemToDelete;
+        }
+    
+        public async Task ExportLocationCentersToExcel(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/locationcenters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/locationcenters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        public async Task ExportLocationCentersToCSV(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/locationcenters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/locationcenters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        partial void OnLocationCentersRead(ref IQueryable<Tripbuk.Server.Models.Postgres.LocationCenter> items);
+
+        public async Task<IQueryable<Tripbuk.Server.Models.Postgres.LocationCenter>> GetLocationCenters(Query query = null)
+        {
+            var items = Context.LocationCenters.AsQueryable();
+
+
+            if (query != null)
+            {
+                if (!string.IsNullOrEmpty(query.Expand))
+                {
+                    var propertiesToExpand = query.Expand.Split(',');
+                    foreach(var p in propertiesToExpand)
+                    {
+                        items = items.Include(p.Trim());
+                    }
+                }
+
+                ApplyQuery(ref items, query);
+            }
+
+            OnLocationCentersRead(ref items);
+
+            return await Task.FromResult(items);
+        }
+
+        partial void OnLocationCenterGet(Tripbuk.Server.Models.Postgres.LocationCenter item);
+        partial void OnGetLocationCenterById(ref IQueryable<Tripbuk.Server.Models.Postgres.LocationCenter> items);
+
+
+        public async Task<Tripbuk.Server.Models.Postgres.LocationCenter> GetLocationCenterById(int id)
+        {
+            var items = Context.LocationCenters
+                              .AsNoTracking()
+                              .Where(i => i.Id == id);
+
+ 
+            OnGetLocationCenterById(ref items);
+
+            var itemToReturn = items.FirstOrDefault();
+
+            OnLocationCenterGet(itemToReturn);
+
+            return await Task.FromResult(itemToReturn);
+        }
+
+        partial void OnLocationCenterCreated(Tripbuk.Server.Models.Postgres.LocationCenter item);
+        partial void OnAfterLocationCenterCreated(Tripbuk.Server.Models.Postgres.LocationCenter item);
+
+        public async Task<Tripbuk.Server.Models.Postgres.LocationCenter> CreateLocationCenter(Tripbuk.Server.Models.Postgres.LocationCenter locationcenter)
+        {
+            OnLocationCenterCreated(locationcenter);
+
+            var existingItem = Context.LocationCenters
+                              .Where(i => i.Id == locationcenter.Id)
+                              .FirstOrDefault();
+
+            if (existingItem != null)
+            {
+               throw new Exception("Item already available");
+            }            
+
+            try
+            {
+                Context.LocationCenters.Add(locationcenter);
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(locationcenter).State = EntityState.Detached;
+                throw;
+            }
+
+            OnAfterLocationCenterCreated(locationcenter);
+
+            return locationcenter;
+        }
+
+        public async Task<Tripbuk.Server.Models.Postgres.LocationCenter> CancelLocationCenterChanges(Tripbuk.Server.Models.Postgres.LocationCenter item)
+        {
+            var entityToCancel = Context.Entry(item);
+            if (entityToCancel.State == EntityState.Modified)
+            {
+              entityToCancel.CurrentValues.SetValues(entityToCancel.OriginalValues);
+              entityToCancel.State = EntityState.Unchanged;
+            }
+
+            return item;
+        }
+
+        partial void OnLocationCenterUpdated(Tripbuk.Server.Models.Postgres.LocationCenter item);
+        partial void OnAfterLocationCenterUpdated(Tripbuk.Server.Models.Postgres.LocationCenter item);
+
+        public async Task<Tripbuk.Server.Models.Postgres.LocationCenter> UpdateLocationCenter(int id, Tripbuk.Server.Models.Postgres.LocationCenter locationcenter)
+        {
+            OnLocationCenterUpdated(locationcenter);
+
+            var itemToUpdate = Context.LocationCenters
+                              .Where(i => i.Id == locationcenter.Id)
+                              .FirstOrDefault();
+
+            if (itemToUpdate == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+                
+            var entryToUpdate = Context.Entry(itemToUpdate);
+            entryToUpdate.CurrentValues.SetValues(locationcenter);
+            entryToUpdate.State = EntityState.Modified;
+
+            Context.SaveChanges();
+
+            OnAfterLocationCenterUpdated(locationcenter);
+
+            return locationcenter;
+        }
+
+        partial void OnLocationCenterDeleted(Tripbuk.Server.Models.Postgres.LocationCenter item);
+        partial void OnAfterLocationCenterDeleted(Tripbuk.Server.Models.Postgres.LocationCenter item);
+
+        public async Task<Tripbuk.Server.Models.Postgres.LocationCenter> DeleteLocationCenter(int id)
+        {
+            var itemToDelete = Context.LocationCenters
+                              .Where(i => i.Id == id)
+                              .Include(i => i.Destinations)
+                              .FirstOrDefault();
+
+            if (itemToDelete == null)
+            {
+               throw new Exception("Item no longer available");
+            }
+
+            OnLocationCenterDeleted(itemToDelete);
+
+
+            Context.LocationCenters.Remove(itemToDelete);
+
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch
+            {
+                Context.Entry(itemToDelete).State = EntityState.Unchanged;
+                throw;
+            }
+
+            OnAfterLocationCenterDeleted(itemToDelete);
 
             return itemToDelete;
         }

@@ -8,7 +8,7 @@ public partial class DestinationDetails
     [JsonPropertyName("destinationId")] public int DestinationId { get; set; }
     [JsonPropertyName("name")] public string Name { get; set; }
     [JsonPropertyName("type")] public string Type { get; set; }
-    [JsonPropertyName("parentDestinationId")] public int[] ParentDestinationId { get; set; }
+    [JsonPropertyName("parentDestinationId")] public int ParentDestinationId { get; set; }
     [JsonPropertyName("lookupId")] public string LookupId { get; set; }
     [JsonPropertyName("destinationUrl")] public string DestinationUrl { get; set; }
     [JsonPropertyName("defaultCurrencyCode")] public string DefaultCurrencyCode { get; set; }

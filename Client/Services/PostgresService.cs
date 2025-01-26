@@ -125,6 +125,100 @@ namespace Tripbuk.Client
             return await httpClient.SendAsync(httpRequestMessage);
         }
 
+        public async System.Threading.Tasks.Task ExportLocationCentersToExcel(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/locationcenters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/locationcenters/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        public async System.Threading.Tasks.Task ExportLocationCentersToCSV(Query query = null, string fileName = null)
+        {
+            navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/locationcenters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/locationcenters/csv(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);
+        }
+
+        partial void OnGetLocationCenters(HttpRequestMessage requestMessage);
+
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.LocationCenter>> GetLocationCenters(Query query)
+        {
+            return await GetLocationCenters(filter:$"{query.Filter}", orderby:$"{query.OrderBy}", top:query.Top, skip:query.Skip, count:query.Top != null && query.Skip != null);
+        }
+
+        public async Task<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.LocationCenter>> GetLocationCenters(string filter = default(string), string orderby = default(string), string expand = default(string), int? top = default(int?), int? skip = default(int?), bool? count = default(bool?), string format = default(string), string select = default(string))
+        {
+            var uri = new Uri(baseUri, $"LocationCenters");
+            uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:filter, top:top, skip:skip, orderby:orderby, expand:expand, select:select, count:count);
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+
+            OnGetLocationCenters(httpRequestMessage);
+
+            var response = await httpClient.SendAsync(httpRequestMessage);
+
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Radzen.ODataServiceResult<Tripbuk.Server.Models.Postgres.LocationCenter>>(response);
+        }
+
+        partial void OnCreateLocationCenter(HttpRequestMessage requestMessage);
+
+        public async Task<Tripbuk.Server.Models.Postgres.LocationCenter> CreateLocationCenter(Tripbuk.Server.Models.Postgres.LocationCenter locationCenter = default(Tripbuk.Server.Models.Postgres.LocationCenter))
+        {
+            var uri = new Uri(baseUri, $"LocationCenters");
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, uri);
+
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(locationCenter), Encoding.UTF8, "application/json");
+
+            OnCreateLocationCenter(httpRequestMessage);
+
+            var response = await httpClient.SendAsync(httpRequestMessage);
+
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.LocationCenter>(response);
+        }
+
+        partial void OnDeleteLocationCenter(HttpRequestMessage requestMessage);
+
+        public async Task<HttpResponseMessage> DeleteLocationCenter(int id = default(int))
+        {
+            var uri = new Uri(baseUri, $"LocationCenters({id})");
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
+
+            OnDeleteLocationCenter(httpRequestMessage);
+
+            return await httpClient.SendAsync(httpRequestMessage);
+        }
+
+        partial void OnGetLocationCenterById(HttpRequestMessage requestMessage);
+
+        public async Task<Tripbuk.Server.Models.Postgres.LocationCenter> GetLocationCenterById(string expand = default(string), int id = default(int))
+        {
+            var uri = new Uri(baseUri, $"LocationCenters({id})");
+
+            uri = Radzen.ODataExtensions.GetODataUri(uri: uri, filter:null, top:null, skip:null, orderby:null, expand:expand, select:null, count:null);
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+
+            OnGetLocationCenterById(httpRequestMessage);
+
+            var response = await httpClient.SendAsync(httpRequestMessage);
+
+            return await Radzen.HttpResponseMessageExtensions.ReadAsync<Tripbuk.Server.Models.Postgres.LocationCenter>(response);
+        }
+
+        partial void OnUpdateLocationCenter(HttpRequestMessage requestMessage);
+        
+        public async Task<HttpResponseMessage> UpdateLocationCenter(int id = default(int), Tripbuk.Server.Models.Postgres.LocationCenter locationCenter = default(Tripbuk.Server.Models.Postgres.LocationCenter))
+        {
+            var uri = new Uri(baseUri, $"LocationCenters({id})");
+
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Patch, uri);
+
+
+            httpRequestMessage.Content = new StringContent(Radzen.ODataJsonSerializer.Serialize(locationCenter), Encoding.UTF8, "application/json");
+
+            OnUpdateLocationCenter(httpRequestMessage);
+
+            return await httpClient.SendAsync(httpRequestMessage);
+        }
+
         public async System.Threading.Tasks.Task ExportParentTagsToExcel(Query query = null, string fileName = null)
         {
             navigationManager.NavigateTo(query != null ? query.ToUrl($"export/postgres/parenttags/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')") : $"export/postgres/parenttags/excel(fileName='{(!string.IsNullOrEmpty(fileName) ? UrlEncoder.Default.Encode(fileName) : "Export")}')", true);

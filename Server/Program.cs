@@ -7,7 +7,9 @@ using Tripbuk.Server.Data;
 using Microsoft.AspNetCore.Identity;
 using Tripbuk.Server.Models;
 using Microsoft.AspNetCore.Components.Authorization;
+using Tripbuk.Client.Components;
 
+const string allowedOriginsPolicyName = "_AllowedOrigins";
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents().AddInteractiveServerComponents().AddHubOptions(options => options.MaximumReceiveMessageSize = 10 * 1024 * 1024).AddInteractiveWebAssemblyComponents();
@@ -16,8 +18,9 @@ builder.Services.AddRadzenComponents();
 builder.Services.AddRadzenCookieThemeService(options =>
 {
     options.Name = "TripbukTheme";
-    options.Duration = TimeSpan.FromDays(365);
+    options.Duration = TimeSpan.FromDays(30);
 });
+builder.Services.AddScoped<ProgressDialogState>();
 builder.Services.AddHttpClient();
 builder.Services.AddLocalization();
 builder.Services.AddScoped<Tripbuk.Server.PostgresService>();
@@ -29,6 +32,7 @@ builder.Services.AddControllers().AddOData(opt =>
 {
     var oDataBuilderPostgres = new ODataConventionModelBuilder();
     oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.Destination>("Destinations");
+    oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.LocationCenter>("LocationCenters");
     oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.Place>("Places");
     oDataBuilderPostgres.EntitySet<Tripbuk.Server.Models.Postgres.Tag>("Tags");
     oDataBuilderPostgres.Function("ParentTags").Returns<Tripbuk.Server.Models.Postgres.ParentTag>();
@@ -64,14 +68,6 @@ builder.Services.AddHttpClient("Viator", client =>
 {
     client.BaseAddress = new Uri("https://api.sandbox.viator.com/partner/");
 });
-var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
-builder.Services.AddCors(policy =>
-{
-    policy.AddPolicy("_AllowedOrigins", builder => builder.WithOrigins(allowedOrigins)
-        .AllowAnyMethod()
-        .AllowAnyHeader()
-        .AllowCredentials());
-});
 builder.Services.AddScoped<Tripbuk.Client.Services.ViatorService>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
@@ -94,6 +90,7 @@ else
 }
 
 app.UseHttpsRedirection();
+// app.UseCors("_AllowedOrigins");
 app.MapControllers();
 app.UseRequestLocalization(options => options.AddSupportedCultures("en", "hi").AddSupportedUICultures("en", "hi").SetDefaultCulture("en"));
 app.UseHeaderPropagation();

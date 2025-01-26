@@ -5,14 +5,17 @@ using Tripbuk.Client;
 using Microsoft.JSInterop;
 using System.Globalization;
 using Microsoft.AspNetCore.Components.Authorization;
+using Tripbuk.Client.Components;
 
+const string allowedOriginsPolicyName = "_AllowedOrigins";
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Services.AddRadzenComponents();
 builder.Services.AddRadzenCookieThemeService(options =>
 {
     options.Name = "TripbukTheme";
-    options.Duration = TimeSpan.FromDays(365);
+    options.Duration = TimeSpan.FromDays(30);
 });
+builder.Services.AddScoped<ProgressDialogState>();
 builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddLocalization();
 builder.Services.AddScoped<Tripbuk.Client.PostgresService>();
@@ -25,6 +28,9 @@ builder.Services.AddHttpClient("Viator", client =>
 {
     client.BaseAddress = new Uri("https://api.sandbox.viator.com/partner/");
 });
+// builder.Services.AddCors(policy => policy.AddPolicy(allowedOriginsPolicyName, (builder) => builder.WithOrigins("https://api.sandbox.viator.com/")
+//     .AllowAnyMethod()
+//     .AllowAnyHeader()));
 builder.Services.AddScoped<Tripbuk.Client.Services.ViatorService>();
 var host = builder.Build();
 var jsRuntime = host.Services.GetRequiredService<Microsoft.JSInterop.IJSRuntime>();
@@ -34,5 +40,4 @@ if (!string.IsNullOrEmpty(culture))
     CultureInfo.DefaultThreadCurrentCulture = new CultureInfo(culture);
     CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(culture);
 }
-
 await host.RunAsync();

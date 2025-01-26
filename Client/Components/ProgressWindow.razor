@@ -1,0 +1,34 @@
+@inject DialogService DialogService
+@inject ProgressDialogState ProgressState
+
+@code {
+    public async Task OpenAsync(string message, string title = "")
+    {
+        ProgressState.SetMessage(message);
+        ProgressState.SetTitle(title);
+
+        // Open the dialog with the ProgressDialog component
+        _ = DialogService.OpenAsync<ProgressDialog>(title, new Dictionary<string, object>(),
+            new DialogOptions
+            {
+                ShowTitle = false,
+                Style = "min-height:auto;min-width:auto;width:auto",
+                CloseDialogOnEsc = false
+            });
+    }
+
+    public void UpdateMessage(string newMessage)
+    {
+        ProgressState.SetMessage(newMessage);
+    }
+
+    public void UpdateProgress(double newProgress)
+    {
+        ProgressState.SetProgress(newProgress);
+    }
+
+    public void Close()
+    {
+        DialogService.Close();
+    }
+}

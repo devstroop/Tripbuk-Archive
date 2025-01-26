@@ -27,6 +27,12 @@ namespace Tripbuk.Server.Data
             builder.Entity<Tripbuk.Server.Models.Postgres.PlaceTag>().HasNoKey();
 
             builder.Entity<Tripbuk.Server.Models.Postgres.Destination>()
+              .HasOne(i => i.LocationCenter)
+              .WithMany(i => i.Destinations)
+              .HasForeignKey(i => i.LocationCenterId)
+              .HasPrincipalKey(i => i.Id);
+
+            builder.Entity<Tripbuk.Server.Models.Postgres.Destination>()
               .HasOne(i => i.Destination1)
               .WithMany(i => i.Destinations1)
               .HasForeignKey(i => i.ParentDestinationId)
@@ -38,6 +44,10 @@ namespace Tripbuk.Server.Data
               .HasForeignKey(i => i.DestinationId)
               .HasPrincipalKey(i => i.Id);
 
+            builder.Entity<Tripbuk.Server.Models.Postgres.LocationCenter>()
+              .Property(p => p.CreatedAt)
+              .HasDefaultValueSql(@"now()");
+
             builder.Entity<Tripbuk.Server.Models.Postgres.Place>()
               .Property(p => p.CreatedAt)
               .HasDefaultValueSql(@"CURRENT_TIMESTAMP");
@@ -45,6 +55,8 @@ namespace Tripbuk.Server.Data
         }
 
         public DbSet<Tripbuk.Server.Models.Postgres.Destination> Destinations { get; set; }
+
+        public DbSet<Tripbuk.Server.Models.Postgres.LocationCenter> LocationCenters { get; set; }
 
         public DbSet<Tripbuk.Server.Models.Postgres.ParentTag> ParentTags { get; set; }
 

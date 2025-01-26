@@ -33,6 +33,20 @@ namespace Tripbuk.Server.Controllers
             return ToExcel(ApplyQuery(await service.GetDestinations(), Request.Query, false), fileName);
         }
 
+        [HttpGet("/export/Postgres/locationcenters/csv")]
+        [HttpGet("/export/Postgres/locationcenters/csv(fileName='{fileName}')")]
+        public async Task<FileStreamResult> ExportLocationCentersToCSV(string fileName = null)
+        {
+            return ToCSV(ApplyQuery(await service.GetLocationCenters(), Request.Query, false), fileName);
+        }
+
+        [HttpGet("/export/Postgres/locationcenters/excel")]
+        [HttpGet("/export/Postgres/locationcenters/excel(fileName='{fileName}')")]
+        public async Task<FileStreamResult> ExportLocationCentersToExcel(string fileName = null)
+        {
+            return ToExcel(ApplyQuery(await service.GetLocationCenters(), Request.Query, false), fileName);
+        }
+
         [HttpGet("/export/Postgres/parenttags/csv")]
         [HttpGet("/export/Postgres/parenttags/csv(fileName='{fileName}')")]
         public async Task<FileStreamResult> ExportParentTagsToCSV(string fileName = null)

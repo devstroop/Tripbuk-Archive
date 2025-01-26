@@ -1,7 +1,7 @@
 @page "/admin/content/destinations"
 @using Tripbuk.Client.Components
 @attribute [Authorize]
-
+<ProgressWindow @ref="Prog"></ProgressWindow>
 <PageTitle>Destinations</PageTitle>
 <RadzenStack>
     <RadzenBreadCrumb>
@@ -14,10 +14,12 @@
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="6">
             <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
-                <RadzenButton Icon="Sync" Text="sync" Click="@SyncClick" Variant="Variant.Flat" />
-                <RadzenSplitButton Icon="get_app" Text="Export" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
-                    <RadzenSplitButtonItem Text="Excel" Value="xlsx" />
-                    <RadzenSplitButtonItem Text="CSV" Value="csv" />
+                @* <RadzenButton Icon="get_app" Text="Sync" Click="@SyncClick" Variant="Variant.Flat" /> *@
+                <RadzenSplitButton Icon="sync" Text="Sync" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
+                    <RadzenSplitButtonItem Text="Import from JSON" Value="import-json" />
+                    <RadzenSplitButtonItem Text="Export to JSON" Value="export-json" />
+                    <RadzenSplitButtonItem Text="Export to Excel" Value="export-xlsx" />
+                    <RadzenSplitButtonItem Text="Export to CSV" Value="export-csv" />
                 </RadzenSplitButton>
                 <RadzenButton Icon="add_circle_outline" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
             </RadzenStack>
