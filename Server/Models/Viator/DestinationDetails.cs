@@ -3,7 +3,7 @@ using Tripbuk.Client.Viator;
 
 namespace Tripbuk.Server.Models.Viator;
 
-public abstract partial class DestinationDetails
+public partial class DestinationDetails
 {
     [JsonPropertyName("destinationId")] public int DestinationId { get; set; }
     [JsonPropertyName("name")] public string Name { get; set; }

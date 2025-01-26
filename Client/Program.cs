@@ -21,7 +21,10 @@ builder.Services.AddHttpClient("Tripbuk.Server", client => client.BaseAddress = 
 builder.Services.AddTransient(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("Tripbuk.Server"));
 builder.Services.AddScoped<Tripbuk.Client.SecurityService>();
 builder.Services.AddScoped<AuthenticationStateProvider, Tripbuk.Client.ApplicationAuthenticationStateProvider>();
-builder.Services.AddHttpClient("Viator", client => client.BaseAddress = new Uri("https://api.sandbox.viator.com/partner/"));
+builder.Services.AddHttpClient("Viator", client =>
+{
+    client.BaseAddress = new Uri("https://api.sandbox.viator.com/partner/");
+});
 builder.Services.AddScoped<Tripbuk.Client.Services.ViatorService>();
 var host = builder.Build();
 var jsRuntime = host.Services.GetRequiredService<Microsoft.JSInterop.IJSRuntime>();

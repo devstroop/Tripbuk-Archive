@@ -31,6 +31,16 @@ namespace Tripbuk.Client.Services
             request.Headers.Add("exp-api-key", "f8ffa55a-1942-41ae-9a19-a1c88aa8649c");
         }
         
+        /// <summary>
+        /// Add Headers
+        /// </summary>
+        /// <param name="request"></param>
+        private async Task AddHeaders(HttpRequestMessage request)
+        {
+            request.Headers.TryAddWithoutValidation("Accept-Language", "en-US");
+            request.Headers.TryAddWithoutValidation("Accept", "application/json;version=2.0");
+        }
+        
 
         /// <summary>
         /// Search for products by free text
@@ -41,12 +51,11 @@ namespace Tripbuk.Client.Services
         {
             var uri = new Uri(_httpClient.BaseAddress, $"products/tags");
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
-            request.Headers.TryAddWithoutValidation("Accept-Language", "en-US");
-            request.Headers.TryAddWithoutValidation("Accept", "application/json;version=2.0");
             request.Content = JsonContent.Create<SearchFreetextRequest>(data);
 
             OnSearchFreeTextRequest(request);
 
+            await AddHeaders(request);
             await AuthorizeRequest(request);
             var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
@@ -68,12 +77,11 @@ namespace Tripbuk.Client.Services
         {
             var uri = new Uri(_httpClient.BaseAddress, $"products/search");
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
-            request.Headers.TryAddWithoutValidation("Accept-Language", "en-US");
-            request.Headers.TryAddWithoutValidation("Accept", "application/json;version=2.0");
             request.Content = JsonContent.Create<ProductsSearchRequest>(data);
 
             OnProductSearchRequest(request);
 
+            await AddHeaders(request);
             await AuthorizeRequest(request);
             var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
@@ -94,11 +102,10 @@ namespace Tripbuk.Client.Services
         {
             var uri = new Uri(_httpClient.BaseAddress, $"products/tags");
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
-            request.Headers.TryAddWithoutValidation("Accept-Language", "en-US");
-            request.Headers.TryAddWithoutValidation("Accept", "application/json;version=2.0");
 
             OnGetTagsRequest(request);
 
+            await AddHeaders(request);
             await AuthorizeRequest(request);
             var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
@@ -119,11 +126,10 @@ namespace Tripbuk.Client.Services
         {
             var uri = new Uri(_httpClient.BaseAddress, $"destinations");
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
-            request.Headers.TryAddWithoutValidation("Accept-Language", "en-US");
-            request.Headers.TryAddWithoutValidation("Accept", "application/json;version=2.0");
 
             OnGetDestinationsRequest(request);
 
+            await AddHeaders(request);
             await AuthorizeRequest(request);
             var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();

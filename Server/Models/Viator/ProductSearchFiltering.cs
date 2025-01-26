@@ -3,7 +3,7 @@ using Tripbuk.Server.Models;
 
 namespace Tripbuk.Client.Viator;
 
-public abstract class ProductSearchFiltering 
+public partial class ProductSearchFiltering 
 {
     [JsonPropertyName("destination")]
     public string Destination { get; set; }

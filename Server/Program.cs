@@ -60,7 +60,18 @@ builder.Services.AddControllers().AddOData(o =>
 });
 builder.Services.AddScoped<AuthenticationStateProvider, Tripbuk.Client.ApplicationAuthenticationStateProvider>();
 builder.Services.AddHttpClient("Tripbuk.Server").AddHeaderPropagation(o => o.Headers.Add("Cookie"));
-builder.Services.AddHttpClient("Viator", client => client.BaseAddress = new Uri("https://api.sandbox.viator.com/partner/"));
+builder.Services.AddHttpClient("Viator", client =>
+{
+    client.BaseAddress = new Uri("https://api.sandbox.viator.com/partner/");
+});
+var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
+builder.Services.AddCors(policy =>
+{
+    policy.AddPolicy("_AllowedOrigins", builder => builder.WithOrigins(allowedOrigins)
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials());
+});
 builder.Services.AddScoped<Tripbuk.Client.Services.ViatorService>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
+using Tripbuk.Client.Services;
 
 namespace Tripbuk.Client.Pages.Admin.Content.Destinations
 {
@@ -32,6 +33,9 @@ namespace Tripbuk.Client.Pages.Admin.Content.Destinations
 
         [Inject]
         public PostgresService PostgresService { get; set; }
+        
+        [Inject]
+        public ViatorService ViatorService { get; set; }
 
         protected IEnumerable<Tripbuk.Server.Models.Postgres.Destination> destinations;
 
@@ -125,6 +129,16 @@ namespace Tripbuk.Client.Pages.Admin.Content.Destinations
                     Expand = "Destination1",
                     Select = string.Join(",", grid0.ColumnsCollection.Where(c => c.GetVisible() && !string.IsNullOrEmpty(c.Property)).Select(c => c.Property.Contains(".") ? c.Property + " as " + c.Property.Replace(".", "") : c.Property))
                 }, "Destinations");
+            }
+        }
+
+        private async Task SyncClick(MouseEventArgs arg)
+        {
+            var destinations = await ViatorService.GetDestinations();
+            foreach (var destination in destinations.Destinations)
+            {
+                Console.WriteLine(destination.Name);
+                await JSRuntime.InvokeVoidAsync("console.log", destination.Name);
             }
         }
     }

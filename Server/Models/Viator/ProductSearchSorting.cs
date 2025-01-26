@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Tripbuk.Client.Viator;
 
-public abstract class ProductSearchSorting 
+public partial class ProductSearchSorting 
 {
     [JsonPropertyName("sort")]
     public string Sort { get; set; }

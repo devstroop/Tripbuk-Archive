@@ -6,7 +6,7 @@ using Tripbuk.Client.Viator;
 
 namespace Tripbuk.Server.Models.Viator
 {
-    public abstract partial class ProductSummary
+    public partial class ProductSummary
     {
         [JsonPropertyName("productCode")] public int ProductCode { get; set; }
         [JsonPropertyName("title")] public string Title { get; set; }
@@ -24,7 +24,7 @@ namespace Tripbuk.Server.Models.Viator
         [JsonPropertyName("translationInfo")] public TranslationInfo TranslationInfo { get; set; }
     }
     
-    public abstract partial class ItineraryDuration
+    public partial class ItineraryDuration
     {
         [JsonPropertyName("fixedDurationInMinutes")]
         public int FixedDurationInMinutes { get; set; }
@@ -38,7 +38,7 @@ namespace Tripbuk.Server.Models.Viator
         [JsonPropertyName("unstructuredDuration")]
         public string UnstructuredDuration { get; set; }
     }
-    public abstract partial class ProductSearchPricing
+    public partial class ProductSearchPricing
     {
         [JsonPropertyName("summary")]
         public ProductSearchPricingSummary ProductSearchPricingSummary { get; set; }
@@ -49,7 +49,7 @@ namespace Tripbuk.Server.Models.Viator
         [JsonPropertyName("partnerNetFromPrice")]
         public double PartnerNetFromPrice { get; set; }
     }
-    public abstract partial class ProductSearchPricingSummary
+    public partial class ProductSearchPricingSummary
     {
         [JsonPropertyName("fromPrice")]
         public double FromPrice { get; set; }

@@ -3,7 +3,7 @@ using Tripbuk.Client.Viator;
 
 namespace Tripbuk.Server.Models;
 
-public abstract class SearchFreetextRequest 
+public partial class SearchFreetextRequest 
 {
     [JsonPropertyName("searchTerm")]
     public required string SearchTerm { get; set; }
@@ -17,7 +17,7 @@ public abstract class SearchFreetextRequest
     public required string Currency { get; set; }
 }
 
-public abstract class FreetextSearchType
+public partial class FreetextSearchType
 {
     [JsonPropertyName("searchType")]
     public string SearchType { get; set; }
