@@ -8,6 +8,7 @@
   <ItemGroup>
     <PackageReference Include="Radzen.Blazor" Version="*" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.1" />
+    <PackageReference Include="Yarp.ReverseProxy" Version="2.2.0" />
     <ProjectReference Include="..\Client\Tripbuk.Client.csproj" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.20.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />

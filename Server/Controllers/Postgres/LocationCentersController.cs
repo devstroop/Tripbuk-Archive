@@ -16,12 +16,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Tripbuk.Server.Controllers.Postgres
 {
-    [Route("odata/Postgres/Destinations")]
-    public partial class DestinationsController : ODataController
+    [Route("odata/Postgres/LocationCenters")]
+    public partial class LocationCentersController : ODataController
     {
         private Tripbuk.Server.Data.PostgresContext context;
 
-        public DestinationsController(Tripbuk.Server.Data.PostgresContext context)
+        public LocationCentersController(Tripbuk.Server.Data.PostgresContext context)
         {
             this.context = context;
         }
@@ -29,34 +29,34 @@ namespace Tripbuk.Server.Controllers.Postgres
     
         [HttpGet]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IEnumerable<Tripbuk.Server.Models.Postgres.Destination> GetDestinations()
+        public IEnumerable<Tripbuk.Server.Models.Postgres.LocationCenter> GetLocationCenters()
         {
-            var items = this.context.Destinations.AsQueryable<Tripbuk.Server.Models.Postgres.Destination>();
-            this.OnDestinationsRead(ref items);
+            var items = this.context.LocationCenters.AsQueryable<Tripbuk.Server.Models.Postgres.LocationCenter>();
+            this.OnLocationCentersRead(ref items);
 
             return items;
         }
 
-        partial void OnDestinationsRead(ref IQueryable<Tripbuk.Server.Models.Postgres.Destination> items);
+        partial void OnLocationCentersRead(ref IQueryable<Tripbuk.Server.Models.Postgres.LocationCenter> items);
 
-        partial void OnDestinationGet(ref SingleResult<Tripbuk.Server.Models.Postgres.Destination> item);
+        partial void OnLocationCenterGet(ref SingleResult<Tripbuk.Server.Models.Postgres.LocationCenter> item);
 
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        [HttpGet("/odata/Postgres/Destinations(Id={Id})")]
-        public SingleResult<Tripbuk.Server.Models.Postgres.Destination> GetDestination(int key)
+        [HttpGet("/odata/Postgres/LocationCenters(Id={Id})")]
+        public SingleResult<Tripbuk.Server.Models.Postgres.LocationCenter> GetLocationCenter(int key)
         {
-            var items = this.context.Destinations.Where(i => i.Id == key);
+            var items = this.context.LocationCenters.Where(i => i.Id == key);
             var result = SingleResult.Create(items);
 
-            OnDestinationGet(ref result);
+            OnLocationCenterGet(ref result);
 
             return result;
         }
-        partial void OnDestinationDeleted(Tripbuk.Server.Models.Postgres.Destination item);
-        partial void OnAfterDestinationDeleted(Tripbuk.Server.Models.Postgres.Destination item);
+        partial void OnLocationCenterDeleted(Tripbuk.Server.Models.Postgres.LocationCenter item);
+        partial void OnAfterLocationCenterDeleted(Tripbuk.Server.Models.Postgres.LocationCenter item);
 
-        [HttpDelete("/odata/Postgres/Destinations(Id={Id})")]
-        public IActionResult DeleteDestination(int key)
+        [HttpDelete("/odata/Postgres/LocationCenters(Id={Id})")]
+        public IActionResult DeleteLocationCenter(int key)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace Tripbuk.Server.Controllers.Postgres
                 }
 
 
-                var item = this.context.Destinations
+                var item = this.context.LocationCenters
                     .Where(i => i.Id == key)
                     .FirstOrDefault();
 
@@ -74,10 +74,10 @@ namespace Tripbuk.Server.Controllers.Postgres
                 {
                     return BadRequest();
                 }
-                this.OnDestinationDeleted(item);
-                this.context.Destinations.Remove(item);
+                this.OnLocationCenterDeleted(item);
+                this.context.LocationCenters.Remove(item);
                 this.context.SaveChanges();
-                this.OnAfterDestinationDeleted(item);
+                this.OnAfterLocationCenterDeleted(item);
 
                 return new NoContentResult();
 
@@ -89,12 +89,12 @@ namespace Tripbuk.Server.Controllers.Postgres
             }
         }
 
-        partial void OnDestinationUpdated(Tripbuk.Server.Models.Postgres.Destination item);
-        partial void OnAfterDestinationUpdated(Tripbuk.Server.Models.Postgres.Destination item);
+        partial void OnLocationCenterUpdated(Tripbuk.Server.Models.Postgres.LocationCenter item);
+        partial void OnAfterLocationCenterUpdated(Tripbuk.Server.Models.Postgres.LocationCenter item);
 
-        [HttpPut("/odata/Postgres/Destinations(Id={Id})")]
+        [HttpPut("/odata/Postgres/LocationCenters(Id={Id})")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PutDestination(int key, [FromBody]Tripbuk.Server.Models.Postgres.Destination item)
+        public IActionResult PutLocationCenter(int key, [FromBody]Tripbuk.Server.Models.Postgres.LocationCenter item)
         {
             try
             {
@@ -107,13 +107,13 @@ namespace Tripbuk.Server.Controllers.Postgres
                 {
                     return BadRequest();
                 }
-                this.OnDestinationUpdated(item);
-                this.context.Destinations.Update(item);
+                this.OnLocationCenterUpdated(item);
+                this.context.LocationCenters.Update(item);
                 this.context.SaveChanges();
 
-                var itemToReturn = this.context.Destinations.Where(i => i.Id == key);
-                Request.QueryString = Request.QueryString.Add("$expand", "LocationCenter");
-                this.OnAfterDestinationUpdated(item);
+                var itemToReturn = this.context.LocationCenters.Where(i => i.Id == key);
+                
+                this.OnAfterLocationCenterUpdated(item);
                 return new ObjectResult(SingleResult.Create(itemToReturn));
             }
             catch(Exception ex)
@@ -123,9 +123,9 @@ namespace Tripbuk.Server.Controllers.Postgres
             }
         }
 
-        [HttpPatch("/odata/Postgres/Destinations(Id={Id})")]
+        [HttpPatch("/odata/Postgres/LocationCenters(Id={Id})")]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult PatchDestination(int key, [FromBody]Delta<Tripbuk.Server.Models.Postgres.Destination> patch)
+        public IActionResult PatchLocationCenter(int key, [FromBody]Delta<Tripbuk.Server.Models.Postgres.LocationCenter> patch)
         {
             try
             {
@@ -134,7 +134,7 @@ namespace Tripbuk.Server.Controllers.Postgres
                     return BadRequest(ModelState);
                 }
 
-                var item = this.context.Destinations.Where(i => i.Id == key).FirstOrDefault();
+                var item = this.context.LocationCenters.Where(i => i.Id == key).FirstOrDefault();
 
                 if (item == null)
                 {
@@ -142,13 +142,13 @@ namespace Tripbuk.Server.Controllers.Postgres
                 }
                 patch.Patch(item);
 
-                this.OnDestinationUpdated(item);
-                this.context.Destinations.Update(item);
+                this.OnLocationCenterUpdated(item);
+                this.context.LocationCenters.Update(item);
                 this.context.SaveChanges();
 
-                var itemToReturn = this.context.Destinations.Where(i => i.Id == key);
-                Request.QueryString = Request.QueryString.Add("$expand", "LocationCenter");
-                this.OnAfterDestinationUpdated(item);
+                var itemToReturn = this.context.LocationCenters.Where(i => i.Id == key);
+                
+                this.OnAfterLocationCenterUpdated(item);
                 return new ObjectResult(SingleResult.Create(itemToReturn));
             }
             catch(Exception ex)
@@ -158,12 +158,12 @@ namespace Tripbuk.Server.Controllers.Postgres
             }
         }
 
-        partial void OnDestinationCreated(Tripbuk.Server.Models.Postgres.Destination item);
-        partial void OnAfterDestinationCreated(Tripbuk.Server.Models.Postgres.Destination item);
+        partial void OnLocationCenterCreated(Tripbuk.Server.Models.Postgres.LocationCenter item);
+        partial void OnAfterLocationCenterCreated(Tripbuk.Server.Models.Postgres.LocationCenter item);
 
         [HttpPost]
         [EnableQuery(MaxExpansionDepth=10,MaxAnyAllExpressionDepth=10,MaxNodeCount=1000)]
-        public IActionResult Post([FromBody] Tripbuk.Server.Models.Postgres.Destination item)
+        public IActionResult Post([FromBody] Tripbuk.Server.Models.Postgres.LocationCenter item)
         {
             try
             {
@@ -177,15 +177,15 @@ namespace Tripbuk.Server.Controllers.Postgres
                     return BadRequest();
                 }
 
-                this.OnDestinationCreated(item);
-                this.context.Destinations.Add(item);
+                this.OnLocationCenterCreated(item);
+                this.context.LocationCenters.Add(item);
                 this.context.SaveChanges();
 
-                var itemToReturn = this.context.Destinations.Where(i => i.Id == item.Id);
+                var itemToReturn = this.context.LocationCenters.Where(i => i.Id == item.Id);
 
-                Request.QueryString = Request.QueryString.Add("$expand", "LocationCenter");
+                
 
-                this.OnAfterDestinationCreated(item);
+                this.OnAfterLocationCenterCreated(item);
 
                 return new ObjectResult(SingleResult.Create(itemToReturn))
                 {

@@ -56,7 +56,7 @@ namespace Tripbuk.Client.Pages.Admin.Content.Destinations
                 var result = await PostgresService.GetDestinations(
                     filter:
                     $@"(contains(Name,""{search}"") or contains(Type,""{search}"") or contains(LookupId,""{search}"") or contains(DestinationUrl,""{search}"") or contains(DefaultCurrencyCode,""{search}"") or contains(TimeZone,""{search}"") or contains(CountryCallingCode,""{search}"")) and {(string.IsNullOrEmpty(args.Filter) ? "true" : args.Filter)}",
-                    expand: "Destination1", orderby: $"{args.OrderBy}", top: args.Top, skip: args.Skip,
+                    expand: "", orderby: $"{args.OrderBy}", top: args.Top, skip: args.Skip,
                     count: args.Top != null && args.Skip != null);
                 destinations = result.Value.AsODataEnumerable();
                 count = result.Count;
@@ -186,15 +186,14 @@ namespace Tripbuk.Client.Pages.Admin.Content.Destinations
                 try
                 {
                     await Prog.OpenAsync("Syncing Destinations", "Please wait...");
+                    
                     var destinationsResponse = await ViatorService.GetDestinations();
-                    if (destinationsResponse != null)
-                    {
-                        var destinations = destinationsResponse.Destinations;
-                        foreach (var destination in destinations)
+                    var sortedDestinations = destinationsResponse.Destinations.OrderBy(d => d.ParentDestinationId == null).ToList();
+                        foreach (var destination in sortedDestinations)
                         {
                             try
                             {
-                                Prog.UpdateMessage($"Syncing {destination.Name}");
+                                Prog.UpdateMessage($"Adding destination: {destination.Name} ({destination.Type})");
                                 var destinationEntity = new Tripbuk.Server.Models.Postgres.Destination()
                                 {
                                     Id = destination.DestinationId,
@@ -205,43 +204,41 @@ namespace Tripbuk.Client.Pages.Admin.Content.Destinations
                                     DestinationUrl = destination.DestinationUrl,
                                     DefaultCurrencyCode = destination.DefaultCurrencyCode,
                                     TimeZone = destination.TimeZone,
-                                    Iatacodes = destination.IataCodes.ToList(),
+                                    Iatacodes = destination.IataCodes?.ToList(),
                                     CountryCallingCode = destination.CountryCallingCode,
-                                    LocationCenter = new LocationCenter()
+                                    LocationCenter = destination.Center != null ? new LocationCenter()
                                     {
                                         Latitude = destination.Center.Latitude,
                                         Longitude = destination.Center.Longitude
-                                    }
+                                    } : null,
                                 };
                                 var createdDestination = await PostgresService.CreateDestination(destinationEntity);
-                                Prog.UpdateMessage($"Synced {destination.Name}");
+                                Prog.UpdateMessage($"Added destination: {destination.Name}");
                             }
                             catch (Exception ex)
                             {
-                                Prog.UpdateMessage($"Error syncing {destination.Name}: {ex.Message}");
-                                await DialogService.Alert(ex.Message, "Error", new AlertOptions() { OkButtonText = "OK" });
+                                Prog.UpdateMessage($"Error adding destination {destination.Name}: {ex.Message}");
+                                await Prog.Close();
+                                await DialogService.Alert($"Error adding destination {destination.Name}: {ex.Message}", "Error", new AlertOptions() { OkButtonText = "OK" });
+                                break;
                             }
                         }
 
+                        await Prog.Close();
                         await grid0.Reload();
-                    }
                 }
                 catch (Exception ex)
                 {
-                    Prog.UpdateMessage($"Error syncing Destinations: {ex.Message}");
+                    Prog.UpdateMessage($"Error migrating destinations: {ex.Message}");
                     NotificationService.Notify(new NotificationMessage
                     {
                         Severity = NotificationSeverity.Error,
                         Summary = $"Error",
-                        Detail = $"Unable to sync Destinations"
+                        Detail = $"Unable to migrate destinations"
                     });
                     
-                    Prog.Close();
+                    await Prog.Close();
                     await DialogService.Alert(ex.Message, "Error", new AlertOptions() { OkButtonText = "OK" });
-                }
-                finally
-                {
-                    Prog.Close();
                 }
             }
         }

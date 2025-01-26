@@ -11,24 +11,22 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
-
+using Microsoft.JSInterop;
 using Tripbuk.Server.Models;
 using Tripbuk.Server.Models.Viator;
 
 namespace Tripbuk.Client.Services
 {
-    public partial class ViatorService(IHttpClientFactory httpClientFactory)
+    public partial class ViatorService(NavigationManager navigationManager, HttpClient httpClient)
     {
-        private readonly HttpClient _httpClient = httpClientFactory.CreateClient("Viator");
-
-        private void Authorize(HttpRequestMessage requestMessage)
+        /// <summary>
+        /// Set the culture for the request
+        /// </summary>
+        /// <param name="requestMessage"></param>
+        /// <param name="culture"></param>
+        private void SerCulture(HttpRequestMessage requestMessage, string culture = "en-US")
         {
-            requestMessage.Headers.Add("exp-api-key", "f8ffa55a-1942-41ae-9a19-a1c88aa8649c");
-        }
-        private void AdditionalHeaders(HttpRequestMessage requestMessage)
-        {
-            requestMessage.Headers.TryAddWithoutValidation("Accept-Language", "en-US");
-            requestMessage.Headers.TryAddWithoutValidation("Accept", "application/json;version=2.0");
+            requestMessage.Headers.TryAddWithoutValidation("Accept-Language", culture);
         }
         
         /// <summary>
@@ -38,13 +36,12 @@ namespace Tripbuk.Client.Services
         /// <returns></returns>
         public async Task<Tripbuk.Server.Models.Viator.SearchFreeTextResponse> SearchFreeText(SearchFreetextRequest data)
         {
-            var uri = new Uri($"{_httpClient.BaseAddress}search/freetext");
+            var uri = new Uri($"{navigationManager.BaseUri}proxy/viator/search/freetext");
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
-            AdditionalHeaders(request);
-            Authorize(request);
+            SerCulture(request);
             request.Content = JsonContent.Create<SearchFreetextRequest>(data);
             OnSearchFreeTextRequest(request);
-            var response = await _httpClient.SendAsync(request);
+            var response = await httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             OnSearchFreeTextResponse(response);
             return await response.Content.ReadFromJsonAsync<Tripbuk.Server.Models.Viator.SearchFreeTextResponse>();
@@ -60,13 +57,12 @@ namespace Tripbuk.Client.Services
         /// <returns></returns>
         public async Task<Tripbuk.Server.Models.Viator.ProductsSearchResponse> ProductSearch(ProductsSearchRequest data)
         {
-            var uri = new Uri($"{_httpClient.BaseAddress}products/search");
+            var uri = new Uri($"{navigationManager.BaseUri}proxy/viator/products/search");
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
-            AdditionalHeaders(request);
-            Authorize(request);
+            SerCulture(request);
             request.Content = JsonContent.Create<ProductsSearchRequest>(data);
             OnProductSearchRequest(request);
-            var response = await _httpClient.SendAsync(request);
+            var response = await httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             OnProductSearchResponse(response);
 
@@ -82,12 +78,11 @@ namespace Tripbuk.Client.Services
         /// <returns></returns>
         public async Task<Tripbuk.Server.Models.Viator.TagsResponse> GetTags()
         {
-            var uri = new Uri($"{_httpClient.BaseAddress}product/tags");
+            var uri = new Uri($"{navigationManager.BaseUri}proxy/viator/product/tags");
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
-            AdditionalHeaders(request);
-            Authorize(request);
+            SerCulture(request);
             OnGetTagsRequest(request);
-            var response = await _httpClient.SendAsync(request);
+            var response = await httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             OnGetTagsResponse(response);
             return await response.Content.ReadFromJsonAsync<Tripbuk.Server.Models.Viator.TagsResponse>();
@@ -102,12 +97,11 @@ namespace Tripbuk.Client.Services
         /// <returns></returns>
         public async Task<Tripbuk.Server.Models.Viator.DestinationsResponse> GetDestinations()
         {
-            var uri = new Uri($"{_httpClient.BaseAddress}destinations");
+            var uri = new Uri($"{navigationManager.BaseUri}proxy/viator/destinations");
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
-            AdditionalHeaders(request);
-            Authorize(request);
+            SerCulture(request);
             OnGetDestinationsRequest(request);
-            var response = await _httpClient.SendAsync(request);
+            var response = await httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
             OnGetDestinationsResponse(response);
             return await response.Content.ReadFromJsonAsync<Tripbuk.Server.Models.Viator.DestinationsResponse>();

@@ -27,8 +27,9 @@
         ProgressState.SetProgress(newProgress);
     }
 
-    public void Close()
+    public async Task Close()
     {
+        await Task.Delay(1500);
         DialogService.Close();
     }
 }

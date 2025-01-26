@@ -10,7 +10,7 @@ using Radzen.Blazor;
 
 namespace Tripbuk.Client.Layout
 {
-    public partial class UserLayout
+    public partial class MapLayout
     {
         [Inject]
         protected IJSRuntime JSRuntime { get; set; }

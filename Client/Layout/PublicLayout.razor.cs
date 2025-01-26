@@ -91,21 +91,27 @@ namespace Tripbuk.Client.Layout
             new ()
             {
                 Text = "Discover", 
-                // Icon = "print",
+                Icon = "explore",
                 Items = []
             },
             new ()
             {
                 Text = "Buckets",
-                // Icon = "help", 
+                Icon = "checklist", 
                 // Path = "#"
             },
             new ()
             {
                 Text = "Trips",
-                // Icon = "help", 
+                Icon = "your_trips", 
                 // Path = "#"
-            }
+            },
+            // new ()
+            // {
+            //     Text = "Bookings",
+            //     Icon = "your_trips", 
+            //     // Path = "#"
+            // }
 
         ];
     }

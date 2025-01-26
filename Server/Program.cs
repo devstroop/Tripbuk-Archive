@@ -9,9 +9,10 @@ using Tripbuk.Server.Models;
 using Microsoft.AspNetCore.Components.Authorization;
 using Tripbuk.Client.Components;
 
-const string allowedOriginsPolicyName = "_AllowedOrigins";
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
+builder.Services.AddReverseProxy()
+    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 builder.Services.AddRazorComponents().AddInteractiveServerComponents().AddHubOptions(options => options.MaximumReceiveMessageSize = 10 * 1024 * 1024).AddInteractiveWebAssemblyComponents();
 builder.Services.AddControllers();
 builder.Services.AddRadzenComponents();
@@ -64,10 +65,10 @@ builder.Services.AddControllers().AddOData(o =>
 });
 builder.Services.AddScoped<AuthenticationStateProvider, Tripbuk.Client.ApplicationAuthenticationStateProvider>();
 builder.Services.AddHttpClient("Tripbuk.Server").AddHeaderPropagation(o => o.Headers.Add("Cookie"));
-builder.Services.AddHttpClient("Viator", client =>
-{
-    client.BaseAddress = new Uri("https://api.sandbox.viator.com/partner/");
-});
+// builder.Services.AddHttpClient("Viator", client =>
+// {
+//     client.BaseAddress = new Uri("https://api.sandbox.viator.com/partner/");
+// });
 builder.Services.AddScoped<Tripbuk.Client.Services.ViatorService>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
@@ -99,6 +100,7 @@ app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseAntiforgery();
+app.MapReverseProxy();
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode().AddInteractiveWebAssemblyRenderMode().AddAdditionalAssemblies(typeof(Tripbuk.Client._Imports).Assembly);
 app.Services.CreateScope().ServiceProvider.GetRequiredService<ApplicationIdentityDbContext>().Database.Migrate();
 app.Services.CreateScope().ServiceProvider.GetRequiredService<ApplicationIdentityDbContext>().SeedTenantsAdmin().Wait();

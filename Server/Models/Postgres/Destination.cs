@@ -22,8 +22,6 @@ namespace Tripbuk.Server.Models.Postgres
 
         public int? ParentDestinationId { get; set; }
 
-        public Destination Destination1 { get; set; }
-
         public string LookupId { get; set; }
 
         public string DestinationUrl { get; set; }
@@ -42,8 +40,6 @@ namespace Tripbuk.Server.Models.Postgres
         public int? LocationCenterId { get; set; }
 
         public LocationCenter LocationCenter { get; set; }
-
-        public ICollection<Destination> Destinations1 { get; set; }
 
         public ICollection<Place> Places { get; set; }
     }

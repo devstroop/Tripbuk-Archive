@@ -32,12 +32,6 @@ namespace Tripbuk.Server.Data
               .HasForeignKey(i => i.LocationCenterId)
               .HasPrincipalKey(i => i.Id);
 
-            builder.Entity<Tripbuk.Server.Models.Postgres.Destination>()
-              .HasOne(i => i.Destination1)
-              .WithMany(i => i.Destinations1)
-              .HasForeignKey(i => i.ParentDestinationId)
-              .HasPrincipalKey(i => i.Id);
-
             builder.Entity<Tripbuk.Server.Models.Postgres.Place>()
               .HasOne(i => i.Destination)
               .WithMany(i => i.Places)

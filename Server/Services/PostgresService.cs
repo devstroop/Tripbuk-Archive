@@ -85,7 +85,6 @@ namespace Tripbuk.Server
             var items = Context.Destinations.AsQueryable();
 
             items = items.Include(i => i.LocationCenter);
-            items = items.Include(i => i.Destination1);
 
             if (query != null)
             {
@@ -117,7 +116,6 @@ namespace Tripbuk.Server
                               .Where(i => i.Id == id);
 
             items = items.Include(i => i.LocationCenter);
-            items = items.Include(i => i.Destination1);
  
             OnGetDestinationById(ref items);
 
@@ -206,7 +204,6 @@ namespace Tripbuk.Server
         {
             var itemToDelete = Context.Destinations
                               .Where(i => i.Id == id)
-                              .Include(i => i.Destinations1)
                               .Include(i => i.Places)
                               .FirstOrDefault();
 

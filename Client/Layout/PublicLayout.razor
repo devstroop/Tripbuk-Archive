@@ -37,7 +37,7 @@
                 </RadzenColumn>
                 <RadzenStack AlignItems="AlignItems.Center" Orientation="Orientation.Horizontal"
                              JustifyContent="JustifyContent.End" Gap="0.5rem">
-
+                    <RadzenAppearanceToggle/>
                     <RadzenProfileMenu Visible="@Security.IsAuthenticated()" Click="@ProfileMenuClick"
                                        ShowIcon="false"
                                        Style="padding: 0px">
@@ -69,9 +69,10 @@
                                   Visible="!Security.IsAuthenticated()"></RadzenButton>
                 </RadzenStack>
             </RadzenRow>
-            <RadzenRow class="subheader">
+            <RadzenRow class="subheader" JustifyContent="JustifyContent.SpaceBetween">
                 <RadzenMenu Style="gap: 1rem; font-size: 14px">
-                    <RadzenMenuItem Text="Places" Path="/"></RadzenMenuItem>
+                    <RadzenMenuItem Text="Anything" Path="/"></RadzenMenuItem>
+                    <RadzenMenuItem Text="Places"></RadzenMenuItem>
                     <RadzenMenuItem Text="Hotels"></RadzenMenuItem>
                     <RadzenMenuItem Text="Activities"></RadzenMenuItem>
                     <RadzenMenuItem Text="Restaurants"></RadzenMenuItem>
@@ -79,7 +80,9 @@
                     <RadzenMenuItem Text="Rentals"></RadzenMenuItem>
                     <RadzenMenuItem Text="Community"></RadzenMenuItem>
                 </RadzenMenu>
-                
+                <RadzenMenu Style="gap: 1rem; font-size: 14px">
+                    <RadzenMenuItem Text="Map" Icon="map" Path="map"></RadzenMenuItem>
+                </RadzenMenu>
             </RadzenRow>
         </RadzenStack>
     </RadzenHeader>
@@ -100,7 +103,6 @@
                             Orientation="Orientation.Horizontal"
                             JustifyContent="JustifyContent.Start">
                             <CulturePicker/>
-                            <RadzenAppearanceToggle/>
                         </RadzenStack>
                     </RadzenColumn>
                     <RadzenColumn Size="4">

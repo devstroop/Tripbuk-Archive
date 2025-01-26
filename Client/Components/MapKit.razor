@@ -1,0 +1,170 @@
+@using System.Text.Json.Serialization
+@inject IJSRuntime JsRuntime
+@inject ThemeService ThemeService
+<div id="@Id" class="@Class" style="@Style"></div>
+<style>
+    .map-container {
+        position: relative;
+        background-color: var(--rz-card-background-color);
+    }
+    .leaflet-control-attribution.leaflet-control {
+        background-color: var(--rz-base-500);
+        color: var(--rz-text-body1-color);
+        a[href="https://leafletjs.com"] {
+            display: none;
+            color: var(--rz-text-body1-color);
+            /*color: var(--rz-link-color);*/
+        }
+        span[aria-hidden="true"] {
+            display: none;
+        }
+    }
+</style>
+
+@code {
+    [Parameter] public string Id { get; set; } = "MapContainer";
+    [Parameter] public string Style { get; set; } = "height: 80vh; width: 100%";
+    [Parameter] public string Class { get; set; } = "map-container rz-border rz-border-radius-2";
+    private IJSObjectReference _mapInstance;
+    
+
+    private Action UpdateTheme()
+    {
+        return () =>
+        {
+            JsRuntime.InvokeVoidAsync(
+                "MapLibrary.changeTheme",
+                _mapInstance,
+                ThemeService.Theme.Contains("dark") ? "dark_all" : "light_all"
+            );
+        };
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ThemeService.ThemeChanged += UpdateTheme();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                // Initialize the map library
+                _mapInstance = await JsRuntime.InvokeAsync<IJSObjectReference>(
+                    $"MapLibrary.createMap",
+                    Id, // ID of the div element for the map
+                    28.6389, // Latitude
+                    77.0867, // Longitude
+                    12, // Zoom level
+                    ThemeService.Theme.Contains("dark") ? "dark_all" : "light_all" // Theme
+                );
+
+                // // Add a polygon using a string of coordinates
+                //
+                // var polygonData = "[[-43.927404945001463,170.55992873676473 ],[-43.926483760815039,170.5598427881674 ],[-43.925772285102681,170.55920015319464 ],[-43.923986752490364,170.55869459511013 ],[-43.923213323940217,170.55818781316458 ],[-43.923028973148718,170.55794490704284 ],[-43.922818628052724,170.5574526264476 ],[-43.922542785710718,170.55705646695429 ],[-43.9222084107467,170.55636369067372 ],[-43.921984488886132,170.55595297493059 ],[-43.921479273263806,170.55531450011631 ],[-43.921108373616228,170.55464067477533 ],[-43.920803240044542,170.55384085030352 ],[-43.920550949576196,170.5535371763705 ],[-43.920029774350034,170.55333415912753 ],[-43.885367402631886,170.50566526272931 ],[-43.889197977576238,170.49905657235018 ],[-43.889415334504733,170.49888862707505 ],[-43.898287379739223,170.493738241481 ],[-43.898640990270813,170.49335363689281 ],[-43.89981880105762,170.49244399098805 ],[-43.900376244318124,170.4921156288448 ],[-43.900891833729013,170.49197456910616 ],[-43.901634227695986,170.49195106034878 ],[-43.902262763421042,170.49186880205821 ],[-43.902509089662693,170.49176761190679 ],[-43.9028606573443,170.49128964559745 ],[-43.902874536845779,170.49072863863427 ],[-43.902555742412964,170.49052150066569 ],[-43.902507556079257,170.49033546980911 ],[-43.933829879218656,170.55777143445613 ],[-43.933628055287549,170.55780829178806 ],[-43.932864492289141,170.55789415411149 ],[-43.932624191864974,170.5581119932998 ],[-43.931974890238983,170.55857572753519 ],[-43.93126044286366,170.55893991419808 ],[-43.929827177528075,170.55941924383532 ],[-43.92937789956283,170.55946366479461 ],[-43.927404945001463,170.55992873676473 ]]";
+                //
+                // await JsRuntime.InvokeVoidAsync(
+                //     "MapLibrary.addPolygonToMap",
+                //     _mapInstance, // Pass the map instance
+                //     polygonData, // Polygon coordinates
+                //     "blue", // Color
+                //     "Lake Tekapo" // Tooltip content
+                // );
+                // // Add a polygon using a double[][] array
+                //
+                // double[][] polygon = new[]
+                //     { new[] { -45.39592497991258, 167.07659537230924 }, new[] { -45.39590827650059, 167.07655099444253 }, new[] { -45.395898687484596, 167.07650460337624 }, new[] { -45.395899035431206, 167.0764584693997 }, new[] { -45.39590669313779, 167.07641414357593 }, new[] { -45.39596471720561, 167.07626090936574 }, new[] { -45.39598830479537, 167.07617524704057 }, new[] { -45.396028872055396, 167.07599820023916 }, new[] { -45.39603917112129, 167.07597024877035 }, new[] { -45.39605159070104, 167.07594848141406 }, new[] { -45.3960604856393, 167.07592835760053 }, new[] { -45.39606776672311, 167.07589431441912 }, new[] { -45.39607088623342, 167.07586710242498 }, new[] { -45.396075554465995, 167.07585253598924 }, new[] { -45.3961365804678, 167.07584625010927 }, new[] { -45.39615043285817, 167.0758525063268 }, new[] { -45.39617857917882, 167.0758560097147 }, new[] { -45.39619326388126, 167.07586089969706 }, new[] { -45.396212110146514, 167.0758589584692 }, new[] { -45.39624782676778, 167.07586936517205 }, new[] { -45.396269119200255, 167.07587997711082 }, new[] { -45.39629277831374, 167.07588394271508 }, new[] { -45.39632221284404, 167.07589499652158 }, new[] { -45.39636953106962, 167.07590292775276 }, new[] { -45.39592497991258, 167.07659537230924 } };
+                // await JsRuntime.InvokeVoidAsync(
+                //     "MapLibrary.addPolygonToMap",
+                //     _mapInstance, // Pass the map instance
+                //     polygon, // Polygon coordinates
+                //     "Green", // Color
+                //     "Lake Browne<p><b>South Island</b>" // Tooltip content
+                // );
+                //
+                // // Example: Add an icon
+                // await JsRuntime.InvokeVoidAsync(
+                //     "MapLibrary.addIconToMap",
+                //     _mapInstance, // Pass the map instance
+                //     -45.03282, // Latitude
+                //     168.65907, // Longitude
+                //     "http://maps.gstatic.com/intl/de_de/mapfiles/ms/micons/red-pushpin.png", // Icon URL
+                //     "<b>Queenstown</b><br>New Zealand" // Tooltip content
+                // );
+                //
+                //
+                // // Draw a line
+                // var lineData = new[]
+                // {
+                //     new[] { -45.020024, 168.734949 },
+                //     new[] { -45.018128, 168.747888 },
+                //     new[] { -45.016475, 168.758123 }
+                // };
+                //
+                // await JsRuntime.InvokeVoidAsync(
+                //     "MapLibrary.addLineToMap",
+                //     _mapInstance, // Pass the map instance
+                //     lineData, // Line coordinates
+                //     "red", // Line color
+                //     "Airport<p>Queenstown<p><b>South Island</b>" // Tooltip content
+                // );
+
+
+                // Centre the map after 5 seconds
+
+                Task.Factory.StartNew(async () =>
+                {
+                    await Task.Delay(5000);
+                    await JsRuntime.InvokeVoidAsync(
+                        "MapLibrary.centerMap",
+                        _mapInstance); // Pass the map instance
+                });
+
+
+                // Clear the map after 30 seconds
+
+                Task.Factory.StartNew(async () =>
+                {
+                    await Task.Delay(30000);
+                    await JsRuntime.InvokeVoidAsync(
+                        "MapLibrary.clearMap",
+                        _mapInstance); // Pass the map instance
+                });
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+    }
+
+    /// <summary>
+    /// Clear the map
+    /// </summary>
+    /// <returns></returns>
+    public Task Clear() => JsRuntime.InvokeVoidAsync(
+        "MapLibrary.clearMap",
+        _mapInstance).AsTask();
+    
+    /// <summary>
+    /// Set the center of the map
+    /// </summary>
+    /// <returns></returns>
+    public Task SetCenter() => JsRuntime.InvokeVoidAsync(
+        "MapLibrary.centerMap",
+        _mapInstance).AsTask();
+
+    /// <summary>
+    /// Set the position of the map
+    /// </summary>
+    /// <param name="lat"></param>
+    /// <param name="lng"></param>
+    /// <returns></returns>
+    public Task SetPosition(double lat, double lng) => JsRuntime.InvokeVoidAsync(
+        "MapLibrary.setPosition",
+        _mapInstance,
+        lat,
+        lng).AsTask();
+}

@@ -53,7 +53,6 @@ namespace Tripbuk.Server.Controllers
         {
             if (returnUrl != "/" && !string.IsNullOrEmpty(returnUrl))
             {
-                Console.WriteLine(returnUrl);
                 return Redirect($"/auth/login?redirectUrl={Uri.EscapeDataString(returnUrl)}");
             }
 

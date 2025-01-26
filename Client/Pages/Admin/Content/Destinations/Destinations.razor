@@ -5,71 +5,98 @@
 <PageTitle>Destinations</PageTitle>
 <RadzenStack>
     <RadzenBreadCrumb>
-        <RadzenBreadCrumbItem Text="Administration" />
-        <RadzenBreadCrumbItem Text="Destinations" Path="/administration/destinations" />
+        <RadzenBreadCrumbItem Text="Administration"/>
+        <RadzenBreadCrumbItem Text="Destinations" Path="/administration/destinations"/>
     </RadzenBreadCrumb>
     <RadzenRow AlignItems="AlignItems.Center">
         <RadzenColumn Size="12" SizeMD="6">
-            <RadzenText Text="Destinations" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0" />
+            <RadzenText Text="Destinations" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0"/>
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="6">
-            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" JustifyContent="JustifyContent.End" Gap="0.5rem">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center"
+                         JustifyContent="JustifyContent.End" Gap="0.5rem">
                 @* <RadzenButton Icon="get_app" Text="Sync" Click="@SyncClick" Variant="Variant.Flat" /> *@
-                <RadzenSplitButton Icon="sync" Text="Sync" Click="@ExportClick" Variant="Variant.Flat" Shade="Shade.Lighter">
-                    <RadzenSplitButtonItem Text="Import from JSON" Value="import-json" />
-                    <RadzenSplitButtonItem Text="Export to JSON" Value="export-json" />
-                    <RadzenSplitButtonItem Text="Export to Excel" Value="export-xlsx" />
-                    <RadzenSplitButtonItem Text="Export to CSV" Value="export-csv" />
+                <RadzenSplitButton Icon="sync" Text="Sync" Click="@ExportClick" Variant="Variant.Flat"
+                                   Shade="Shade.Lighter">
+                    <RadzenSplitButtonItem Text="Import from JSON" Value="import-json"/>
+                    <RadzenSplitButtonItem Text="Export to JSON" Value="export-json"/>
+                    <RadzenSplitButtonItem Text="Export to Excel" Value="export-xlsx"/>
+                    <RadzenSplitButtonItem Text="Export to CSV" Value="export-csv"/>
                 </RadzenSplitButton>
-                <RadzenButton Icon="add_circle_outline" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat" />
+                <RadzenButton Icon="add_circle_outline" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat"/>
             </RadzenStack>
         </RadzenColumn>
     </RadzenRow>
-    <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search" aria-label="Search by all string columns" />
-    <RadzenRow>
-      <RadzenColumn SizeMD=12>
-          <RadzenDataGrid @ref="grid0" ColumnWidth="200px" AllowFiltering="true" FilterMode="FilterMode.Advanced" AllowPaging="true" AllowSorting="true" ShowPagingSummary="true" PageSizeOptions=@(new int[] { 5, 10, 20, 30 })
-                          Data="@destinations" LoadData="@Grid0LoadData" Count="@count" TItem="Tripbuk.Server.Models.Postgres.Destination" RowSelect="@EditRow">
-              <EmptyTemplate>
-                  <NoRecordsFound Text="No destinations found!"></NoRecordsFound>
-              </EmptyTemplate>
-              <Columns>
-                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Id" Title="Id"> *@
-                  @* </RadzenDataGridColumn> *@
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Name" Title="Name" Frozen="true">
-                  </RadzenDataGridColumn>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Type" Title="Type" Frozen="true">
-                  </RadzenDataGridColumn>
-                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Destination1.Name" Title="Destination1"> *@
-                  @* </RadzenDataGridColumn> *@
-                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="LookupId" Title="Lookup Id"> *@
-                  @* </RadzenDataGridColumn> *@
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="DestinationUrl" Title="Destination Url">
-                  </RadzenDataGridColumn>
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="DefaultCurrencyCode" Title="Currency Code (Default)">
-                  </RadzenDataGridColumn>
-                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="TimeZone" Title="Time Zone"> *@
-                  @* </RadzenDataGridColumn> *@
-                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Iatacodes" Title="IATA Codes"> *@
-                  @* </RadzenDataGridColumn> *@
-                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="CountryCallingCode" Title="Country Calling Code"> *@
-                  @* </RadzenDataGridColumn> *@
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Languages" Title="Languages">
-                  </RadzenDataGridColumn>
-                  @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Center" Title="Center"> *@
-                  @* </RadzenDataGridColumn> *@
-                  <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Filterable="false" Sortable="false" Width="70px" TextAlign="TextAlign.Center">
-                      <Template Context="destination">
-                          <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Medium"
-                                        Shade="Shade.Lighter" Variant="Variant.Flat"
-                                        Click="@(args => GridDeleteButtonClick(args, destination))" 
-                                        @onclick:stopPropagation="true"/>
-                      </Template>
-                  </RadzenDataGridColumn>
-              </Columns>
+    <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search"
+                   aria-label="Search by all string columns"/>
+    <RadzenRow AlignItems="AlignItems.Stretch">
+        <RadzenColumn Size="12" SizeMD="5">
+            <RadzenDataGrid @ref="grid0" AllowFiltering="true" FilterMode="FilterMode.Advanced"
+                            
+                            Style="height: 80vh; scroll-behavior: smooth; overscroll-behavior-y: auto;"
+                            AllowPaging="true" AllowSorting="true" ShowPagingSummary="true"
+                            PageSizeOptions=@(new int[] { 5, 10, 20, 30 })
+                            Data="@destinations" LoadData="@Grid0LoadData" Count="@count"
+                            TItem="Tripbuk.Server.Models.Postgres.Destination" RowSelect="@EditRow">
+                <EmptyTemplate>
+                    <NoRecordsFound Text="No destinations found!"></NoRecordsFound>
+                </EmptyTemplate>
+                <Columns>
+                    <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Name"
+                                          MinWidth="200px"
+                                          Width="240px"
+                                          Title="Name" Frozen="true">
+                        <Template>
+                            <RadzenStack AlignItems="AlignItems.Start" Gap="0">
+                                <RadzenRow AlignItems="AlignItems.Center" Gap="0.5rem" RowGap="0.5rem">
+                                    <RadzenText Text="@context.Name" TextStyle="TextStyle.Body1"
+                                                class="rz-mb-0"></RadzenText>
+                                    <RadzenBadge Text="@context.Type" IsPill="true"
+                                                 Style="font-weight: bolder; display: unset;"
+                                                 class="rz-px-2 rz-py-05"></RadzenBadge>
+                                </RadzenRow>
+                                <RadzenLink Path="@context.DestinationUrl" Text="Show on Viator" Style="font-size: 12px" Target="_blank"></RadzenLink>
+                            </RadzenStack>
+                        </Template>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination"
+                                          Width="135px"
+                                          Property="DefaultCurrencyCode" Title="Currency">
+                    </RadzenDataGridColumn>
+                    @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="TimeZone" Title="Time Zone"> *@
+                    @* </RadzenDataGridColumn> *@
+                    @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Iatacodes" Title="IATA Codes"> *@
+                    @* </RadzenDataGridColumn> *@
+                    @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="CountryCallingCode" Title="Country Calling Code"> *@
+                    @* </RadzenDataGridColumn> *@
+                    <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Languages"
+                                          Title="Languages">
+                        <Template>
+                            @foreach (var language in context.Languages ?? [])
+                            {
+                                <RadzenBadge Text="@language" IsPill="true" Style="font-weight: bolder; display: unset;"
+                                             class="rz-px-2 rz-py-05"></RadzenBadge>
+                            }
+                        </Template>
+                    </RadzenDataGridColumn>
+                    @* <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Property="Center" Title="Center"> *@
+                    @* </RadzenDataGridColumn> *@
+                    <RadzenDataGridColumn TItem="Tripbuk.Server.Models.Postgres.Destination" Filterable="false"
+                                          Sortable="false" Width="70px" TextAlign="TextAlign.Center" Frozen="true"
+                                          FrozenPosition="FrozenColumnPosition.Right">
+                        <Template Context="destination">
+                            <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Small"
+                                          Shade="Shade.Lighter" Variant="Variant.Flat"
+                                          Click="@(args => GridDeleteButtonClick(args, destination))"
+                                          @onclick:stopPropagation="true"/>
+                        </Template>
+                    </RadzenDataGridColumn>
+                </Columns>
 
-          </RadzenDataGrid>
-
-    </RadzenColumn>
-  </RadzenRow>
+            </RadzenDataGrid>
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="7">
+            <MapKit></MapKit>
+        </RadzenColumn>
+    </RadzenRow>
 </RadzenStack>
