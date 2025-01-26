@@ -45,6 +45,9 @@
     <Compile Update="..\Server\Models\Viator\ItineraryType.cs">
       <Link>Models\Viator\ItineraryType.cs</Link>
     </Compile>
+    <Compile Update="..\Server\Models\Viator\LocationCenter.cs">
+      <Link>Models\Viator\LocationCenter.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ServiceWorker Include="../Server/wwwroot/service-worker.js" PublishedContent="../Server/wwwroot/service-worker.published.js" />
