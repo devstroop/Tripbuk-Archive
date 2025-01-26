@@ -24,6 +24,27 @@
     <Compile Update="..\Server\Models\Viator\TagWithAllLocalizations.cs">
       <Link>Models\Viator\TagWithAllLocalizations.cs</Link>
     </Compile>
+    <Compile Update="..\Server\Models\Viator\ProductSearchFiltering.cs">
+      <Link>Models\Viator\ProductSearchFiltering.cs</Link>
+    </Compile>
+    <Compile Update="..\Server\Models\Viator\ProductSearchSorting.cs">
+      <Link>Models\Viator\ProductSearchSorting.cs</Link>
+    </Compile>
+    <Compile Update="..\Server\Models\Viator\ProductSearchPagination.cs">
+      <Link>Models\Viator\ProductSearchPagination.cs</Link>
+    </Compile>
+    <Compile Update="..\Server\Models\Viator\Destination.cs">
+      <Link>Models\Viator\Destination.cs</Link>
+    </Compile>
+    <Compile Update="..\Server\Models\Viator\ProductSearchFlag.cs">
+      <Link>Models\Viator\ProductSearchFlag.cs</Link>
+    </Compile>
+    <Compile Update="..\Server\Models\Viator\ConfirmationType.cs">
+      <Link>Models\Viator\ConfirmationType.cs</Link>
+    </Compile>
+    <Compile Update="..\Server\Models\Viator\ItineraryType.cs">
+      <Link>Models\Viator\ItineraryType.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ServiceWorker Include="../Server/wwwroot/service-worker.js" PublishedContent="../Server/wwwroot/service-worker.published.js" />
