@@ -1,16 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Tripbuk.Server.Models.Viator
-{
-    public partial class TranslationInfo
-    {
-        [JsonPropertyName("containsMachineTranslatedText")]
-        public bool ContainsMachineTranslatedText { get; set; }
+namespace Tripbuk.Server.Models.Viator;
 
-        [JsonPropertyName("translationSource")]
-        public string TranslationSource { get; set; }
-    }
+public partial class TranslationInfo
+{
+    [JsonPropertyName("containsMachineTranslatedText")]
+    public bool ContainsMachineTranslatedText { get; set; }
+
+    [JsonPropertyName("translationSource")]
+    public string TranslationSource { get; set; }
 }

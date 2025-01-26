@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
 using Tripbuk.Server.Models;
+using Tripbuk.Server.Models.Viator;
 
 namespace Tripbuk.Client.Services
 {
@@ -48,10 +49,32 @@ namespace Tripbuk.Client.Services
             return await response.Content.ReadFromJsonAsync<Tripbuk.Server.Models.Viator.SearchFreeTextResponse>();
         }
 
+        partial void OnProductSearchRequest(HttpRequestMessage request);
+        partial void OnProductSearchResponse(HttpResponseMessage response);
+
+        public async Task<Tripbuk.Server.Models.Viator.ProductsSearchResponse> ProductSearch(ProductsSearchRequest data)
+        {
+            var uri = new Uri(_httpClient.BaseAddress, $"products/search");
+            var request = new HttpRequestMessage(HttpMethod.Post, uri);
+            request.Headers.TryAddWithoutValidation("Accept-Language", "en-US");
+            request.Headers.TryAddWithoutValidation("Accept", "application/json;version=2.0");
+            request.Content = JsonContent.Create<ProductsSearchRequest>(data);
+
+            OnGetTagsRequest(request);
+
+            await AuthorizeRequest(request);
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            OnSearchFreeTextResponse(response);
+
+            return await response.Content.ReadFromJsonAsync<Tripbuk.Server.Models.Viator.ProductsSearchResponse>();
+        }
+
         partial void OnGetTagsRequest(HttpRequestMessage request);
         partial void OnGetTagsResponse(HttpResponseMessage response);
 
-        public async Task<Tripbuk.Server.Models.Viator.GetTagsResponse> GetTags()
+        public async Task<Tripbuk.Server.Models.Viator.TagsResponse> GetTags()
         {
             var uri = new Uri(_httpClient.BaseAddress, $"products/tags");
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
@@ -66,7 +89,7 @@ namespace Tripbuk.Client.Services
 
             OnSearchFreeTextResponse(response);
 
-            return await response.Content.ReadFromJsonAsync<Tripbuk.Server.Models.Viator.SearchFreeTextResponse>();
+            return await response.Content.ReadFromJsonAsync<Tripbuk.Server.Models.Viator.TagsResponse>();
         }
     }
 }

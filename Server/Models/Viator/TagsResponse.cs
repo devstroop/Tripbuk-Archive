@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Tripbuk.Server.Viator;
 
 namespace Tripbuk.Server.Models.Viator
 {
-    public partial class Duration
+    public partial class TagsResponse
     {
-        [JsonPropertyName("fixedDurationInMinutes")]
-        public int FixedDurationInMinutes { get; set; }
+        [JsonPropertyName("tags")] public TagWithAllLocalizations Tags { get; set; }
     }
 }

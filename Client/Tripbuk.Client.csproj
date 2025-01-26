@@ -18,6 +18,12 @@
     <Compile Include="../Server/Extension*/*.cs" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.1" />
+    <Compile Update="..\Server\Models\Viator\GetTagsResponse.cs">
+      <Link>Models\Viator\GetTagsResponse.cs</Link>
+    </Compile>
+    <Compile Update="..\Server\Models\Viator\TagWithAllLocalizations.cs">
+      <Link>Models\Viator\TagWithAllLocalizations.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ServiceWorker Include="../Server/wwwroot/service-worker.js" PublishedContent="../Server/wwwroot/service-worker.published.js" />
