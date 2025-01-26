@@ -63,6 +63,9 @@ namespace Tripbuk.Client.Layout
             }
         }
         
+
+        private string Search { get; set; }
+        
         private RenderFragment RenderMenuItem(MenuItem item) => builder =>
         {
             builder.OpenComponent<RadzenMenuItem>(0);
@@ -83,9 +86,6 @@ namespace Tripbuk.Client.Layout
 
             builder.CloseComponent();
         };
-
-        private string Search { get; set; }
-        
         private readonly List<MenuItem> _menuItems =
         [
             new ()

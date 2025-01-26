@@ -1,37 +1,143 @@
+@using Tripbuk.Client.Components
 @inherits LayoutComponentBase
 <RadzenDialog />
 <RadzenNotification />
 <RadzenTooltip />
 <RadzenContextMenu />
-<RadzenLayout style="grid-template-areas: 'rz-sidebar rz-header' 'rz-sidebar rz-body'">
-    <RadzenHeader>
-        <RadzenRow JustifyContent="JustifyContent.Start" AlignItems="AlignItems.Center" Gap="0">
-            <RadzenColumn Size="5">
-                <RadzenSidebarToggle Click="@SidebarToggleClick"></RadzenSidebarToggle>
-            </RadzenColumn>
-            <RadzenColumn Size="7">
-                <RadzenStack AlignItems="AlignItems.Center" Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End"></RadzenStack>
-            </RadzenColumn>
-        </RadzenRow>
+<RadzenLayout style="grid-template-areas: 'rz-sidebar rz-header' 'rz-sidebar rz-body';">
+    <RadzenHeader Style="background-color: rgba(0, 0, 0, 0)">
+        <RadzenStack JustifyContent="JustifyContent.Center" Style="height: 100%; max-width: 1440px;" class="rz-mx-auto rz-px-2">
+            <RadzenRow Gap="0" AlignItems="Radzen.AlignItems.Center">
+                <RadzenStack AlignItems="AlignItems.Center" Orientation="Orientation.Horizontal">
+                    <div class="rz-display-none rz-display-sm-block"></div>
+                    <RadzenSidebarToggle Click="@SidebarToggleClick"
+                                         Icon="@(SidebarExpanded ? "close" : "menu")"
+                                         class="rz-mx-0 rz-display-block rz-display-sm-none"></RadzenSidebarToggle>
+                    <Logo Size="24px" Visible="!SidebarExpanded"></Logo>
+                </RadzenStack>
+                <RadzenColumn>
+                    <RadzenRow JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center" class="rz-px-4">
+                        <RadzenFormField Text="Search" Variant="Variant.Outlined" Style="flex: 1; max-width: 500px" class="header-search rz-mx-4" AllowFloatingLabel="true">
+                            <Start>
+                                <RadzenIcon Icon="search" />
+                            </Start>
+                            <ChildContent>
+                                <RadzenTextBox @bind-Value="@Search"/>
+                            </ChildContent>
+                        </RadzenFormField>
+                        <RadzenStack class="rz-ml-4">
+                            <RadzenMenu class="rz-display-none rz-display-sm-inline-flex" Style="gap: 1.5rem">
+                                @foreach (var item in _menuItems)
+                                {
+                                    @RenderMenuItem(item)
+                                }
+                            </RadzenMenu>
+                        </RadzenStack>
+                    </RadzenRow>
+                </RadzenColumn>
+                <RadzenStack AlignItems="AlignItems.Center" Orientation="Orientation.Horizontal"
+                             JustifyContent="JustifyContent.End" Gap="0.5rem">
+                    <RadzenAppearanceToggle/>
+                    <RadzenProfileMenu Visible="@Security.IsAuthenticated()" Click="@ProfileMenuClick"
+                                       ShowIcon="false"
+                                       Style="padding: 0px">
+                        <ChildContent>
+                            <RadzenProfileMenuItem Path="profile" Icon="settings" Text="Profile"
+                                                   Visible="@(Security.IsAuthenticated() || Security.User?.Name == "tenantsadmin")"/>
+                            <RadzenProfileMenuItem Path="admin" Icon="security" Text="Admin"
+                                                   Visible="@(Security.IsAuthenticated() || Security.IsInRole("Admin"))"/>
+                            <RadzenProfileMenuItem Path="application-users" Icon="person" Text="Users"
+                                                   Visible="@(Security.IsAuthenticated() && Security.Tenant != null)"/>
+                            <RadzenProfileMenuItem Path="application-roles" Icon="security" Text="Roles"
+                                                   Visible="@(Security.IsAuthenticated() && Security.Tenant != null)"/>
+                            <RadzenProfileMenuItem Path="application-tenants" Icon="account_balance_wallet"
+                                                   Text="Tenants"
+                                                   Visible="@(Security.User?.Name == "tenantsadmin")"/>
+                            <RadzenProfileMenuItem Text="Logout" Value="Logout" Icon="power_settings_new"/>
+                        </ChildContent>
+                        <Template>
+                            <span class="rz-display-none rz-display-sm-inline-flex">
+                                <RadzenGravatar Email="@(Security.User?.Name ?? "identicon")"/>
+                            </span>
+                        </Template>
+                    </RadzenProfileMenu>
+                    <RadzenButton Text="Login"
+                                  Click="@(() => NavigationManager.NavigateTo("/auth/login"))"
+                                  Size="ButtonSize.Medium"
+                                  Variant="Radzen.Variant.Flat"
+                                  Style="background-color: var(--rz-on-base)"
+                                  Visible="!Security.IsAuthenticated()"></RadzenButton>
+                </RadzenStack>
+            </RadzenRow>
+            <RadzenRow class="subheader">
+                <RadzenMenu Responsive="false" Style="gap: 1rem; font-size: 14px; scroll-behavior: smooth; overscroll-behavior-x: auto;">
+                    <RadzenMenuItem Text="Anything" Path="/"></RadzenMenuItem>
+                    <RadzenMenuItem Text="Places"></RadzenMenuItem>
+                    <RadzenMenuItem Text="Hotels"></RadzenMenuItem>
+                    <RadzenMenuItem Text="Activities"></RadzenMenuItem>
+                    <RadzenMenuItem Text="Restaurants"></RadzenMenuItem>
+                    <RadzenMenuItem Text="Flights"></RadzenMenuItem>
+                    <RadzenMenuItem Text="Rentals"></RadzenMenuItem>
+                    <RadzenMenuItem Text="Community"></RadzenMenuItem>
+                </RadzenMenu>
+                <RadzenStack>
+                    <RadzenMenu Responsive="false" Style="gap: 1rem;">
+                        <RadzenMenuItem Text="Map" Icon="map" Path="map" Style="font-size: 14px"></RadzenMenuItem>
+                    </RadzenMenu>
+                </RadzenStack>
+            </RadzenRow>
+        </RadzenStack>
     </RadzenHeader>
-    <RadzenBody Expanded="@sidebarExpanded">
-        <RadzenRow class="rz-mx-auto rz-px-4 rz-pt-2 rz-pt-md-4 rz-pt-lg-6 rz-pt-xl-12 rz-pb-2 rz-pb-lg-12" Style="max-width: 1440px;">
+    <RadzenBody Expanded="@SidebarExpanded" class="rz-p-0 rz-m-0 rz-overflow-hidden" Style="position: relative;">
+        <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Start"
+                   class="rz-layout-body-padding rz-px-sm-4 rz-p-lg-4 rz-mx-auto rz-p-md-6"
+                   Style="min-height: 80vh; max-width: 1440px">
             <RadzenColumn Size="12">
-            @Body
+                @Body
             </RadzenColumn>
         </RadzenRow>
     </RadzenBody>
-    <RadzenSidebar @bind-Expanded="@sidebarExpanded" style="z-index: 2">
-        <RadzenStack AlignItems="Radzen.AlignItems.Center" class="rz-py-4 rz-py-lg-6" Style="padding: var(--rz-panel-menu-item-padding); border-bottom: var(--rz-panel-menu-item-border);">
-            <RadzenImage Path="images/logo.png"  style="width: 48px; height: 48px;" AlternateText="Application logo"></RadzenImage>
-            <RadzenText Text="Tripbuk" TextStyle="Radzen.Blazor.TextStyle.Subtitle1" class="rz-mb-0" style="color: var(--rz-sidebar-color);" />
+    <RadzenSidebar @bind-Expanded="@SidebarExpanded" style="z-index: 2; width: 270px;" Responsive="false"
+                   class="rz-display-block rz-display-sm-none">
+        <RadzenStack AlignItems="AlignItems.Center" class="rz-py-4 rz-py-lg-6"
+                     Style="padding: var(--rz-panel-menu-item-padding); border-bottom: var(--rz-panel-menu-item-border);">
+            <RadzenText Text="Tripbuk" TextStyle="Radzen.Blazor.TextStyle.DisplayH3" Class="rz-mb-0"
+                        Style="color: var(--rz-sidebar-color); cursor: pointer; font-weight: bolder; background-image: linear-gradient(45deg, var(--rz-primary), #af4261); -webkit-background-clip: text; -moz-background-clip: text; -webkit-text-fill-color: transparent; -moz-text-fill-color: transparent;"
+                        @onclick="@(() => NavigationManager.NavigateTo("/"))"/>
         </RadzenStack>
         <RadzenPanelMenu>
-            <RadzenPanelMenuItem Text="Home" Path="" />
+            @code {
+
+                private RenderFragment RenderPanelMenuItem(MenuItem item) => builder =>
+                {
+                    builder.OpenComponent<RadzenPanelMenuItem>(0);
+                    builder.AddAttribute(1, "Text", item.Text);
+                    if (item.Icon != null) builder.AddAttribute(2, "Icon", item.Icon);
+                    if (item.Path != null) builder.AddAttribute(3, "Path", item.Path);
+                    if (item.Class != null) builder.AddAttribute(4, "class", item.Class);
+                    if (item.Items != null && item.Items.Any())
+                    {
+                        builder.AddAttribute(4, "ChildContent", (RenderFragment)(childBuilder =>
+                        {
+                            foreach (var subItem in item.Items)
+                            {
+                                childBuilder.AddContent(5, RenderPanelMenuItem(subItem));
+                            }
+                        }));
+                    }
+
+                    builder.CloseComponent();
+                };
+
+            }
+
+            @foreach (var item in _menuItems)
+            {
+                @RenderPanelMenuItem(item)
+            }
         </RadzenPanelMenu>
-        <RadzenStack AlignItems="Radzen.AlignItems.Center" Gap="0" class="rz-py-4 rz-py-lg-6" Style="padding: var(--rz-panel-menu-item-padding);">
-            <RadzenText Text="Tripbuk v1.0.0" TextStyle="Radzen.Blazor.TextStyle.Caption" TagName="Radzen.Blazor.TagName.P" TextAlign="Radzen.TextAlign.Center" />
-            <RadzenText Text="Copyright Ⓒ 2025" TextStyle="Radzen.Blazor.TextStyle.Caption" class="rz-mb-0" TagName="Radzen.Blazor.TagName.P" TextAlign="Radzen.TextAlign.Center" />
+        <RadzenStack AlignItems="AlignItems.Center" class="rz-mt-6">
+            <CulturePicker/>
         </RadzenStack>
     </RadzenSidebar>
 </RadzenLayout>
