@@ -2,8 +2,11 @@
 <RadzenStack Gap="0" AlignItems="AlignItems.Start" JustifyContent="JustifyContent.Center" Visible="@Visible" @onclick="@NavigateToHome" class="application-logo">
     <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem">
         @* <RadzenImage Path="airplane.png" Style="width: 32px; height:  32px;"></RadzenImage> *@
-        <RadzenIcon Icon="airplane_ticket" Style="font-size: 36px; color: var(--rz-primary); font-weight: lighter"></RadzenIcon>
-        <RadzenText Text="tripbuk" class="application-logo-prefix-text rz-mb-0" Style="color: var(--rz-on-base); font-weight: 600; font-size: 28px"/>
+        @* <RadzenIcon Icon="airplane_ticket" Style="font-size: 36px; color: var(--rz-primary); font-weight: lighter"></RadzenIcon> *@
+        @* <RadzenText Text="tripbuk" class="application-logo-prefix-text rz-mb-0" Style="color: var(--rz-on-base); font-weight: 600; font-size: 28px"/> *@
+        <RadzenText Text="tripbuk" TextStyle="Radzen.Blazor.TextStyle.DisplayH4" Class="rz-mb-0"
+                    Style="color: var(--rz-sidebar-color); cursor: pointer; font-weight: bolder; background-image: linear-gradient(45deg, var(--rz-primary), #af4261); -webkit-background-clip: text; -moz-background-clip: text; -webkit-text-fill-color: transparent; -moz-text-fill-color: transparent;"
+                    @onclick="@(() => NavigationManager.NavigateTo("/"))"/>
         @* <RadzenText Text="buk" TextStyle="TextStyle.DisplayH5" class="application-logo-text rz-mb-0" Style="font-weight: 700"/> *@
     </RadzenStack>
     <RadzenBadge BadgeStyle="BadgeStyle.Secondary" Shade="Shade.Lighter" Text="@Caption"

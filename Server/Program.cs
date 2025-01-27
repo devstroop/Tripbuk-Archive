@@ -70,6 +70,7 @@ builder.Services.AddHttpClient("Tripbuk.Server").AddHeaderPropagation(o => o.Hea
 //     client.BaseAddress = new Uri("https://api.sandbox.viator.com/partner/");
 // });
 builder.Services.AddScoped<Tripbuk.Client.Services.ViatorService>();
+builder.Services.AddScoped<Tripbuk.Client.Services.UnsplashService>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {

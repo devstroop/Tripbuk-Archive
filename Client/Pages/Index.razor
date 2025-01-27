@@ -1,32 +1,57 @@
 @page "/"
 @layout PublicLayout
-<RadzenStack JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center" Style="z-index: -10; position: absolute; top: 0; left: 0; right: 0; height: 640px; background-image: url('/images/banner-nature-5.jpg'); background-size: cover; background-position: center">
-    <RadzenStack Style="max-width: 800px; opacity: 100%;" class="rz-py-6">
-        <RadzenStack AlignItems="Radzen.AlignItems.Center">
-            <RadzenText Text="What’s next?" TextStyle="Radzen.Blazor.TextStyle.DisplayH2" Style="font-weight: bolder; color: var(--rz-base);" class="rz-border-color-base-100" />
-        </RadzenStack>
-        <RadzenStack Gap="1rem" class="hero">
-            <RadzenTabs>
-                <Tabs>
-                    <RadzenTabsItem Text="Anything" Icon="shuffle" Style="color: var(--rz-base)"></RadzenTabsItem>
-                    <RadzenTabsItem Text="Places" Icon="distance" Style="color: var(--rz-base)"></RadzenTabsItem>
-                    <RadzenTabsItem Text="Activities" Icon="local_activity" Style="color: var(--rz-base)"></RadzenTabsItem>
-                    <RadzenTabsItem Text="Restaurants" Icon="restaurant_menu" Style="color: var(--rz-base)"></RadzenTabsItem>
-                    <RadzenTabsItem Text="Flights" Icon="flight_takeoff" Style="color: var(--rz-base)"></RadzenTabsItem>
-                    <RadzenTabsItem Text="Rentals" Icon="villa" Style="color: var(--rz-base)"></RadzenTabsItem>
-                </Tabs>
-            </RadzenTabs>
-            <RadzenFormField Text="Search" Variant="Variant.Outlined" Style="flex: 1;background-color: var(--rz-body-background-color);" class="hero-search rz-mx-4 rz-shadow-1 rz-border-radius-8" AllowFloatingLabel="true">
-                <Start>
-                    <RadzenIcon Icon="search" Style="font-size: 24px"/>
-                </Start>
-                <ChildContent>
-                    <RadzenTextBox @bind-Value="@Search" Style="font-size: 24px"/>
-                </ChildContent>
-                <End>
-                    <RadzenButton Text="Search" Style="font-size: 14px"/>
-                </End>
-            </RadzenFormField>
-        </RadzenStack>
-    </RadzenStack>
-</RadzenStack>
+<RadzenCarousel @ref=_carousel @bind-SelectedIndex="@_carouselSelectedIndex" Auto="true" Interval="5000"
+                PagerOverlay="false" ButtonShade="Shade.Default" class="hero">
+    <Items>
+        <RadzenCarouselItem>
+            <RadzenImage Path="@Photo" Style="object-fit: cover"></RadzenImage>
+        </RadzenCarouselItem>
+    </Items>
+</RadzenCarousel>
+
+<style>
+
+    .hero {
+        height: 640px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        object-position: center;
+        border-radius: unset;
+
+        .rz-carousel-items {
+            border-radius: unset;
+        }
+    }
+</style>
+@* <RadzenStack JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center" Style="position: absolute; top: 0; left: 0; right: 0; height: 640px; background-image: url('/images/banner-nature-5.jpg'); background-size: cover; background-position: center;"> *@
+@*     <RadzenStack Style="max-width: 800px; opacity: 100%;" class="rz-py-6"> *@
+@*         <RadzenStack AlignItems="Radzen.AlignItems.Center"> *@
+@*             <RadzenText Text="What’s next?" TextStyle="Radzen.Blazor.TextStyle.DisplayH2" Style="color: var(--rz-base); cursor: pointer; font-weight: bolder; background-image: linear-gradient(45deg, var(--rz-primary), #af4261); -webkit-background-clip: text; -moz-background-clip: text; -webkit-text-fill-color: transparent; -moz-text-fill-color: transparent;" class="rz-border-color-base-100" /> *@
+@*         </RadzenStack> *@
+@*         <RadzenStack Gap="1rem" class="hero"> *@
+@*             $1$ <RadzenTabs> #1# *@
+@*             $1$     <Tabs> #1# *@
+@*             $1$         <RadzenTabsItem Text="Anything" Icon="shuffle" Style="color: var(--rz-base)"></RadzenTabsItem> #1# *@
+@*             $1$         <RadzenTabsItem Text="Places" Icon="distance" Style="color: var(--rz-base)"></RadzenTabsItem> #1# *@
+@*             $1$         <RadzenTabsItem Text="Activities" Icon="local_activity" Style="color: var(--rz-base)"></RadzenTabsItem> #1# *@
+@*             $1$         <RadzenTabsItem Text="Restaurants" Icon="restaurant_menu" Style="color: var(--rz-base)"></RadzenTabsItem> #1# *@
+@*             $1$         <RadzenTabsItem Text="Flights" Icon="flight_takeoff" Style="color: var(--rz-base)"></RadzenTabsItem> #1# *@
+@*             $1$         <RadzenTabsItem Text="Rentals" Icon="villa" Style="color: var(--rz-base)"></RadzenTabsItem> #1# *@
+@*             $1$     </Tabs> #1# *@
+@*             $1$ </RadzenTabs> #1# *@
+@*             <RadzenFormField Text="Search" Variant="Variant.Outlined" Style="flex: 1;background-color: var(--rz-body-background-color);" class="hero-search rz-mx-4 rz-shadow-1 rz-border-radius-8" AllowFloatingLabel="true"> *@
+@*                 <Start> *@
+@*                     <RadzenIcon Icon="search" Style="font-size: 24px"/> *@
+@*                 </Start> *@
+@*                 <ChildContent> *@
+@*                     <RadzenTextBox @bind-Value="@Search" Style="font-size: 24px"/> *@
+@*                 </ChildContent> *@
+@*                 <End> *@
+@*                     <RadzenButton Text="Search" Style="font-size: 14px"/> *@
+@*                 </End> *@
+@*             </RadzenFormField> *@
+@*         </RadzenStack> *@
+@*     </RadzenStack> *@
+@* </RadzenStack> *@

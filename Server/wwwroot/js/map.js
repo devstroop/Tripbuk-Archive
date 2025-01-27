@@ -32,7 +32,7 @@
                 this.map = L.map(this.mapId).setView(this.defaultLatLng, this.defaultZoom);
                 
                 L.tileLayer(`https://${this.subdomain()}.basemaps.cartocdn.com/${this.theme}/{z}/{x}/{y}${(L.Browser.retina ? '@2x.png' : '.png')}`, {
-                    attribution:'&copy; <a href="https://devstroop.com">Devstroop Technologies</a>',
+                    attribution:'Maps | &copy; <a target="_blank" href="https://devstroop.com">Devstroop Technologies</a>',
                     subdomains: 'abcd',
                     maxZoom: 20,
                     minZoom: 0

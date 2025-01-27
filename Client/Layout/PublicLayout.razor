@@ -5,8 +5,22 @@
 <RadzenTooltip/>
 <RadzenContextMenu/>
 <RadzenLayout style="grid-template-areas: 'rz-sidebar rz-header' 'rz-sidebar rz-body';">
-    <RadzenHeader Style="background-color: rgba(0, 0, 0, 0)">
-        <RadzenStack JustifyContent="JustifyContent.Center" Style="height: 100%; max-width: 1440px;" class="rz-mx-auto rz-px-2">
+    <RadzenHeader Style="background-color: rgba(0, 0, 0, 0)" class="rz-p-0 rz-pb-6">
+        <RadzenRow class="top-header rz-border-bottom rz-pt-2">
+            <RadzenColumn Size="12">
+                <RadzenRow Style="height: 100%; max-width: 1440px;" class="rz-mx-auto rz-px-2">
+                    <RadzenColumn Size="6"></RadzenColumn>
+                    <RadzenColumn Size="6">
+                        <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.End"
+                                     AlignItems="AlignItems.End">
+                            <CulturePicker/>
+                        </RadzenStack>
+                    </RadzenColumn>
+                </RadzenRow>
+            </RadzenColumn>
+        </RadzenRow>
+        <RadzenStack JustifyContent="JustifyContent.Center" Style="height: 100%; max-width: 1440px;"
+                     class="rz-mx-auto rz-px-2">
             <RadzenRow Gap="0" AlignItems="Radzen.AlignItems.Center">
                 <RadzenStack AlignItems="AlignItems.Center" Orientation="Orientation.Horizontal">
                     <div class="rz-display-none rz-display-sm-block"></div>
@@ -16,10 +30,13 @@
                     <Logo Size="24px" Visible="!_sidebarExpanded"></Logo>
                 </RadzenStack>
                 <RadzenColumn>
-                    <RadzenRow JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center" class="rz-px-4">
-                        <RadzenFormField Text="Search" Variant="Variant.Outlined" Style="flex: 1; max-width: 500px" class="header-search rz-mx-4" AllowFloatingLabel="true">
+                    <RadzenRow JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center"
+                               class="rz-px-4">
+                        <RadzenFormField Text="Search" Variant="Variant.Outlined" Style="flex: 1; max-width: 500px"
+                                         class="header-search rz-mx-4 rz-display-none rz-display-sm-flex"
+                                         AllowFloatingLabel="true">
                             <Start>
-                                <RadzenIcon Icon="search" />
+                                <RadzenIcon Icon="search"/>
                             </Start>
                             <ChildContent>
                                 <RadzenTextBox @bind-Value="@Search"/>
@@ -27,10 +44,9 @@
                         </RadzenFormField>
                         <RadzenStack class="rz-ml-4">
                             <RadzenMenu class="rz-display-none rz-display-sm-inline-flex" Style="gap: 1.5rem">
-                                @foreach (var item in _menuItems)
-                                {
-                                    @RenderMenuItem(item)
-                                }
+                                <RadzenMenuItem Text="Discover" Icon="explore" Path="discover"></RadzenMenuItem>
+                                <RadzenMenuItem Text="Buckets" Icon="checklist" Path="buckets"></RadzenMenuItem>
+                                <RadzenMenuItem Text="Trips" Icon="your_trips" Path="trips"></RadzenMenuItem>
                             </RadzenMenu>
                         </RadzenStack>
                     </RadzenRow>
@@ -63,27 +79,43 @@
                     </RadzenProfileMenu>
                     <RadzenButton Text="Login"
                                   Click="@(() => NavigationManager.NavigateTo("/auth/login"))"
-                                  Size="ButtonSize.Medium" 
-                                  Variant="Radzen.Variant.Flat" 
+                                  Size="ButtonSize.Medium"
+                                  Variant="Radzen.Variant.Flat"
                                   Style="background-color: var(--rz-on-base)"
                                   Visible="!Security.IsAuthenticated()"></RadzenButton>
                 </RadzenStack>
             </RadzenRow>
-            <RadzenRow class="subheader" JustifyContent="JustifyContent.SpaceBetween">
-                <RadzenMenu Style="gap: 1rem; font-size: 14px">
-                    <RadzenMenuItem Text="Anything" Path="/"></RadzenMenuItem>
-                    <RadzenMenuItem Text="Places"></RadzenMenuItem>
-                    <RadzenMenuItem Text="Hotels"></RadzenMenuItem>
-                    <RadzenMenuItem Text="Activities"></RadzenMenuItem>
-                    <RadzenMenuItem Text="Restaurants"></RadzenMenuItem>
-                    <RadzenMenuItem Text="Flights"></RadzenMenuItem>
-                    <RadzenMenuItem Text="Rentals"></RadzenMenuItem>
-                    <RadzenMenuItem Text="Community"></RadzenMenuItem>
+            <RadzenStack class="rz-display-block rz-display-sm-none">
+                <RadzenFormField Text="Search" Variant="Variant.Outlined" Style="flex: 1;" class="header-search rz-m-0"
+                                 AllowFloatingLabel="true">
+                    <Start>
+                        <RadzenIcon Icon="search"/>
+                    </Start>
+                    <ChildContent>
+                        <RadzenTextBox @bind-Value="@Search" Style=""/>
+                    </ChildContent>
+                </RadzenFormField>
+            </RadzenStack>
+            <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween"
+                         class="subheader rz-border-top rz-pt-2">
+                <RadzenMenu Responsive="false"
+                            Style="gap: 1.5rem; font-size: 14px; scroll-behavior: smooth; overscroll-behavior-x: auto;"
+                            class="rz-overflow-hidden">
+                    <RadzenMenuItem Text="Anything" Icon="shuffle" Path="/"></RadzenMenuItem>
+                    <RadzenMenuItem Text="Places" Icon="location_on"></RadzenMenuItem>
+                    <RadzenMenuItem Text="Hotels" Icon="hotel"></RadzenMenuItem>
+                    <RadzenMenuItem Text="Activities" Icon="rowing"></RadzenMenuItem>
+                    <RadzenMenuItem Text="Restaurants" Icon="local_cafe"></RadzenMenuItem>
+                    <RadzenMenuItem Text="Flights" Icon="flight_takeoff"></RadzenMenuItem>
+                    <RadzenMenuItem Text="Rentals" Icon="villa"></RadzenMenuItem>
+                    <RadzenMenuItem Text="Community" Icon="forum"></RadzenMenuItem>
                 </RadzenMenu>
-                <RadzenMenu Style="gap: 1rem; font-size: 14px">
-                    <RadzenMenuItem Text="Map" Icon="map" Path="map"></RadzenMenuItem>
-                </RadzenMenu>
-            </RadzenRow>
+                <RadzenStack Style="z-index: 10;" class="">
+                    <RadzenMenu Responsive="false" Style="gap: 1rem;">
+                        <RadzenMenuItem Text="Map" Icon="map" Path="map" Style="font-size: 14px"></RadzenMenuItem>
+                    </RadzenMenu>
+                </RadzenStack>
+            </RadzenStack>
         </RadzenStack>
     </RadzenHeader>
     <RadzenBody Expanded="@_sidebarExpanded" class="rz-p-0 rz-m-0 rz-overflow-hidden" Style="position: relative;">
@@ -94,38 +126,38 @@
                 @Body
             </RadzenColumn>
         </RadzenRow>
-        <RadzenFooter class="rz-px-4 rz-py-2 rz-display-none rz-display-sm-block" Style="background-color: transparent">
-            <RadzenStack Style="max-width: 1440px" class="rz-mx-auto">
-                <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center">
-                    <RadzenColumn Size="4">
-                        <RadzenStack
-                            AlignItems="AlignItems.Center"
-                            Orientation="Orientation.Horizontal"
-                            JustifyContent="JustifyContent.Start">
-                            <CulturePicker/>
-                        </RadzenStack>
-                    </RadzenColumn>
-                    <RadzenColumn Size="4">
-                        <RadzenStack AlignItems="AlignItems.Center" Orientation="Radzen.Orientation.Horizontal"
-                                     JustifyContent="JustifyContent.Center" Wrap="FlexWrap.Wrap" Gap="0.5rem">
-                            <RadzenText Text="Tripbuk v1.0.0" TextStyle="Radzen.Blazor.TextStyle.Body2"
-                                        TextAlign="TextAlign.Center" class="rz-mb-0"/>
-                            <RadzenText Text="Copyright Ⓒ 2025"
-                                        TextAlign="TextAlign.Center" class="rz-mb-0"
-                                        TextStyle="Radzen.Blazor.TextStyle.Body2"/>
-                        </RadzenStack>
-                    </RadzenColumn>
-                    <RadzenColumn Size="4">
-                        <RadzenStack
-                            AlignItems="AlignItems.Center"
-                            Orientation="Orientation.Horizontal"
-                            JustifyContent="JustifyContent.End">
-                            <RadzenBadge Text="Beta" BadgeStyle="BadgeStyle.Danger"></RadzenBadge>
-                        </RadzenStack>
-                    </RadzenColumn>
-                </RadzenRow>
-            </RadzenStack>
-        </RadzenFooter>
+        @* <RadzenFooter class="rz-px-4 rz-py-2 rz-display-none rz-display-sm-block" Style="background-color: transparent"> *@
+        @*     <RadzenStack Style="max-width: 1440px" class="rz-mx-auto"> *@
+        @*         <RadzenRow JustifyContent="JustifyContent.Center" AlignItems="AlignItems.Center"> *@
+        @*             <RadzenColumn Size="4"> *@
+        @*                 <RadzenStack *@
+        @*                     AlignItems="AlignItems.Center" *@
+        @*                     Orientation="Orientation.Horizontal" *@
+        @*                     JustifyContent="JustifyContent.Start"> *@
+        @*                     <CulturePicker/> *@
+        @*                 </RadzenStack> *@
+        @*             </RadzenColumn> *@
+        @*             <RadzenColumn Size="4"> *@
+        @*                 <RadzenStack AlignItems="AlignItems.Center" Orientation="Radzen.Orientation.Horizontal" *@
+        @*                              JustifyContent="JustifyContent.Center" Wrap="FlexWrap.Wrap" Gap="0.5rem"> *@
+        @*                     <RadzenText Text="Tripbuk v1.0.0" TextStyle="Radzen.Blazor.TextStyle.Body2" *@
+        @*                                 TextAlign="TextAlign.Center" class="rz-mb-0"/> *@
+        @*                     <RadzenText Text="Copyright Ⓒ 2025" *@
+        @*                                 TextAlign="TextAlign.Center" class="rz-mb-0" *@
+        @*                                 TextStyle="Radzen.Blazor.TextStyle.Body2"/> *@
+        @*                 </RadzenStack> *@
+        @*             </RadzenColumn> *@
+        @*             <RadzenColumn Size="4"> *@
+        @*                 <RadzenStack *@
+        @*                     AlignItems="AlignItems.Center" *@
+        @*                     Orientation="Orientation.Horizontal" *@
+        @*                     JustifyContent="JustifyContent.End"> *@
+        @*                     <RadzenBadge Text="Beta" BadgeStyle="BadgeStyle.Danger"></RadzenBadge> *@
+        @*                 </RadzenStack> *@
+        @*             </RadzenColumn> *@
+        @*         </RadzenRow> *@
+        @*     </RadzenStack> *@
+        @* </RadzenFooter> *@
     </RadzenBody>
     <RadzenSidebar @bind-Expanded="@_sidebarExpanded" style="z-index: 2; width: 270px;" Responsive="false"
                    class="rz-display-block rz-display-sm-none">
@@ -136,35 +168,9 @@
                         @onclick="@(() => NavigationManager.NavigateTo("/"))"/>
         </RadzenStack>
         <RadzenPanelMenu>
-            @code {
-
-                private RenderFragment RenderPanelMenuItem(MenuItem item) => builder =>
-                {
-                    builder.OpenComponent<RadzenPanelMenuItem>(0);
-                    builder.AddAttribute(1, "Text", item.Text);
-                    if (item.Icon != null) builder.AddAttribute(2, "Icon", item.Icon);
-                    if (item.Path != null) builder.AddAttribute(3, "Path", item.Path);
-                    if (item.Class != null) builder.AddAttribute(4, "class", item.Class);
-                    if (item.Items != null && item.Items.Any())
-                    {
-                        builder.AddAttribute(4, "ChildContent", (RenderFragment)(childBuilder =>
-                        {
-                            foreach (var subItem in item.Items)
-                            {
-                                childBuilder.AddContent(5, RenderPanelMenuItem(subItem));
-                            }
-                        }));
-                    }
-
-                    builder.CloseComponent();
-                };
-
-            }
-
-            @foreach (var item in _menuItems)
-            {
-                @RenderPanelMenuItem(item)
-            }
+            <RadzenPanelMenuItem Text="Discover" Icon="explore" Path="discover"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Buckets" Icon="checklist" Path="buckets"></RadzenPanelMenuItem>
+            <RadzenPanelMenuItem Text="Trips" Icon="your_trips" Path="trips"></RadzenPanelMenuItem>
         </RadzenPanelMenu>
         <RadzenStack AlignItems="AlignItems.Center" class="rz-mt-6">
             <CulturePicker/>

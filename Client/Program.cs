@@ -26,6 +26,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, Tripbuk.Client.Applicati
 //     client.BaseAddress = new Uri($"{builder.HostEnvironment.BaseAddress}/proxy/viator/");
 // });
 builder.Services.AddScoped<Tripbuk.Client.Services.ViatorService>();
+builder.Services.AddScoped<Tripbuk.Client.Services.UnsplashService>();
 var host = builder.Build();
 var jsRuntime = host.Services.GetRequiredService<Microsoft.JSInterop.IJSRuntime>();
 var culture = await jsRuntime.InvokeAsync<string>("Radzen.getCulture");

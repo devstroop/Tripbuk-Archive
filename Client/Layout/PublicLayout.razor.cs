@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
+using Tripbuk.Client.Services;
+using Tripbuk.Server.Models.Unsplash;
 
 namespace Tripbuk.Client.Layout
 {
@@ -33,10 +35,13 @@ namespace Tripbuk.Client.Layout
 
         [Inject]
         protected SecurityService Security { get; set; }
+        [Inject]
+        protected UnsplashService UnsplashService { get; set; }
+        
 
         private bool _sidebarExpanded { get; set; } = false;
 
-        protected override void OnInitialized()
+        protected override async Task OnInitializedAsync()
         {
             _sidebarExpanded = false;
         }
@@ -49,6 +54,7 @@ namespace Tripbuk.Client.Layout
                 StateHasChanged();
             }
         }
+        
 
         private void SidebarToggleClick()
         {
@@ -63,56 +69,6 @@ namespace Tripbuk.Client.Layout
             }
         }
         
-
         private string Search { get; set; }
-        
-        private RenderFragment RenderMenuItem(MenuItem item) => builder =>
-        {
-            builder.OpenComponent<RadzenMenuItem>(0);
-            builder.AddAttribute(1, "Text", item.Text);
-            if (item.Icon != null) builder.AddAttribute(2, "Icon", item.Icon);
-            if (item.Path != null) builder.AddAttribute(3, "Path", item.Path);
-            if (item.Class != null) builder.AddAttribute(4, "class", item.Class);
-            if (item.Items != null && item.Items.Count != 0)
-            {
-                builder.AddAttribute(4, "ChildContent", (RenderFragment)(childBuilder =>
-                {
-                    foreach (var subItem in item.Items)
-                    {
-                        childBuilder.AddContent(5, RenderMenuItem(subItem));
-                    }
-                }));
-            }
-
-            builder.CloseComponent();
-        };
-        private readonly List<MenuItem> _menuItems =
-        [
-            new ()
-            {
-                Text = "Discover", 
-                Icon = "explore",
-                Items = []
-            },
-            new ()
-            {
-                Text = "Buckets",
-                Icon = "checklist", 
-                // Path = "#"
-            },
-            new ()
-            {
-                Text = "Trips",
-                Icon = "your_trips", 
-                // Path = "#"
-            },
-            // new ()
-            // {
-            //     Text = "Bookings",
-            //     Icon = "your_trips", 
-            //     // Path = "#"
-            // }
-
-        ];
     }
 }

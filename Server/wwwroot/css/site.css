@@ -24,6 +24,7 @@
     --rz-footer-border: 1px solid var(--rz-base-500);
     --rz-sidebar-border-inline-end: 1px solid var(--rz-base-500);
     --rz-menu-top-item-padding-inline: unset;
+    --rz-input-border: 1px solid var(--rz-base-500);
 
 
     .rz-link {
@@ -256,4 +257,8 @@ a:focus {
         border-top: unset;
         display: none;
     }
+}
+.components-reconnect-dialog {
+    background-color: var(--rz-card-background-color);
+    color: var(--rz-text-color);
 }

@@ -1,27 +1,55 @@
-<RadzenFormField Text="Language" Variant="Radzen.Variant.Text" AllowFloatingLabel="true">
-    <Start>
-        <RadzenIcon Icon="language" Style="font-size: 20px"></RadzenIcon>
-    </Start>
-    <ChildContent>
-        <RadzenDropDown @bind-Value="@_culture" TValue="string" Data="@(new[] { new { Text = "English", Value = "en" }, new { Text = "हिन्दी", Value = "hi" } })"
-                        TextProperty="Text" ValueProperty="Value" Change="@ChangeCulture"/>
-    </ChildContent>
-</RadzenFormField>
+<RadzenStack Orientation="Orientation.Horizontal" @onclick="@ShowCultureOptions" Style="cursor: pointer;">
+    <RadzenIcon Icon="translate" Style="font-size: 16px"></RadzenIcon>
+    <RadzenText Text="@_culture" Style="font-size: 12px; height: auto;"></RadzenText>
+</RadzenStack>
+
+@* <RadzenFormField Text="" Variant="Radzen.Variant.Outlined" AllowFloatingLabel="true" class="culture-picker" Style="min-width: 96px; width: 120px; max-width: 200px;"> *@
+@*     <Start> *@
+@*         <RadzenIcon Icon="translate" Style="font-size: 16px"></RadzenIcon> *@
+@*     </Start> *@
+@*     <ChildContent> *@
+@*         $1$ <RadzenDropDown @bind-Value="@_culture" TValue="string" #1# *@
+@*         $1$                 Data="@(new[] { new { Text = "English", Value = "en" }, new { Text = "हिन्दी", Value = "hi" } })" #1# *@
+@*         $1$                 Style="font-size: 12px; height: auto;" #1# *@
+@*         $1$                 TextProperty="Text" ValueProperty="Value" Change="@ChangeCulture"/> #1# *@
+@*     </ChildContent> *@
+@* </RadzenFormField> *@
 
 <style>
-    .rz-dropdown {
-        border: none;
-        
+    .culture-picker.rz-form-field {
+        /*border: none;*/
+        /*outline: none;*/
+        .rz-form-field-content {
+            border: none;
+            margin-block: unset;
+        }
         .rz-dropdown-trigger {
             display: none;
         }
     }
-    .rz-dropdown:hover {
-        border: none;
-        
-    }
-    .rz-dropdown:focus {
+
+    /*.culture-picker.rz-form-field:hover {*/
+    /*    border: none;*/
+    /*}*/
+    
+    .culture-picker.rz-form-field:focus {
         border: none;
         outline: none;
     }
+
+    /*.rz-form-field-content {*/
+    /*    border: none;*/
+    /*    */
+    /*    .rz-dropdown-trigger {*/
+    /*        display: none;*/
+    /*    }*/
+    /*}*/
+    /*.rz-form-field-content:hover {*/
+    /*    border: none;*/
+    /*    */
+    /*}*/
+    /*.rz-form-field-content:focus {*/
+    /*    border: none;*/
+    /*    outline: none;*/
+    /*}*/
 </style>

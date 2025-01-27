@@ -19,4 +19,7 @@
     <PackageReference Include="Microsoft.AspNetCore.HeaderPropagation" Version="9.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.1" />
   </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="npm run build" />
+  </Target>
 </Project>
