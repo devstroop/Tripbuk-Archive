@@ -19,67 +19,9 @@
     <Compile Include="../Server/Extension*/*.cs" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.1" />
-    <Compile Update="..\Server\Models\Viator\GetTagsResponse.cs">
-      <Link>Models\Viator\GetTagsResponse.cs</Link>
-    </Compile>
-    <Compile Update="..\Server\Models\Viator\TagWithAllLocalizations.cs">
-      <Link>Models\Viator\TagWithAllLocalizations.cs</Link>
-    </Compile>
-    <Compile Update="..\Server\Models\Viator\ProductSearchFiltering.cs">
-      <Link>Models\Viator\ProductSearchFiltering.cs</Link>
-    </Compile>
-    <Compile Update="..\Server\Models\Viator\ProductSearchSorting.cs">
-      <Link>Models\Viator\ProductSearchSorting.cs</Link>
-    </Compile>
-    <Compile Update="..\Server\Models\Viator\ProductSearchPagination.cs">
-      <Link>Models\Viator\ProductSearchPagination.cs</Link>
-    </Compile>
-    <Compile Update="..\Server\Models\Viator\Destination.cs">
-      <Link>Models\Viator\Destination.cs</Link>
-    </Compile>
-    <Compile Update="..\Server\Models\Viator\ProductSearchFlag.cs">
-      <Link>Models\Viator\ProductSearchFlag.cs</Link>
-    </Compile>
-    <Compile Update="..\Server\Models\Viator\ConfirmationType.cs">
-      <Link>Models\Viator\ConfirmationType.cs</Link>
-    </Compile>
-    <Compile Update="..\Server\Models\Viator\ItineraryType.cs">
-      <Link>Models\Viator\ItineraryType.cs</Link>
-    </Compile>
-    <Compile Update="..\Server\Models\Viator\LocationCenter.cs">
-      <Link>Models\Viator\LocationCenter.cs</Link>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ServiceWorker Include="../Server/wwwroot/service-worker.js" PublishedContent="../Server/wwwroot/service-worker.published.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Accounts\AccountDetails.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Accounts\Accounts.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Accounts\CreateAccount.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Accounts\EditAccount.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Accounts\Groups\AccountGroups.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Accounts\Groups\CreateAccountGroup.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Accounts\Groups\EditAccountGroup.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Items\AddItem.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Items\EditItem.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Items\Groups\CreateItemGroup.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Items\Groups\EditItemGroup.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Items\Groups\ItemGroups.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Items\Items.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Masters.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\StandardNarrations\AddStandardNarration.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\StandardNarrations\EditStandardNarration.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\StandardNarrations\StandardNarrations.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Units\AddUnit.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Units\Conversions\CreateUnitConversion.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Units\Conversions\EditUnitConversion.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Units\Conversions\UnitConversions.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Units\EditUnit.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\Masters\Units\Units.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\SmtpConfigs\AddSmtpConfig.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\SmtpConfigs\EditSmtpConfig.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Admin\SmtpConfigs\SmtpConfigs.razor" />
   </ItemGroup>
   <PropertyGroup>
     <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>

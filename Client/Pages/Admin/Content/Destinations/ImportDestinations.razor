@@ -1,0 +1,13 @@
+@using Tripbuk.Client.Services
+@inject ViatorService ViatorService
+
+<RadzenDataGrid TItem="@Server.Models.Viator.DestinationDetails" LoadData="@OnLoadData"></RadzenDataGrid>
+
+@code {
+    private IEnumerable<Server.Models.Viator.DestinationDetails> destinations;
+    private async Task OnLoadData(LoadDataArgs arg)
+    {
+        var result = await ViatorService.GetDestinations();
+        destinations = result.Destinations;
+    }
+}

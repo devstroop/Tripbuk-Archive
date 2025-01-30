@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 using Radzen.Blazor;
 using Tripbuk.Client.Components;
-using Tripbuk.Client.Components.ImportWizard;
 using Tripbuk.Client.Services;
 using Tripbuk.Server.Models.Postgres;
 
@@ -110,7 +109,7 @@ namespace Tripbuk.Client.Pages.Admin.Content.Destinations
         {
             if (args?.Value == null)
             {
-                await DialogService.OpenAsync<ImportWizard>("Import Destinations", new Dictionary<string, object>(), new DialogOptions()
+                await DialogService.OpenAsync<ImportDestinations>("Import Destinations", new Dictionary<string, object>(), new DialogOptions()
                 {
                     Width = "800px",
                     Height = "600px",
