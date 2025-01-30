@@ -7,6 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tripbuk.Server", "Server\Tr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tripbuk.Client", "Client\Tripbuk.Client.csproj", "{FE7D8007-3F91-43FF-92C1-5DF5A7E39B30}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tripbuk.ML", "Tripbuk.ML\Tripbuk.ML.csproj", "{C37D3BAC-53CE-4B6B-9A49-4119291CFCEB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5986D2B5-72D6-475D-8F01-2F9037671E1F}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+	EndProjectSection
+EndProject
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +30,10 @@ Global
 		{1BA6B657-1C46-41AA-9570-3271C3CF369E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BA6B657-1C46-41AA-9570-3271C3CF369E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BA6B657-1C46-41AA-9570-3271C3CF369E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C37D3BAC-53CE-4B6B-9A49-4119291CFCEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C37D3BAC-53CE-4B6B-9A49-4119291CFCEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C37D3BAC-53CE-4B6B-9A49-4119291CFCEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C37D3BAC-53CE-4B6B-9A49-4119291CFCEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

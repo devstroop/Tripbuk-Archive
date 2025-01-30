@@ -9,31 +9,42 @@
         <RadzenBreadCrumbItem Text="Destinations" Path="/administration/destinations"/>
     </RadzenBreadCrumb>
     <RadzenRow AlignItems="AlignItems.Center">
-        <RadzenColumn Size="12" SizeMD="6">
+        <RadzenColumn Size="6">
             <RadzenText Text="Destinations" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0"/>
         </RadzenColumn>
-        <RadzenColumn Size="12" SizeMD="6">
+        <RadzenColumn Size="6">
             <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center"
                          JustifyContent="JustifyContent.End" Gap="0.5rem">
-                @* <RadzenButton Icon="get_app" Text="Sync" Click="@SyncClick" Variant="Variant.Flat" /> *@
-                <RadzenSplitButton Icon="sync" Text="Sync" Click="@ExportClick" Variant="Variant.Flat"
+                <RadzenSplitButton Icon="get_app" Text="Import" Click="@ExportClick" Variant="Variant.Flat"
+                                   class="rz-display-none rz-display-sm-block"
                                    Shade="Shade.Lighter">
                     <RadzenSplitButtonItem Text="Import from JSON" Value="import-json"/>
                     <RadzenSplitButtonItem Text="Export to JSON" Value="export-json"/>
                     <RadzenSplitButtonItem Text="Export to Excel" Value="export-xlsx"/>
                     <RadzenSplitButtonItem Text="Export to CSV" Value="export-csv"/>
                 </RadzenSplitButton>
-                <RadzenButton Icon="add_circle_outline" Text="Add" Click="@AddButtonClick" Variant="Variant.Flat"/>
+                <RadzenSplitButton Icon="get_app" Click="@ExportClick" Variant="Variant.Flat"
+                                   class="rz-display-block rz-display-sm-none"
+                                   Shade="Shade.Lighter">
+                    <RadzenSplitButtonItem Text="Import from JSON" Value="import-json"/>
+                    <RadzenSplitButtonItem Text="Export to JSON" Value="export-json"/>
+                    <RadzenSplitButtonItem Text="Export to Excel" Value="export-xlsx"/>
+                    <RadzenSplitButtonItem Text="Export to CSV" Value="export-csv"/>
+                </RadzenSplitButton>
+                <RadzenButton Icon="add_circle_outline" Text="Add" class="rz-display-none rz-display-md-block" Click="@AddButtonClick" Variant="Variant.Flat"/>
+                <RadzenButton Icon="add_circle_outline" class="rz-display-block rz-display-md-none" Click="@AddButtonClick" Variant="Variant.Flat"/>
             </RadzenStack>
         </RadzenColumn>
     </RadzenRow>
     <RadzenTextBox Placeholder="Search ..." style="display: block; width: 100%" @oninput="@Search"
                    aria-label="Search by all string columns"/>
     <RadzenRow AlignItems="AlignItems.Stretch">
-        <RadzenColumn Size="12" SizeMD="5">
+        <RadzenColumn Size="0" SizeLG="12" class="rz-display-block rz-display-lg-none">
+            <MapKit Id="small-map" Style="height: 200px"></MapKit>
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeLG="5">
             <RadzenDataGrid @ref="grid0" AllowFiltering="true" FilterMode="FilterMode.Advanced"
-                            
-                            Style="height: 80vh; scroll-behavior: smooth; overscroll-behavior-y: auto;"
+                            Style="height: calc(100vh - 290px); scroll-behavior: smooth; overscroll-behavior-y: auto;"
                             AllowPaging="true" AllowSorting="true" ShowPagingSummary="true"
                             PageSizeOptions=@(new int[] { 5, 10, 20, 30 })
                             Data="@destinations" LoadData="@Grid0LoadData" Count="@count"
@@ -55,7 +66,8 @@
                                                  Style="font-weight: bolder; display: unset;"
                                                  class="rz-px-2 rz-py-05"></RadzenBadge>
                                 </RadzenRow>
-                                <RadzenLink Path="@context.DestinationUrl" Text="Show on Viator" Style="font-size: 12px" Target="_blank"></RadzenLink>
+                                <RadzenLink Path="@context.DestinationUrl" Text="Show on Viator" Style="font-size: 12px"
+                                            Target="_blank"></RadzenLink>
                             </RadzenStack>
                         </Template>
                     </RadzenDataGridColumn>
@@ -95,8 +107,8 @@
 
             </RadzenDataGrid>
         </RadzenColumn>
-        <RadzenColumn Size="12" SizeMD="7">
-            <MapKit></MapKit>
+        <RadzenColumn Size="0" SizeLG="7" class="rz-display-none rz-display-lg-block">
+            <MapKit Id="large-map"></MapKit>
         </RadzenColumn>
     </RadzenRow>
 </RadzenStack>

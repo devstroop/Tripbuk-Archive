@@ -12,8 +12,6 @@
         color: var(--rz-text-body1-color);
         a[href="https://leafletjs.com"] {
             display: none;
-            color: var(--rz-text-body1-color);
-            /*color: var(--rz-link-color);*/
         }
         span[aria-hidden="true"] {
             display: none;
@@ -23,7 +21,7 @@
 
 @code {
     [Parameter] public string Id { get; set; } = "MapContainer";
-    [Parameter] public string Style { get; set; } = "height: 80vh; width: 100%";
+    [Parameter] public string Style { get; set; } = "height: 100%; width: 100%";
     [Parameter] public string Class { get; set; } = "map-container rz-border rz-border-radius-2";
     private IJSObjectReference _mapInstance;
     

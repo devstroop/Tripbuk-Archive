@@ -105,4 +105,5 @@ app.MapReverseProxy();
 app.MapRazorComponents<App>().AddInteractiveServerRenderMode().AddInteractiveWebAssemblyRenderMode().AddAdditionalAssemblies(typeof(Tripbuk.Client._Imports).Assembly);
 app.Services.CreateScope().ServiceProvider.GetRequiredService<ApplicationIdentityDbContext>().Database.Migrate();
 app.Services.CreateScope().ServiceProvider.GetRequiredService<ApplicationIdentityDbContext>().SeedTenantsAdmin().Wait();
+app.Services.CreateScope().ServiceProvider.GetRequiredService<PostgresContext>().Database.Migrate();
 app.Run();

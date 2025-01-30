@@ -1,0 +1,6 @@
+﻿services:
+  tripbuk.ml:
+    image: tripbuk.ml
+    build:
+      context: .
+      dockerfile: Tripbuk.ML/Dockerfile
