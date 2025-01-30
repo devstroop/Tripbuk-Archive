@@ -48,9 +48,11 @@
                 <RadzenPanelMenuItem Text="Role" Icon="groups" Path="admin/security/roles"></RadzenPanelMenuItem>
                 <RadzenPanelMenuItem Text="Tenants" Icon="wallet" Path="admin/security/tenants"></RadzenPanelMenuItem>
             </RadzenPanelMenuItem>
-            <RadzenPanelMenuItem Text="Tags" Icon="label" Path="admin/content/tags" />
-            <RadzenPanelMenuItem Text="Places" Icon="local_activity" Path="admin/content/places" />
-            <RadzenPanelMenuItem Text="Destinations" Icon="location_on" Path="admin/content/destinations" />
+            <RadzenPanelMenuItem Text="Content" Icon="dataset">
+                <RadzenPanelMenuItem Text="Places" Icon="location_on" Path="admin/content/places" />
+                <RadzenPanelMenuItem Text="Tags" Icon="label" Path="admin/content/tags" />
+                <RadzenPanelMenuItem Text="Destinations" Icon="signpost" Path="admin/content/destinations" />
+            </RadzenPanelMenuItem>
         </RadzenPanelMenu>
         <RadzenStack AlignItems="AlignItems.Center" Gap="0" class="rz-py-4 rz-py-lg-6" Style="padding: var(--rz-panel-menu-item-padding);">
             <RadzenText Text="Tripbuk v1.0.0" TextStyle="TextStyle.Caption" TagName="TagName.P" TextAlign="TextAlign.Center" />
