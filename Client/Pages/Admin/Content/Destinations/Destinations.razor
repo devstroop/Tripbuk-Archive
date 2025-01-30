@@ -15,7 +15,7 @@
         <RadzenColumn Size="6">
             <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center"
                          JustifyContent="JustifyContent.End" Gap="0.5rem">
-                <RadzenSplitButton Icon="get_app" Text="Import" Click="@ExportClick" Variant="Variant.Flat"
+                <RadzenSplitButton Icon="get_app" Text="Import" Click="@ImportClick" Variant="Variant.Flat"
                                    class="rz-display-none rz-display-sm-block"
                                    Shade="Shade.Lighter">
                     <RadzenSplitButtonItem Text="Import from JSON" Value="import-json"/>
@@ -23,7 +23,7 @@
                     <RadzenSplitButtonItem Text="Export to Excel" Value="export-xlsx"/>
                     <RadzenSplitButtonItem Text="Export to CSV" Value="export-csv"/>
                 </RadzenSplitButton>
-                <RadzenSplitButton Icon="get_app" Click="@ExportClick" Variant="Variant.Flat"
+                <RadzenSplitButton Icon="get_app" Click="@ImportClick" Variant="Variant.Flat"
                                    class="rz-display-block rz-display-sm-none"
                                    Shade="Shade.Lighter">
                     <RadzenSplitButtonItem Text="Import from JSON" Value="import-json"/>

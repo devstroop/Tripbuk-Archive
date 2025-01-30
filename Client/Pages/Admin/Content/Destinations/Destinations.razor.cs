@@ -109,11 +109,18 @@ namespace Tripbuk.Client.Pages.Admin.Content.Destinations
             }
         }
 
-        private async Task ExportClick(RadzenSplitButtonItem args)
+        private async Task ImportClick(RadzenSplitButtonItem args)
         {
             if (args?.Value == null)
             {
-                await Sync();
+                await DialogService.OpenAsync<ImportWizard>("Import Destinations", new Dictionary<string, object>(), new DialogOptions()
+                {
+                    Width = "800px",
+                    Height = "600px",
+                    Resizable = true,
+                    Draggable = true
+                });
+                // await Sync();
                 return;
             }
 

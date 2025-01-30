@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace Tripbuk.Server.Extensions;
 
 public static class StringExtensions
@@ -36,5 +38,29 @@ public static class StringExtensions
 
         // Return the result in uppercase
         return prefix.ToUpperInvariant();
+    }
+    
+    public static string ToKebabCase(this string input)
+    {
+        if (string.IsNullOrEmpty(input))
+            return input;
+
+        StringBuilder result = new StringBuilder();
+        result.Append(char.ToLower(input[0])); // Start with the first character in lowercase
+
+        for (int i = 1; i < input.Length; i++)
+        {
+            if (char.IsUpper(input[i]))
+            {
+                result.Append('-'); // Add a hyphen before uppercase letters
+                result.Append(char.ToLower(input[i])); // Convert to lowercase
+            }
+            else
+            {
+                result.Append(input[i]); // Append lowercase letters as-is
+            }
+        }
+
+        return result.ToString();
     }
 }
